@@ -1,4 +1,4 @@
-import { PaginatedResponse } from '../PaginatedResponse';
+import { Pagination } from './pagination';
 import { ActivityCategory } from '../enums/ActivityCategory';
 import { ActivityStatus } from '../enums/ActivityStatus';
 import { GetActivityResponse as internalGet } from '../GetActivityResponse';
@@ -6,11 +6,11 @@ import { GetEntityActivitiesResponse } from '../GetEntityActivitiesResponse';
 import { GetPortfolioActivitiesResponse } from '../GetPortfolioActivitiesResponse';
 import { GetPortfolioActivityResponse as internalGetPortAct } from '../GetPortfolioActivityResponse';
 
-export type ActivityFilters = PaginatedResponse & {
+export type ActivityFilters = Pagination & {
   symbols?: string[];
   categories?: ActivityCategory[];
   statuses?: ActivityStatus[];
-  startTime: string;
+  startTime?: string;
   endTime?: string;
 };
 
@@ -20,7 +20,7 @@ export type GetActivityRequest = {
 
 export type GetActivityResponse = internalGet;
 
-export type ListEntityActivitiesRequest = PaginatedResponse &
+export type ListEntityActivitiesRequest = Pagination &
   ActivityFilters & {
     entityId: string;
     activityLevel?: string;
@@ -28,10 +28,9 @@ export type ListEntityActivitiesRequest = PaginatedResponse &
 
 export type ListEntityActivitiesResponse = GetEntityActivitiesResponse;
 
-export type ListPortfolioActivitiesRequest = PaginatedResponse &
+export type ListPortfolioActivitiesRequest = Pagination &
   ActivityFilters & {
     portfolioId: string;
-    activityId: string;
   };
 
 export type ListPortfolioActivitiesResponse = GetPortfolioActivitiesResponse;

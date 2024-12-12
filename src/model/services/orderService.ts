@@ -30,10 +30,10 @@ export type ListPortfolioFillsResponse = GetPortfolioFillsResponse;
 
 export type ListPortfolioOrdersRequest = Pagination & {
   portfolioId: string;
-  orderStatuses: OrderStatus[];
-  productIds: string[];
-  orderTypes: OrderType;
-  orderSider: OrderSide;
+  orderStatuses?: OrderStatus[];
+  productIds?: string[];
+  orderTypes?: OrderType;
+  orderSide?: OrderSide;
   startDate?: string;
   endDate?: string;
 };

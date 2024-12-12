@@ -1,9 +1,9 @@
 import { GetPortfolioAddressBookResponse } from '../GetPortfolioAddressBookResponse';
 import { CreatePortfolioAddressBookEntryRequest } from '../CreatePortfolioAddressBookEntryRequest';
 import { CreatePortfolioAddressBookEntryResponse } from '../CreatePortfolioAddressBookEntryResponse';
-import { PaginatedResponse } from '../PaginatedResponse';
+import { Pagination } from './pagination';
 
-export type ListAddressBooksRequest = PaginatedResponse & {
+export type ListAddressBooksRequest = Pagination & {
   portfolioId: string;
   currencySymbol?: string;
   search?: string;

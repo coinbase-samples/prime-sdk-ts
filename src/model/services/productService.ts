@@ -1,7 +1,7 @@
 import { GetPortfolioProductsResponse } from '../GetPortfolioProductsResponse';
-import { PaginatedResponse } from '../PaginatedResponse';
+import { Pagination } from './pagination';
 
-export type ListProductsRequest = PaginatedResponse & {
+export type ListProductsRequest = Pagination & {
   portfolioId: string;
 };
 

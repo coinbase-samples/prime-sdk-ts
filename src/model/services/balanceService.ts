@@ -7,7 +7,7 @@ import { ListWeb3WalletBalancesResponse } from '../ListWeb3WalletBalancesRespons
 export type ListPortfolioBalancesRequest = {
   portfolioId: string;
   symbol: string;
-  balanceType: PortfolioBalanceType;
+  balanceType?: PortfolioBalanceType;
 };
 
 export type ListPortfolioBalancesResponse = GetPortfolioBalancesResponse;
