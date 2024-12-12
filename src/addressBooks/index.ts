@@ -44,8 +44,10 @@ export class AddressBooksService implements AddressBooksService {
     | CoinbasePrimeClientException
     | CoinbasePrimeException
   > {
+    const queryParams = { ...request, portfolioId: undefined };
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/address_book`,
+      queryParams,
       callOptions: options,
     });
 
@@ -60,7 +62,7 @@ export class AddressBooksService implements AddressBooksService {
     | CoinbasePrimeClientException
     | CoinbasePrimeException
   > {
-    const bodyParams = { ...request, portfolioId: null };
+    const bodyParams = { ...request, portfolioId: undefined };
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/address_book`,
       bodyParams,

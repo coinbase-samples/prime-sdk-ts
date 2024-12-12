@@ -89,8 +89,10 @@ export class ActivitiesService implements ActivitiesService {
     | CoinbasePrimeClientException
     | CoinbasePrimeException
   > {
+    const queryParams = { ...request, entityId: undefined };
     const response = await this.client.request({
       url: `entities/${request.entityId}/activities`,
+      queryParams,
       callOptions: options,
     });
 
@@ -105,8 +107,10 @@ export class ActivitiesService implements ActivitiesService {
     | CoinbasePrimeClientException
     | CoinbasePrimeException
   > {
+    const queryParams = { ...request, portfolioId: undefined };
     const response = await this.client.request({
-      url: `portfolios/${request.portfolioId}/activities/${request.activityId}`,
+      url: `portfolios/${request.portfolioId}/activities`,
+      queryParams,
       callOptions: options,
     });
 

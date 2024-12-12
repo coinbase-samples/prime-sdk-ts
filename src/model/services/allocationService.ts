@@ -4,6 +4,8 @@ import { CreateNetAllocationResponse as internalNetCreate } from '../CreateNetAl
 import { GetPortfolioAllocationsResponse } from '../GetPortfolioAllocationsResponse';
 import { GetAllocationResponse as internalGet } from '../GetAllocationResponse';
 import { GetAllocationsByClientNettingIdResponse } from '../GetAllocationsByClientNettingIdResponse';
+import { OrderSide } from '../enums/OrderSide';
+import { Pagination } from './pagination';
 
 export type CreateAllocationRequest = internalCreate;
 
@@ -13,8 +15,12 @@ export type CreateNetAllocationRequest = internalCreate;
 
 export type CreateNetAllocationResponse = internalNetCreate;
 
-export type ListPortfolioAllocationsRequest = {
+export type ListPortfolioAllocationsRequest = Pagination & {
   portfolioId: string;
+  productIds?: string[];
+  orderSide?: OrderSide;
+  startDate?: string;
+  endDate?: string;
 };
 
 export type ListPortfolioAllocationsResponse = GetPortfolioAllocationsResponse;
@@ -22,6 +28,7 @@ export type ListPortfolioAllocationsResponse = GetPortfolioAllocationsResponse;
 export type ListNetAllocationsRequest = {
   portfolioId: string;
   nettingId: string;
+  allocationId?: string;
 };
 
 export type ListNetAllocationsResponse =

@@ -52,8 +52,10 @@ export class BalancesService implements BalancesService {
     | CoinbasePrimeClientException
     | CoinbasePrimeException
   > {
+    const queryParams = { ...request, portfolioId: undefined };
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/balances`,
+      queryParams,
       callOptions: options,
     });
 
@@ -82,8 +84,14 @@ export class BalancesService implements BalancesService {
     | CoinbasePrimeClientException
     | CoinbasePrimeException
   > {
+    const queryParams = {
+      ...request,
+      portfolioId: undefined,
+      walletId: undefined,
+    };
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}wallets/${request.walletId}/web3_balances`,
+      queryParams,
       callOptions: options,
     });
 
