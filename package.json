@@ -17,20 +17,13 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
-    "@types/node-fetch": "^2.6.11",
-    "@typescript-eslint/eslint-plugin": "^5.59.0",
-    "@typescript-eslint/parser": "^5.59.0",
+    "@typescript-eslint/eslint-plugin": "^8.18.0",
+    "@typescript-eslint/parser": "^8.18.0",
     "dotenv": "^16.4.5",
-    "eslint": "^8.35.0",
-    "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-prettier": "^4.2.1",
-    "prettier": "^2.8.8",
+    "eslint": "^9.16.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "prettier": "^3.4.2",
     "typescript": "^5.5.4"
-  },
-  "dependencies": {
-    "@types/jsonwebtoken": "^9.0.6",
-    "crypto-es": "^2.1.0",
-    "jsonwebtoken": "^9.0.2",
-    "node-fetch": "^2.6.1"
   }
 }
