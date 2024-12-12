@@ -1,0 +1,7 @@
+export enum AllocationStatus {
+  Unspecified = 'ALLOCATION_STATUS_UNSPECIFIED',
+  AllocationPending = 'ALLOCATION_STATUS_ALLOCATION_PENDING',
+  AllocationAccepted = 'ALLOCATION_STATUS_ALLOCATION_ACCEPTED',
+  AllocationAllocated = 'ALLOCATION_STATUS_ALLOCATION_ALLOCATED',
+  AllocationRejected = 'ALLOCATION_STATUS_ALLOCATION_REJECTED',
+}
