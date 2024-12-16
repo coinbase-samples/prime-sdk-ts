@@ -19,6 +19,24 @@ const { CoinbasePrimeClient, OrdersService } = require('../dist');
 const creds = JSON.parse(process.env.PRIME_CREDENTIALS);
 const portfolioId = process.env.PORTFOLIO_ID;
 
+const sleep = (milliseconds) =>
+  new Promise((resolve) => setTimeout(resolve, milliseconds));
+
+const createOrder = async (orderService, portfolioId) => {
+  const order = {
+    portfolioId,
+    side: 'BUY',
+    productId: 'ADA-USD',
+    type: 'MARKET',
+    baseQuantity: '2',
+    clientOrderId: crypto.randomUUID(),
+  };
+
+  console.log('submitting order: ', order);
+  const response = await orderService.createOrder(order);
+  return response;
+};
+
 const client = new CoinbasePrimeClient(
   creds.AccessKey,
   creds.SecretKey,
@@ -26,9 +44,17 @@ const client = new CoinbasePrimeClient(
 );
 
 const ordersService = new OrdersService(client);
-ordersService
-  .listOpenOrders({ portfolioId })
-  .then((assets) => {
-    console.log(assets);
+
+createOrder(ordersService, portfolioId)
+  .then(async (response) => {
+    console.log('Order created: ', response);
+    await sleep(2000);
+    const order = await ordersService.getOrder({
+      orderId: response.orderId,
+      portfolioId,
+    });
+    console.log('Order details: ', order);
   })
-  .catch((err) => console.log(err));
+  .catch((err) => {
+    console.log(err);
+  });
