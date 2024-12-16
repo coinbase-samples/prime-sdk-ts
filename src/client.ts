@@ -20,8 +20,8 @@ import { CoinbasePrimeCredentials } from './credentials';
 import { toCamelCase } from './shared/toCamelCase';
 
 export class CoinbasePrimeClient extends CoinbaseClient {
-  constructor(credentials?: CoinbasePrimeCredentials) {
-    super(API_BASE_PATH, credentials, USER_AGENT);
+  constructor(credentials?: CoinbasePrimeCredentials, apiBasePath?: string) {
+    super(apiBasePath ?? API_BASE_PATH, credentials, USER_AGENT);
 
     // transform the response data to camelCase
     this.addTransformResponse((response) => {
