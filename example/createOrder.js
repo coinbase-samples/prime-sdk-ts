@@ -14,7 +14,11 @@
  * limitations under the License.
  */
 require('dotenv').config();
-const { CoinbasePrimeClient, OrdersService } = require('../dist');
+const {
+  CoinbasePrimeClient,
+  CoinbasePrimeCredentials,
+  OrdersService,
+} = require('../dist');
 
 const creds = JSON.parse(process.env.PRIME_CREDENTIALS);
 const portfolioId = process.env.PORTFOLIO_ID;
@@ -37,11 +41,13 @@ const createOrder = async (orderService, portfolioId) => {
   return response;
 };
 
-const client = new CoinbasePrimeClient(
+const credentials = new CoinbasePrimeCredentials(
   creds.AccessKey,
   creds.SecretKey,
   creds.Passphrase
 );
+
+const client = new CoinbasePrimeClient(credentials);
 
 const ordersService = new OrdersService(client);
 

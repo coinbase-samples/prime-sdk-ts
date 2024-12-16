@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 export { CoinbasePrimeClient } from './client';
+export { CoinbasePrimeCredentials } from './credentials';
 export { ActivitiesService, IActivitiesService } from './activities';
 export { AddressBooksService } from './addressBooks';
 export { AllocationService } from './allocations';

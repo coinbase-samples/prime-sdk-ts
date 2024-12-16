@@ -22,9 +22,9 @@ import {
 import * as crypto from 'crypto';
 
 export class CoinbasePrimeCredentials {
-  accessKey: string | undefined;
-  secretKey: string | undefined;
-  passphrase: string | undefined;
+  private accessKey: string | undefined;
+  private secretKey: string | undefined;
+  private passphrase: string | undefined;
 
   constructor(key?: string, secret?: string, passphrase?: string) {
     if (!key || !secret || !passphrase) {
