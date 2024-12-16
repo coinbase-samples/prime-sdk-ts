@@ -6,15 +6,16 @@ import {
 } from '../errors';
 import { ListAssetsRequest, ListAssetsResponse } from './types';
 
-export interface AssetsService {
+export interface IAssetsService {
   listAssets(
-    request: ListAssetsRequest
+    request: ListAssetsRequest,
+    options?: CoinbaseCallOptions
   ): Promise<
     ListAssetsResponse | CoinbasePrimeClientException | CoinbasePrimeException
   >;
 }
 
-export class AssetsService implements AssetsService {
+export class AssetsService implements IAssetsService {
   private client: CoinbasePrimeClient;
 
   constructor(client: CoinbasePrimeClient) {

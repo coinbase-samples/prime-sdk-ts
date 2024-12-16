@@ -11,16 +11,18 @@ import {
   GetPaymentMethodResponse,
 } from './types';
 
-export interface PaymentMethodsService {
+export interface IPaymentMethodsService {
   listEntityPaymentMethods(
-    request: ListEntityPaymentMethodsRequest
+    request: ListEntityPaymentMethodsRequest,
+    options?: CoinbaseCallOptions
   ): Promise<
     | ListEntityPaymentMethodsResponse
     | CoinbasePrimeClientException
     | CoinbasePrimeException
   >;
   getPaymentMethod(
-    request: GetPaymentMethodRequest
+    request: GetPaymentMethodRequest,
+    options?: CoinbaseCallOptions
   ): Promise<
     | GetPaymentMethodResponse
     | CoinbasePrimeClientException
@@ -28,7 +30,7 @@ export interface PaymentMethodsService {
   >;
 }
 
-export class PaymentMethodsService implements PaymentMethodsService {
+export class PaymentMethodsService implements IPaymentMethodsService {
   private client: CoinbasePrimeClient;
 
   constructor(client: CoinbasePrimeClient) {

@@ -1,5 +1,5 @@
 require('dotenv').config();
-const { CoinbasePrimeClient, AssetService } = require('../dist');
+const { CoinbasePrimeClient, AssetsService } = require('../dist');
 
 const creds = JSON.parse(process.env.PRIME_CREDENTIALS);
 const entityId = process.env.ENTITY_ID;
@@ -10,7 +10,7 @@ const client = new CoinbasePrimeClient(
   creds.Passphrase
 );
 
-const assetService = new AssetService(client);
+const assetService = new AssetsService(client);
 assetService
   .listAssets({ entityId })
   .then((assets) => {

@@ -5,31 +5,36 @@ import {
   CoinbasePrimeException,
 } from '../errors';
 import {
-  GetBalanceRequest,
-  GetBalanceResponse,
+  GetWalletBalanceRequest,
+  GetWalletBalanceResponse,
   ListOnchainWalletBalancesRequest,
   ListOnchainWalletBalancesResponse,
   ListPortfolioBalancesRequest,
   ListPortfolioBalancesResponse,
 } from './types';
 
-export interface BalancesService {
+export interface IBalancesService {
   listPortfolioBalances(
-    request: ListPortfolioBalancesRequest
+    request: ListPortfolioBalancesRequest,
+    options?: CoinbaseCallOptions
   ): Promise<
     | ListPortfolioBalancesResponse
     | CoinbasePrimeClientException
     | CoinbasePrimeException
   >;
 
-  getBalance(
-    request: GetBalanceRequest
+  getWalletBalance(
+    request: GetWalletBalanceRequest,
+    options?: CoinbaseCallOptions
   ): Promise<
-    GetBalanceResponse | CoinbasePrimeClientException | CoinbasePrimeException
+    | GetWalletBalanceResponse
+    | CoinbasePrimeClientException
+    | CoinbasePrimeException
   >;
 
   listOnchainWalletBalances(
-    request: ListOnchainWalletBalancesRequest
+    request: ListOnchainWalletBalancesRequest,
+    options?: CoinbaseCallOptions
   ): Promise<
     | ListOnchainWalletBalancesResponse
     | CoinbasePrimeClientException
@@ -37,7 +42,7 @@ export interface BalancesService {
   >;
 }
 
-export class BalancesService implements BalancesService {
+export class BalancesService implements IBalancesService {
   private client: CoinbasePrimeClient;
 
   constructor(client: CoinbasePrimeClient) {
@@ -63,17 +68,19 @@ export class BalancesService implements BalancesService {
   }
 
   async getWalletBalance(
-    request: GetBalanceRequest,
+    request: GetWalletBalanceRequest,
     options?: CoinbaseCallOptions
   ): Promise<
-    GetBalanceResponse | CoinbasePrimeClientException | CoinbasePrimeException
+    | GetWalletBalanceResponse
+    | CoinbasePrimeClientException
+    | CoinbasePrimeException
   > {
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/wallets/${request.walletId}balances`,
       callOptions: options,
     });
 
-    return response.data as GetBalanceResponse;
+    return response.data as GetWalletBalanceResponse;
   }
 
   async listOnchainWalletBalances(

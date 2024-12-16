@@ -1,3 +1,4 @@
+import { CoinbaseCallOptions } from '../../../core-ts/dist';
 import { CoinbasePrimeClient } from '../client';
 import {
   CoinbasePrimeClientException,
@@ -11,29 +12,33 @@ import {
   ListPortfoliosResponse,
 } from './types';
 
-export interface PortfoliosService {
+export interface IPortfoliosService {
   getPortfolio(
-    request: GetPortfolioRequest
+    request: GetPortfolioRequest,
+    options?: CoinbaseCallOptions
   ): Promise<
     GetPortfolioResponse | CoinbasePrimeClientException | CoinbasePrimeException
   >;
 
   getPortfolioCredit(
-    request: GetPortfolioCreditRequest
+    request: GetPortfolioCreditRequest,
+    options?: CoinbaseCallOptions
   ): Promise<
     | GetPortfolioCreditResponse
     | CoinbasePrimeClientException
     | CoinbasePrimeException
   >;
 
-  listPortfolios(): Promise<
+  listPortfolios(
+    options?: CoinbaseCallOptions
+  ): Promise<
     | ListPortfoliosResponse
     | CoinbasePrimeClientException
     | CoinbasePrimeException
   >;
 }
 
-export class PortfoliosService implements PortfoliosService {
+export class PortfoliosService implements IPortfoliosService {
   private client: CoinbasePrimeClient;
 
   constructor(client: CoinbasePrimeClient) {
@@ -41,28 +46,35 @@ export class PortfoliosService implements PortfoliosService {
   }
 
   async getPortfolio(
-    request: GetPortfolioRequest
+    request: GetPortfolioRequest,
+    options?: CoinbaseCallOptions
   ): Promise<GetPortfolioResponse> {
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}`,
+      callOptions: options,
     });
 
     return response.data as GetPortfolioResponse;
   }
 
   async getPortfolioCredit(
-    request: GetPortfolioCreditRequest
+    request: GetPortfolioCreditRequest,
+    options?: CoinbaseCallOptions
   ): Promise<GetPortfolioCreditResponse> {
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/credit`,
+      callOptions: options,
     });
 
     return response.data as GetPortfolioCreditResponse;
   }
 
-  async listPortfolios(): Promise<ListPortfoliosResponse> {
+  async listPortfolios(
+    options?: CoinbaseCallOptions
+  ): Promise<ListPortfoliosResponse> {
     const response = await this.client.request({
       url: `portfolios`,
+      callOptions: options,
     });
 
     return response.data as ListPortfoliosResponse;

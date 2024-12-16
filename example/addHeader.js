@@ -10,9 +10,20 @@ const client = new CoinbasePrimeClient(
   creds.Passphrase
 );
 
+client.addHeader('EXAMPLE', 'PROXY-HEADER');
+
 const portfolioService = new PortfoliosService(client);
 portfolioService
-  .getPortfolio({ portfolioId: portfolioId })
+  .getPortfolio(
+    { portfolioId: portfolioId },
+    {
+      transformRequest: (req) => {
+        // logging to show added header
+        console.log(req.headers);
+        return req;
+      },
+    }
+  )
   .then((portfolio) => {
     console.log(portfolio);
   })

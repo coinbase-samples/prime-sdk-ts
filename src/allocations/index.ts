@@ -17,9 +17,10 @@ import {
   GetAllocationResponse,
 } from './types';
 
-export interface AllocationService {
+export interface IAllocationService {
   createAllocation(
-    request: CreateAllocationRequest
+    request: CreateAllocationRequest,
+    options?: CoinbaseCallOptions
   ): Promise<
     | CreateAllocationResponse
     | CoinbasePrimeClientException
@@ -27,7 +28,8 @@ export interface AllocationService {
   >;
 
   createNetAllocation(
-    request: CreateNetAllocationRequest
+    request: CreateNetAllocationRequest,
+    options?: CoinbaseCallOptions
   ): Promise<
     | CreateNetAllocationResponse
     | CoinbasePrimeClientException
@@ -35,7 +37,8 @@ export interface AllocationService {
   >;
 
   listPortfolioAllocations(
-    request: ListPortfolioAllocationsRequest
+    request: ListPortfolioAllocationsRequest,
+    options?: CoinbaseCallOptions
   ): Promise<
     | ListPortfolioAllocationsResponse
     | CoinbasePrimeClientException
@@ -43,7 +46,8 @@ export interface AllocationService {
   >;
 
   listNetAllocations(
-    request: CreateNetAllocationRequest
+    request: CreateNetAllocationRequest,
+    options?: CoinbaseCallOptions
   ): Promise<
     | ListNetAllocationsResponse
     | CoinbasePrimeClientException
@@ -51,7 +55,8 @@ export interface AllocationService {
   >;
 
   getAllocation(
-    request: GetAllocationRequest
+    request: GetAllocationRequest,
+    options?: CoinbaseCallOptions
   ): Promise<
     | GetAllocationResponse
     | CoinbasePrimeClientException
@@ -59,7 +64,7 @@ export interface AllocationService {
   >;
 }
 
-export class AllocationService implements AllocationService {
+export class AllocationService implements IAllocationService {
   private client: CoinbasePrimeClient;
 
   constructor(client: CoinbasePrimeClient) {

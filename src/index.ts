@@ -1,8 +1,8 @@
 export { CoinbasePrimeClient } from './client';
-export { ActivitiesService } from './activities';
+export { ActivitiesService, IActivitiesService } from './activities';
 export { AddressBooksService } from './addressBooks';
 export { AllocationService } from './allocations';
-export { AssetsService } from './assets';
+export { AssetsService, IAssetsService } from './assets';
 export { BalancesService } from './balances';
 export { CommissionService } from './commission';
 export { InvoicesService } from './invoices';

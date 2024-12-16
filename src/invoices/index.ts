@@ -6,15 +6,16 @@ import {
 } from '../errors';
 import { ListInvoicesRequest, ListInvoicesResponse } from './types';
 
-export interface InvoicesService {
+export interface IInvoicesService {
   listInvoicess(
-    request: ListInvoicesRequest
+    request: ListInvoicesRequest,
+    options?: CoinbaseCallOptions
   ): Promise<
     ListInvoicesResponse | CoinbasePrimeClientException | CoinbasePrimeException
   >;
 }
 
-export class InvoicesService implements InvoicesService {
+export class InvoicesService implements IInvoicesService {
   private client: CoinbasePrimeClient;
 
   constructor(client: CoinbasePrimeClient) {

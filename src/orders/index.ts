@@ -23,15 +23,17 @@ import {
   CreateOrderResponse,
 } from './types';
 
-export interface OrdersService {
+export interface IOrdersService {
   getOrder(
-    request: GetOrderRequest
+    request: GetOrderRequest,
+    options?: CoinbaseCallOptions
   ): Promise<
     GetOrderResponse | CoinbasePrimeClientException | CoinbasePrimeException
   >;
 
   listPortfolioFills(
-    request: ListPortfolioFillsRequest
+    request: ListPortfolioFillsRequest,
+    options?: CoinbaseCallOptions
   ): Promise<
     | ListPortfolioFillsResponse
     | CoinbasePrimeClientException
@@ -39,7 +41,8 @@ export interface OrdersService {
   >;
 
   listPortfolioOrders(
-    request: ListPortfolioOrdersRequest
+    request: ListPortfolioOrdersRequest,
+    options?: CoinbaseCallOptions
   ): Promise<
     | ListPortfolioOrdersResponse
     | CoinbasePrimeClientException
@@ -47,7 +50,8 @@ export interface OrdersService {
   >;
 
   listOrderFills(
-    request: ListOrderFillsRequest
+    request: ListOrderFillsRequest,
+    options?: CoinbaseCallOptions
   ): Promise<
     | ListOrderFillsResponse
     | CoinbasePrimeClientException
@@ -55,7 +59,8 @@ export interface OrdersService {
   >;
 
   listOpenOrders(
-    request: ListOpenOrdersRequest
+    request: ListOpenOrdersRequest,
+    options?: CoinbaseCallOptions
   ): Promise<
     | ListOpenOrdersResponse
     | CoinbasePrimeClientException
@@ -63,7 +68,8 @@ export interface OrdersService {
   >;
 
   createOrderPreview(
-    request: CreateOrderPreviewRequest
+    request: CreateOrderPreviewRequest,
+    options?: CoinbaseCallOptions
   ): Promise<
     | CreateOrderPreviewResponse
     | CoinbasePrimeClientException
@@ -71,19 +77,21 @@ export interface OrdersService {
   >;
 
   cancelOrder(
-    request: CancelOrderRequest
+    request: CancelOrderRequest,
+    options?: CoinbaseCallOptions
   ): Promise<
     CancelOrderResponse | CoinbasePrimeClientException | CoinbasePrimeException
   >;
 
   createOrder(
-    request: CreateOrderRequest
+    request: CreateOrderRequest,
+    options?: CoinbaseCallOptions
   ): Promise<
     CreateOrderResponse | CoinbasePrimeClientException | CoinbasePrimeException
   >;
 }
 
-export class OrdersService implements OrdersService {
+export class OrdersService implements IOrdersService {
   private client: CoinbasePrimeClient;
 
   constructor(client: CoinbasePrimeClient) {

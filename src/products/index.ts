@@ -6,15 +6,16 @@ import {
 } from '../errors';
 import { ListProductsRequest, ListProductsResponse } from './types';
 
-export interface ProductsService {
+export interface IProductsService {
   listProducts(
-    request: ListProductsRequest
+    request: ListProductsRequest,
+    options?: CoinbaseCallOptions
   ): Promise<
     ListProductsResponse | CoinbasePrimeClientException | CoinbasePrimeException
   >;
 }
 
-export class ProductsService implements ProductsService {
+export class ProductsService implements IProductsService {
   private client: CoinbasePrimeClient;
 
   constructor(client: CoinbasePrimeClient) {

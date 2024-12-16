@@ -15,7 +15,7 @@ import {
   ListEntityActivitiesResponse,
 } from './types';
 
-export interface ActivitiesService {
+export interface IActivitiesService {
   getActivity(
     request: GetActivityRequest
   ): Promise<
@@ -44,7 +44,7 @@ export interface ActivitiesService {
   >;
 }
 
-export class ActivitiesService implements ActivitiesService {
+export class ActivitiesService implements IActivitiesService {
   private client: CoinbasePrimeClient;
 
   constructor(client: CoinbasePrimeClient) {

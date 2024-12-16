@@ -19,9 +19,10 @@ import {
   ListWalletTransactionsResponse,
 } from './types';
 
-export interface TransactionsService {
+export interface ITransactionsService {
   getTransaction(
-    request: GetTransactionRequest
+    request: GetTransactionRequest,
+    options?: CoinbaseCallOptions
   ): Promise<
     | GetTransactionResponse
     | CoinbasePrimeClientException
@@ -29,7 +30,8 @@ export interface TransactionsService {
   >;
 
   listPortfolioTransactions(
-    request: ListPortfolioTransactionsRequest
+    request: ListPortfolioTransactionsRequest,
+    options?: CoinbaseCallOptions
   ): Promise<
     | ListPortfolioTransactionsResponse
     | CoinbasePrimeClientException
@@ -37,7 +39,8 @@ export interface TransactionsService {
   >;
 
   listWalletTransactions(
-    request: ListWalletTransactionsRequest
+    request: ListWalletTransactionsRequest,
+    options?: CoinbaseCallOptions
   ): Promise<
     | ListWalletTransactionsResponse
     | CoinbasePrimeClientException
@@ -45,15 +48,17 @@ export interface TransactionsService {
   >;
 
   createConversion(
-    request: CreateConversionRequest
+    request: CreateConversionRequest,
+    options?: CoinbaseCallOptions
   ): Promise<
-    | CreateConversionRequest
+    | CreateConversionResponse
     | CoinbasePrimeClientException
     | CoinbasePrimeException
   >;
 
   createTransfer(
-    request: CreateTransferRequest
+    request: CreateTransferRequest,
+    options?: CoinbaseCallOptions
   ): Promise<
     | CreateTransferResponse
     | CoinbasePrimeClientException
@@ -61,7 +66,8 @@ export interface TransactionsService {
   >;
 
   createWithdrawal(
-    request: CreateWithdrawalRequest
+    request: CreateWithdrawalRequest,
+    options?: CoinbaseCallOptions
   ): Promise<
     | CreateWithdrawalResponse
     | CoinbasePrimeClientException
@@ -69,7 +75,7 @@ export interface TransactionsService {
   >;
 }
 
-export class TransactionsService implements TransactionsService {
+export class TransactionsService implements ITransactionsService {
   private client: CoinbasePrimeClient;
 
   constructor(client: CoinbasePrimeClient) {

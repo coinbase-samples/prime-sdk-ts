@@ -11,14 +11,16 @@ import {
   ListUsersResponse,
 } from './types';
 
-export interface UsersService {
+export interface IUsersService {
   listUsers(
-    request: ListUsersRequest
+    request: ListUsersRequest,
+    options?: CoinbaseCallOptions
   ): Promise<
     ListUsersResponse | CoinbasePrimeClientException | CoinbasePrimeException
   >;
   listPortfolioUsers(
-    request: ListPortfolioUsersRequest
+    request: ListPortfolioUsersRequest,
+    options?: CoinbaseCallOptions
   ): Promise<
     | ListPortfolioUsersResponse
     | CoinbasePrimeClientException
@@ -26,7 +28,7 @@ export interface UsersService {
   >;
 }
 
-export class UsersService implements UsersService {
+export class UsersService implements IUsersService {
   private client: CoinbasePrimeClient;
 
   constructor(client: CoinbasePrimeClient) {

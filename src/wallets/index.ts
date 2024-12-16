@@ -15,21 +15,24 @@ import {
   CreateWalletResponse,
 } from './types';
 
-export interface WalletsService {
+export interface IWalletsService {
   listWallets(
-    request: ListWalletsRequest
+    request: ListWalletsRequest,
+    options?: CoinbaseCallOptions
   ): Promise<
     ListWalletsResponse | CoinbasePrimeClientException | CoinbasePrimeException
   >;
 
   getWallet(
-    request: GetWalletRequest
+    request: GetWalletRequest,
+    options?: CoinbaseCallOptions
   ): Promise<
     GetWalletResponse | CoinbasePrimeClientException | CoinbasePrimeException
   >;
 
   getWalletDepositInstructions(
-    request: GetWalletDepositInstructionsRequest
+    request: GetWalletDepositInstructionsRequest,
+    options?: CoinbaseCallOptions
   ): Promise<
     | GetWalletDepositInstructionsResponse
     | CoinbasePrimeClientException
@@ -37,13 +40,14 @@ export interface WalletsService {
   >;
 
   createWallet(
-    request: CreateWalletRequest
+    request: CreateWalletRequest,
+    options?: CoinbaseCallOptions
   ): Promise<
     CreateWalletResponse | CoinbasePrimeClientException | CoinbasePrimeException
   >;
 }
 
-export class WalletsService implements WalletsService {
+export class WalletsService implements IWalletsService {
   private client: CoinbasePrimeClient;
 
   constructor(client: CoinbasePrimeClient) {

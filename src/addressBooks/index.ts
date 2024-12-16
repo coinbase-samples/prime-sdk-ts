@@ -11,9 +11,10 @@ import {
   CreateAddressBookResponse,
 } from './types';
 
-export interface AddressBooksService {
+export interface IAddressBooksService {
   listAddressBooks(
-    request: ListAddressBooksRequest
+    request: ListAddressBooksRequest,
+    options?: CoinbaseCallOptions
   ): Promise<
     | ListAddressBooksResponse
     | CoinbasePrimeClientException
@@ -21,7 +22,8 @@ export interface AddressBooksService {
   >;
 
   createAddressBook(
-    request: CreateAddressBookRequest
+    request: CreateAddressBookRequest,
+    options?: CoinbaseCallOptions
   ): Promise<
     | CreateAddressBookResponse
     | CoinbasePrimeClientException
@@ -29,7 +31,7 @@ export interface AddressBooksService {
   >;
 }
 
-export class AddressBooksService implements AddressBooksService {
+export class AddressBooksService implements IAddressBooksService {
   private client: CoinbasePrimeClient;
 
   constructor(client: CoinbasePrimeClient) {

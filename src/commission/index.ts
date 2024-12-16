@@ -9,9 +9,10 @@ import {
   GetPortfolioCommissionResponse,
 } from './types';
 
-export interface CommissionService {
+export interface ICommissionService {
   getPortfolioCommission(
-    request: GetPortfolioCommissionRequest
+    request: GetPortfolioCommissionRequest,
+    options?: CoinbaseCallOptions
   ): Promise<
     | GetPortfolioCommissionResponse
     | CoinbasePrimeClientException
@@ -19,7 +20,7 @@ export interface CommissionService {
   >;
 }
 
-export class CommissionService implements CommissionService {
+export class CommissionService implements ICommissionService {
   private client: CoinbasePrimeClient;
 
   constructor(client: CoinbasePrimeClient) {
