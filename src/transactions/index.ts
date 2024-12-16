@@ -17,7 +17,7 @@ import {
   ListPortfolioTransactionsResponse,
   ListWalletTransactionsRequest,
   ListWalletTransactionsResponse,
-} from '../model/services/transactionService';
+} from './types';
 
 export interface TransactionsService {
   getTransaction(

@@ -1,4 +1,4 @@
-import { GetPortfolioCommissionResponse as internalGet } from '../GetPortfolioCommissionResponse';
+import { GetPortfolioCommissionResponse as internalGet } from '../model/GetPortfolioCommissionResponse';
 
 export type GetPortfolioCommissionRequest = {
   portfolioId: string;

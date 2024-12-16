@@ -11,7 +11,7 @@ import {
   ListOnchainWalletBalancesResponse,
   ListPortfolioBalancesRequest,
   ListPortfolioBalancesResponse,
-} from '../model/services/balanceService';
+} from './types';
 
 export interface BalancesService {
   listPortfolioBalances(

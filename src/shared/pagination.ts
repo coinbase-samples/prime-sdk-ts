@@ -1,4 +1,4 @@
-import { SortDirection } from '../enums/SortDirection';
+import { SortDirection } from '../model/enums/SortDirection';
 
 export type Pagination = {
   /**

@@ -4,10 +4,7 @@ import {
   CoinbasePrimeClientException,
   CoinbasePrimeException,
 } from '../errors';
-import {
-  ListProductsRequest,
-  ListProductsResponse,
-} from '../model/services/productService';
+import { ListProductsRequest, ListProductsResponse } from './types';
 
 export interface ProductsService {
   listProducts(

@@ -7,7 +7,7 @@ import {
 import {
   GetPortfolioCommissionRequest,
   GetPortfolioCommissionResponse,
-} from '../model/services/commissionService';
+} from './types';
 
 export interface CommissionService {
   getPortfolioCommission(

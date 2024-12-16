@@ -15,7 +15,7 @@ import {
   ListNetAllocationsResponse,
   GetAllocationRequest,
   GetAllocationResponse,
-} from '../model/services/allocationService';
+} from './types';
 
 export interface AllocationService {
   createAllocation(

@@ -21,7 +21,7 @@ import {
   CancelOrderResponse,
   CreateOrderRequest,
   CreateOrderResponse,
-} from '../model/services/orderService';
+} from './types';
 
 export interface OrdersService {
   getOrder(

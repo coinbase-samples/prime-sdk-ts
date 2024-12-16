@@ -9,7 +9,7 @@ import {
   GetPortfolioCreditRequest,
   GetPortfolioCreditResponse,
   ListPortfoliosResponse,
-} from '../model/services/portfolioService';
+} from './types';
 
 export interface PortfoliosService {
   getPortfolio(

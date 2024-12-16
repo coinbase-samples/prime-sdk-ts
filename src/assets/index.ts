@@ -4,10 +4,7 @@ import {
   CoinbasePrimeClientException,
   CoinbasePrimeException,
 } from '../errors';
-import {
-  ListAssetsRequest,
-  ListAssetsResponse,
-} from '../model/services/assetService';
+import { ListAssetsRequest, ListAssetsResponse } from './types';
 
 export interface AssetsService {
   listAssets(

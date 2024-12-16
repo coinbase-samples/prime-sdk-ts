@@ -13,7 +13,7 @@ import {
   ListPortfolioActivitiesResponse,
   ListEntityActivitiesRequest,
   ListEntityActivitiesResponse,
-} from '../model/services/activitityService';
+} from './types';
 
 export interface ActivitiesService {
   getActivity(

@@ -1,10 +1,10 @@
-import { WalletType } from '../enums/WalletType';
-import { Pagination } from './pagination';
-import { GetWalletsResponse } from '../GetWalletsResponse';
-import { GetWalletResponse as internalGet } from '../GetWalletResponse';
-import { GetWalletDepositInstructionsResponse as internalGetInstructs } from '../GetWalletDepositInstructionsResponse';
-import { CreateWalletRequest as internalCreate } from '../CreateWalletRequest';
-import { CreateWalletResponse as internalCreateResp } from '../CreateWalletResponse';
+import { WalletType } from '../model/enums/WalletType';
+import { Pagination } from '../shared/pagination';
+import { GetWalletsResponse } from '../model/GetWalletsResponse';
+import { GetWalletResponse as internalGet } from '../model/GetWalletResponse';
+import { GetWalletDepositInstructionsResponse as internalGetInstructs } from '../model/GetWalletDepositInstructionsResponse';
+import { CreateWalletRequest as internalCreate } from '../model/CreateWalletRequest';
+import { CreateWalletResponse as internalCreateResp } from '../model/CreateWalletResponse';
 
 export type ListWalletsRequest = Pagination & {
   portfolioId: string;

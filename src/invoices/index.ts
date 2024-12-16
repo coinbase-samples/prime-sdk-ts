@@ -4,10 +4,7 @@ import {
   CoinbasePrimeClientException,
   CoinbasePrimeException,
 } from '../errors';
-import {
-  ListInvoicesRequest,
-  ListInvoicesResponse,
-} from '../model/services/invoiceService';
+import { ListInvoicesRequest, ListInvoicesResponse } from './types';
 
 export interface InvoicesService {
   listInvoicess(

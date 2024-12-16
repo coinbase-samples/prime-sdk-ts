@@ -1,4 +1,4 @@
-import { GetEntityUsersResponse } from '../GetEntityUsersResponse';
+import { GetEntityUsersResponse } from '../model/GetEntityUsersResponse';
 
 export type ListUsersRequest = {
   entityId: string;

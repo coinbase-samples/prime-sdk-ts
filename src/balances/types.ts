@@ -1,8 +1,8 @@
-import { PortfolioBalanceType } from '../enums/PortfolioBalanceType';
-import { VisibilityStatus } from '../enums/VisibilityStatus';
-import { GetPortfolioBalancesResponse } from '../GetPortfolioBalancesResponse';
-import { GetWalletBalanceResponse } from '../GetWalletBalanceResponse';
-import { ListWeb3WalletBalancesResponse } from '../ListWeb3WalletBalancesResponse';
+import { PortfolioBalanceType } from '../model/enums/PortfolioBalanceType';
+import { VisibilityStatus } from '../model/enums/VisibilityStatus';
+import { GetPortfolioBalancesResponse } from '../model/GetPortfolioBalancesResponse';
+import { GetWalletBalanceResponse } from '../model/GetWalletBalanceResponse';
+import { ListWeb3WalletBalancesResponse } from '../model/ListWeb3WalletBalancesResponse';
 
 export type ListPortfolioBalancesRequest = {
   portfolioId: string;

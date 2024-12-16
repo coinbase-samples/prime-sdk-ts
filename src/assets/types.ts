@@ -1,4 +1,4 @@
-import { GetEntityAssetsResponse } from '../GetEntityAssetsResponse';
+import { GetEntityAssetsResponse } from '../model/GetEntityAssetsResponse';
 
 export type ListAssetsRequest = {
   entityId: string;

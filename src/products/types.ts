@@ -1,5 +1,5 @@
-import { GetPortfolioProductsResponse } from '../GetPortfolioProductsResponse';
-import { Pagination } from './pagination';
+import { GetPortfolioProductsResponse } from '../model/GetPortfolioProductsResponse';
+import { Pagination } from '../shared/pagination';
 
 export type ListProductsRequest = Pagination & {
   portfolioId: string;

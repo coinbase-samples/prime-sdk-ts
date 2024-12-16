@@ -13,7 +13,7 @@ import {
   GetWalletDepositInstructionsResponse,
   CreateWalletRequest,
   CreateWalletResponse,
-} from '../model/services/walletService';
+} from './types';
 
 export interface WalletsService {
   listWallets(

@@ -1,4 +1,4 @@
-import { GetInvoicesResponse } from '../GetInvoicesResponse';
+import { GetInvoicesResponse } from '../model/GetInvoicesResponse';
 
 export type ListInvoicesRequest = {
   entityId: string;

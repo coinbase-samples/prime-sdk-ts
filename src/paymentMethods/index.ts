@@ -9,7 +9,7 @@ import {
   ListEntityPaymentMethodsResponse,
   GetPaymentMethodRequest,
   GetPaymentMethodResponse,
-} from '../model/services/paymentMethodsService';
+} from './types';
 
 export interface PaymentMethodsService {
   listEntityPaymentMethods(

@@ -1,10 +1,10 @@
-import { Pagination } from './pagination';
-import { ActivityCategory } from '../enums/ActivityCategory';
-import { ActivityStatus } from '../enums/ActivityStatus';
-import { GetActivityResponse as internalGet } from '../GetActivityResponse';
-import { GetEntityActivitiesResponse } from '../GetEntityActivitiesResponse';
-import { GetPortfolioActivitiesResponse } from '../GetPortfolioActivitiesResponse';
-import { GetPortfolioActivityResponse as internalGetPortAct } from '../GetPortfolioActivityResponse';
+import { Pagination } from '../shared/pagination';
+import { ActivityCategory } from '../model/enums/ActivityCategory';
+import { ActivityStatus } from '../model/enums/ActivityStatus';
+import { GetActivityResponse as internalGet } from '../model/GetActivityResponse';
+import { GetEntityActivitiesResponse } from '../model/GetEntityActivitiesResponse';
+import { GetPortfolioActivitiesResponse } from '../model/GetPortfolioActivitiesResponse';
+import { GetPortfolioActivityResponse as internalGetPortAct } from '../model/GetPortfolioActivityResponse';
 
 export type ActivityFilters = Pagination & {
   symbols?: string[];

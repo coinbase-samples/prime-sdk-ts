@@ -9,7 +9,7 @@ import {
   ListAddressBooksResponse,
   CreateAddressBookRequest,
   CreateAddressBookResponse,
-} from '../model/services/addressBookService';
+} from './types';
 
 export interface AddressBooksService {
   listAddressBooks(

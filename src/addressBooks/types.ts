@@ -1,7 +1,7 @@
-import { GetPortfolioAddressBookResponse } from '../GetPortfolioAddressBookResponse';
-import { CreatePortfolioAddressBookEntryRequest } from '../CreatePortfolioAddressBookEntryRequest';
-import { CreatePortfolioAddressBookEntryResponse } from '../CreatePortfolioAddressBookEntryResponse';
-import { Pagination } from './pagination';
+import { GetPortfolioAddressBookResponse } from '../model/GetPortfolioAddressBookResponse';
+import { CreatePortfolioAddressBookEntryRequest } from '../model/CreatePortfolioAddressBookEntryRequest';
+import { CreatePortfolioAddressBookEntryResponse } from '../model/CreatePortfolioAddressBookEntryResponse';
+import { Pagination } from '../shared/pagination';
 
 export type ListAddressBooksRequest = Pagination & {
   portfolioId: string;

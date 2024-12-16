@@ -1,5 +1,5 @@
-import { GetEntityPaymentMethodsResponse } from '../GetEntityPaymentMethodsResponse';
-import { GetEntityPaymentMethodDetailsResponse } from '../GetEntityPaymentMethodDetailsResponse';
+import { GetEntityPaymentMethodsResponse } from '../model/GetEntityPaymentMethodsResponse';
+import { GetEntityPaymentMethodDetailsResponse } from '../model/GetEntityPaymentMethodDetailsResponse';
 
 export type ListEntityPaymentMethodsRequest = {
   entityId: string;

@@ -1,17 +1,17 @@
-import { OrderSide } from '../enums/OrderSide';
-import { OrderStatus } from '../enums/OrderStatus';
-import { OrderType } from '../enums/OrderType';
-import { GetOpenOrdersResponse } from '../GetOpenOrdersResponse';
-import { GetOrderFillsResponse } from '../GetOrderFillsResponse';
-import { GetOrderResponse as internalGet } from '../GetOrderResponse';
-import { GetOrdersResponse } from '../GetOrdersResponse';
-import { GetPortfolioFillsResponse } from '../GetPortfolioFillsResponse';
-import { OrderPreviewRequest } from '../OrderPreviewRequest';
-import { PostOrderPreviewResponse } from '../PostOrderPreviewResponse';
-import { CancelOrderResponse as internalCancel } from '../CancelOrderResponse';
-import { CreateOrderResponse as internalCreateResp } from '../CreateOrderResponse';
-import { CreateOrderRequest as internalCreate } from '../CreateOrderRequest';
-import { Pagination } from './pagination';
+import { OrderSide } from '../model/enums/OrderSide';
+import { OrderStatus } from '../model/enums/OrderStatus';
+import { OrderType } from '../model/enums/OrderType';
+import { GetOpenOrdersResponse } from '../model/GetOpenOrdersResponse';
+import { GetOrderFillsResponse } from '../model/GetOrderFillsResponse';
+import { GetOrderResponse as internalGet } from '../model/GetOrderResponse';
+import { GetOrdersResponse } from '../model/GetOrdersResponse';
+import { GetPortfolioFillsResponse } from '../model/GetPortfolioFillsResponse';
+import { OrderPreviewRequest } from '../model/OrderPreviewRequest';
+import { PostOrderPreviewResponse } from '../model/PostOrderPreviewResponse';
+import { CancelOrderResponse as internalCancel } from '../model/CancelOrderResponse';
+import { CreateOrderResponse as internalCreateResp } from '../model/CreateOrderResponse';
+import { CreateOrderRequest as internalCreate } from '../model/CreateOrderRequest';
+import { Pagination } from '../shared/pagination';
 
 export type GetOrderRequest = {
   portfolioId: string;

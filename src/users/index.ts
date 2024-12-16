@@ -9,7 +9,7 @@ import {
   ListPortfolioUsersResponse,
   ListUsersRequest,
   ListUsersResponse,
-} from '../model/services/usersService';
+} from './types';
 
 export interface UsersService {
   listUsers(

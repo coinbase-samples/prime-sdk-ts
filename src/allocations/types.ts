@@ -1,11 +1,11 @@
-import { CreateAllocationRequest as internalCreate } from '../CreateAllocationRequest';
-import { CreateAllocationResponse as internalResponse } from '../CreateAllocationResponse';
-import { CreateNetAllocationResponse as internalNetCreate } from '../CreateNetAllocationResponse';
-import { GetPortfolioAllocationsResponse } from '../GetPortfolioAllocationsResponse';
-import { GetAllocationResponse as internalGet } from '../GetAllocationResponse';
-import { GetAllocationsByClientNettingIdResponse } from '../GetAllocationsByClientNettingIdResponse';
-import { OrderSide } from '../enums/OrderSide';
-import { Pagination } from './pagination';
+import { CreateAllocationRequest as internalCreate } from '../model/CreateAllocationRequest';
+import { CreateAllocationResponse as internalResponse } from '../model/CreateAllocationResponse';
+import { CreateNetAllocationResponse as internalNetCreate } from '../model/CreateNetAllocationResponse';
+import { GetPortfolioAllocationsResponse } from '../model/GetPortfolioAllocationsResponse';
+import { GetAllocationResponse as internalGet } from '../model/GetAllocationResponse';
+import { GetAllocationsByClientNettingIdResponse } from '../model/GetAllocationsByClientNettingIdResponse';
+import { OrderSide } from '../model/enums/OrderSide';
+import { Pagination } from '../shared/pagination';
 
 export type CreateAllocationRequest = internalCreate;
 

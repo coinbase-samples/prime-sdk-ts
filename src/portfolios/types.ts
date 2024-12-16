@@ -1,6 +1,6 @@
-import { GetPortfolioResponse as internalGet } from '../GetPortfolioResponse';
-import { GetPortfoliosResponse } from '../GetPortfoliosResponse';
-import { GetPostTradeCreditResponse } from '../GetPostTradeCreditResponse';
+import { GetPortfolioResponse as internalGet } from '../model/GetPortfolioResponse';
+import { GetPortfoliosResponse } from '../model/GetPortfoliosResponse';
+import { GetPostTradeCreditResponse } from '../model/GetPostTradeCreditResponse';
 
 export type GetPortfolioRequest = {
   /**
