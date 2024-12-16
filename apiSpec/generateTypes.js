@@ -80,12 +80,9 @@ function cleanClasses(updatedContent) {
 }
 
 // Main function to process files
-function processFiles() {
+async function processFiles() {
   // List all files in the source directory
   const files = fs.readdirSync(sourceDir);
-
-  // Get Prettier configuration
-  const prettierConfig = prettier.resolveConfig.sync('../.prettierrc') || {};
 
   const enumClasses = [];
   files.forEach((file) => {
@@ -107,7 +104,7 @@ function processFiles() {
     }
   });
 
-  files.forEach((file) => {
+  files.forEach(async (file) => {
     const sourcePath = path.join(sourceDir, file);
     let destPath = path.join(destDir, file);
 
@@ -171,8 +168,10 @@ function processFiles() {
         destPath = replaceString(destPath, filePathReplacements);
       }
 
-      updatedContent = prettier.format(updatedContent, {
-        ...prettierConfig,
+      updatedContent = await prettier.format(updatedContent, {
+        semi: true,
+        singleQuote: true,
+        trailingComma: 'es5',
         parser: 'typescript',
       });
 
@@ -186,4 +185,6 @@ function processFiles() {
 }
 
 // Execute the script
-processFiles();
+processFiles().then(() => {
+  console.log('Processing complete.');
+});
