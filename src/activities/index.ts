@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { CoinbaseCallOptions } from '../../../core-ts/dist';
+import { CoinbaseCallOptions } from '@coinbase-sample/core-ts';
 import { CoinbasePrimeClient } from '../client';
 import {
   CoinbasePrimeClientException,
