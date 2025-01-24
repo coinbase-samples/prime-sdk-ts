@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CoinbaseCallOptions, Method } from '../../../core-ts/dist';
+import { CoinbaseCallOptions, Method } from '@coinbase-sample/core-ts';
 import { CoinbasePrimeClient } from '../client';
 import {
   CoinbasePrimeClientException,

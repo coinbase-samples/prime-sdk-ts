@@ -1,5 +1,5 @@
 {
-  "name": "@coinbase-samples/prime-sdk-ts",
+  "name": "@coinbase-sample/prime-sdk-ts",
   "version": "0.1.0",
   "main": "dist/main.js",
   "scripts": {
@@ -13,6 +13,10 @@
   "files": [
     "dist/"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:coinbase-samples/prime-sdk-ts.git"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -27,5 +31,8 @@
     "eslint-plugin-prettier": "^5.2.1",
     "prettier": "^3.4.2",
     "typescript": "^5.5.4"
+  },
+  "dependencies": {
+    "@coinbase-sample/core-ts": "^0.1.0"
   }
 }
