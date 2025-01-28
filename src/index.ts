@@ -16,16 +16,21 @@
 export { CoinbasePrimeClient } from './client';
 export { CoinbasePrimeCredentials } from './credentials';
 export { ActivitiesService, IActivitiesService } from './activities';
-export { AddressBooksService } from './addressBooks';
-export { AllocationService } from './allocations';
+export { AddressBooksService, IAddressBooksService } from './addressBooks';
+export { AllocationService, IAllocationService } from './allocations';
 export { AssetsService, IAssetsService } from './assets';
-export { BalancesService } from './balances';
-export { CommissionService } from './commission';
-export { InvoicesService } from './invoices';
-export { OrdersService } from './orders';
-export { PaymentMethodsService } from './paymentMethods';
-export { PortfoliosService } from './portfolios';
-export { ProductsService } from './products';
-export { TransactionsService } from './transactions';
-export { UsersService } from './users';
-export { WalletsService } from './wallets';
+export { BalancesService, IBalancesService } from './balances';
+export { CommissionService, ICommissionService } from './commission';
+export { FuturesService, IFuturesService } from './futures';
+export { InvoicesService, IInvoicesService } from './invoices';
+export { OnchainAddressGroupsService } from './onchainAddressGroups';
+export { OrdersService, IOrdersService } from './orders';
+export {
+  PaymentMethodsService,
+  IPaymentMethodsService,
+} from './paymentMethods';
+export { PortfoliosService, IPortfoliosService } from './portfolios';
+export { ProductsService, IProductsService } from './products';
+export { TransactionsService, ITransactionsService } from './transactions';
+export { UsersService, IUsersService } from './users';
+export { WalletsService, IWalletsService } from './wallets';
