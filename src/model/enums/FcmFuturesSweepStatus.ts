@@ -18,17 +18,10 @@
  *  Do not edit the class manually.
  */
 
-import { AggregatedFiatBalance } from './AggregatedFiatBalance';
-import { Balance } from './Balance';
-import { PortfolioBalanceType } from './enums/PortfolioBalanceType';
-
-export type GetPortfolioBalancesResponse = {
-  /**
-   * A list of balances.
-   */
-  balances?: Array<Balance>;
-  type?: PortfolioBalanceType;
-  tradingBalances?: AggregatedFiatBalance;
-  vaultBalances?: AggregatedFiatBalance;
-  primeCustodyBalances?: AggregatedFiatBalance;
-};
+export enum FcmFuturesSweepStatus {
+  Unspecified = 'FCM_FUTURES_SWEEP_STATUS_UNSPECIFIED',
+  Pending = 'FCM_FUTURES_SWEEP_STATUS_PENDING',
+  Closed = 'FCM_FUTURES_SWEEP_STATUS_CLOSED',
+  Canceled = 'FCM_FUTURES_SWEEP_STATUS_CANCELED',
+  Processing = 'FCM_FUTURES_SWEEP_STATUS_PROCESSING',
+}

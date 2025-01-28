@@ -18,17 +18,15 @@
  *  Do not edit the class manually.
  */
 
-import { AggregatedFiatBalance } from './AggregatedFiatBalance';
-import { Balance } from './Balance';
-import { PortfolioBalanceType } from './enums/PortfolioBalanceType';
+import { AssetChange } from './AssetChange';
 
-export type GetPortfolioBalancesResponse = {
+export type Web3TransactionMetadata = {
   /**
-   * A list of balances.
+   * The transaction type label of the confirmed transaction post settlement
    */
-  balances?: Array<Balance>;
-  type?: PortfolioBalanceType;
-  tradingBalances?: AggregatedFiatBalance;
-  vaultBalances?: AggregatedFiatBalance;
-  primeCustodyBalances?: AggregatedFiatBalance;
+  label?: string;
+  /**
+   * The confirmed asset changes (onchain)
+   */
+  confirmedAssetChanges?: Array<AssetChange>;
 };

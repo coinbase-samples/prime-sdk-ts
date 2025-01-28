@@ -18,17 +18,36 @@
  *  Do not edit the class manually.
  */
 
-import { AggregatedFiatBalance } from './AggregatedFiatBalance';
-import { Balance } from './Balance';
-import { PortfolioBalanceType } from './enums/PortfolioBalanceType';
+import { FcmPositionSide } from './enums/FcmPositionSide';
 
-export type GetPortfolioBalancesResponse = {
+export type FcmPosition = {
   /**
-   * A list of balances.
+   * Product ID
    */
-  balances?: Array<Balance>;
-  type?: PortfolioBalanceType;
-  tradingBalances?: AggregatedFiatBalance;
-  vaultBalances?: AggregatedFiatBalance;
-  primeCustodyBalances?: AggregatedFiatBalance;
+  productId?: string;
+  side?: FcmPositionSide;
+  /**
+   * Number of contracts
+   */
+  numberOfContracts?: string;
+  /**
+   * Daily realized PNL
+   */
+  dailyRealizedPnl?: string;
+  /**
+   * Unrealized PNL
+   */
+  unrealizedPnl?: string;
+  /**
+   * Current price of position
+   */
+  currentPrice?: string;
+  /**
+   * Average entry price
+   */
+  avgEntryPrice?: string;
+  /**
+   * Expiration time of position
+   */
+  expirationTime?: Date;
 };

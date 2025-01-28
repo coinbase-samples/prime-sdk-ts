@@ -18,7 +18,16 @@
  *  Do not edit the class manually.
  */
 
+import { Network } from './Network';
+
 export type BlockchainAddress = {
+  /**
+   * The address on the network
+   */
   address?: string;
+  /**
+   * The account identifier (used on some chains to distinguish accounts using the same address)
+   */
   accountIdentifier?: string;
+  network?: Network;
 };

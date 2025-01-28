@@ -18,17 +18,13 @@
  *  Do not edit the class manually.
  */
 
-import { AggregatedFiatBalance } from './AggregatedFiatBalance';
-import { Balance } from './Balance';
-import { PortfolioBalanceType } from './enums/PortfolioBalanceType';
-
-export type GetPortfolioBalancesResponse = {
+export type Network = {
   /**
-   * A list of balances.
+   * The network id: base, bitcoin, ethereum, solana etc
    */
-  balances?: Array<Balance>;
-  type?: PortfolioBalanceType;
-  tradingBalances?: AggregatedFiatBalance;
-  vaultBalances?: AggregatedFiatBalance;
-  primeCustodyBalances?: AggregatedFiatBalance;
+  id?: string;
+  /**
+   * The network type: mainnet, testnet, etc
+   */
+  type?: string;
 };

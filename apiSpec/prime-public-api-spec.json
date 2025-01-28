@@ -273,6 +273,232 @@
         "tags": ["Assets"]
       }
     },
+    "/v1/entities/{entity_id}/futures/auto_sweep": {
+      "post": {
+        "summary": "Set Auto Sweep",
+        "description": "Set auto sweep for a given entity.",
+        "operationId": "PrimeRESTAPI_SetAutoSweep",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/coinbase.public_rest_api.SetAutoSweepResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/google.rpc.Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "entity_id",
+            "description": "Entity ID",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "auto_sweep": {
+                  "type": "boolean",
+                  "example": true,
+                  "description": "Auto sweep status, default to false"
+                }
+              },
+              "required": ["auto_sweep"]
+            }
+          }
+        ],
+        "tags": ["Futures"]
+      }
+    },
+    "/v1/entities/{entity_id}/futures/balance_summary": {
+      "get": {
+        "summary": "Get Entity FCM Balance",
+        "description": "Retrieve fcm balance for a given entity.",
+        "operationId": "PrimeRESTAPI_GetFcmBalance",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/coinbase.public_rest_api.GetFcmBalanceResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/google.rpc.Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "entity_id",
+            "description": "Entity ID",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": ["Futures"]
+      }
+    },
+    "/v1/entities/{entity_id}/futures/positions": {
+      "get": {
+        "summary": "Get Entity Positions",
+        "description": "Retrieve all active fcm positions for a given entity.",
+        "operationId": "PrimeRESTAPI_GetPositions",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/coinbase.public_rest_api.GetPositionsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/google.rpc.Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "entity_id",
+            "description": "Entity ID",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "product_id",
+            "description": "Product ID. Optional",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": ["Futures"]
+      }
+    },
+    "/v1/entities/{entity_id}/futures/sweeps": {
+      "get": {
+        "summary": "List Entity Futures Sweeps",
+        "description": "Retrieve fcm sweeps in open status, including pending and processing sweeps.",
+        "operationId": "PrimeRESTAPI_GetFuturesSweeps",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/coinbase.public_rest_api.GetFuturesSweepsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/google.rpc.Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "entity_id",
+            "description": "Entity ID",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": ["Futures"]
+      },
+      "delete": {
+        "summary": "Cancel Entity Futures Sweep",
+        "description": "Cancel the pending sweep for a given entity. A user will only be able to have one pending sweep at a time. If the sweep is not found, a 404 will be returned.",
+        "operationId": "PrimeRESTAPI_CancelFuturesSweep",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/coinbase.public_rest_api.CancelFuturesSweepResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/google.rpc.Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "entity_id",
+            "description": "Entity ID",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": ["Futures"]
+      },
+      "post": {
+        "summary": "Schedule Entity Futures Sweep",
+        "description": "Schedule a sweep for a given entity from FCM wallet to USD Spot wallet. Only one pending sweep is allowed at a time per entity.",
+        "operationId": "PrimeRESTAPI_ScheduleFuturesSweep",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/coinbase.public_rest_api.ScheduleFuturesSweepResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/google.rpc.Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "entity_id",
+            "description": "Entity ID",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "amount": {
+                  "type": "string",
+                  "example": "1000.00",
+                  "description": "Amount. Default to sweep all if not provided"
+                },
+                "currency": {
+                  "type": "string",
+                  "example": "USD",
+                  "description": "Currency. Required"
+                }
+              },
+              "required": ["currency"]
+            }
+          }
+        ],
+        "tags": ["Futures"]
+      }
+    },
     "/v1/entities/{entity_id}/invoices": {
       "get": {
         "summary": "List Invoices",
@@ -1031,7 +1257,7 @@
           },
           {
             "name": "balance_type",
-            "description": "A type by which to filter balances\n\n - UNKNOWN_BALANCE_TYPE: nil\n - TRADING_BALANCES: Trading balances\n - VAULT_BALANCES: Vault balances\n - TOTAL_BALANCES: Total balances (The sum of vault and trading)",
+            "description": "A type by which to filter balances\n\n - UNKNOWN_BALANCE_TYPE: nil\n - TRADING_BALANCES: Trading balances\n - VAULT_BALANCES: Vault balances\n - TOTAL_BALANCES: Total balances (The sum of vault and trading)\n - PRIME_CUSTODY_BALANCES: Prime custody balances",
             "in": "query",
             "required": false,
             "type": "string",
@@ -1039,7 +1265,8 @@
               "UNKNOWN_BALANCE_TYPE",
               "TRADING_BALANCES",
               "VAULT_BALANCES",
-              "TOTAL_BALANCES"
+              "TOTAL_BALANCES",
+              "PRIME_CUSTODY_BALANCES"
             ],
             "default": "UNKNOWN_BALANCE_TYPE"
           }
@@ -1179,6 +1406,37 @@
         "tags": ["Orders"]
       }
     },
+    "/v1/portfolios/{portfolio_id}/onchain_address_groups": {
+      "get": {
+        "summary": "List Onchain Address Groups",
+        "description": "Lists all onchain address groups for a given portfolio ID",
+        "operationId": "PrimeRESTAPI_ListOnchainAddressGroups",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/coinbase.public_rest_api.ListOnchainAddressGroupsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/google.rpc.Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "portfolio_id",
+            "description": "Portfolio ID",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": ["Onchain Address Groups"]
+      }
+    },
     "/v1/portfolios/{portfolio_id}/open_orders": {
       "get": {
         "summary": "List Open Orders",
@@ -1219,7 +1477,7 @@
           },
           {
             "name": "order_type",
-            "description": "An order type by which to filter the response\n\n - UNKNOWN_ORDER_TYPE: nil value\n - MARKET: A [market order](https://en.wikipedia.org/wiki/Order_(exchange)#Market_order)\n - LIMIT: A [limit order](https://en.wikipedia.org/wiki/Order_(exchange)#Limit_order)\n - TWAP: A [time-weighted average price order](https://en.wikipedia.org/wiki/Time-weighted_average_price)\n - BLOCK: A [block trade](https://en.wikipedia.org/wiki/Block_trade)\n - VWAP: A [volume-weighted average price order](https://en.wikipedia.org/wiki/Volume-weighted_average_price)\n - STOP_LIMIT: A [conditional order combined of stop order and limit order](https://en.wikipedia.org/wiki/Order_(exchange)#Stop-limit_order)",
+            "description": "An order type by which to filter the response\n\n - UNKNOWN_ORDER_TYPE: nil value\n - MARKET: A [market order](https://en.wikipedia.org/wiki/Order_(exchange)#Market_order)\n - LIMIT: A [limit order](https://en.wikipedia.org/wiki/Order_(exchange)#Limit_order)\n - TWAP: A [time-weighted average price order](https://en.wikipedia.org/wiki/Time-weighted_average_price)\n - BLOCK: A [block trade](https://en.wikipedia.org/wiki/Block_trade)\n - VWAP: A [volume-weighted average price order](https://en.wikipedia.org/wiki/Volume-weighted_average_price)\n - STOP_LIMIT: A [conditional order combined of stop order and limit order](https://en.wikipedia.org/wiki/Order_(exchange)#Stop-limit_order)\n - RFQ: A [request for quote](https://en.wikipedia.org/wiki/Request_for_quote)",
             "in": "query",
             "required": false,
             "type": "string",
@@ -1230,7 +1488,8 @@
               "TWAP",
               "BLOCK",
               "VWAP",
-              "STOP_LIMIT"
+              "STOP_LIMIT",
+              "RFQ"
             ],
             "default": "UNKNOWN_ORDER_TYPE"
           },
@@ -1337,7 +1596,7 @@
                 "type": {
                   "$ref": "#/definitions/coinbase.public_rest_api.OrderType",
                   "example": "LIMIT",
-                  "description": "The type of order placed. Block orders are not supported.",
+                  "description": "The type of order placed. Block and RFQ orders are not supported. Leverage the /rfq and /accept_quote endpoints to submit RFQ order types",
                   "title": "The type of the order"
                 },
                 "base_quantity": {
@@ -1441,7 +1700,7 @@
                 "type": {
                   "$ref": "#/definitions/coinbase.public_rest_api.OrderType",
                   "example": "LIMIT",
-                  "description": "The type of order placed. Block orders are not supported.",
+                  "description": "The type of order placed. Block and RFQ orders are not supported. Leverage the /rfq and /accept_quote endpoints to submit RFQ order types",
                   "title": "The type of the order"
                 },
                 "base_quantity": {
@@ -1550,7 +1809,7 @@
           },
           {
             "name": "order_type",
-            "description": "Order type by which to filter the response\n\n - UNKNOWN_ORDER_TYPE: nil value\n - MARKET: A [market order](https://en.wikipedia.org/wiki/Order_(exchange)#Market_order)\n - LIMIT: A [limit order](https://en.wikipedia.org/wiki/Order_(exchange)#Limit_order)\n - TWAP: A [time-weighted average price order](https://en.wikipedia.org/wiki/Time-weighted_average_price)\n - BLOCK: A [block trade](https://en.wikipedia.org/wiki/Block_trade)\n - VWAP: A [volume-weighted average price order](https://en.wikipedia.org/wiki/Volume-weighted_average_price)\n - STOP_LIMIT: A [conditional order combined of stop order and limit order](https://en.wikipedia.org/wiki/Order_(exchange)#Stop-limit_order)",
+            "description": "Order type by which to filter the response\n\n - UNKNOWN_ORDER_TYPE: nil value\n - MARKET: A [market order](https://en.wikipedia.org/wiki/Order_(exchange)#Market_order)\n - LIMIT: A [limit order](https://en.wikipedia.org/wiki/Order_(exchange)#Limit_order)\n - TWAP: A [time-weighted average price order](https://en.wikipedia.org/wiki/Time-weighted_average_price)\n - BLOCK: A [block trade](https://en.wikipedia.org/wiki/Block_trade)\n - VWAP: A [volume-weighted average price order](https://en.wikipedia.org/wiki/Volume-weighted_average_price)\n - STOP_LIMIT: A [conditional order combined of stop order and limit order](https://en.wikipedia.org/wiki/Order_(exchange)#Stop-limit_order)\n - RFQ: A [request for quote](https://en.wikipedia.org/wiki/Request_for_quote)",
             "in": "query",
             "required": false,
             "type": "string",
@@ -1561,7 +1820,8 @@
               "TWAP",
               "BLOCK",
               "VWAP",
-              "STOP_LIMIT"
+              "STOP_LIMIT",
+              "RFQ"
             ],
             "default": "UNKNOWN_ORDER_TYPE"
           },
@@ -1850,7 +2110,7 @@
           },
           {
             "name": "types",
-            "description": "The transaction types by which to filter the response\n\n - TRANSACTION_TYPE_UNKNOWN: An unknown transaction type\n - DEPOSIT: A fiat or crypto deposit\n - WITHDRAWAL: A fiat or crypto withdrawal\n - INTERNAL_DEPOSIT: An internal fiat or crypto deposit\n - INTERNAL_WITHDRAWAL: An internal fiat or crypto withdrawal\n - SWEEP_DEPOSIT: Internal automated deposit to a cold address from a restored address\n - SWEEP_WITHDRAWAL: Internal automated withdrawal from a restored address to a cold address\n - PROXY_DEPOSIT: On-chain deposit of funds into proxy contract from cold address\n - PROXY_WITHDRAWAL: On-chain withdrawal of funds from proxy contract to cold address\n - BILLING_WITHDRAWAL: Coinbase Prime automated invoice settlement payment\n - REWARD: Reward payment to an associated address for a staked asset\n - COINBASE_REFUND: Coinbase Prime refund for the leftover amount for a CPFP (child pays for parent) transaction\n - TRANSACTION_TYPE_OTHER: An OTHER type of transaction\n - WITHDRAWAL_ADJUSTMENT: A manual adjustment withdrawal transaction\n - DEPOSIT_ADJUSTMENT: A manual adjustment deposit transaction\n - KEY_REGISTRATION: An on-chain registration for an address\n - DELEGATION: An on-chain delegation transaction\n - UNDELEGATION: An on-chain undelegation transaction\n - RESTAKE: On-chain restaking transaction\n - COMPLETE_UNBONDING: On-chain unbonding event transaction\n - WITHDRAW_UNBONDED: On-chain event indicating unbonding period is over\n - STAKE_ACCOUNT_CREATE: On-chain transaction to begin staking from an address\n - CHANGE_VALIDATOR: On-chain transaction alter validator\n - STAKE: On-chain transaction to begin staking in Cryptocurrency network\n - UNSTAKE: On-chain transaction to stop staking in Cryptocurrency network\n - REMOVE_AUTHORIZED_PARTY: On-chain transaction to remove a party from a multi-signature wallet\n - STAKE_AUTHORIZE_WITH_SEED: On-chain transaction to begin staking from a seed account\n - SLASH: On-chain transaction indicating a slash event has occurred\n - COINBASE_DEPOSIT: On-chain transaction deposit for the purpose of transaction operations\n - CONVERSION: Internal conversion between two assets\n - CLAIM_REWARDS: On-chain transaction to claim rewards from Vote Account\n - VOTE_AUTHORIZE: On-chain transaction to transfer the reward claiming permission to other pubkey\n - WEB3_TRANSACTION: On-chain transaction initiated with Prime Onchain Wallet",
+            "description": "The transaction types by which to filter the response\n\n - TRANSACTION_TYPE_UNKNOWN: An unknown transaction type\n - DEPOSIT: A fiat or crypto deposit\n - WITHDRAWAL: A fiat or crypto withdrawal\n - INTERNAL_DEPOSIT: An internal fiat or crypto deposit\n - INTERNAL_WITHDRAWAL: An internal fiat or crypto withdrawal\n - SWEEP_DEPOSIT: Internal automated deposit to a cold address from a restored address\n - SWEEP_WITHDRAWAL: Internal automated withdrawal from a restored address to a cold address\n - PROXY_DEPOSIT: On-chain deposit of funds into proxy contract from cold address\n - PROXY_WITHDRAWAL: On-chain withdrawal of funds from proxy contract to cold address\n - BILLING_WITHDRAWAL: Coinbase Prime automated invoice settlement payment\n - REWARD: Reward payment to an associated address for a staked asset\n - COINBASE_REFUND: Coinbase Prime refund for the leftover amount for a CPFP (child pays for parent) transaction\n - TRANSACTION_TYPE_OTHER: An OTHER type of transaction\n - WITHDRAWAL_ADJUSTMENT: A manual adjustment withdrawal transaction\n - DEPOSIT_ADJUSTMENT: A manual adjustment deposit transaction\n - KEY_REGISTRATION: An on-chain registration for an address\n - DELEGATION: An on-chain delegation transaction\n - UNDELEGATION: An on-chain undelegation transaction\n - RESTAKE: On-chain restaking transaction\n - COMPLETE_UNBONDING: On-chain unbonding event transaction\n - WITHDRAW_UNBONDED: On-chain event indicating unbonding period is over\n - STAKE_ACCOUNT_CREATE: On-chain transaction to begin staking from an address\n - CHANGE_VALIDATOR: On-chain transaction alter validator\n - STAKE: On-chain transaction to begin staking in Cryptocurrency network\n - UNSTAKE: On-chain transaction to stop staking in Cryptocurrency network\n - REMOVE_AUTHORIZED_PARTY: On-chain transaction to remove a party from a multi-signature wallet\n - STAKE_AUTHORIZE_WITH_SEED: On-chain transaction to begin staking from a seed account\n - SLASH: On-chain transaction indicating a slash event has occurred\n - COINBASE_DEPOSIT: On-chain transaction deposit for the purpose of transaction operations\n - CONVERSION: Internal conversion between two assets\n - CLAIM_REWARDS: On-chain transaction to claim rewards from Vote Account\n - VOTE_AUTHORIZE: On-chain transaction to transfer the reward claiming permission to other pubkey\n - WEB3_TRANSACTION: On-chain transaction initiated with Prime Onchain Wallet\nDeprecated: Use ONCHAIN_TRANSACTION instead\n - ONCHAIN_TRANSACTION: On-chain transaction initiated with Prime Onchain Wallet",
             "in": "query",
             "required": false,
             "type": "array",
@@ -1889,7 +2149,8 @@
                 "CONVERSION",
                 "CLAIM_REWARDS",
                 "VOTE_AUTHORIZE",
-                "WEB3_TRANSACTION"
+                "WEB3_TRANSACTION",
+                "ONCHAIN_TRANSACTION"
               ]
             },
             "collectionFormat": "multi"
@@ -2060,7 +2321,7 @@
           },
           {
             "name": "type",
-            "description": "The wallet type\n\n - VAULT: A crypto vault\n - TRADING: A trading wallet\n - WALLET_TYPE_OTHER: Other wallet types (like consumer, etc)\n - WEB3: An Onchain wallet\n - QC: A QC Wallet",
+            "description": "The wallet type\n\n - VAULT: A crypto vault\n - TRADING: A trading wallet\n - WALLET_TYPE_OTHER: Other wallet types (like consumer, etc)\n - QC: A QC Wallet\n - ONCHAIN: An Onchain wallet",
             "in": "query",
             "required": true,
             "type": "string",
@@ -2069,8 +2330,8 @@
               "VAULT",
               "TRADING",
               "WALLET_TYPE_OTHER",
-              "WEB3",
-              "QC"
+              "QC",
+              "ONCHAIN"
             ],
             "default": "UNKNOWN_WALLET_TYPE"
           },
@@ -2114,7 +2375,7 @@
       },
       "post": {
         "summary": "Create Wallet",
-        "description": "Create a wallet.",
+        "description": "Create a wallet. Note: The first ONCHAIN wallet for each network family must be created through the Prime UI.",
         "operationId": "PrimeRESTAPI_CreateWallet",
         "responses": {
           "200": {
@@ -2151,7 +2412,7 @@
                 },
                 "symbol": {
                   "type": "string",
-                  "title": "The asset stored in the wallet"
+                  "title": "The asset stored in the wallet. Should not be specified when wallet_type is ONCHAIN"
                 },
                 "wallet_type": {
                   "$ref": "#/definitions/coinbase.public_rest_api.WalletType",
@@ -2160,6 +2421,10 @@
                 "idempotency_key": {
                   "type": "string",
                   "title": "idem"
+                },
+                "network_family": {
+                  "$ref": "#/definitions/coinbase.public_rest_api.NetworkFamily",
+                  "title": "The network family. Required only when wallet_type is ONCHAIN"
                 }
               },
               "required": ["name", "symbol"]
@@ -2201,6 +2466,123 @@
             "description": "Wallet ID",
             "in": "path",
             "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": ["Wallets"]
+      }
+    },
+    "/v1/portfolios/{portfolio_id}/wallets/{wallet_id}/addresses": {
+      "get": {
+        "summary": "Get Wallet Addresses",
+        "description": "Returns all addresses associated with a wallet, including all deposit addresses, and restored addresses",
+        "operationId": "PrimeRESTAPI_GetWalletAddresses",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/coinbase.public_rest_api.GetWalletAddressesResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/google.rpc.Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "portfolio_id",
+            "description": "The portfolio ID of the wallet",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "wallet_id",
+            "description": "The wallet ID to get deposit instructions for",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "network.id",
+            "description": "The name of the network\n\nThe network id: base, bitcoin, ethereum, solana etc",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "network.type",
+            "description": "The network type\n\nThe network type: mainnet, testnet, etc",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "cursor",
+            "description": "cursor to retrieve additional results after.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "description": "Number of items to retrieve",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "tags": ["Wallets"]
+      },
+      "post": {
+        "summary": "Create Wallet Deposit Address",
+        "description": "Creates a new deposit address for a wallet, only applicable to wallets supporting multiple deposit addresses",
+        "operationId": "PrimeRESTAPI_CreateWalletDepositAddress",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/coinbase.public_rest_api.BlockchainAddress"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/google.rpc.Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "portfolio_id",
+            "description": "The portfolio ID of the wallet",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "wallet_id",
+            "description": "The wallet ID to get deposit instructions for",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "network.id",
+            "description": "The name of the network\n\nThe network id: base, bitcoin, ethereum, solana etc",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "network.type",
+            "description": "The network type\n\nThe network type: mainnet, testnet, etc",
+            "in": "query",
+            "required": false,
             "type": "string"
           }
         ],
@@ -2361,7 +2743,7 @@
           },
           {
             "name": "deposit_type",
-            "description": "The deposit type\n\n - UNKNOWN_WALLET_DEPOSIT_TYPE: nil value\n - CRYPTO: A cryptocurrency deposit\n - WIRE: A wire deposit\n - SEN: A Silvergate Exchange Network deposit\n - SWIFT: A SWIFT deposit",
+            "description": "The deposit type\n\n - UNKNOWN_WALLET_DEPOSIT_TYPE: nil value\n - CRYPTO: A cryptocurrency deposit\n - WIRE: A wire deposit\n - SEN: DEPRECATED. A Silvergate Exchange Network deposit\n - SWIFT: A SWIFT deposit",
             "in": "query",
             "required": true,
             "type": "string",
@@ -2414,7 +2796,7 @@
           },
           {
             "name": "types",
-            "description": "The transaction types by which to filter the response\n\n - TRANSACTION_TYPE_UNKNOWN: An unknown transaction type\n - DEPOSIT: A fiat or crypto deposit\n - WITHDRAWAL: A fiat or crypto withdrawal\n - INTERNAL_DEPOSIT: An internal fiat or crypto deposit\n - INTERNAL_WITHDRAWAL: An internal fiat or crypto withdrawal\n - SWEEP_DEPOSIT: Internal automated deposit to a cold address from a restored address\n - SWEEP_WITHDRAWAL: Internal automated withdrawal from a restored address to a cold address\n - PROXY_DEPOSIT: On-chain deposit of funds into proxy contract from cold address\n - PROXY_WITHDRAWAL: On-chain withdrawal of funds from proxy contract to cold address\n - BILLING_WITHDRAWAL: Coinbase Prime automated invoice settlement payment\n - REWARD: Reward payment to an associated address for a staked asset\n - COINBASE_REFUND: Coinbase Prime refund for the leftover amount for a CPFP (child pays for parent) transaction\n - TRANSACTION_TYPE_OTHER: An OTHER type of transaction\n - WITHDRAWAL_ADJUSTMENT: A manual adjustment withdrawal transaction\n - DEPOSIT_ADJUSTMENT: A manual adjustment deposit transaction\n - KEY_REGISTRATION: An on-chain registration for an address\n - DELEGATION: An on-chain delegation transaction\n - UNDELEGATION: An on-chain undelegation transaction\n - RESTAKE: On-chain restaking transaction\n - COMPLETE_UNBONDING: On-chain unbonding event transaction\n - WITHDRAW_UNBONDED: On-chain event indicating unbonding period is over\n - STAKE_ACCOUNT_CREATE: On-chain transaction to begin staking from an address\n - CHANGE_VALIDATOR: On-chain transaction alter validator\n - STAKE: On-chain transaction to begin staking in Cryptocurrency network\n - UNSTAKE: On-chain transaction to stop staking in Cryptocurrency network\n - REMOVE_AUTHORIZED_PARTY: On-chain transaction to remove a party from a multi-signature wallet\n - STAKE_AUTHORIZE_WITH_SEED: On-chain transaction to begin staking from a seed account\n - SLASH: On-chain transaction indicating a slash event has occurred\n - COINBASE_DEPOSIT: On-chain transaction deposit for the purpose of transaction operations\n - CONVERSION: Internal conversion between two assets\n - CLAIM_REWARDS: On-chain transaction to claim rewards from Vote Account\n - VOTE_AUTHORIZE: On-chain transaction to transfer the reward claiming permission to other pubkey\n - WEB3_TRANSACTION: On-chain transaction initiated with Prime Onchain Wallet",
+            "description": "The transaction types by which to filter the response\n\n - TRANSACTION_TYPE_UNKNOWN: An unknown transaction type\n - DEPOSIT: A fiat or crypto deposit\n - WITHDRAWAL: A fiat or crypto withdrawal\n - INTERNAL_DEPOSIT: An internal fiat or crypto deposit\n - INTERNAL_WITHDRAWAL: An internal fiat or crypto withdrawal\n - SWEEP_DEPOSIT: Internal automated deposit to a cold address from a restored address\n - SWEEP_WITHDRAWAL: Internal automated withdrawal from a restored address to a cold address\n - PROXY_DEPOSIT: On-chain deposit of funds into proxy contract from cold address\n - PROXY_WITHDRAWAL: On-chain withdrawal of funds from proxy contract to cold address\n - BILLING_WITHDRAWAL: Coinbase Prime automated invoice settlement payment\n - REWARD: Reward payment to an associated address for a staked asset\n - COINBASE_REFUND: Coinbase Prime refund for the leftover amount for a CPFP (child pays for parent) transaction\n - TRANSACTION_TYPE_OTHER: An OTHER type of transaction\n - WITHDRAWAL_ADJUSTMENT: A manual adjustment withdrawal transaction\n - DEPOSIT_ADJUSTMENT: A manual adjustment deposit transaction\n - KEY_REGISTRATION: An on-chain registration for an address\n - DELEGATION: An on-chain delegation transaction\n - UNDELEGATION: An on-chain undelegation transaction\n - RESTAKE: On-chain restaking transaction\n - COMPLETE_UNBONDING: On-chain unbonding event transaction\n - WITHDRAW_UNBONDED: On-chain event indicating unbonding period is over\n - STAKE_ACCOUNT_CREATE: On-chain transaction to begin staking from an address\n - CHANGE_VALIDATOR: On-chain transaction alter validator\n - STAKE: On-chain transaction to begin staking in Cryptocurrency network\n - UNSTAKE: On-chain transaction to stop staking in Cryptocurrency network\n - REMOVE_AUTHORIZED_PARTY: On-chain transaction to remove a party from a multi-signature wallet\n - STAKE_AUTHORIZE_WITH_SEED: On-chain transaction to begin staking from a seed account\n - SLASH: On-chain transaction indicating a slash event has occurred\n - COINBASE_DEPOSIT: On-chain transaction deposit for the purpose of transaction operations\n - CONVERSION: Internal conversion between two assets\n - CLAIM_REWARDS: On-chain transaction to claim rewards from Vote Account\n - VOTE_AUTHORIZE: On-chain transaction to transfer the reward claiming permission to other pubkey\n - WEB3_TRANSACTION: On-chain transaction initiated with Prime Onchain Wallet\nDeprecated: Use ONCHAIN_TRANSACTION instead\n - ONCHAIN_TRANSACTION: On-chain transaction initiated with Prime Onchain Wallet",
             "in": "query",
             "required": false,
             "type": "array",
@@ -2453,7 +2835,8 @@
                 "CONVERSION",
                 "CLAIM_REWARDS",
                 "VOTE_AUTHORIZE",
-                "WEB3_TRANSACTION"
+                "WEB3_TRANSACTION",
+                "ONCHAIN_TRANSACTION"
               ]
             },
             "collectionFormat": "multi"
@@ -3061,6 +3444,50 @@
       ],
       "default": "OTHER_ACTIVITY_TYPE"
     },
+    "coinbase.public_rest_api.AddressEntry": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        },
+        "chain_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "List of compatible chain IDs for a given address, empty for Solana"
+        }
+      }
+    },
+    "coinbase.public_rest_api.AddressGroup": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "network_type": {
+          "$ref": "#/definitions/coinbase.public_rest_api.NetworkType"
+        },
+        "addresses": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/coinbase.public_rest_api.AddressEntry"
+          },
+          "title": "A list of addresses within the group"
+        },
+        "added_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
     "coinbase.public_rest_api.AggregatedFiatBalance": {
       "type": "object",
       "properties": {
@@ -3342,11 +3769,33 @@
       "properties": {
         "address": {
           "type": "string",
-          "title": "The destination value for the withdrawal"
+          "description": "The address on the network",
+          "title": "The address"
         },
         "account_identifier": {
           "type": "string",
+          "description": "The account identifier (used on some chains to distinguish accounts using the same address)",
           "title": "The destination value’s account_identifier (MEMO/DESTINATION TAG) value\n for the withdrawal"
+        },
+        "network": {
+          "$ref": "#/definitions/coinbase.public_rest_api.Network",
+          "description": "The network this address belongs to",
+          "title": "The network"
+        }
+      }
+    },
+    "coinbase.public_rest_api.CancelFuturesSweepResponse": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "example": true,
+          "description": "Success"
+        },
+        "request_id": {
+          "type": "string",
+          "example": "00000000-0000-0000-0000-000000000000",
+          "description": "Request ID"
         }
       }
     },
@@ -3571,6 +4020,10 @@
         "wallet_type": {
           "$ref": "#/definitions/coinbase.public_rest_api.WalletType",
           "title": "The type of wallet"
+        },
+        "network_family": {
+          "$ref": "#/definitions/coinbase.public_rest_api.NetworkFamily",
+          "title": "The network family"
         }
       }
     },
@@ -3764,6 +4217,114 @@
         }
       }
     },
+    "coinbase.public_rest_api.FcmFuturesSweep": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "example": "00000000-0000-0000-0000-000000000000",
+          "description": "Sweep ID"
+        },
+        "requested_amount": {
+          "$ref": "#/definitions/coinbase.public_rest_api.FcmFuturesSweep.RequestAmount",
+          "example": "1000.00",
+          "description": "Requested amount"
+        },
+        "should_sweep_all": {
+          "type": "boolean",
+          "example": true,
+          "description": "Should sweep all"
+        },
+        "status": {
+          "$ref": "#/definitions/coinbase.public_rest_api.FcmFuturesSweepStatus",
+          "example": "FCM_FUTURES_SWEEP_STATUS_PENDING",
+          "description": "Sweep status"
+        },
+        "scheduled_time": {
+          "type": "string",
+          "format": "date-time",
+          "example": "2021-01-01T00:00:00Z",
+          "description": "Scheduled time"
+        }
+      }
+    },
+    "coinbase.public_rest_api.FcmFuturesSweep.RequestAmount": {
+      "type": "object",
+      "properties": {
+        "currency": {
+          "type": "string",
+          "example": "USD",
+          "description": "Currency"
+        },
+        "amount": {
+          "type": "string",
+          "example": "1000.00",
+          "description": "Amount"
+        }
+      }
+    },
+    "coinbase.public_rest_api.FcmFuturesSweepStatus": {
+      "type": "string",
+      "enum": [
+        "FCM_FUTURES_SWEEP_STATUS_UNSPECIFIED",
+        "FCM_FUTURES_SWEEP_STATUS_PENDING",
+        "FCM_FUTURES_SWEEP_STATUS_CLOSED",
+        "FCM_FUTURES_SWEEP_STATUS_CANCELED",
+        "FCM_FUTURES_SWEEP_STATUS_PROCESSING"
+      ],
+      "default": "FCM_FUTURES_SWEEP_STATUS_UNSPECIFIED"
+    },
+    "coinbase.public_rest_api.FcmPosition": {
+      "type": "object",
+      "properties": {
+        "product_id": {
+          "type": "string",
+          "example": "BTC-31JAN24-CDE",
+          "description": "Product ID"
+        },
+        "side": {
+          "$ref": "#/definitions/coinbase.public_rest_api.FcmPositionSide",
+          "example": "LONG",
+          "description": "Position side"
+        },
+        "number_of_contracts": {
+          "type": "string",
+          "example": "10",
+          "description": "Number of contracts"
+        },
+        "daily_realized_pnl": {
+          "type": "string",
+          "example": "10.12",
+          "description": "Daily realized PNL"
+        },
+        "unrealized_pnl": {
+          "type": "string",
+          "example": "10.12",
+          "description": "Unrealized PNL"
+        },
+        "current_price": {
+          "type": "string",
+          "example": "10.12",
+          "description": "Current price of position"
+        },
+        "avg_entry_price": {
+          "type": "string",
+          "example": "10.12",
+          "description": "Average entry price"
+        },
+        "expiration_time": {
+          "type": "string",
+          "format": "date-time",
+          "example": "2021-01-01T00:00:00Z",
+          "description": "Expiration time of position"
+        }
+      }
+    },
+    "coinbase.public_rest_api.FcmPositionSide": {
+      "type": "string",
+      "enum": ["FCM_POSITION_SIDE_UNSPECIFIED", "LONG", "SHORT"],
+      "default": "FCM_POSITION_SIDE_UNSPECIFIED"
+    },
     "coinbase.public_rest_api.Fill": {
       "type": "object",
       "properties": {
@@ -3912,6 +4473,71 @@
         "pagination": {
           "$ref": "#/definitions/coinbase.public_rest_api.PaginatedResponse",
           "title": "Pagination information"
+        }
+      }
+    },
+    "coinbase.public_rest_api.GetFcmBalanceResponse": {
+      "type": "object",
+      "properties": {
+        "portfolio_id": {
+          "type": "string",
+          "example": "00000000-0000-0000-0000-000000000000",
+          "description": "Portfolio ID"
+        },
+        "cfm_usd_balance": {
+          "type": "string",
+          "example": "1000.00",
+          "description": "CFM USD balance"
+        },
+        "unrealized_pnl": {
+          "type": "string",
+          "example": "10.12",
+          "description": "Unrealized PNL"
+        },
+        "daily_realized_pnl": {
+          "type": "string",
+          "example": "10.12",
+          "description": "Daily realized PNL"
+        },
+        "excess_liquidity": {
+          "type": "string",
+          "example": "10.12",
+          "description": "Excess liquidity"
+        },
+        "futures_buying_power": {
+          "type": "string",
+          "example": "10.12",
+          "description": "Futures buying power"
+        },
+        "initial_margin": {
+          "type": "string",
+          "example": "10.12",
+          "description": "Initial margin"
+        },
+        "maintenance_margin": {
+          "type": "string",
+          "example": "10.12",
+          "description": "Maintenance margin"
+        },
+        "clearing_account_id": {
+          "type": "string",
+          "example": "CFS1234567",
+          "description": "Clearing account ID"
+        }
+      }
+    },
+    "coinbase.public_rest_api.GetFuturesSweepsResponse": {
+      "type": "object",
+      "properties": {
+        "sweeps": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/coinbase.public_rest_api.FcmFuturesSweep"
+          }
+        },
+        "auto_sweep": {
+          "type": "boolean"
         }
       }
     },
@@ -4067,6 +4693,9 @@
         },
         "vault_balances": {
           "$ref": "#/definitions/coinbase.public_rest_api.AggregatedFiatBalance"
+        },
+        "prime_custody_balances": {
+          "$ref": "#/definitions/coinbase.public_rest_api.AggregatedFiatBalance"
         }
       }
     },
@@ -4166,6 +4795,23 @@
         }
       }
     },
+    "coinbase.public_rest_api.GetPositionsResponse": {
+      "type": "object",
+      "properties": {
+        "positions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/coinbase.public_rest_api.FcmPosition"
+          }
+        },
+        "clearing_account_id": {
+          "type": "string",
+          "example": "CFS1234567",
+          "description": "Clearing account ID"
+        }
+      }
+    },
     "coinbase.public_rest_api.GetPostTradeCreditResponse": {
       "type": "object",
       "properties": {
@@ -4182,6 +4828,24 @@
           "$ref": "#/definitions/coinbase.public_rest_api.Transaction"
         }
       }
+    },
+    "coinbase.public_rest_api.GetWalletAddressesResponse": {
+      "type": "object",
+      "properties": {
+        "addresses": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/coinbase.public_rest_api.BlockchainAddress"
+          },
+          "title": "Addresses"
+        },
+        "pagination": {
+          "$ref": "#/definitions/coinbase.public_rest_api.PaginatedResponse",
+          "title": "paginated response"
+        }
+      },
+      "required": ["addresses", "pagination"]
     },
     "coinbase.public_rest_api.GetWalletBalanceResponse": {
       "type": "object",
@@ -4351,6 +5015,19 @@
       "default": "INVOICE_TYPE_UNSPECIFIED",
       "title": "Types"
     },
+    "coinbase.public_rest_api.ListOnchainAddressGroupsResponse": {
+      "type": "object",
+      "properties": {
+        "address_groups": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/coinbase.public_rest_api.AddressGroup"
+          }
+        }
+      },
+      "required": ["address_groups"]
+    },
     "coinbase.public_rest_api.ListWeb3WalletBalancesResponse": {
       "type": "object",
       "properties": {
@@ -4403,6 +5080,88 @@
         "name": {
           "type": "string",
           "description": "NFT item name"
+        }
+      }
+    },
+    "coinbase.public_rest_api.Network": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The network id: base, bitcoin, ethereum, solana etc",
+          "title": "The name of the network"
+        },
+        "type": {
+          "type": "string",
+          "description": "The network type: mainnet, testnet, etc",
+          "title": "The network type"
+        }
+      }
+    },
+    "coinbase.public_rest_api.NetworkFamily": {
+      "type": "string",
+      "enum": [
+        "NETWORK_FAMILY_UNSPECIFIED",
+        "NETWORK_FAMILY_EVM",
+        "NETWORK_FAMILY_SOLANA"
+      ],
+      "default": "NETWORK_FAMILY_UNSPECIFIED"
+    },
+    "coinbase.public_rest_api.NetworkType": {
+      "type": "string",
+      "enum": [
+        "NETWORK_TYPE_UNSPECIFIED",
+        "NETWORK_TYPE_EVM",
+        "NETWORK_TYPE_SOLANA"
+      ],
+      "default": "NETWORK_TYPE_UNSPECIFIED"
+    },
+    "coinbase.public_rest_api.OnchainTransactionDetails": {
+      "type": "object",
+      "properties": {
+        "signed_transaction": {
+          "type": "string",
+          "example": "01ac1872bb2967df00124a7fd15e470a10aab04852e19fc6f...",
+          "description": "The signed transaction data"
+        },
+        "risk_assessment": {
+          "$ref": "#/definitions/coinbase.public_rest_api.RiskAssessment",
+          "description": "Risk assessment details for the transaction"
+        },
+        "chain_id": {
+          "type": "string",
+          "example": "1",
+          "description": "The blockchain network chain ID. Will be empty for Solana transactions."
+        },
+        "nonce": {
+          "type": "string",
+          "example": "42",
+          "description": "The transaction nonce. Only present for EVM-based blockchain transactions."
+        },
+        "replaced_transaction_id": {
+          "type": "string",
+          "example": "123e4567-e89b-12d3-a456-426614174000",
+          "description": "The ID of the transaction that this transaction replaced"
+        },
+        "destination_address": {
+          "type": "string",
+          "example": "0x742d35Cc6634C0532925a3b844Bc454e4438f44e",
+          "description": "The destination address for the transaction"
+        },
+        "skip_broadcast": {
+          "type": "boolean",
+          "example": false,
+          "description": "Flag indicating whether broadcasting should be skipped"
+        },
+        "failure_reason": {
+          "type": "string",
+          "example": "insufficient_funds",
+          "description": "Reason for transaction failure if applicable"
+        },
+        "signing_status": {
+          "$ref": "#/definitions/coinbase.public_rest_api.SigningStatus",
+          "example": "SIGNED",
+          "description": "The signing status of the transaction"
         }
       }
     },
@@ -4526,6 +5285,11 @@
           "type": "string",
           "example": "57.68",
           "description": "Indicates the average `filled_price` net of commissions and fees"
+        },
+        "user_context": {
+          "type": "string",
+          "example": "User initiated cancellation",
+          "description": "Provides a user friendly message indicating the status of the order, including cancellation or rejection reasons"
         }
       }
     },
@@ -4560,10 +5324,11 @@
         "TWAP",
         "BLOCK",
         "VWAP",
-        "STOP_LIMIT"
+        "STOP_LIMIT",
+        "RFQ"
       ],
       "default": "UNKNOWN_ORDER_TYPE",
-      "description": "- UNKNOWN_ORDER_TYPE: nil value\n - MARKET: A [market order](https://en.wikipedia.org/wiki/Order_(exchange)#Market_order)\n - LIMIT: A [limit order](https://en.wikipedia.org/wiki/Order_(exchange)#Limit_order)\n - TWAP: A [time-weighted average price order](https://en.wikipedia.org/wiki/Time-weighted_average_price)\n - BLOCK: A [block trade](https://en.wikipedia.org/wiki/Block_trade)\n - VWAP: A [volume-weighted average price order](https://en.wikipedia.org/wiki/Volume-weighted_average_price)\n - STOP_LIMIT: A [conditional order combined of stop order and limit order](https://en.wikipedia.org/wiki/Order_(exchange)#Stop-limit_order)",
+      "description": "- UNKNOWN_ORDER_TYPE: nil value\n - MARKET: A [market order](https://en.wikipedia.org/wiki/Order_(exchange)#Market_order)\n - LIMIT: A [limit order](https://en.wikipedia.org/wiki/Order_(exchange)#Limit_order)\n - TWAP: A [time-weighted average price order](https://en.wikipedia.org/wiki/Time-weighted_average_price)\n - BLOCK: A [block trade](https://en.wikipedia.org/wiki/Block_trade)\n - VWAP: A [volume-weighted average price order](https://en.wikipedia.org/wiki/Volume-weighted_average_price)\n - STOP_LIMIT: A [conditional order combined of stop order and limit order](https://en.wikipedia.org/wiki/Order_(exchange)#Stop-limit_order)\n - RFQ: A [request for quote](https://en.wikipedia.org/wiki/Request_for_quote)",
       "title": "Strategy (execution algorithm)"
     },
     "coinbase.public_rest_api.PaginatedResponse": {
@@ -4687,10 +5452,11 @@
         "UNKNOWN_BALANCE_TYPE",
         "TRADING_BALANCES",
         "VAULT_BALANCES",
-        "TOTAL_BALANCES"
+        "TOTAL_BALANCES",
+        "PRIME_CUSTODY_BALANCES"
       ],
       "default": "UNKNOWN_BALANCE_TYPE",
-      "title": "- UNKNOWN_BALANCE_TYPE: nil\n - TRADING_BALANCES: Trading balances\n - VAULT_BALANCES: Vault balances\n - TOTAL_BALANCES: Total balances (The sum of vault and trading)"
+      "title": "- UNKNOWN_BALANCE_TYPE: nil\n - TRADING_BALANCES: Trading balances\n - VAULT_BALANCES: Vault balances\n - TOTAL_BALANCES: Total balances (The sum of vault and trading)\n - PRIME_CUSTODY_BALANCES: Prime custody balances"
     },
     "coinbase.public_rest_api.PortfolioUser": {
       "type": "object",
@@ -4939,6 +5705,53 @@
       ],
       "default": "PRODUCT_PERMISSION_UNKNOWN"
     },
+    "coinbase.public_rest_api.RiskAssessment": {
+      "type": "object",
+      "properties": {
+        "compliance_risk_detected": {
+          "type": "boolean",
+          "example": false,
+          "description": "Indicates if the transaction has been flagged for compliance concerns"
+        },
+        "security_risk_detected": {
+          "type": "boolean",
+          "example": false,
+          "description": "Indicates if the transaction has been flagged for security concerns"
+        }
+      },
+      "title": "New message for risk assessment details"
+    },
+    "coinbase.public_rest_api.ScheduleFuturesSweepResponse": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "example": true,
+          "description": "Success"
+        },
+        "request_id": {
+          "type": "string",
+          "example": "00000000-0000-0000-0000-000000000000",
+          "description": "Request ID"
+        }
+      }
+    },
+    "coinbase.public_rest_api.SetAutoSweepResponse": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "example": true,
+          "description": "Success"
+        }
+      }
+    },
+    "coinbase.public_rest_api.SigningStatus": {
+      "type": "string",
+      "enum": ["SIGNING_STATUS_UNKNOWN", "SIGNED", "UNSIGNED"],
+      "default": "SIGNING_STATUS_UNKNOWN",
+      "title": "- SIGNING_STATUS_UNKNOWN: Unknown signing status\n - SIGNED: Transaction has been signed\n - UNSIGNED: Transaction is unsigned"
+    },
     "coinbase.public_rest_api.SortDirection": {
       "type": "string",
       "enum": ["DESC", "ASC"],
@@ -5076,6 +5889,11 @@
         "idempotency_key": {
           "type": "string",
           "description": "The idempotency key associated with the transaction creation request"
+        },
+        "onchain_details": {
+          "$ref": "#/definitions/coinbase.public_rest_api.OnchainTransactionDetails",
+          "description": "Details specific to onchain transactions. Only present when type is ONCHAIN_TRANSACTION",
+          "title": "Onchain transaction specific fields"
         }
       }
     },
@@ -5085,6 +5903,10 @@
         "match_metadata": {
           "$ref": "#/definitions/coinbase.public_rest_api.MatchMetadata",
           "description": "Metadata pertaining to a match transaction"
+        },
+        "web3_transaction_metadata": {
+          "$ref": "#/definitions/coinbase.public_rest_api.Web3TransactionMetadata",
+          "description": "Metadata pertaining to a web3 transaction"
         }
       }
     },
@@ -5153,10 +5975,11 @@
         "CONVERSION",
         "CLAIM_REWARDS",
         "VOTE_AUTHORIZE",
-        "WEB3_TRANSACTION"
+        "WEB3_TRANSACTION",
+        "ONCHAIN_TRANSACTION"
       ],
       "default": "TRANSACTION_TYPE_UNKNOWN",
-      "description": "- TRANSACTION_TYPE_UNKNOWN: An unknown transaction type\n - DEPOSIT: A fiat or crypto deposit\n - WITHDRAWAL: A fiat or crypto withdrawal\n - INTERNAL_DEPOSIT: An internal fiat or crypto deposit\n - INTERNAL_WITHDRAWAL: An internal fiat or crypto withdrawal\n - SWEEP_DEPOSIT: Internal automated deposit to a cold address from a restored address\n - SWEEP_WITHDRAWAL: Internal automated withdrawal from a restored address to a cold address\n - PROXY_DEPOSIT: On-chain deposit of funds into proxy contract from cold address\n - PROXY_WITHDRAWAL: On-chain withdrawal of funds from proxy contract to cold address\n - BILLING_WITHDRAWAL: Coinbase Prime automated invoice settlement payment\n - REWARD: Reward payment to an associated address for a staked asset\n - COINBASE_REFUND: Coinbase Prime refund for the leftover amount for a CPFP (child pays for parent) transaction\n - TRANSACTION_TYPE_OTHER: An OTHER type of transaction\n - WITHDRAWAL_ADJUSTMENT: A manual adjustment withdrawal transaction\n - DEPOSIT_ADJUSTMENT: A manual adjustment deposit transaction\n - KEY_REGISTRATION: An on-chain registration for an address\n - DELEGATION: An on-chain delegation transaction\n - UNDELEGATION: An on-chain undelegation transaction\n - RESTAKE: On-chain restaking transaction\n - COMPLETE_UNBONDING: On-chain unbonding event transaction\n - WITHDRAW_UNBONDED: On-chain event indicating unbonding period is over\n - STAKE_ACCOUNT_CREATE: On-chain transaction to begin staking from an address\n - CHANGE_VALIDATOR: On-chain transaction alter validator\n - STAKE: On-chain transaction to begin staking in Cryptocurrency network\n - UNSTAKE: On-chain transaction to stop staking in Cryptocurrency network\n - REMOVE_AUTHORIZED_PARTY: On-chain transaction to remove a party from a multi-signature wallet\n - STAKE_AUTHORIZE_WITH_SEED: On-chain transaction to begin staking from a seed account\n - SLASH: On-chain transaction indicating a slash event has occurred\n - COINBASE_DEPOSIT: On-chain transaction deposit for the purpose of transaction operations\n - CONVERSION: Internal conversion between two assets\n - CLAIM_REWARDS: On-chain transaction to claim rewards from Vote Account\n - VOTE_AUTHORIZE: On-chain transaction to transfer the reward claiming permission to other pubkey\n - WEB3_TRANSACTION: On-chain transaction initiated with Prime Onchain Wallet",
+      "description": "- TRANSACTION_TYPE_UNKNOWN: An unknown transaction type\n - DEPOSIT: A fiat or crypto deposit\n - WITHDRAWAL: A fiat or crypto withdrawal\n - INTERNAL_DEPOSIT: An internal fiat or crypto deposit\n - INTERNAL_WITHDRAWAL: An internal fiat or crypto withdrawal\n - SWEEP_DEPOSIT: Internal automated deposit to a cold address from a restored address\n - SWEEP_WITHDRAWAL: Internal automated withdrawal from a restored address to a cold address\n - PROXY_DEPOSIT: On-chain deposit of funds into proxy contract from cold address\n - PROXY_WITHDRAWAL: On-chain withdrawal of funds from proxy contract to cold address\n - BILLING_WITHDRAWAL: Coinbase Prime automated invoice settlement payment\n - REWARD: Reward payment to an associated address for a staked asset\n - COINBASE_REFUND: Coinbase Prime refund for the leftover amount for a CPFP (child pays for parent) transaction\n - TRANSACTION_TYPE_OTHER: An OTHER type of transaction\n - WITHDRAWAL_ADJUSTMENT: A manual adjustment withdrawal transaction\n - DEPOSIT_ADJUSTMENT: A manual adjustment deposit transaction\n - KEY_REGISTRATION: An on-chain registration for an address\n - DELEGATION: An on-chain delegation transaction\n - UNDELEGATION: An on-chain undelegation transaction\n - RESTAKE: On-chain restaking transaction\n - COMPLETE_UNBONDING: On-chain unbonding event transaction\n - WITHDRAW_UNBONDED: On-chain event indicating unbonding period is over\n - STAKE_ACCOUNT_CREATE: On-chain transaction to begin staking from an address\n - CHANGE_VALIDATOR: On-chain transaction alter validator\n - STAKE: On-chain transaction to begin staking in Cryptocurrency network\n - UNSTAKE: On-chain transaction to stop staking in Cryptocurrency network\n - REMOVE_AUTHORIZED_PARTY: On-chain transaction to remove a party from a multi-signature wallet\n - STAKE_AUTHORIZE_WITH_SEED: On-chain transaction to begin staking from a seed account\n - SLASH: On-chain transaction indicating a slash event has occurred\n - COINBASE_DEPOSIT: On-chain transaction deposit for the purpose of transaction operations\n - CONVERSION: Internal conversion between two assets\n - CLAIM_REWARDS: On-chain transaction to claim rewards from Vote Account\n - VOTE_AUTHORIZE: On-chain transaction to transfer the reward claiming permission to other pubkey\n - WEB3_TRANSACTION: On-chain transaction initiated with Prime Onchain Wallet\nDeprecated: Use ONCHAIN_TRANSACTION instead\n - ONCHAIN_TRANSACTION: On-chain transaction initiated with Prime Onchain Wallet",
       "title": "Indicates the transaction type"
     },
     "coinbase.public_rest_api.TransferLocation": {
@@ -5256,6 +6079,10 @@
         "address": {
           "type": "string",
           "title": "The active address of the wallet"
+        },
+        "visibility": {
+          "$ref": "#/definitions/coinbase.public_rest_api.WalletVisibility",
+          "title": "The visibility of the wallet"
         }
       }
     },
@@ -5298,7 +6125,7 @@
       "type": "string",
       "enum": ["UNKNOWN_WALLET_DEPOSIT_TYPE", "CRYPTO", "WIRE", "SEN", "SWIFT"],
       "default": "UNKNOWN_WALLET_DEPOSIT_TYPE",
-      "description": "- UNKNOWN_WALLET_DEPOSIT_TYPE: nil value\n - CRYPTO: A cryptocurrency deposit\n - WIRE: A wire deposit\n - SEN: A Silvergate Exchange Network deposit\n - SWIFT: A SWIFT deposit",
+      "description": "- UNKNOWN_WALLET_DEPOSIT_TYPE: nil value\n - CRYPTO: A cryptocurrency deposit\n - WIRE: A wire deposit\n - SEN: DEPRECATED. A Silvergate Exchange Network deposit\n - SWIFT: A SWIFT deposit",
       "title": "Indicates the wallet's deposit instruction type"
     },
     "coinbase.public_rest_api.WalletFiatDepositInstructions": {
@@ -5337,12 +6164,21 @@
         "VAULT",
         "TRADING",
         "WALLET_TYPE_OTHER",
-        "WEB3",
-        "QC"
+        "QC",
+        "ONCHAIN"
       ],
       "default": "UNKNOWN_WALLET_TYPE",
-      "description": "- VAULT: A crypto vault\n - TRADING: A trading wallet\n - WALLET_TYPE_OTHER: Other wallet types (like consumer, etc)\n - WEB3: An Onchain wallet\n - QC: A QC Wallet",
+      "description": "- VAULT: A crypto vault\n - TRADING: A trading wallet\n - WALLET_TYPE_OTHER: Other wallet types (like consumer, etc)\n - QC: A QC Wallet\n - ONCHAIN: An Onchain wallet",
       "title": "Indicates the wallet type"
+    },
+    "coinbase.public_rest_api.WalletVisibility": {
+      "type": "string",
+      "enum": [
+        "WALLET_VISIBILITY_UNSPECIFIED",
+        "WALLET_VISIBILITY_VISIBLE",
+        "WALLET_VISIBILITY_HIDDEN"
+      ],
+      "default": "WALLET_VISIBILITY_UNSPECIFIED"
     },
     "coinbase.public_rest_api.Web3Asset": {
       "type": "object",
@@ -5384,6 +6220,23 @@
         "visibility_status": {
           "$ref": "#/definitions/coinbase.public_rest_api.VisibilityStatus",
           "description": "Visibility status of the balance."
+        }
+      }
+    },
+    "coinbase.public_rest_api.Web3TransactionMetadata": {
+      "type": "object",
+      "properties": {
+        "label": {
+          "type": "string",
+          "description": "The transaction type label of the confirmed transaction post settlement"
+        },
+        "confirmed_asset_changes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/coinbase.public_rest_api.AssetChange"
+          },
+          "description": "The confirmed asset changes (onchain)"
         }
       }
     },

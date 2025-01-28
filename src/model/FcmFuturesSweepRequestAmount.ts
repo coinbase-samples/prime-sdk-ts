@@ -18,17 +18,13 @@
  *  Do not edit the class manually.
  */
 
-import { AggregatedFiatBalance } from './AggregatedFiatBalance';
-import { Balance } from './Balance';
-import { PortfolioBalanceType } from './enums/PortfolioBalanceType';
-
-export type GetPortfolioBalancesResponse = {
+export type FcmFuturesSweepRequestAmount = {
   /**
-   * A list of balances.
+   * Currency
    */
-  balances?: Array<Balance>;
-  type?: PortfolioBalanceType;
-  tradingBalances?: AggregatedFiatBalance;
-  vaultBalances?: AggregatedFiatBalance;
-  primeCustodyBalances?: AggregatedFiatBalance;
+  currency?: string;
+  /**
+   * Amount
+   */
+  amount?: string;
 };
