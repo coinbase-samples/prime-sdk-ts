@@ -19,6 +19,7 @@
  */
 
 import { WalletType } from './enums/WalletType';
+import { WalletVisibility } from './enums/WalletVisibility';
 
 export type Wallet = {
   id?: string;
@@ -27,4 +28,5 @@ export type Wallet = {
   type?: WalletType;
   createdAt?: Date;
   address?: string;
+  visibility?: WalletVisibility;
 };

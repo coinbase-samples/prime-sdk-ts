@@ -20,6 +20,7 @@
 
 import { AssetChange } from './AssetChange';
 import { EstimatedNetworkFees } from './EstimatedNetworkFees';
+import { OnchainTransactionDetails } from './OnchainTransactionDetails';
 import { TransactionMetadata } from './TransactionMetadata';
 import { TransactionStatus } from './enums/TransactionStatus';
 import { TransactionType } from './enums/TransactionType';
@@ -96,4 +97,5 @@ export type Transaction = {
    * The idempotency key associated with the transaction creation request
    */
   idempotencyKey?: string;
+  onchainDetails?: OnchainTransactionDetails;
 };

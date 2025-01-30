@@ -18,6 +18,7 @@
  *  Do not edit the class manually.
  */
 
+import { NetworkFamily } from './enums/NetworkFamily';
 import { WalletType } from './enums/WalletType';
 
 export type CreateWalletResponse = {
@@ -25,4 +26,5 @@ export type CreateWalletResponse = {
   name?: string;
   symbol?: string;
   walletType?: WalletType;
+  networkFamily?: NetworkFamily;
 };

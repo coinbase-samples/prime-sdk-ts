@@ -18,17 +18,9 @@
  *  Do not edit the class manually.
  */
 
-import { AggregatedFiatBalance } from './AggregatedFiatBalance';
-import { Balance } from './Balance';
-import { PortfolioBalanceType } from './enums/PortfolioBalanceType';
-
-export type GetPortfolioBalancesResponse = {
+export type SetAutoSweepRequest = {
   /**
-   * A list of balances.
+   * Auto sweep status, default to false
    */
-  balances?: Array<Balance>;
-  type?: PortfolioBalanceType;
-  tradingBalances?: AggregatedFiatBalance;
-  vaultBalances?: AggregatedFiatBalance;
-  primeCustodyBalances?: AggregatedFiatBalance;
+  autoSweep: boolean;
 };

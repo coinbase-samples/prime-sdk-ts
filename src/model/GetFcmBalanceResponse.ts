@@ -18,17 +18,41 @@
  *  Do not edit the class manually.
  */
 
-import { AggregatedFiatBalance } from './AggregatedFiatBalance';
-import { Balance } from './Balance';
-import { PortfolioBalanceType } from './enums/PortfolioBalanceType';
-
-export type GetPortfolioBalancesResponse = {
+export type GetFcmBalanceResponse = {
   /**
-   * A list of balances.
+   * Portfolio ID
    */
-  balances?: Array<Balance>;
-  type?: PortfolioBalanceType;
-  tradingBalances?: AggregatedFiatBalance;
-  vaultBalances?: AggregatedFiatBalance;
-  primeCustodyBalances?: AggregatedFiatBalance;
+  portfolioId?: string;
+  /**
+   * CFM USD balance
+   */
+  cfmUsdBalance?: string;
+  /**
+   * Unrealized PNL
+   */
+  unrealizedPnl?: string;
+  /**
+   * Daily realized PNL
+   */
+  dailyRealizedPnl?: string;
+  /**
+   * Excess liquidity
+   */
+  excessLiquidity?: string;
+  /**
+   * Futures buying power
+   */
+  futuresBuyingPower?: string;
+  /**
+   * Initial margin
+   */
+  initialMargin?: string;
+  /**
+   * Maintenance margin
+   */
+  maintenanceMargin?: string;
+  /**
+   * Clearing account ID
+   */
+  clearingAccountId?: string;
 };

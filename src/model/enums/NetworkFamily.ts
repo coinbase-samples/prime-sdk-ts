@@ -18,17 +18,8 @@
  *  Do not edit the class manually.
  */
 
-import { AggregatedFiatBalance } from './AggregatedFiatBalance';
-import { Balance } from './Balance';
-import { PortfolioBalanceType } from './enums/PortfolioBalanceType';
-
-export type GetPortfolioBalancesResponse = {
-  /**
-   * A list of balances.
-   */
-  balances?: Array<Balance>;
-  type?: PortfolioBalanceType;
-  tradingBalances?: AggregatedFiatBalance;
-  vaultBalances?: AggregatedFiatBalance;
-  primeCustodyBalances?: AggregatedFiatBalance;
-};
+export enum NetworkFamily {
+  Unspecified = 'NETWORK_FAMILY_UNSPECIFIED',
+  Evm = 'NETWORK_FAMILY_EVM',
+  Solana = 'NETWORK_FAMILY_SOLANA',
+}

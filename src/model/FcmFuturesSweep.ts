@@ -18,17 +18,22 @@
  *  Do not edit the class manually.
  */
 
-import { AggregatedFiatBalance } from './AggregatedFiatBalance';
-import { Balance } from './Balance';
-import { PortfolioBalanceType } from './enums/PortfolioBalanceType';
+import { FcmFuturesSweepRequestAmount } from './FcmFuturesSweepRequestAmount';
+import { FcmFuturesSweepStatus } from './enums/FcmFuturesSweepStatus';
 
-export type GetPortfolioBalancesResponse = {
+export type FcmFuturesSweep = {
   /**
-   * A list of balances.
+   * Sweep ID
    */
-  balances?: Array<Balance>;
-  type?: PortfolioBalanceType;
-  tradingBalances?: AggregatedFiatBalance;
-  vaultBalances?: AggregatedFiatBalance;
-  primeCustodyBalances?: AggregatedFiatBalance;
+  id?: string;
+  requestedAmount?: FcmFuturesSweepRequestAmount;
+  /**
+   * Should sweep all
+   */
+  shouldSweepAll?: boolean;
+  status?: FcmFuturesSweepStatus;
+  /**
+   * Scheduled time
+   */
+  scheduledTime?: Date;
 };

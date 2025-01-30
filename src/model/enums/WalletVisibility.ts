@@ -18,17 +18,8 @@
  *  Do not edit the class manually.
  */
 
-import { AggregatedFiatBalance } from './AggregatedFiatBalance';
-import { Balance } from './Balance';
-import { PortfolioBalanceType } from './enums/PortfolioBalanceType';
-
-export type GetPortfolioBalancesResponse = {
-  /**
-   * A list of balances.
-   */
-  balances?: Array<Balance>;
-  type?: PortfolioBalanceType;
-  tradingBalances?: AggregatedFiatBalance;
-  vaultBalances?: AggregatedFiatBalance;
-  primeCustodyBalances?: AggregatedFiatBalance;
-};
+export enum WalletVisibility {
+  Unspecified = 'WALLET_VISIBILITY_UNSPECIFIED',
+  Visible = 'WALLET_VISIBILITY_VISIBLE',
+  Hidden = 'WALLET_VISIBILITY_HIDDEN',
+}

@@ -18,17 +18,13 @@
  *  Do not edit the class manually.
  */
 
-import { AggregatedFiatBalance } from './AggregatedFiatBalance';
-import { Balance } from './Balance';
-import { PortfolioBalanceType } from './enums/PortfolioBalanceType';
+import { AddressEntry } from './AddressEntry';
+import { NetworkType } from './enums/NetworkType';
 
-export type GetPortfolioBalancesResponse = {
-  /**
-   * A list of balances.
-   */
-  balances?: Array<Balance>;
-  type?: PortfolioBalanceType;
-  tradingBalances?: AggregatedFiatBalance;
-  vaultBalances?: AggregatedFiatBalance;
-  primeCustodyBalances?: AggregatedFiatBalance;
+export type AddressGroup = {
+  id?: string;
+  name?: string;
+  networkType?: NetworkType;
+  addresses?: Array<AddressEntry>;
+  addedAt?: Date;
 };

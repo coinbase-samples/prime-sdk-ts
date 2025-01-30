@@ -18,17 +18,12 @@
  *  Do not edit the class manually.
  */
 
-import { AggregatedFiatBalance } from './AggregatedFiatBalance';
-import { Balance } from './Balance';
-import { PortfolioBalanceType } from './enums/PortfolioBalanceType';
+import { FcmPosition } from './FcmPosition';
 
-export type GetPortfolioBalancesResponse = {
+export type GetPositionsResponse = {
+  positions?: Array<FcmPosition>;
   /**
-   * A list of balances.
+   * Clearing account ID
    */
-  balances?: Array<Balance>;
-  type?: PortfolioBalanceType;
-  tradingBalances?: AggregatedFiatBalance;
-  vaultBalances?: AggregatedFiatBalance;
-  primeCustodyBalances?: AggregatedFiatBalance;
+  clearingAccountId?: string;
 };

@@ -104,4 +104,8 @@ export type Order = {
    * Indicates the average `filled_price` net of commissions and fees
    */
   netAverageFilledPrice?: string;
+  /**
+   * Provides a user friendly message indicating the status of the order, including cancellation or rejection reasons
+   */
+  userContext?: string;
 };

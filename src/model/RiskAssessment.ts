@@ -18,17 +18,13 @@
  *  Do not edit the class manually.
  */
 
-import { AggregatedFiatBalance } from './AggregatedFiatBalance';
-import { Balance } from './Balance';
-import { PortfolioBalanceType } from './enums/PortfolioBalanceType';
-
-export type GetPortfolioBalancesResponse = {
+export type RiskAssessment = {
   /**
-   * A list of balances.
+   * Indicates if the transaction has been flagged for compliance concerns
    */
-  balances?: Array<Balance>;
-  type?: PortfolioBalanceType;
-  tradingBalances?: AggregatedFiatBalance;
-  vaultBalances?: AggregatedFiatBalance;
-  primeCustodyBalances?: AggregatedFiatBalance;
+  complianceRiskDetected?: boolean;
+  /**
+   * Indicates if the transaction has been flagged for security concerns
+   */
+  securityRiskDetected?: boolean;
 };
