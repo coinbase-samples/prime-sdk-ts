@@ -1406,6 +1406,130 @@
         "tags": ["Orders"]
       }
     },
+    "/v1/portfolios/{portfolio_id}/onchain_address_group": {
+      "post": {
+        "summary": "Create Onchain Address Book Entry",
+        "description": "Creates an entry to the portfolio's onchain address groups.",
+        "operationId": "PrimeRESTAPI_CreateOnchainAddressGroup",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/coinbase.public_rest_api.ActivityCreationResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/google.rpc.Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "portfolio_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "address_group": {
+                  "$ref": "#/definitions/coinbase.public_rest_api.AddressGroup"
+                }
+              },
+              "title": "ChangeOnchainAddressGroupRequest is a request to create or update a new onchain address group",
+              "required": ["address_group"]
+            }
+          }
+        ],
+        "tags": ["Onchain Address Book"]
+      },
+      "put": {
+        "summary": "Update Onchain Address Book Entry",
+        "description": "Updates an entry to the portfolio's onchain address groups.",
+        "operationId": "PrimeRESTAPI_UpdateOnchainAddressGroup",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/coinbase.public_rest_api.ActivityCreationResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/google.rpc.Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "portfolio_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "address_group": {
+                  "$ref": "#/definitions/coinbase.public_rest_api.AddressGroup"
+                }
+              },
+              "title": "ChangeOnchainAddressGroupRequest is a request to create or update a new onchain address group",
+              "required": ["address_group"]
+            }
+          }
+        ],
+        "tags": ["Onchain Address Book"]
+      }
+    },
+    "/v1/portfolios/{portfolio_id}/onchain_address_group/{address_group_id}": {
+      "delete": {
+        "summary": "Delete Onchain Address Group",
+        "description": "Deletes an entry in the portfolio's onchain address groups.",
+        "operationId": "PrimeRESTAPI_DeleteOnchainAddressGroup",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/coinbase.public_rest_api.ActivityCreationResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/google.rpc.Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "portfolio_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "address_group_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": ["Onchain Address Book"]
+      }
+    },
     "/v1/portfolios/{portfolio_id}/onchain_address_groups": {
       "get": {
         "summary": "List Onchain Address Groups",
@@ -2425,6 +2549,10 @@
                 "network_family": {
                   "$ref": "#/definitions/coinbase.public_rest_api.NetworkFamily",
                   "title": "The network family. Required only when wallet_type is ONCHAIN"
+                },
+                "network": {
+                  "$ref": "#/definitions/coinbase.public_rest_api.Network",
+                  "title": "The network the wallet is valid on (e.g. ethereum-mainnet) -- only for vault wallets"
                 }
               },
               "required": ["name", "symbol"]
@@ -2743,7 +2871,7 @@
           },
           {
             "name": "deposit_type",
-            "description": "The deposit type\n\n - UNKNOWN_WALLET_DEPOSIT_TYPE: nil value\n - CRYPTO: A cryptocurrency deposit\n - WIRE: A wire deposit\n - SEN: DEPRECATED. A Silvergate Exchange Network deposit\n - SWIFT: A SWIFT deposit",
+            "description": "The deposit type\n\n - UNKNOWN_WALLET_DEPOSIT_TYPE: nil value\n - CRYPTO: A cryptocurrency deposit\n - WIRE: A wire deposit\n - SEN: DEPRECATED. A Silvergate Exchange Network deposit\n - SWIFT: A SWIFT deposit\n - SEPA: A SEPA deposit (Single Euro Payments Area)",
             "in": "query",
             "required": true,
             "type": "string",
@@ -2752,12 +2880,88 @@
               "CRYPTO",
               "WIRE",
               "SEN",
-              "SWIFT"
+              "SWIFT",
+              "SEPA"
             ],
             "default": "UNKNOWN_WALLET_DEPOSIT_TYPE"
+          },
+          {
+            "name": "network.id",
+            "description": "The name of the network\n\nThe network id: base, bitcoin, ethereum, solana etc",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "network.type",
+            "description": "The network type\n\nThe network type: mainnet, testnet, etc",
+            "in": "query",
+            "required": false,
+            "type": "string"
           }
         ],
         "tags": ["Wallets"]
+      }
+    },
+    "/v1/portfolios/{portfolio_id}/wallets/{wallet_id}/onchain_transaction": {
+      "post": {
+        "summary": "Create Onchain Transaction",
+        "description": "Create an onchain transaction.",
+        "operationId": "PrimeRESTAPI_CreateOnchainTransaction",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/coinbase.public_rest_api.CreateOnchainTransactionResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/google.rpc.Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "portfolio_id",
+            "description": "The portfolio ID",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "wallet_id",
+            "description": "The wallet ID",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "raw_unsigned_txn": {
+                  "type": "string",
+                  "example": "[EVM Example]: 02f00180830f424085057db95cdf825208942225166893d26f2064a15cc84f5b897591a7e6938642a13798e59d80c0808080\n[Solana Example]: 010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000080010002045bae9ac3406b6ad02953cef2646a07966df84f35c0d754d5cc628d452299fcc606c34c7ae7b6d15777787f4f5217d8f2537e7efecabf3d96c39952ed2144322e00000000000000000000000000000000000000000000000000000000000000000306466fe5211732ffecadba72c39be7bc8ce5bbc5f7126b2c439b3a40000000dc34215f010238fbe5a955301891d29cdc1ea2b1f175e36c01c7cde0126ba58303020200010c02000000364b16000000000003000903102700000000000003000502400d030000",
+                  "description": "Raw unsigned transaction in Hex format (Supports EVM and Solana)"
+                },
+                "rpc": {
+                  "$ref": "#/definitions/coinbase.public_rest_api.RpcConfig",
+                  "description": "RPC configuration for transaction broadcast"
+                },
+                "evm_params": {
+                  "$ref": "#/definitions/coinbase.public_rest_api.CreateOnchainTransactionRequest.EvmParams"
+                }
+              },
+              "required": ["raw_unsigned_txn"]
+            }
+          }
+        ],
+        "tags": ["Transactions"]
       }
     },
     "/v1/portfolios/{portfolio_id}/wallets/{wallet_id}/transactions": {
@@ -3327,6 +3531,22 @@
       ],
       "default": "OTHER_ACTIVITY_CATEGORY"
     },
+    "coinbase.public_rest_api.ActivityCreationResponse": {
+      "type": "object",
+      "properties": {
+        "activity_type": {
+          "$ref": "#/definitions/coinbase.custody.api.ActivityType"
+        },
+        "num_approvals_remaining": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "activity_id": {
+          "type": "string"
+        }
+      },
+      "required": ["activity_type", "num_approvals_remaining", "activity_id"]
+    },
     "coinbase.public_rest_api.ActivityLevel": {
       "type": "string",
       "enum": [
@@ -3655,6 +3875,14 @@
           "type": "string",
           "example": "https://live.blockcypher.com/btc/",
           "description": "Base URL to our recommended block explorer (crypto only)"
+        },
+        "networks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/coinbase.public_rest_api.NetworkDetails"
+          },
+          "description": "List of networks supported by this asset"
         }
       }
     },
@@ -3975,6 +4203,36 @@
         "sell_allocation_id",
         "failure_reason"
       ]
+    },
+    "coinbase.public_rest_api.CreateOnchainTransactionRequest.EvmParams": {
+      "type": "object",
+      "properties": {
+        "disable_dynamic_gas": {
+          "type": "boolean",
+          "example": false,
+          "description": "Option to disable dynamic gas price adjustment for EVM transactions prior to signing and broadcast. Defaults to false."
+        },
+        "replaced_transaction_id": {
+          "type": "string",
+          "example": "0bf7bf1e-bafa-4d7e-9312-fa0bf3b63f27",
+          "description": "Transaction ID to replace (for speed-up/cancel operations). Common use cases: 1) Gas Price Adjustments: When a transaction is stuck due to low gas price, a new transaction with the same nonce but higher gas price can be submitted to replace it. 2) Transaction Cancellation: A user might want to cancel a pending transaction by replacing it with a new transaction (often a 0-value transfer to themselves with higher gas price)."
+        },
+        "chain_id": {
+          "type": "string",
+          "example": 1,
+          "description": "Chain ID for EVM transactions. (EVM-only)"
+        }
+      }
+    },
+    "coinbase.public_rest_api.CreateOnchainTransactionResponse": {
+      "type": "object",
+      "properties": {
+        "transaction_id": {
+          "type": "string",
+          "example": "0bf7bf1e-bafa-4d7e-9312-fa0bf3b63f27",
+          "description": "Unique identifier for the created transaction"
+        }
+      }
     },
     "coinbase.public_rest_api.CreateOrderResponse": {
       "type": "object",
@@ -5098,6 +5356,55 @@
         }
       }
     },
+    "coinbase.public_rest_api.NetworkDetails": {
+      "type": "object",
+      "properties": {
+        "network": {
+          "$ref": "#/definitions/coinbase.public_rest_api.Network",
+          "description": "Indicates network information like network id and type"
+        },
+        "name": {
+          "type": "string",
+          "example": "Ethereum",
+          "description": "The name of the network"
+        },
+        "max_decimals": {
+          "type": "string",
+          "example": "8",
+          "description": "The maximum number of decimals supported for this network"
+        },
+        "default": {
+          "type": "boolean",
+          "example": true,
+          "description": "Indicates whether this network is the default network for the asset"
+        },
+        "trading_supported": {
+          "type": "boolean",
+          "example": true,
+          "description": "Indicates whether this network supports trading"
+        },
+        "vault_supported": {
+          "type": "boolean",
+          "example": true,
+          "description": "Indicates whether this network supports vault"
+        },
+        "prime_custody_supported": {
+          "type": "boolean",
+          "example": true,
+          "description": "Indicates whether this network supports prime custody"
+        },
+        "destination_tag_required": {
+          "type": "boolean",
+          "example": true,
+          "description": "Indicates whether this network requires a destination tag"
+        },
+        "network_link": {
+          "type": "string",
+          "example": "https://live.blockcypher.com/btc/",
+          "description": "Base URL to our recommended block explorer (crypto only)"
+        }
+      }
+    },
     "coinbase.public_rest_api.NetworkFamily": {
       "type": "string",
       "enum": [
@@ -5151,7 +5458,7 @@
         "skip_broadcast": {
           "type": "boolean",
           "example": false,
-          "description": "Flag indicating whether broadcasting should be skipped"
+          "description": "If set to true, the transaction will not be broadcast to the network. You can still retrieve the signed transaction from the GetTransaction endpoint by transaction ID once the transaction is created."
         },
         "failure_reason": {
           "type": "string",
@@ -5289,7 +5596,7 @@
         "user_context": {
           "type": "string",
           "example": "User initiated cancellation",
-          "description": "Provides a user friendly message indicating the status of the order, including cancellation or rejection reasons"
+          "description": "Indicates a user friendly message for regarding various aspects of the order such as cancellation or rejection reasons"
         }
       }
     },
@@ -5721,6 +6028,21 @@
       },
       "title": "New message for risk assessment details"
     },
+    "coinbase.public_rest_api.RpcConfig": {
+      "type": "object",
+      "properties": {
+        "skip_broadcast": {
+          "type": "boolean",
+          "example": false,
+          "description": "If true, transaction will not be broadcast to the network"
+        },
+        "url": {
+          "type": "string",
+          "example": "https://rpc.flashbots.net/fast",
+          "description": "Custom blockchain node URL. Currently only supports Flashbots RPC endpoint for EVM mainnet (https://rpc.flashbots.net/fast)."
+        }
+      }
+    },
     "coinbase.public_rest_api.ScheduleFuturesSweepResponse": {
       "type": "object",
       "properties": {
@@ -5872,7 +6194,7 @@
         "network": {
           "type": "string",
           "example": "ethereum-mainnet",
-          "description": "The network name"
+          "description": "The network name specific to web3/onchain wallet transactions"
         },
         "estimated_asset_changes": {
           "type": "array",
@@ -5892,8 +6214,12 @@
         },
         "onchain_details": {
           "$ref": "#/definitions/coinbase.public_rest_api.OnchainTransactionDetails",
-          "description": "Details specific to onchain transactions. Only present when type is ONCHAIN_TRANSACTION",
+          "description": "Details specific to onchain wallet transactions. Only present when type is ONCHAIN_TRANSACTION",
           "title": "Onchain transaction specific fields"
+        },
+        "network_info": {
+          "$ref": "#/definitions/coinbase.public_rest_api.Network",
+          "description": "The network information specific to onchain transactions out of trading/vault wallets."
         }
       }
     },
@@ -6083,6 +6409,10 @@
         "visibility": {
           "$ref": "#/definitions/coinbase.public_rest_api.WalletVisibility",
           "title": "The visibility of the wallet"
+        },
+        "network": {
+          "$ref": "#/definitions/coinbase.public_rest_api.Network",
+          "title": "The network the wallet is valid on (e.g. ethereum-mainnet)\nnote: this field is only available for vault wallets"
         }
       }
     },
@@ -6118,14 +6448,26 @@
           "type": "string",
           "example": "memo",
           "description": "The blockchain network's terminology for the unique identifier used to identify the receiver of the transaction (different blockchain networks use different names, such as `destination_tag` or `memo`)"
+        },
+        "network": {
+          "$ref": "#/definitions/coinbase.public_rest_api.Network",
+          "example": "ethereum-mainnet",
+          "description": "The network the deposit address is valid on (e.g. ethereum-mainnet)"
         }
       }
     },
     "coinbase.public_rest_api.WalletDepositInstructionType": {
       "type": "string",
-      "enum": ["UNKNOWN_WALLET_DEPOSIT_TYPE", "CRYPTO", "WIRE", "SEN", "SWIFT"],
+      "enum": [
+        "UNKNOWN_WALLET_DEPOSIT_TYPE",
+        "CRYPTO",
+        "WIRE",
+        "SEN",
+        "SWIFT",
+        "SEPA"
+      ],
       "default": "UNKNOWN_WALLET_DEPOSIT_TYPE",
-      "description": "- UNKNOWN_WALLET_DEPOSIT_TYPE: nil value\n - CRYPTO: A cryptocurrency deposit\n - WIRE: A wire deposit\n - SEN: DEPRECATED. A Silvergate Exchange Network deposit\n - SWIFT: A SWIFT deposit",
+      "description": "- UNKNOWN_WALLET_DEPOSIT_TYPE: nil value\n - CRYPTO: A cryptocurrency deposit\n - WIRE: A wire deposit\n - SEN: DEPRECATED. A Silvergate Exchange Network deposit\n - SWIFT: A SWIFT deposit\n - SEPA: A SEPA deposit (Single Euro Payments Area)",
       "title": "Indicates the wallet's deposit instruction type"
     },
     "coinbase.public_rest_api.WalletFiatDepositInstructions": {

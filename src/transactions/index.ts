@@ -22,6 +22,8 @@ import {
 import {
   CreateConversionRequest,
   CreateConversionResponse,
+  CreateOnchainTransactionRequest,
+  CreateOnchainTransactionResponse,
   CreateTransferRequest,
   CreateTransferResponse,
   CreateWithdrawalRequest,
@@ -85,6 +87,15 @@ export interface ITransactionsService {
     options?: CoinbaseCallOptions
   ): Promise<
     | CreateWithdrawalResponse
+    | CoinbasePrimeClientException
+    | CoinbasePrimeException
+  >;
+
+  createOnchainTransaction(
+    request: CreateOnchainTransactionRequest,
+    options?: CoinbaseCallOptions
+  ): Promise<
+    | CreateOnchainTransactionResponse
     | CoinbasePrimeClientException
     | CoinbasePrimeException
   >;
@@ -220,5 +231,28 @@ export class TransactionsService implements ITransactionsService {
     });
 
     return response.data as CreateWithdrawalResponse;
+  }
+
+  async createOnchainTransaction(
+    request: CreateOnchainTransactionRequest,
+    options?: CoinbaseCallOptions
+  ): Promise<
+    | CreateOnchainTransactionResponse
+    | CoinbasePrimeClientException
+    | CoinbasePrimeException
+  > {
+    const bodyParams = {
+      ...request,
+      portfolioId: undefined,
+      walletId: undefined,
+    };
+    const response = await this.client.request({
+      url: `portfolios/${request.portfolioId}/wallets/${request.walletId}/onchain_transaction`,
+      bodyParams,
+      method: Method.POST,
+      callOptions: options,
+    });
+
+    return response.data as CreateOnchainTransactionResponse;
   }
 }

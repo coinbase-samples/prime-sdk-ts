@@ -18,6 +18,8 @@
  *  Do not edit the class manually.
  */
 
+import { NetworkDetails } from './NetworkDetails';
+
 export type Asset = {
   /**
    * The name of the asset
@@ -39,4 +41,8 @@ export type Asset = {
    * Base URL to our recommended block explorer (crypto only)
    */
   explorerUrl?: string;
+  /**
+   * List of networks supported by this asset
+   */
+  networks?: Array<NetworkDetails>;
 };

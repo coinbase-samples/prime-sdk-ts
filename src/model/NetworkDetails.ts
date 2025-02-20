@@ -19,16 +19,39 @@
  */
 
 import { Network } from './Network';
-import { WalletType } from './enums/WalletType';
-import { WalletVisibility } from './enums/WalletVisibility';
 
-export type Wallet = {
-  id?: string;
-  name?: string;
-  symbol?: string;
-  type?: WalletType;
-  createdAt?: Date;
-  address?: string;
-  visibility?: WalletVisibility;
+export type NetworkDetails = {
   network?: Network;
+  /**
+   * The name of the network
+   */
+  name?: string;
+  /**
+   * The maximum number of decimals supported for this network
+   */
+  maxDecimals?: string;
+  /**
+   * Indicates whether this network is the default network for the asset
+   */
+  _default?: boolean;
+  /**
+   * Indicates whether this network supports trading
+   */
+  tradingSupported?: boolean;
+  /**
+   * Indicates whether this network supports vault
+   */
+  vaultSupported?: boolean;
+  /**
+   * Indicates whether this network supports prime custody
+   */
+  primeCustodySupported?: boolean;
+  /**
+   * Indicates whether this network requires a destination tag
+   */
+  destinationTagRequired?: boolean;
+  /**
+   * Base URL to our recommended block explorer (crypto only)
+   */
+  networkLink?: string;
 };

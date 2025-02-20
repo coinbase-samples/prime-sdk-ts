@@ -23,7 +23,7 @@ export { BalancesService, IBalancesService } from './balances';
 export { CommissionService, ICommissionService } from './commission';
 export { FuturesService, IFuturesService } from './futures';
 export { InvoicesService, IInvoicesService } from './invoices';
-export { OnchainAddressGroupsService } from './onchainAddressGroups';
+export { OnchainAddressBookService } from './onchainAddressBook';
 export { OrdersService, IOrdersService } from './orders';
 export {
   PaymentMethodsService,

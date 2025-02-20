@@ -20,6 +20,7 @@
 
 import { AssetChange } from './AssetChange';
 import { EstimatedNetworkFees } from './EstimatedNetworkFees';
+import { Network } from './Network';
 import { OnchainTransactionDetails } from './OnchainTransactionDetails';
 import { TransactionMetadata } from './TransactionMetadata';
 import { TransactionStatus } from './enums/TransactionStatus';
@@ -85,7 +86,7 @@ export type Transaction = {
   destinationSymbol?: string;
   estimatedNetworkFees?: EstimatedNetworkFees;
   /**
-   * The network name
+   * The network name specific to web3/onchain wallet transactions
    */
   network?: string;
   /**
@@ -98,4 +99,5 @@ export type Transaction = {
    */
   idempotencyKey?: string;
   onchainDetails?: OnchainTransactionDetails;
+  networkInfo?: Network;
 };

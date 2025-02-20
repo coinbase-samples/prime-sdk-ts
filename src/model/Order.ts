@@ -105,7 +105,7 @@ export type Order = {
    */
   netAverageFilledPrice?: string;
   /**
-   * Provides a user friendly message indicating the status of the order, including cancellation or rejection reasons
+   * Indicates a user friendly message for regarding various aspects of the order such as cancellation or rejection reasons
    */
   userContext?: string;
 };

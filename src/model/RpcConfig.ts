@@ -18,17 +18,13 @@
  *  Do not edit the class manually.
  */
 
-import { Network } from './Network';
-import { WalletType } from './enums/WalletType';
-import { WalletVisibility } from './enums/WalletVisibility';
-
-export type Wallet = {
-  id?: string;
-  name?: string;
-  symbol?: string;
-  type?: WalletType;
-  createdAt?: Date;
-  address?: string;
-  visibility?: WalletVisibility;
-  network?: Network;
+export type RpcConfig = {
+  /**
+   * If true, transaction will not be broadcast to the network
+   */
+  skipBroadcast?: boolean;
+  /**
+   * Custom blockchain node URL. Currently only supports Flashbots RPC endpoint for EVM mainnet (https://rpc.flashbots.net/fast).
+   */
+  url?: string;
 };

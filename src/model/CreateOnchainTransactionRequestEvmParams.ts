@@ -18,30 +18,17 @@
  *  Do not edit the class manually.
  */
 
-import { Network } from './Network';
-import { WalletDepositInstructionType } from './enums/WalletDepositInstructionType';
-
-export type WalletCryptoDepositInstructions = {
+export type CreateOnchainTransactionRequestEvmParams = {
   /**
-   * The ID of the wallet
+   * Option to disable dynamic gas price adjustment for EVM transactions prior to signing and broadcast. Defaults to false.
    */
-  id?: string;
+  disableDynamicGas?: boolean;
   /**
-   * The name of the wallet
+   * Transaction ID to replace (for speed-up/cancel operations). Common use cases: 1) Gas Price Adjustments: When a transaction is stuck due to low gas price, a new transaction with the same nonce but higher gas price can be submitted to replace it. 2) Transaction Cancellation: A user might want to cancel a pending transaction by replacing it with a new transaction (often a 0-value transfer to themselves with higher gas price).
    */
-  name?: string;
-  type?: WalletDepositInstructionType;
+  replacedTransactionId?: string;
   /**
-   * The address of the wallet
+   * Chain ID for EVM transactions. (EVM-only)
    */
-  address?: string;
-  /**
-   * The tag/memo of the address, if applicable -- required for certain assets (e.g. XRP, XLM, etc.)
-   */
-  accountIdentifier?: string;
-  /**
-   * The blockchain network\'s terminology for the unique identifier used to identify the receiver of the transaction (different blockchain networks use different names, such as `destination_tag` or `memo`)
-   */
-  accountIdentifierName?: string;
-  network?: Network;
+  chainId?: string;
 };

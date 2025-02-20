@@ -44,7 +44,7 @@ export type OnchainTransactionDetails = {
    */
   destinationAddress?: string;
   /**
-   * Flag indicating whether broadcasting should be skipped
+   * If set to true, the transaction will not be broadcast to the network. You can still retrieve the signed transaction from the GetTransaction endpoint by transaction ID once the transaction is created.
    */
   skipBroadcast?: boolean;
   /**

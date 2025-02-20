@@ -18,17 +18,9 @@
  *  Do not edit the class manually.
  */
 
-import { Network } from './Network';
-import { WalletType } from './enums/WalletType';
-import { WalletVisibility } from './enums/WalletVisibility';
-
-export type Wallet = {
-  id?: string;
-  name?: string;
-  symbol?: string;
-  type?: WalletType;
-  createdAt?: Date;
-  address?: string;
-  visibility?: WalletVisibility;
-  network?: Network;
+export type CreateOnchainTransactionResponse = {
+  /**
+   * Unique identifier for the created transaction
+   */
+  transactionId?: string;
 };

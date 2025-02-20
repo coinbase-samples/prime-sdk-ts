@@ -18,6 +18,7 @@
  *  Do not edit the class manually.
  */
 
+import { Network } from './Network';
 import { NetworkFamily } from './enums/NetworkFamily';
 import { WalletType } from './enums/WalletType';
 
@@ -27,4 +28,5 @@ export type CreateWalletRequest = {
   walletType?: WalletType;
   idempotencyKey?: string;
   networkFamily?: NetworkFamily;
+  network?: Network;
 };
