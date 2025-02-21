@@ -24,6 +24,29 @@ const destDir = './types/processed';
 const destDirEnums = './types/processed/enums';
 
 const filePathReplacements = {
+  coinbaseCustodyApiActivityType: 'CustodyActivityType',
+  coinbasePublicRestApiActivityType: 'PrimeActivityType',
+  CoinbasePublicRestApi: '',
+  coinbasePublicRestApi: '',
+  PrimeRESTAPI: '',
+  primeRESTAPI: '',
+  CoinbaseCustodyApi: '',
+  coinbaseCustodyApi: '',
+};
+
+const skipFiles = [
+  'changeOnchainAddressGroupRequestIsARequestToCreateOrUpdateANewOnchainAddressGroup.ts',
+  'googleProtobufAny.ts',
+  'googleRpcStatus.ts',
+];
+
+// Replace specific strings
+const replacements = {
+  '<any>': '',
+  "\nimport { RequestFile } from './models';\n": '',
+  'static discriminator: string | undefined = undefined;\n\n': '',
+  coinbaseCustodyApiActivityType: 'CustodyActivityType',
+  coinbasePublicRestApiActivityType: 'PrimeActivityType',
   CoinbasePublicRestApi: '',
   coinbasePublicRestApi: '',
   PrimeRESTAPI: '',
@@ -137,7 +160,7 @@ async function processFiles() {
         const enumName = filePath
           .replace('types/processed/enums/', '')
           .replace('.ts', '');
-        console.log(enumName);
+        console.log('processed enum', enumName, filePath);
         enumClasses.push(enumName);
       }
     }
@@ -147,29 +170,16 @@ async function processFiles() {
     const sourcePath = path.join(sourceDir, file);
     let destPath = path.join(destDir, file);
 
+    if (skipFiles.includes(file)) {
+      console.log('skipping file', file);
+      return;
+    }
+
     // Read each file (synchronously or asynchronously)
     if (fs.statSync(sourcePath).isFile()) {
-      if (sourcePath.indexOf('google') > -1) {
-        console.log('skipping file');
-        return;
-      }
-
       const content = fs.readFileSync(sourcePath, 'utf8');
       const isEnum = content.indexOf('enum') > 0;
 
-      // Replace specific strings
-      const replacements = {
-        '<any>': '',
-        "\nimport { RequestFile } from './models';\n": '',
-
-        'static discriminator: string | undefined = undefined;\n\n': '',
-        CoinbasePublicRestApi: '',
-        coinbasePublicRestApi: '',
-        PrimeRESTAPI: '',
-        primeRESTAPI: '',
-        CoinbaseCustodyApi: '',
-        coinbaseCustodyApi: '',
-      };
       let updatedContent = replaceString(content, replacements);
 
       if (updatedContent.indexOf('class') > 0) {
@@ -216,9 +226,13 @@ async function processFiles() {
         parser: 'typescript',
       });
 
+      if (fs.existsSync(destPath)) {
+        console.log('file already exists: ', destPath);
+      }
+
       // Write the updated content to the destination directory
       fs.writeFileSync(destPath, updatedContent, 'utf8');
-      console.log(`Processed: ${file}`);
+      console.log(`Processed: ${file} at ${destPath}`);
     }
   });
 

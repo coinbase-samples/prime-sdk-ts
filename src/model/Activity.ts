@@ -23,7 +23,7 @@ import { ActivityMetadataAccount } from './ActivityMetadataAccount';
 import { ActivityMetadataTransactions } from './ActivityMetadataTransactions';
 import { ActivitySecondaryType } from './enums/ActivitySecondaryType';
 import { ActivityStatus } from './enums/ActivityStatus';
-import { ActivityType } from './enums/ActivityType';
+import { ActivityType } from './enums/PrimeActivityType';
 import { HierarchyType } from './enums/HierarchyType';
 import { UserAction } from './UserAction';
 

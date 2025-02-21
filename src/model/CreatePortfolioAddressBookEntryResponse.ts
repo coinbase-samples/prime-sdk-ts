@@ -18,7 +18,7 @@
  *  Do not edit the class manually.
  */
 
-import { ActivityType } from './enums/ActivityType';
+import { ActivityType } from './enums/CustodyActivityType';
 
 export type CreatePortfolioAddressBookEntryResponse = {
   activityType: ActivityType;
