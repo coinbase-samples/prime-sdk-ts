@@ -24,6 +24,8 @@ import { CreateWalletWithdrawalRequest } from '../model/CreateWalletWithdrawalRe
 import { CreateWalletWithdrawalResponse } from '../model/CreateWalletWithdrawalResponse';
 import { Pagination } from '../shared/pagination';
 import { CreateWalletTransferResponse } from '../model/CreateWalletTransferResponse';
+import { CreateOnchainTransactionRequest as internalCreate } from '../model/CreateOnchainTransactionRequest';
+import { CreateOnchainTransactionResponse as internalCreateResp } from '../model/CreateOnchainTransactionResponse';
 
 export type ListPortfolioTransactionsRequest = Pagination & {
   portfolioId: string;
@@ -73,3 +75,10 @@ export type CreateWithdrawalRequest = CreateWalletWithdrawalRequest & {
 };
 
 export type CreateWithdrawalResponse = CreateWalletWithdrawalResponse;
+
+export type CreateOnchainTransactionRequest = internalCreate & {
+  portfolioId: string;
+  walletId: string;
+};
+
+export type CreateOnchainTransactionResponse = internalCreateResp;
