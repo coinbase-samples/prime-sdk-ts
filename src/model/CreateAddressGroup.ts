@@ -18,7 +18,11 @@
  *  Do not edit the class manually.
  */
 
-export enum NetworkType {
-  Evm = 'NETWORK_TYPE_EVM',
-  Solana = 'NETWORK_TYPE_SOLANA',
-}
+import { AddressEntry } from './AddressEntry';
+import { NetworkType } from './enums/NetworkType';
+
+export type CreateAddressGroup = {
+  name?: string;
+  networkType?: NetworkType;
+  addresses?: Array<AddressEntry>;
+};

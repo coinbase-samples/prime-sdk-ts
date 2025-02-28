@@ -36,6 +36,10 @@ import {
   CancelOrderResponse,
   CreateOrderRequest,
   CreateOrderResponse,
+  CreateQuoteRequest,
+  CreateQuoteResponse,
+  AcceptQuoteRequest,
+  AcceptQuoteResponse,
 } from './types';
 
 export interface IOrdersService {
@@ -103,6 +107,20 @@ export interface IOrdersService {
     options?: CoinbaseCallOptions
   ): Promise<
     CreateOrderResponse | CoinbasePrimeClientException | CoinbasePrimeException
+  >;
+
+  createQuote(
+    request: CreateQuoteRequest,
+    options?: CoinbaseCallOptions
+  ): Promise<
+    CreateQuoteResponse | CoinbasePrimeClientException | CoinbasePrimeException
+  >;
+
+  acceptQuote(
+    request: AcceptQuoteRequest,
+    options?: CoinbaseCallOptions
+  ): Promise<
+    AcceptQuoteResponse | CoinbasePrimeClientException | CoinbasePrimeException
   >;
 }
 
@@ -244,5 +262,35 @@ export class OrdersService implements IOrdersService {
       callOptions: options,
     });
     return response.data as CreateOrderResponse;
+  }
+
+  async createQuote(
+    request: CreateQuoteRequest,
+    options?: CoinbaseCallOptions
+  ): Promise<
+    CreateQuoteResponse | CoinbasePrimeClientException | CoinbasePrimeException
+  > {
+    const response = await this.client.request({
+      url: `portfolios/${request.portfolioId}/rfq`,
+      method: Method.POST,
+      bodyParams: request,
+      callOptions: options,
+    });
+    return response.data as CreateQuoteResponse;
+  }
+
+  async acceptQuote(
+    request: AcceptQuoteRequest,
+    options?: CoinbaseCallOptions
+  ): Promise<
+    AcceptQuoteResponse | CoinbasePrimeClientException | CoinbasePrimeException
+  > {
+    const response = await this.client.request({
+      url: `portfolios/${request.portfolioId}/accept_quote`,
+      method: Method.POST,
+      bodyParams: request,
+      callOptions: options,
+    });
+    return response.data as AcceptQuoteResponse;
   }
 }

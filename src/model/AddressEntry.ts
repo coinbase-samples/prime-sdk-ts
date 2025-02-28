@@ -21,5 +21,8 @@
 export type AddressEntry = {
   name?: string;
   address?: string;
+  /**
+   * List of compatible chain IDs for a given address, empty for Solana. Ex: 1 for ETH Mainnet or 8453 for Base. Find more [here](https://chainlist.org/).
+   */
   chainIds?: Array<string>;
 };

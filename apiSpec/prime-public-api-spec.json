@@ -754,6 +754,67 @@
         "tags": ["Portfolios"]
       }
     },
+    "/v1/portfolios/{portfolio_id}/accept_quote": {
+      "post": {
+        "summary": "Accept Quote",
+        "description": "Accepts the quote received by the quote request and creates an order with the provided quote ID.\n\nAlways required: portfolio_id, product_id, side, quote_id, client_quote_id.",
+        "operationId": "PrimeRESTAPI_AcceptQuote",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/coinbase.public_rest_api.AcceptQuoteResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/google.rpc.Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "portfolio_id",
+            "description": "The ID of the portfolio that owns the order",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "product_id": {
+                  "type": "string",
+                  "title": "The ID of the product being traded for the order (e.g. `BTC-USD`)"
+                },
+                "side": {
+                  "$ref": "#/definitions/coinbase.public_rest_api.OrderSide",
+                  "example": "BUY",
+                  "description": "The side of the order"
+                },
+                "client_order_id": {
+                  "type": "string",
+                  "example": "f69a20b1-4ac4-420e-90b5-814a12565bfa",
+                  "description": "A client-generated ID used for reference purposes (note: order will be rejected if this ID is not unique among all currently active orders)"
+                },
+                "quote_id": {
+                  "type": "string",
+                  "example": "f69a20b1-4ac4-420e-90b5-814a12565bfa",
+                  "description": "A quote id that was returned from the quote request"
+                }
+              },
+              "required": ["product_id", "side", "client_order_id", "quote_id"]
+            }
+          }
+        ],
+        "tags": ["Orders"]
+      }
+    },
     "/v1/portfolios/{portfolio_id}/activities": {
       "get": {
         "summary": "List Activities",
@@ -1406,6 +1467,37 @@
         "tags": ["Orders"]
       }
     },
+    "/v1/portfolios/{portfolio_id}/onchain_address_groups": {
+      "get": {
+        "summary": "List Onchain Address Groups",
+        "description": "Lists all onchain address groups for a given portfolio ID",
+        "operationId": "PrimeRESTAPI_ListOnchainAddressGroups",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/coinbase.public_rest_api.ListOnchainAddressGroupsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/google.rpc.Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "portfolio_id",
+            "description": "Portfolio ID",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": ["Onchain Address Book"]
+      }
+    },
     "/v1/portfolios/{portfolio_id}/onchain_address_group": {
       "post": {
         "summary": "Create Onchain Address Book Entry",
@@ -1440,7 +1532,7 @@
               "type": "object",
               "properties": {
                 "address_group": {
-                  "$ref": "#/definitions/coinbase.public_rest_api.AddressGroup"
+                  "$ref": "#/definitions/coinbase.public_rest_api.CreateAddressGroup"
                 }
               },
               "title": "ChangeOnchainAddressGroupRequest is a request to create or update a new onchain address group",
@@ -1528,37 +1620,6 @@
           }
         ],
         "tags": ["Onchain Address Book"]
-      }
-    },
-    "/v1/portfolios/{portfolio_id}/onchain_address_groups": {
-      "get": {
-        "summary": "List Onchain Address Groups",
-        "description": "Lists all onchain address groups for a given portfolio ID",
-        "operationId": "PrimeRESTAPI_ListOnchainAddressGroups",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/coinbase.public_rest_api.ListOnchainAddressGroupsResponse"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/google.rpc.Status"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "portfolio_id",
-            "description": "Portfolio ID",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "tags": ["Onchain Address Groups"]
       }
     },
     "/v1/portfolios/{portfolio_id}/open_orders": {
@@ -2193,6 +2254,83 @@
           }
         ],
         "tags": ["Products"]
+      }
+    },
+    "/v1/portfolios/{portfolio_id}/rfq": {
+      "post": {
+        "summary": "Create Quote Request",
+        "description": "A Quote Request is the start of the RFQ process. Coinbase Prime sends a Quote Request to Liquidity Providers (LPs) on behalf of a customer looking to participate in an RFQ trade.\n\nAlways required: portfolio_id, product_id, side, client_quote_id, and limit_price. One of either base_quantity or quote_value is always required.",
+        "operationId": "PrimeRESTAPI_CreateQuoteRequest",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/coinbase.public_rest_api.QuoteResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/google.rpc.Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "portfolio_id",
+            "description": "The ID of the portfolio that owns the order",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "product_id": {
+                  "type": "string",
+                  "title": "The ID of the product being traded for the order (e.g. `BTC-USD`)"
+                },
+                "side": {
+                  "$ref": "#/definitions/coinbase.public_rest_api.OrderSide",
+                  "example": "BUY",
+                  "description": "The side of the order"
+                },
+                "client_quote_id": {
+                  "type": "string",
+                  "example": "f69a20b1-4ac4-420e-90b5-814a12565bfa",
+                  "description": "A client-generated order ID used for reference purposes (note: order will be rejected if this ID is not unique among all currently active orders)",
+                  "title": "Based off of Order"
+                },
+                "base_quantity": {
+                  "type": "string",
+                  "title": "Order size in base asset units (either `base_quantity` or `quote_value` is required)"
+                },
+                "quote_value": {
+                  "type": "string",
+                  "title": "Order size in quote asset units, i.e. the amount the user wants to spend (when buying) or receive (when selling); the quantity in base units will be determined based on the market liquidity and indicated `quote_value` (either `base_quantity` or `quote_value` is required)"
+                },
+                "limit_price": {
+                  "type": "string",
+                  "title": "The limit price"
+                }
+              },
+              "description": "based off PostOrderPreviewRequest",
+              "title": "RFQ",
+              "required": [
+                "product_id",
+                "side",
+                "client_quote_id",
+                "size",
+                "limit_price"
+              ]
+            }
+          }
+        ],
+        "tags": ["Orders"]
       }
     },
     "/v1/portfolios/{portfolio_id}/transactions": {
@@ -3429,6 +3567,14 @@
       },
       "required": ["id", "name", "avatar_url"]
     },
+    "coinbase.public_rest_api.AcceptQuoteResponse": {
+      "type": "object",
+      "properties": {
+        "order_id": {
+          "type": "string"
+        }
+      }
+    },
     "coinbase.public_rest_api.Action": {
       "type": "string",
       "enum": [
@@ -3675,6 +3821,7 @@
         },
         "chain_ids": {
           "type": "array",
+          "description": "List of compatible chain IDs for a given address, empty for Solana. Ex: 1 for ETH Mainnet or 8453 for Base. Find more [here](https://chainlist.org/).",
           "items": {
             "type": "string"
           },
@@ -3682,11 +3829,31 @@
         }
       }
     },
+    "coinbase.public_rest_api.CreateAddressGroup": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "network_type": {
+          "$ref": "#/definitions/coinbase.public_rest_api.NetworkType"
+        },
+        "addresses": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/coinbase.public_rest_api.AddressEntry"
+          },
+          "title": "A list of addresses within the group"
+        }
+      }
+    },
     "coinbase.public_rest_api.AddressGroup": {
       "type": "object",
       "properties": {
         "id": {
-          "type": "string"
+          "type": "string",
+          "required": true
         },
         "name": {
           "type": "string"
@@ -3701,10 +3868,6 @@
             "$ref": "#/definitions/coinbase.public_rest_api.AddressEntry"
           },
           "title": "A list of addresses within the group"
-        },
-        "added_at": {
-          "type": "string",
-          "format": "date-time"
         }
       }
     },
@@ -5416,12 +5579,8 @@
     },
     "coinbase.public_rest_api.NetworkType": {
       "type": "string",
-      "enum": [
-        "NETWORK_TYPE_UNSPECIFIED",
-        "NETWORK_TYPE_EVM",
-        "NETWORK_TYPE_SOLANA"
-      ],
-      "default": "NETWORK_TYPE_UNSPECIFIED"
+      "enum": ["NETWORK_TYPE_EVM", "NETWORK_TYPE_SOLANA"],
+      "default": "NETWORK_TYPE_EVM"
     },
     "coinbase.public_rest_api.OnchainTransactionDetails": {
       "type": "object",
@@ -6011,6 +6170,29 @@
         "PRODUCT_PERMISSION_LENDING"
       ],
       "default": "PRODUCT_PERMISSION_UNKNOWN"
+    },
+    "coinbase.public_rest_api.QuoteResponse": {
+      "type": "object",
+      "properties": {
+        "quote_id": {
+          "type": "string"
+        },
+        "expiration_time": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "best_price": {
+          "type": "string"
+        },
+        "order_total": {
+          "type": "string",
+          "title": "total quote amount for previewing"
+        },
+        "price_inclusive_of_fees": {
+          "type": "string"
+        }
+      },
+      "title": "Copied from https://github.cbhq.net/institutional/trading/blob/3e6da61aceb64c7cbe6f0c0f8fbdb98fd3e868dc/proxy/trading/protos/coinbase/brokerage/proxy/trading/api/orderentry.proto#L366-L370"
     },
     "coinbase.public_rest_api.RiskAssessment": {
       "type": "object",

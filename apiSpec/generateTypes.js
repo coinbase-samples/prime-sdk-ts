@@ -32,10 +32,12 @@ const filePathReplacements = {
   primeRESTAPI: '',
   CoinbaseCustodyApi: '',
   coinbaseCustodyApi: '',
+  rFQ: 'RFQ',
 };
 
 const skipFiles = [
   'changeOnchainAddressGroupRequestIsARequestToCreateOrUpdateANewOnchainAddressGroup.ts',
+  'changeOnchainAddressGroupRequestIsARequestToCreateOrUpdateANewOnchainAddressGroup1.ts',
   'googleProtobufAny.ts',
   'googleRpcStatus.ts',
 ];

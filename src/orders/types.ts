@@ -27,6 +27,9 @@ import { CancelOrderResponse as internalCancel } from '../model/CancelOrderRespo
 import { CreateOrderResponse as internalCreateResp } from '../model/CreateOrderResponse';
 import { CreateOrderRequest as internalCreate } from '../model/CreateOrderRequest';
 import { Pagination } from '../shared/pagination';
+import { QuoteResponse } from '../model/QuoteResponse';
+import { AcceptQuoteRequest as internalAcceptQuoteReq } from '../model/AcceptQuoteRequest';
+import { AcceptQuoteResponse as internalAcceptQuoteResp } from '../model/AcceptQuoteResponse';
 
 export type GetOrderRequest = {
   portfolioId: string;
@@ -90,3 +93,15 @@ export type CreateOrderRequest = internalCreate & {
   portfolioId: string;
 };
 export type CreateOrderResponse = internalCreateResp;
+
+export type CreateQuoteRequest = internalCreate & {
+  portfolioId: string;
+};
+
+export type CreateQuoteResponse = QuoteResponse;
+
+export type AcceptQuoteRequest = internalAcceptQuoteReq & {
+  portfolioId: string;
+};
+
+export type AcceptQuoteResponse = internalAcceptQuoteResp;
