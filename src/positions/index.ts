@@ -20,81 +20,77 @@ import {
   CoinbasePrimeException,
 } from '../errors';
 import {
-  GetPortfolioRequest,
-  GetPortfolioResponse,
-  GetPortfolioCreditRequest,
-  GetPortfolioCreditResponse,
-  ListPortfoliosResponse,
-  ListPortfoliosRequest,
+  ListAggregateEntityPositionsRequest,
+  ListAggregateEntityPositionsResponse,
+  ListEntityPositionsRequest,
+  ListEntityPositionsResponse,
 } from './types';
 
-export interface IPortfoliosService {
-  getPortfolio(
-    request: GetPortfolioRequest,
+export interface IPositionsService {
+  listAggregateEntityPositions(
+    request: ListAggregateEntityPositionsRequest,
     options?: CoinbaseCallOptions
   ): Promise<
-    GetPortfolioResponse | CoinbasePrimeClientException | CoinbasePrimeException
-  >;
-
-  getPortfolioCredit(
-    request: GetPortfolioCreditRequest,
-    options?: CoinbaseCallOptions
-  ): Promise<
-    | GetPortfolioCreditResponse
+    | ListAggregateEntityPositionsResponse
     | CoinbasePrimeClientException
     | CoinbasePrimeException
   >;
-
-  listPortfolios(
-    request: ListPortfoliosRequest,
+  listEntityPositions(
+    request: ListEntityPositionsRequest,
     options?: CoinbaseCallOptions
   ): Promise<
-    | ListPortfoliosResponse
+    | ListEntityPositionsResponse
     | CoinbasePrimeClientException
     | CoinbasePrimeException
   >;
 }
 
-export class PortfoliosService implements IPortfoliosService {
+export class PositionsService implements IPositionsService {
   private client: CoinbasePrimeClient;
 
   constructor(client: CoinbasePrimeClient) {
     this.client = client;
   }
 
-  async getPortfolio(
-    request: GetPortfolioRequest,
+  async listAggregateEntityPositions(
+    request: ListAggregateEntityPositionsRequest,
     options?: CoinbaseCallOptions
-  ): Promise<GetPortfolioResponse> {
+  ): Promise<
+    | ListAggregateEntityPositionsResponse
+    | CoinbasePrimeClientException
+    | CoinbasePrimeException
+  > {
+    const queryParams = {
+      ...request,
+      entityId: undefined,
+    };
     const response = await this.client.request({
-      url: `portfolios/${request.portfolioId}`,
+      url: `portfolios/${request.entityId}/aggregate_positions`,
       callOptions: options,
+      queryParams,
     });
 
-    return response.data as GetPortfolioResponse;
+    return response.data as ListAggregateEntityPositionsResponse;
   }
 
-  async getPortfolioCredit(
-    request: GetPortfolioCreditRequest,
+  async listEntityPositions(
+    request: ListEntityPositionsRequest,
     options?: CoinbaseCallOptions
-  ): Promise<GetPortfolioCreditResponse> {
+  ): Promise<
+    | ListEntityPositionsResponse
+    | CoinbasePrimeClientException
+    | CoinbasePrimeException
+  > {
+    const queryParams = {
+      ...request,
+      entityId: undefined,
+    };
     const response = await this.client.request({
-      url: `portfolios/${request.portfolioId}/credit`,
+      url: `portfolios/${request.entityId}/positions`,
       callOptions: options,
+      queryParams,
     });
 
-    return response.data as GetPortfolioCreditResponse;
-  }
-
-  async listPortfolios(
-    request?: ListPortfoliosRequest,
-    options?: CoinbaseCallOptions
-  ): Promise<ListPortfoliosResponse> {
-    const response = await this.client.request({
-      url: `portfolios`,
-      callOptions: options,
-    });
-
-    return response.data as ListPortfoliosResponse;
+    return response.data as ListEntityPositionsResponse;
   }
 }

@@ -20,7 +20,7 @@ import {
   CoinbasePrimeException,
 } from '../errors';
 import {
-  ListEntityFuturesSweeps,
+  ListEntityFuturesSweepsRequest,
   ListEntityFuturesSweepsResponse,
   GetEntityFuturesBalanceRequest,
   GetEntityFuturesBalanceResponse,
@@ -28,7 +28,7 @@ import {
   GetEntityFuturesPositionsResponse,
   ScheduleEntityFuturesSweepRequest,
   ScheduleEntityFuturesSweepResponse,
-  UpdateEntityFuturesAutoSweep,
+  UpdateEntityFuturesAutoSweepRequest,
   UpdateEntityFuturesAutoSweepResponse,
   CancelEntitySweepRequest,
   CancelEntitySweepResponse,
@@ -36,7 +36,7 @@ import {
 
 export interface IFuturesService {
   listEntitySweeps(
-    request: ListEntityFuturesSweeps,
+    request: ListEntityFuturesSweepsRequest,
     options?: CoinbaseCallOptions
   ): Promise<
     | ListEntityFuturesSweepsResponse
@@ -72,7 +72,7 @@ export interface IFuturesService {
   >;
 
   updateEntityAutoSweep(
-    request: UpdateEntityFuturesAutoSweep,
+    request: UpdateEntityFuturesAutoSweepRequest,
     options?: CoinbaseCallOptions
   ): Promise<
     | UpdateEntityFuturesAutoSweepResponse
@@ -98,7 +98,7 @@ export class FuturesService implements IFuturesService {
   }
 
   async listEntitySweeps(
-    request: ListEntityFuturesSweeps,
+    request: ListEntityFuturesSweepsRequest,
     options?: CoinbaseCallOptions
   ): Promise<
     | ListEntityFuturesSweepsResponse
@@ -166,7 +166,7 @@ export class FuturesService implements IFuturesService {
   }
 
   async updateEntityAutoSweep(
-    request: UpdateEntityFuturesAutoSweep,
+    request: UpdateEntityFuturesAutoSweepRequest,
     options?: CoinbaseCallOptions
   ): Promise<
     | UpdateEntityFuturesAutoSweepResponse

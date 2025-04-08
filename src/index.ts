@@ -30,7 +30,189 @@ export {
   IPaymentMethodsService,
 } from './paymentMethods';
 export { PortfoliosService, IPortfoliosService } from './portfolios';
+export { PositionsService, IPositionsService } from './positions';
 export { ProductsService, IProductsService } from './products';
 export { TransactionsService, ITransactionsService } from './transactions';
 export { UsersService, IUsersService } from './users';
 export { WalletsService, IWalletsService } from './wallets';
+
+// preferring named exports of types
+export type {
+  GetActivityRequest,
+  GetActivityResponse,
+  GetPortfolioActivitiesRequest,
+  GetPortfolioActivityResponse,
+  ListEntityActivitiesRequest,
+  ListEntityActivitiesResponse,
+  ListPortfolioActivitiesRequest,
+  ListPortfolioActivitiesResponse,
+} from './activities/types';
+export type {
+  CreateAddressBookRequest,
+  CreateAddressBookResponse,
+  ListAddressBooksRequest,
+  ListAddressBooksResponse,
+} from './addressBooks/types';
+export type {
+  CreateAllocationRequest,
+  CreateAllocationResponse,
+  CreateNetAllocationRequest,
+  CreateNetAllocationResponse,
+  ListNetAllocationsRequest,
+  ListNetAllocationsResponse,
+  ListPortfolioAllocationsRequest,
+  ListPortfolioAllocationsResponse,
+  GetAllocationRequest,
+  GetAllocationResponse,
+} from './allocations/types';
+export type { ListAssetsRequest, ListAssetsResponse } from './assets/types';
+export type {
+  GetWalletBalanceRequest,
+  GetWalletBalanceResponse,
+  ListOnchainWalletBalancesRequest,
+  ListOnchainWalletBalancesResponse,
+  ListPortfolioBalancesRequest,
+  ListPortfolioBalancesResponse,
+  ListEntityBalancesRequest,
+  ListEntityBalancesResponse,
+} from './balances/types';
+export type {
+  GetPortfolioCommissionRequest,
+  GetPortfolioCommissionResponse,
+} from './commission/types';
+export type {
+  ListExistingLocatesRequest,
+  ListExistingLocatesResponse,
+  ListInterestAccrualsRequest,
+  ListInterestAccrualsResponse,
+  ListPortfolioInterestAccrualsRequest,
+  ListPortfolioInterestAccrualsResponse,
+  ListMarginCallSummariesRequest,
+  ListMarginCallSummariesResponse,
+  ListMarginConversionsRequest,
+  ListMarginConversionsResponse,
+  GetEntityLocateAvailabilitiesRequest,
+  GetEntityLocateAvailabilitiesResponse,
+  GetMarginInformationRequest,
+  GetMarginInformationResponse,
+  GetPortfolioBuyingPowerRequest,
+  GetPortfolioBuyingPowerResponse,
+  GetPortfolioCreditInformationRequest,
+  GetPortfolioCreditInformationResponse,
+  GetPortfolioWithdrawalPowerRequest,
+  GetPortfolioWithdrawalPowerResponse,
+  GetTieredPricingFeesRequest,
+  GetTieredPricingFeesResponse,
+  CreateNewLocatesRequest,
+  CreateNewLocatesResponse,
+} from './financing/types';
+export type {
+  CancelEntitySweepRequest,
+  CancelEntitySweepResponse,
+  GetEntityFuturesBalanceRequest,
+  GetEntityFuturesBalanceResponse,
+  GetEntityFuturesPositionsRequest,
+  GetEntityFuturesPositionsResponse,
+  ListEntityFuturesSweepsRequest,
+  ListEntityFuturesSweepsResponse,
+  ScheduleEntityFuturesSweepRequest,
+  ScheduleEntityFuturesSweepResponse,
+  UpdateEntityFuturesAutoSweepRequest,
+  UpdateEntityFuturesAutoSweepResponse,
+} from './futures/types';
+export type {
+  ListInvoicesRequest,
+  ListInvoicesResponse,
+} from './invoices/types';
+export type {
+  CreateOnchainAddressBookEntryRequest,
+  CreateOnchainAddressBookEntryResponse,
+  DeleteOnchainAddressBookEntryRequest,
+  DeleteOnchainAddressBookEntryResponse,
+  ListOnchainAddressBookRequest,
+  ListOnchainAddressBookResponse,
+  UpdateOnchainAddressBookEntryRequest,
+  UpdateOnchainAddressBookEntryResponse,
+} from './onchainAddressBook/types';
+export type {
+  AcceptQuoteRequest,
+  AcceptQuoteResponse,
+  CancelOrderRequest,
+  CancelOrderResponse,
+  CreateOrderPreviewRequest,
+  CreateOrderPreviewResponse,
+  CreateOrderRequest,
+  CreateOrderResponse,
+  CreateQuoteRequest,
+  CreateQuoteResponse,
+  GetOrderRequest,
+  GetOrderResponse,
+  ListOpenOrdersRequest,
+  ListOpenOrdersResponse,
+  ListOrderFillsRequest,
+  ListOrderFillsResponse,
+  ListPortfolioFillsRequest,
+  ListPortfolioFillsResponse,
+  ListPortfolioOrdersRequest,
+  ListPortfolioOrdersResponse,
+} from './orders/types';
+export type {
+  GetPaymentMethodRequest,
+  GetPaymentMethodResponse,
+  ListEntityPaymentMethodsRequest,
+  ListEntityPaymentMethodsResponse,
+} from './paymentMethods/types';
+export type {
+  ListPortfoliosRequest,
+  ListPortfoliosResponse,
+  GetPortfolioCreditRequest,
+  GetPortfolioCreditResponse,
+  GetPortfolioRequest,
+  GetPortfolioResponse,
+} from './portfolios/types';
+export type {
+  ListAggregateEntityPositionsRequest,
+  ListAggregateEntityPositionsResponse,
+  ListEntityPositionsRequest,
+  ListEntityPositionsResponse,
+} from './positions/types';
+export type {
+  ListProductsRequest,
+  ListProductsResponse,
+} from './products/types';
+export type {
+  CreateConversionRequest,
+  CreateConversionResponse,
+  CreateOnchainTransactionRequest,
+  CreateOnchainTransactionResponse,
+  CreateTransferRequest,
+  CreateTransferResponse,
+  CreateWithdrawalRequest,
+  CreateWithdrawalResponse,
+  GetTransactionRequest,
+  GetTransactionResponse,
+  ListPortfolioTransactionsRequest,
+  ListPortfolioTransactionsResponse,
+  ListWalletTransactionsRequest,
+  ListWalletTransactionsResponse,
+} from './transactions/types';
+export type {
+  ListPortfolioUsersRequest,
+  ListPortfolioUsersResponse,
+  ListUsersRequest,
+  ListUsersResponse,
+} from './users/types';
+export type {
+  CreateWalletRequest,
+  CreateWalletResponse,
+  CreateWalletDepositAddressRequest,
+  CreateWalletDepositAddressResponse,
+  GetWalletDepositInstructionsRequest,
+  GetWalletDepositInstructionsResponse,
+  GetWalletRequest,
+  GetWalletResponse,
+  ListWalletAddressesRequest,
+  ListWalletAddressesResponse,
+  ListWalletsRequest,
+  ListWalletsResponse,
+} from './wallets/types';

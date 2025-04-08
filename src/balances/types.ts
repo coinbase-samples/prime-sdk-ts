@@ -18,6 +18,7 @@ import { VisibilityStatus } from '../model/enums/VisibilityStatus';
 import { GetPortfolioBalancesResponse } from '../model/GetPortfolioBalancesResponse';
 import { GetWalletBalanceResponse as internalGetResp } from '../model/GetWalletBalanceResponse';
 import { ListWeb3WalletBalancesResponse } from '../model/ListWeb3WalletBalancesResponse';
+import { ListEntityBalancesResponse as internalListEntityBalances } from '../model/ListEntityBalancesResponse';
 
 export type ListPortfolioBalancesRequest = {
   portfolioId: string;
@@ -43,3 +44,13 @@ export type ListOnchainWalletBalancesRequest = {
 };
 
 export type ListOnchainWalletBalancesResponse = ListWeb3WalletBalancesResponse;
+
+export type ListEntityBalancesRequest = {
+  entityId: string;
+  symbols?: string;
+  cursor?: string;
+  limit?: number;
+  aggregationType?: PortfolioBalanceType;
+};
+
+export type ListEntityBalancesResponse = internalListEntityBalances;
