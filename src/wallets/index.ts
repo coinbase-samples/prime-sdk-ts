@@ -127,9 +127,19 @@ export class WalletsService implements IWalletsService {
     | CoinbasePrimeClientException
     | CoinbasePrimeException
   > {
+    let queryParams: Record<string, string | number> = {
+      depositType: request.depositType,
+    };
+    if (request.networkType) {
+      queryParams['network.type'] = request.networkType;
+    }
+    if (request.networkId) {
+      queryParams['network.id'] = request.networkId;
+    }
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/wallets/${request.walletId}/deposit_instructions`,
       callOptions: options,
+      queryParams,
     });
 
     return response.data as GetWalletDepositInstructionsResponse;

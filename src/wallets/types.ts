@@ -22,6 +22,7 @@ import { GetWalletDepositInstructionsResponse as internalGetInstructs } from '..
 import { CreateWalletRequest as internalCreate } from '../model/CreateWalletRequest';
 import { CreateWalletResponse as internalCreateResp } from '../model/CreateWalletResponse';
 import { BlockchainAddress } from '../model/BlockchainAddress';
+import { WalletDepositInstructionType } from '../model/enums/WalletDepositInstructionType';
 
 export type ListWalletsRequest = Pagination & {
   portfolioId: string;
@@ -41,6 +42,9 @@ export type GetWalletResponse = internalGet;
 export type GetWalletDepositInstructionsRequest = {
   portfolioId: string;
   walletId: string;
+  depositType: WalletDepositInstructionType;
+  networkId?: string;
+  networkType?: string;
 };
 
 export type GetWalletDepositInstructionsResponse = internalGetInstructs;
