@@ -18,7 +18,10 @@
  *  Do not edit the class manually.
  */
 
-export enum NetworkType {
-  Evm = 'NETWORK_TYPE_EVM',
-  Solana = 'NETWORK_TYPE_SOLANA',
-}
+export type QuoteResponse = {
+  quoteId?: string;
+  expirationTime?: Date;
+  bestPrice?: string;
+  orderTotal?: string;
+  priceInclusiveOfFees?: string;
+};

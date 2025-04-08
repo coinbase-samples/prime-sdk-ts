@@ -18,7 +18,17 @@
  *  Do not edit the class manually.
  */
 
-export enum NetworkType {
-  Evm = 'NETWORK_TYPE_EVM',
-  Solana = 'NETWORK_TYPE_SOLANA',
-}
+import { OrderSide } from './enums/OrderSide';
+
+export type AcceptQuoteRequest = {
+  productId: string;
+  side: OrderSide;
+  /**
+   * A client-generated ID used for reference purposes (note: order will be rejected if this ID is not unique among all currently active orders)
+   */
+  clientOrderId: string;
+  /**
+   * A quote id that was returned from the quote request
+   */
+  quoteId: string;
+};
