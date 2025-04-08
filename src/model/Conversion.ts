@@ -18,20 +18,21 @@
  *  Do not edit the class manually.
  */
 
-import { OrderSide } from './enums/OrderSide';
+import { ConversionDetail } from './ConversionDetail';
+import { ShortCollateral } from './ShortCollateral';
 
-/**
- * based off PostOrderPreviewRequest
- */
-export type RFQ = {
-  productId: string;
-  side: OrderSide;
+export type Conversion = {
   /**
-   * A client-generated order ID used for reference purposes (note: order will be rejected if this ID is not unique among all currently active orders)
+   * Conversion details
    */
-  clientQuoteId: string;
-  baseQuantity?: string;
-  quoteValue?: string;
-  limitPrice: string;
-  settlCurrency?: string;
+  conversionDetails?: Array<ConversionDetail>;
+  shortCollateral?: ShortCollateral;
+  /**
+   * The UTC date time used for conversion
+   */
+  conversionDatetime?: string;
+  /**
+   * Portfolio Id
+   */
+  portfolioId?: string;
 };

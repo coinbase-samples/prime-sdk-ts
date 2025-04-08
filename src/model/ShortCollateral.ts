@@ -18,20 +18,21 @@
  *  Do not edit the class manually.
  */
 
-import { OrderSide } from './enums/OrderSide';
-
-/**
- * based off PostOrderPreviewRequest
- */
-export type RFQ = {
-  productId: string;
-  side: OrderSide;
+export type ShortCollateral = {
   /**
-   * A client-generated order ID used for reference purposes (note: order will be rejected if this ID is not unique among all currently active orders)
+   * Existing short collateral balance
    */
-  clientQuoteId: string;
-  baseQuantity?: string;
-  quoteValue?: string;
-  limitPrice: string;
-  settlCurrency?: string;
+  oldBalance?: string;
+  /**
+   * New short collateral balance required
+   */
+  newBalance?: string;
+  /**
+   * Loan interest rate
+   */
+  loanInterestRate?: string;
+  /**
+   * Collateral interest rate
+   */
+  collateralInterestRate?: string;
 };

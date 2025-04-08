@@ -18,20 +18,25 @@
  *  Do not edit the class manually.
  */
 
-import { OrderSide } from './enums/OrderSide';
-
-/**
- * based off PostOrderPreviewRequest
- */
-export type RFQ = {
-  productId: string;
-  side: OrderSide;
+export type BuyingPower = {
   /**
-   * A client-generated order ID used for reference purposes (note: order will be rejected if this ID is not unique among all currently active orders)
+   * The unique ID of the portfolio
    */
-  clientQuoteId: string;
-  baseQuantity?: string;
-  quoteValue?: string;
-  limitPrice: string;
-  settlCurrency?: string;
+  portfolioId?: string;
+  /**
+   * The symbol for the base currency
+   */
+  baseCurrency?: string;
+  /**
+   * The symbol for the quote currency
+   */
+  quoteCurrency?: string;
+  /**
+   * The buying power for the base currency
+   */
+  baseBuyingPower?: string;
+  /**
+   * The buying power for the quote currency
+   */
+  quoteBuyingPower?: string;
 };

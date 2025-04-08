@@ -18,20 +18,13 @@
  *  Do not edit the class manually.
  */
 
-import { OrderSide } from './enums/OrderSide';
+import { MarginCallRecord } from './MarginCallRecord';
+import { MarginSummary } from './MarginSummary';
 
-/**
- * based off PostOrderPreviewRequest
- */
-export type RFQ = {
-  productId: string;
-  side: OrderSide;
+export type MarginInformation = {
   /**
-   * A client-generated order ID used for reference purposes (note: order will be rejected if this ID is not unique among all currently active orders)
+   * The current margin call records
    */
-  clientQuoteId: string;
-  baseQuantity?: string;
-  quoteValue?: string;
-  limitPrice: string;
-  settlCurrency?: string;
+  marginCallRecords?: Array<MarginCallRecord>;
+  marginSummary?: MarginSummary;
 };

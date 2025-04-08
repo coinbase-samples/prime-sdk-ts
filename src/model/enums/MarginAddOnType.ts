@@ -18,20 +18,10 @@
  *  Do not edit the class manually.
  */
 
-import { OrderSide } from './enums/OrderSide';
-
-/**
- * based off PostOrderPreviewRequest
- */
-export type RFQ = {
-  productId: string;
-  side: OrderSide;
-  /**
-   * A client-generated order ID used for reference purposes (note: order will be rejected if this ID is not unique among all currently active orders)
-   */
-  clientQuoteId: string;
-  baseQuantity?: string;
-  quoteValue?: string;
-  limitPrice: string;
-  settlCurrency?: string;
-};
+export enum MarginAddOnType {
+  MarginAddOnTypeUnspecified = 'MARGIN_ADD_ON_TYPE_UNSPECIFIED',
+  SingleCoinStress = 'SINGLE_COIN_STRESS',
+  ConcentrationStress = 'CONCENTRATION_STRESS',
+  MacroStress = 'MACRO_STRESS',
+  ShortBiasedStress = 'SHORT_BIASED_STRESS',
+}

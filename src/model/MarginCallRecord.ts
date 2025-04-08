@@ -18,20 +18,25 @@
  *  Do not edit the class manually.
  */
 
-import { OrderSide } from './enums/OrderSide';
-
-/**
- * based off PostOrderPreviewRequest
- */
-export type RFQ = {
-  productId: string;
-  side: OrderSide;
+export type MarginCallRecord = {
   /**
-   * A client-generated order ID used for reference purposes (note: order will be rejected if this ID is not unique among all currently active orders)
+   * The unique ID of the margin call
    */
-  clientQuoteId: string;
-  baseQuantity?: string;
-  quoteValue?: string;
-  limitPrice: string;
-  settlCurrency?: string;
+  marginCallId?: string;
+  /**
+   * The initial margin call amount in notional value
+   */
+  initialNotionalAmount?: string;
+  /**
+   * The outstanding margin call amount in notional value
+   */
+  outstandingNotionalAmount?: string;
+  /**
+   * The time the margin call is created in RFC3330 format
+   */
+  createdAt?: string;
+  /**
+   * The time the margin call is due in RFC3339 format
+   */
+  dueAt?: string;
 };

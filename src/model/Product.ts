@@ -19,6 +19,7 @@
  */
 
 import { ProductPermissions } from './enums/ProductPermissions';
+import { RFQProductDetails } from './RFQProductDetails';
 
 export type Product = {
   /**
@@ -57,4 +58,5 @@ export type Product = {
    * The smallest permitted price increment for the product
    */
   priceIncrement?: string;
+  rfqProductDetails?: RFQProductDetails;
 };

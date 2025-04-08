@@ -18,20 +18,8 @@
  *  Do not edit the class manually.
  */
 
-import { OrderSide } from './enums/OrderSide';
+import { TieredPricingFee } from './TieredPricingFee';
 
-/**
- * based off PostOrderPreviewRequest
- */
-export type RFQ = {
-  productId: string;
-  side: OrderSide;
-  /**
-   * A client-generated order ID used for reference purposes (note: order will be rejected if this ID is not unique among all currently active orders)
-   */
-  clientQuoteId: string;
-  baseQuantity?: string;
-  quoteValue?: string;
-  limitPrice: string;
-  settlCurrency?: string;
+export type GetTFTieredPricingFeesResponse = {
+  fees?: Array<TieredPricingFee>;
 };

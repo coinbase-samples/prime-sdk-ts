@@ -19,6 +19,7 @@
  */
 
 export enum NetworkType {
+  Unspecified = 'NETWORK_TYPE_UNSPECIFIED',
   Evm = 'NETWORK_TYPE_EVM',
   Solana = 'NETWORK_TYPE_SOLANA',
 }

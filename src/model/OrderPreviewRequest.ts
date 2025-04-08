@@ -35,4 +35,8 @@ export type OrderPreviewRequest = {
   isRaiseExact?: boolean;
   historicalPov?: string;
   stopPrice?: string;
+  /**
+   * next: 15
+   */
+  settlCurrency?: string;
 };

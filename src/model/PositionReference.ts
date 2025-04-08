@@ -18,20 +18,12 @@
  *  Do not edit the class manually.
  */
 
-import { OrderSide } from './enums/OrderSide';
+import { PositionReferenceType } from './enums/PositionReferenceType';
 
-/**
- * based off PostOrderPreviewRequest
- */
-export type RFQ = {
-  productId: string;
-  side: OrderSide;
+export type PositionReference = {
   /**
-   * A client-generated order ID used for reference purposes (note: order will be rejected if this ID is not unique among all currently active orders)
+   * Reference ID
    */
-  clientQuoteId: string;
-  baseQuantity?: string;
-  quoteValue?: string;
-  limitPrice: string;
-  settlCurrency?: string;
+  id?: string;
+  type?: PositionReferenceType;
 };

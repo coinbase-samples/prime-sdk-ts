@@ -18,20 +18,13 @@
  *  Do not edit the class manually.
  */
 
-import { OrderSide } from './enums/OrderSide';
-
-/**
- * based off PostOrderPreviewRequest
- */
-export type RFQ = {
-  productId: string;
-  side: OrderSide;
+export type WithdrawalPower = {
   /**
-   * A client-generated order ID used for reference purposes (note: order will be rejected if this ID is not unique among all currently active orders)
+   * The currency symbol
    */
-  clientQuoteId: string;
-  baseQuantity?: string;
-  quoteValue?: string;
-  limitPrice: string;
-  settlCurrency?: string;
+  symbol?: string;
+  /**
+   * Withdrawal power
+   */
+  amount?: string;
 };

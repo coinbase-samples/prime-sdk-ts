@@ -18,48 +18,49 @@
  *  Do not edit the class manually.
  */
 
-import { OrderSide } from './enums/OrderSide';
-
-export type Fill = {
+export type ExistingLocate = {
   /**
-   * The unique ID of the fill
+   * The locate ID
    */
-  id?: string;
+  locateId?: string;
   /**
-   * The order ID of the fill
+   * The unique ID of the entity
    */
-  orderId?: string;
+  entityId?: string;
   /**
-   * The product ID of the fill
+   * The unique ID of the portfolio
    */
-  productId?: string;
+  portfolioId?: string;
   /**
-   * The client product ID of the fill indicating the settlement currency
+   * The currency symbol
    */
-  clientProductId?: string;
-  side?: OrderSide;
+  symbol?: string;
   /**
-   * Filled size (in base asset units)
+   * The requested locate amount
    */
-  filledQuantity?: string;
+  requestedAmount?: string;
   /**
-   * Filled value (in quote asset units)
+   * The interest rate of PM loan
    */
-  filledValue?: string;
+  interestRate?: string;
   /**
-   * The price of the fill
+   * The locate status
    */
-  price?: string;
+  status?: string;
   /**
-   * The date and time of the fill
+   * The approved locate amount
    */
-  time?: Date;
+  approvedAmount?: string;
   /**
-   * The commission incurred for the fill
+   * Deprecated: Use locate_date instead
    */
-  commission?: string;
+  conversionDate?: string;
   /**
-   * The name of the venue
+   * The date when the locate was submitted in RFC3339 format
    */
-  venue?: string;
+  createdAt?: string;
+  /**
+   * The locate date from the CreateNewLocatesRequest in RFC3339 format
+   */
+  locateDate?: string;
 };

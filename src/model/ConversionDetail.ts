@@ -18,20 +18,33 @@
  *  Do not edit the class manually.
  */
 
-import { OrderSide } from './enums/OrderSide';
-
-/**
- * based off PostOrderPreviewRequest
- */
-export type RFQ = {
-  productId: string;
-  side: OrderSide;
+export type ConversionDetail = {
   /**
-   * A client-generated order ID used for reference purposes (note: order will be rejected if this ID is not unique among all currently active orders)
+   * The currency symbol
    */
-  clientQuoteId: string;
-  baseQuantity?: string;
-  quoteValue?: string;
-  limitPrice: string;
-  settlCurrency?: string;
+  symbol?: string;
+  /**
+   * Trade finance balance after the conversion
+   */
+  tfBalance?: string;
+  /**
+   * Notional trade finance balance after the conversion
+   */
+  notionalTfBalance?: string;
+  /**
+   * Converted balance
+   */
+  convertedBalance?: string;
+  /**
+   * Notional converted balance
+   */
+  notionalConvertedBalance?: string;
+  /**
+   * Interest rate
+   */
+  interestRate?: string;
+  /**
+   * Conversion rate
+   */
+  conversionRate?: string;
 };

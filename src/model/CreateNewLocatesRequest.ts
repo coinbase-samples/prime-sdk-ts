@@ -18,20 +18,21 @@
  *  Do not edit the class manually.
  */
 
-import { OrderSide } from './enums/OrderSide';
-
-/**
- * based off PostOrderPreviewRequest
- */
-export type RFQ = {
-  productId: string;
-  side: OrderSide;
+export type CreateNewLocatesRequest = {
   /**
-   * A client-generated order ID used for reference purposes (note: order will be rejected if this ID is not unique among all currently active orders)
+   * Currency symbol
    */
-  clientQuoteId: string;
-  baseQuantity?: string;
-  quoteValue?: string;
-  limitPrice: string;
-  settlCurrency?: string;
+  symbol: string;
+  /**
+   * Locate Amount
+   */
+  amount: string;
+  /**
+   * Deprecated: Use locate_date instead
+   */
+  conversionDate?: string;
+  /**
+   * The target date of the locate (YYYY-MM-DD)
+   */
+  locateDate?: string;
 };

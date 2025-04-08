@@ -18,20 +18,16 @@
  *  Do not edit the class manually.
  */
 
-import { OrderSide } from './enums/OrderSide';
+import { MarginSummary } from './MarginSummary';
 
-/**
- * based off PostOrderPreviewRequest
- */
-export type RFQ = {
-  productId: string;
-  side: OrderSide;
+export type MarginSummaryHistorical = {
   /**
-   * A client-generated order ID used for reference purposes (note: order will be rejected if this ID is not unique among all currently active orders)
+   * The UTC date time used for conversion
    */
-  clientQuoteId: string;
-  baseQuantity?: string;
-  quoteValue?: string;
-  limitPrice: string;
-  settlCurrency?: string;
+  conversionDatetime?: string;
+  /**
+   * The date used for conversion
+   */
+  conversionDate?: string;
+  marginSummary?: MarginSummary;
 };
