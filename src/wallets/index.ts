@@ -26,8 +26,12 @@ import {
   GetWalletResponse,
   GetWalletDepositInstructionsRequest,
   GetWalletDepositInstructionsResponse,
+  ListWalletAddressesRequest,
+  ListWalletAddressesResponse,
   CreateWalletRequest,
   CreateWalletResponse,
+  CreateWalletDepositAddressRequest,
+  CreateWalletDepositAddressResponse,
 } from './types';
 
 export interface IWalletsService {
@@ -54,11 +58,29 @@ export interface IWalletsService {
     | CoinbasePrimeException
   >;
 
+  listWalletAddresses(
+    request: ListWalletAddressesRequest,
+    options?: CoinbaseCallOptions
+  ): Promise<
+    | ListWalletAddressesResponse
+    | CoinbasePrimeClientException
+    | CoinbasePrimeException
+  >;
+
   createWallet(
     request: CreateWalletRequest,
     options?: CoinbaseCallOptions
   ): Promise<
     CreateWalletResponse | CoinbasePrimeClientException | CoinbasePrimeException
+  >;
+
+  createWalletDepositAddress(
+    request: CreateWalletDepositAddressRequest,
+    options?: CoinbaseCallOptions
+  ): Promise<
+    | CreateWalletDepositAddressResponse
+    | CoinbasePrimeClientException
+    | CoinbasePrimeException
   >;
 }
 
@@ -105,12 +127,52 @@ export class WalletsService implements IWalletsService {
     | CoinbasePrimeClientException
     | CoinbasePrimeException
   > {
+    let queryParams: Record<string, string | number> = {
+      depositType: request.depositType,
+    };
+    if (request.networkType) {
+      queryParams['network.type'] = request.networkType;
+    }
+    if (request.networkId) {
+      queryParams['network.id'] = request.networkId;
+    }
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/wallets/${request.walletId}/deposit_instructions`,
       callOptions: options,
+      queryParams,
     });
 
     return response.data as GetWalletDepositInstructionsResponse;
+  }
+
+  async listWalletAddresses(
+    request: ListWalletAddressesRequest,
+    options?: CoinbaseCallOptions
+  ): Promise<
+    | ListWalletAddressesResponse
+    | CoinbasePrimeClientException
+    | CoinbasePrimeException
+  > {
+    let queryParams: Record<string, string | number> = {};
+    if (request.networkId) {
+      queryParams['network.id'] = request.networkId;
+    }
+    if (request.networkType) {
+      queryParams['network.type'] = request.networkType;
+    }
+    if (request.cursor) {
+      queryParams.cursor = request.cursor;
+    }
+    if (request.limit) {
+      queryParams.limit = request.limit;
+    }
+    const response = await this.client.request({
+      url: `portfolios/${request.portfolioId}/wallets/${request.walletId}/addresses`,
+      queryParams,
+      callOptions: options,
+    });
+
+    return response.data as ListWalletAddressesResponse;
   }
 
   async createWallet(
@@ -128,5 +190,30 @@ export class WalletsService implements IWalletsService {
     });
 
     return response.data as CreateWalletResponse;
+  }
+
+  async createWalletDepositAddress(
+    request: CreateWalletDepositAddressRequest,
+    options?: CoinbaseCallOptions
+  ): Promise<
+    | CreateWalletDepositAddressResponse
+    | CoinbasePrimeClientException
+    | CoinbasePrimeException
+  > {
+    let queryParams: Record<string, string | number> = {};
+    if (request.networkId) {
+      queryParams['network.id'] = request.networkId;
+    }
+    if (request.networkType) {
+      queryParams['network.type'] = request.networkType;
+    }
+    const response = await this.client.request({
+      url: `portfolios/${request.portfolioId}/wallets/${request.walletId}/addresses`,
+      queryParams,
+      method: Method.POST,
+      callOptions: options,
+    });
+
+    return response.data as CreateWalletDepositAddressResponse;
   }
 }

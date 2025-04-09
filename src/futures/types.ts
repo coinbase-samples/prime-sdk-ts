@@ -21,7 +21,7 @@ import { ScheduleFuturesSweepRequest } from '../model/ScheduleFuturesSweepReques
 import { ScheduleFuturesSweepResponse } from '../model/ScheduleFuturesSweepResponse';
 import { CancelFuturesSweepResponse } from '../model/CancelFuturesSweepResponse';
 
-export type ListEntityFuturesSweeps = {
+export type ListEntityFuturesSweepsRequest = {
   entityId: string;
 };
 
@@ -40,7 +40,7 @@ export type GetEntityFuturesPositionsRequest = {
 
 export type GetEntityFuturesPositionsResponse = GetPositionsResponse;
 
-export type UpdateEntityFuturesAutoSweep = {
+export type UpdateEntityFuturesAutoSweepRequest = {
   entityId: string;
   autoSweep: boolean;
 };

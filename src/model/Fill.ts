@@ -33,6 +33,10 @@ export type Fill = {
    * The product ID of the fill
    */
   productId?: string;
+  /**
+   * The client product ID of the fill indicating the settlement currency
+   */
+  clientProductId?: string;
   side?: OrderSide;
   /**
    * Filled size (in base asset units)

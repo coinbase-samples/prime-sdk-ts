@@ -33,4 +33,5 @@ export type RFQ = {
   baseQuantity?: string;
   quoteValue?: string;
   limitPrice: string;
+  settlCurrency?: string;
 };

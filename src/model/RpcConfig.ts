@@ -24,7 +24,7 @@ export type RpcConfig = {
    */
   skipBroadcast?: boolean;
   /**
-   * Custom blockchain node URL. Currently only supports Flashbots RPC endpoint for EVM mainnet (https://rpc.flashbots.net/fast).
+   * Custom blockchain node URL. Currently only usable for Flashbots RPC endpoint for ETH mainnet (https://rpc.flashbots.net/fast).
    */
   url?: string;
 };

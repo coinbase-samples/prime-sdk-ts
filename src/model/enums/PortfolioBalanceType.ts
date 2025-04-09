@@ -24,4 +24,5 @@ export enum PortfolioBalanceType {
   VaultBalances = 'VAULT_BALANCES',
   TotalBalances = 'TOTAL_BALANCES',
   PrimeCustodyBalances = 'PRIME_CUSTODY_BALANCES',
+  UnifiedTotalBalances = 'UNIFIED_TOTAL_BALANCES',
 }

@@ -67,4 +67,8 @@ export type Balance = {
    * The total amount in fiat unit
    */
   fiatAmount?: string;
+  /**
+   * Amount available for unbonding/unstaking, in whole units
+   */
+  unbondableAmount?: string;
 };

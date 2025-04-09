@@ -39,4 +39,8 @@ export type CreateOrderRequest = {
   isRaiseExact?: boolean;
   historicalPov?: string;
   stopPrice?: string;
+  /**
+   * next: 19
+   */
+  settlCurrency?: string;
 };

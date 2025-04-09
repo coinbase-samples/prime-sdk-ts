@@ -26,6 +26,8 @@ export type GetPortfolioRequest = {
 
 export type GetPortfolioResponse = internalGet;
 
+export type ListPortfoliosRequest = Record<string, never>;
+
 export type ListPortfoliosResponse = GetPortfoliosResponse;
 
 export type GetPortfolioCreditRequest = {

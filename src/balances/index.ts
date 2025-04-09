@@ -26,6 +26,8 @@ import {
   ListOnchainWalletBalancesResponse,
   ListPortfolioBalancesRequest,
   ListPortfolioBalancesResponse,
+  ListEntityBalancesRequest,
+  ListEntityBalancesResponse,
 } from './types';
 
 export interface IBalancesService {
@@ -52,6 +54,15 @@ export interface IBalancesService {
     options?: CoinbaseCallOptions
   ): Promise<
     | ListOnchainWalletBalancesResponse
+    | CoinbasePrimeClientException
+    | CoinbasePrimeException
+  >;
+
+  listEntityBalances(
+    request: ListEntityBalancesRequest,
+    options?: CoinbaseCallOptions
+  ): Promise<
+    | ListEntityBalancesResponse
     | CoinbasePrimeClientException
     | CoinbasePrimeException
   >;
@@ -112,11 +123,32 @@ export class BalancesService implements IBalancesService {
       walletId: undefined,
     };
     const response = await this.client.request({
-      url: `portfolios/${request.portfolioId}wallets/${request.walletId}/web3_balances`,
+      url: `portfolios/${request.portfolioId}/wallets/${request.walletId}/web3_balances`,
       queryParams,
       callOptions: options,
     });
 
     return response.data as ListOnchainWalletBalancesResponse;
+  }
+
+  async listEntityBalances(
+    request: ListEntityBalancesRequest,
+    options?: CoinbaseCallOptions
+  ): Promise<
+    | ListEntityBalancesResponse
+    | CoinbasePrimeClientException
+    | CoinbasePrimeException
+  > {
+    const queryParams = {
+      ...request,
+      entityId: undefined,
+    };
+    const response = await this.client.request({
+      url: `entities/${request.entityId}/balances`,
+      queryParams,
+      callOptions: options,
+    });
+
+    return response.data as ListEntityBalancesResponse;
   }
 }
