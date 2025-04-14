@@ -1,14 +1,15 @@
 {
   "name": "@coinbase-sample/prime-sdk-ts",
-  "version": "0.2.1",
-  "main": "dist/main.js",
+  "version": "0.3.0",
+  "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
     "lint": "eslint . --ext .js,.ts",
     "format": "prettier --write \"**/*.{js,ts,tsx,json,css,md}\"",
     "gen-types": "openapi-generator-cli generate -i apiSpec/prime-public-api-spec.json -g typescript-node --global-property models -o apiSpec/types --additional-properties=supportsES6=true --additional-properties=snapshot=true && cd apiSpec && node generateTypes.js",
-    "replace-model": "rm -r src/model && cp -r apiSpec/types/processed src/model"
+    "replace-model": "rm -r src/model && cp -r apiSpec/types/processed src/model",
+    "update-spec": "npm run gen-types && npm run replace-model"
   },
   "files": [
     "dist/"
@@ -22,15 +23,15 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
-    "@types/node": "^20",
-    "@typescript-eslint/eslint-plugin": "^8.18.0",
-    "@typescript-eslint/parser": "^8.18.0",
+    "@types/node": "^22.14.0",
+    "@typescript-eslint/eslint-plugin": "^8.29.1",
+    "@typescript-eslint/parser": "^8.29.1",
     "dotenv": "^16.4.5",
-    "eslint": "^9.17.0",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-prettier": "^5.2.1",
-    "prettier": "^3.4.2",
-    "typescript": "^5.5.4"
+    "eslint": "^9.24.0",
+    "eslint-config-prettier": "^10.1.1",
+    "eslint-plugin-prettier": "^5.2.6",
+    "prettier": "^3.5.3",
+    "typescript": "^5.8.3"
   },
   "dependencies": {
     "@coinbase-sample/core-ts": "^0.1.0"

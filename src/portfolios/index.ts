@@ -25,6 +25,7 @@ import {
   GetPortfolioCreditRequest,
   GetPortfolioCreditResponse,
   ListPortfoliosResponse,
+  ListPortfoliosRequest,
 } from './types';
 
 export interface IPortfoliosService {
@@ -45,6 +46,7 @@ export interface IPortfoliosService {
   >;
 
   listPortfolios(
+    request: ListPortfoliosRequest,
     options?: CoinbaseCallOptions
   ): Promise<
     | ListPortfoliosResponse
@@ -85,6 +87,7 @@ export class PortfoliosService implements IPortfoliosService {
   }
 
   async listPortfolios(
+    request?: ListPortfoliosRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListPortfoliosResponse> {
     const response = await this.client.request({

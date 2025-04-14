@@ -108,4 +108,8 @@ export type Order = {
    * Indicates a user friendly message for regarding various aspects of the order such as cancellation or rejection reasons
    */
   userContext?: string;
+  /**
+   * The client product ID of the fill indicating the settlement currency
+   */
+  clientProductId?: string;
 };

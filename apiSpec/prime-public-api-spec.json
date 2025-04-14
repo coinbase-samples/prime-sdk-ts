@@ -109,6 +109,58 @@
         "tags": ["Allocations"]
       }
     },
+    "/v1/entities/{entity_id}/accruals": {
+      "get": {
+        "summary": "List Interest Accruals",
+        "description": "Lists interest accruals for an entity between the specified date range given",
+        "operationId": "PrimeRESTAPI_GetInterestAccruals",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/coinbase.public_rest_api.GetInterestAccrualsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/google.rpc.Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "entity_id",
+            "description": "The unique ID of the entity",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "portfolio_id",
+            "description": "The unique ID of the portfolio",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "start_date",
+            "description": "The start date of the range to query for in RFC3339 format",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "end_date",
+            "description": "The end date of the range to query for in RFC3339 format",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": ["Financing"]
+      }
+    },
     "/v1/entities/{entity_id}/activities": {
       "get": {
         "summary": "List Entity Activities",
@@ -242,6 +294,52 @@
         "tags": ["Activities"]
       }
     },
+    "/v1/entities/{entity_id}/aggregate_positions": {
+      "get": {
+        "summary": "List Aggregate Entity Positions",
+        "description": "List paginated aggregate positions for a specific entity.",
+        "operationId": "PrimeRESTAPI_ListAggregateEntityPositions",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/coinbase.public_rest_api.ListAggregateEntityPositionsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/google.rpc.Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "entity_id",
+            "description": "The unique ID of the entity",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "cursor",
+            "description": "Id to retrieve additional results strictly after",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "description": "Number of items to retrieve",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "tags": ["Positions"]
+      }
+    },
     "/v1/entities/{entity_id}/assets": {
       "get": {
         "summary": "List Assets",
@@ -271,6 +369,78 @@
           }
         ],
         "tags": ["Assets"]
+      }
+    },
+    "/v1/entities/{entity_id}/balances": {
+      "get": {
+        "summary": "List Entity Balances",
+        "description": "List all balances for a specific entity.",
+        "operationId": "PrimeRESTAPI_ListEntityBalances",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/coinbase.public_rest_api.ListEntityBalancesResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/google.rpc.Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "entity_id",
+            "description": "The entity ID",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "symbols",
+            "description": "A list of symbols by which to filter the response",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "items": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "cursor",
+            "description": "Id to retrieve additional results strictly after",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "description": "Number of items to retrieve",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "aggregation_type",
+            "description": "A type by which to filter aggregated balances, defaults to \"TOTAL\"\n\n - UNKNOWN_BALANCE_TYPE: nil\n - TRADING_BALANCES: Trading balances\n - VAULT_BALANCES: Vault balances\n - TOTAL_BALANCES: Total balances (The sum of vault and trading + prime custody)\n - PRIME_CUSTODY_BALANCES: Prime custody balances\n - UNIFIED_TOTAL_BALANCES: Unified total balance across networks and wallet types (vault + trading + prime custody)",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "UNKNOWN_BALANCE_TYPE",
+              "TRADING_BALANCES",
+              "VAULT_BALANCES",
+              "TOTAL_BALANCES",
+              "PRIME_CUSTODY_BALANCES",
+              "UNIFIED_TOTAL_BALANCES"
+            ],
+            "default": "UNKNOWN_BALANCE_TYPE"
+          }
+        ],
+        "tags": ["Balances"]
       }
     },
     "/v1/entities/{entity_id}/futures/auto_sweep": {
@@ -580,6 +750,127 @@
         "tags": ["Invoice"]
       }
     },
+    "/v1/entities/{entity_id}/locates_availability": {
+      "get": {
+        "summary": "Get Entity Locate Availabilities",
+        "description": "Get currencies available to be located with their corresponding amount and rate.",
+        "operationId": "PrimeRESTAPI_GetLocateAvailabilities",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/coinbase.public_rest_api.GetLocateAvailabilitiesResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/google.rpc.Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "entity_id",
+            "description": "The unique ID of the entity",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "conversion_date",
+            "description": "Deprecated: Use locate_date instead",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "locate_date",
+            "description": "The date of the locate availability in YYYY-MM-DD format",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": ["Financing"]
+      }
+    },
+    "/v1/entities/{entity_id}/margin": {
+      "get": {
+        "summary": "Get Margin Information",
+        "description": "Gets real-time evaluation of the margin model based on current positions and spot rates.",
+        "operationId": "PrimeRESTAPI_GetMarginInformation",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/coinbase.public_rest_api.GetMarginInformationResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/google.rpc.Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "entity_id",
+            "description": "The unique ID of the entity",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": ["Financing"]
+      }
+    },
+    "/v1/entities/{entity_id}/margin_summaries": {
+      "get": {
+        "summary": "List Margin Call Summaries",
+        "description": "Lists the margin call history for a given entity ID.",
+        "operationId": "PrimeRESTAPI_GetMarginSummaries",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/coinbase.public_rest_api.GetMarginSummariesResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/google.rpc.Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "entity_id",
+            "description": "The unique ID of the entity",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "start_date",
+            "description": "The start date of the range to query for in RFC3339 format. Must be within the last 3 months",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "end_date",
+            "description": "The end date of the range to query for in RFC3339 format",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": ["Financing"]
+      }
+    },
     "/v1/entities/{entity_id}/payment-methods": {
       "get": {
         "summary": "List Entity Payment Methods",
@@ -644,6 +935,90 @@
           }
         ],
         "tags": ["Payment Methods"]
+      }
+    },
+    "/v1/entities/{entity_id}/positions": {
+      "get": {
+        "summary": "List Entity Positions",
+        "description": "List paginated positions for a specific entity.",
+        "operationId": "PrimeRESTAPI_ListEntityPositions",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/coinbase.public_rest_api.ListEntityPositionsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/google.rpc.Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "entity_id",
+            "description": "The unique ID of the entity",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "cursor",
+            "description": "Id to retrieve additional results strictly after",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "description": "Number of items to retrieve",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "tags": ["Positions"]
+      }
+    },
+    "/v1/entities/{entity_id}/tf_tiered_fees": {
+      "get": {
+        "summary": "Get Trade Finance Tiered Pricing Fees",
+        "description": "Get trade finance tiered pricing fees for a given entity at a specific time, default to current time.",
+        "operationId": "PrimeRESTAPI_GetTFTieredPricingFees",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/coinbase.public_rest_api.GetTFTieredPricingFeesResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/google.rpc.Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "entity_id",
+            "description": "The unique ID of the entity",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "effective_at",
+            "description": "The fees on a specific effective date in RFC3339 format",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": ["Financing"]
       }
     },
     "/v1/entities/{entity_id}/users": {
@@ -806,6 +1181,10 @@
                   "type": "string",
                   "example": "f69a20b1-4ac4-420e-90b5-814a12565bfa",
                   "description": "A quote id that was returned from the quote request"
+                },
+                "settl_currency": {
+                  "type": "string",
+                  "title": "next: 7"
                 }
               },
               "required": ["product_id", "side", "client_order_id", "quote_id"]
@@ -813,6 +1192,51 @@
           }
         ],
         "tags": ["Orders"]
+      }
+    },
+    "/v1/portfolios/{portfolio_id}/accruals": {
+      "get": {
+        "summary": "List Interest Accruals For Portfolio",
+        "description": "Lists interest accruals between the specified date range for a specific portfolio ID",
+        "operationId": "PrimeRESTAPI_GetPortfolioInterestAccruals",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/coinbase.public_rest_api.GetPortfolioInterestAccrualsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/google.rpc.Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "portfolio_id",
+            "description": "The unique ID of the portfolio",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "start_date",
+            "description": "The start date of the range to query for in RFC3339 format",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "end_date",
+            "description": "The end date of the range to query for in RFC3339 format",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": ["Financing"]
       }
     },
     "/v1/portfolios/{portfolio_id}/activities": {
@@ -1310,7 +1734,7 @@
             "name": "symbols",
             "description": "A list of symbols by which to filter the response",
             "in": "query",
-            "required": true,
+            "required": false,
             "type": "string",
             "items": {
               "type": "string"
@@ -1318,7 +1742,7 @@
           },
           {
             "name": "balance_type",
-            "description": "A type by which to filter balances\n\n - UNKNOWN_BALANCE_TYPE: nil\n - TRADING_BALANCES: Trading balances\n - VAULT_BALANCES: Vault balances\n - TOTAL_BALANCES: Total balances (The sum of vault and trading)\n - PRIME_CUSTODY_BALANCES: Prime custody balances",
+            "description": "A type by which to filter balances\n\n - UNKNOWN_BALANCE_TYPE: nil\n - TRADING_BALANCES: Trading balances\n - VAULT_BALANCES: Vault balances\n - TOTAL_BALANCES: Total balances (The sum of vault and trading + prime custody)\n - PRIME_CUSTODY_BALANCES: Prime custody balances\n - UNIFIED_TOTAL_BALANCES: Unified total balance across networks and wallet types (vault + trading + prime custody)",
             "in": "query",
             "required": false,
             "type": "string",
@@ -1327,12 +1751,58 @@
               "TRADING_BALANCES",
               "VAULT_BALANCES",
               "TOTAL_BALANCES",
-              "PRIME_CUSTODY_BALANCES"
+              "PRIME_CUSTODY_BALANCES",
+              "UNIFIED_TOTAL_BALANCES"
             ],
             "default": "UNKNOWN_BALANCE_TYPE"
           }
         ],
         "tags": ["Balances"]
+      }
+    },
+    "/v1/portfolios/{portfolio_id}/buying_power": {
+      "get": {
+        "summary": "Get Portfolio Buying Power",
+        "description": "Returns the size of a buy trade that can be performed based on existing holdings and available credit. The result will differ for different assets due to asset specific credit configurations and caps. Note that this result is changing based on asset price fluctuations, so may be rejected when submitted.",
+        "operationId": "PrimeRESTAPI_GetBuyingPower",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/coinbase.public_rest_api.GetBuyingPowerResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/google.rpc.Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "portfolio_id",
+            "description": "The unique ID of the portfolio",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "base_currency",
+            "description": "The symbol for the base currency",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "quote_currency",
+            "description": "The symbol for the quote currency",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": ["Financing"]
       }
     },
     "/v1/portfolios/{portfolio_id}/commission": {
@@ -1393,7 +1863,7 @@
             "type": "string"
           }
         ],
-        "tags": ["Portfolios"]
+        "tags": ["Financing"]
       }
     },
     "/v1/portfolios/{portfolio_id}/fills": {
@@ -1467,16 +1937,16 @@
         "tags": ["Orders"]
       }
     },
-    "/v1/portfolios/{portfolio_id}/onchain_address_groups": {
+    "/v1/portfolios/{portfolio_id}/locates": {
       "get": {
-        "summary": "List Onchain Address Groups",
-        "description": "Lists all onchain address groups for a given portfolio ID",
-        "operationId": "PrimeRESTAPI_ListOnchainAddressGroups",
+        "summary": "List Existing Locates",
+        "description": "List locates for the portfolio",
+        "operationId": "PrimeRESTAPI_GetExistingLocates",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/coinbase.public_rest_api.ListOnchainAddressGroupsResponse"
+              "$ref": "#/definitions/coinbase.public_rest_api.GetExistingLocatesResponse"
             }
           },
           "default": {
@@ -1489,13 +1959,143 @@
         "parameters": [
           {
             "name": "portfolio_id",
-            "description": "Portfolio ID",
+            "description": "The unique ID of the portfolio",
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "locate_ids",
+            "description": "The IDs of specific locates to filter for",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "conversion_date",
+            "description": "Deprecated: Use locate_date instead",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "locate_date",
+            "description": "The date of the locates in YYYY-MM-DD format",
+            "in": "query",
+            "required": false,
+            "type": "string"
           }
         ],
-        "tags": ["Onchain Address Book"]
+        "tags": ["Financing"]
+      },
+      "post": {
+        "summary": "Create New Locates",
+        "description": "Create a new locate",
+        "operationId": "PrimeRESTAPI_CreateNewLocates",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/coinbase.public_rest_api.CreateNewLocatesResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/google.rpc.Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "portfolio_id",
+            "description": "The unique ID of the portfolio",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "symbol": {
+                  "type": "string",
+                  "example": "BTC",
+                  "description": "Currency symbol"
+                },
+                "amount": {
+                  "type": "string",
+                  "example": "100",
+                  "description": "Locate Amount"
+                },
+                "conversion_date": {
+                  "type": "string",
+                  "example": "2023-11-01",
+                  "description": "Deprecated: Use locate_date instead"
+                },
+                "locate_date": {
+                  "type": "string",
+                  "example": "2023-11-01",
+                  "description": "The target date of the locate (YYYY-MM-DD)"
+                }
+              },
+              "required": ["symbol", "amount"]
+            }
+          }
+        ],
+        "tags": ["Financing"]
+      }
+    },
+    "/v1/portfolios/{portfolio_id}/margin_conversions": {
+      "get": {
+        "summary": "List Margin Conversions",
+        "description": "Lists conversions and short collateral requirement between specified date range. This endpoint is deprecated and will be removed in the future. Use /v1/entities/{entity_id}/margin_summaries instead.",
+        "operationId": "PrimeRESTAPI_GetMarginConversions",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/coinbase.public_rest_api.GetMarginConversionsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/google.rpc.Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "portfolio_id",
+            "description": "The unique ID of the portfolio",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "start_date",
+            "description": "The start date of the range to query for in RFC3339 format",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "end_date",
+            "description": "The end date of the range to query for in RFC3339 format",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": ["Financing"]
       }
     },
     "/v1/portfolios/{portfolio_id}/onchain_address_group": {
@@ -1532,7 +2132,7 @@
               "type": "object",
               "properties": {
                 "address_group": {
-                  "$ref": "#/definitions/coinbase.public_rest_api.CreateAddressGroup"
+                  "$ref": "#/definitions/coinbase.public_rest_api.AddressGroup"
                 }
               },
               "title": "ChangeOnchainAddressGroupRequest is a request to create or update a new onchain address group",
@@ -1620,6 +2220,37 @@
           }
         ],
         "tags": ["Onchain Address Book"]
+      }
+    },
+    "/v1/portfolios/{portfolio_id}/onchain_address_groups": {
+      "get": {
+        "summary": "List Onchain Address Groups",
+        "description": "Lists all onchain address groups for a given portfolio ID",
+        "operationId": "PrimeRESTAPI_ListOnchainAddressGroups",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/coinbase.public_rest_api.ListOnchainAddressGroupsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/google.rpc.Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "portfolio_id",
+            "description": "Portfolio ID",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": ["Onchain Address Groups"]
       }
     },
     "/v1/portfolios/{portfolio_id}/open_orders": {
@@ -1830,6 +2461,11 @@
                 "stop_price": {
                   "type": "string",
                   "title": "Specifies the stop price at which the order activates. The order is activated if the last trade price on Coinbase Exchange crosses the stop price specified on the order"
+                },
+                "settl_currency": {
+                  "type": "string",
+                  "description": "next: 19",
+                  "title": "The currency in which the settlement will be made"
                 }
               },
               "required": ["product_id", "side", "client_order_id", "type"]
@@ -1925,6 +2561,11 @@
                 "stop_price": {
                   "type": "string",
                   "title": "Specifies the stop price at which the order activates. The order is activated if the last trade price on Coinbase Exchange crosses the stop price specified on the order"
+                },
+                "settl_currency": {
+                  "type": "string",
+                  "description": "next: 15",
+                  "title": "The currency in which the settlement will be made"
                 }
               },
               "required": ["product_id", "side", "type"]
@@ -2316,6 +2957,10 @@
                 "limit_price": {
                   "type": "string",
                   "title": "The limit price"
+                },
+                "settl_currency": {
+                  "type": "string",
+                  "title": "The currency in which the settlement will be made"
                 }
               },
               "description": "based off PostOrderPreviewRequest",
@@ -3440,6 +4085,44 @@
         ],
         "tags": ["Transactions"]
       }
+    },
+    "/v1/portfolios/{portfolio_id}/withdrawal_power": {
+      "get": {
+        "summary": "Get Portfolio Withdrawal Power",
+        "description": "Returns the nominal quantity of a given asset that can be withdrawn based on holdings and current portfolio equity.",
+        "operationId": "PrimeRESTAPI_GetWithdrawalPower",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/coinbase.public_rest_api.GetWithdrawalPowerResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/google.rpc.Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "portfolio_id",
+            "description": "The unique ID of the portfolio",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "symbol",
+            "description": "The currency symbol",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": ["Financing"]
+      }
     }
   },
   "definitions": {
@@ -3572,6 +4255,96 @@
       "properties": {
         "order_id": {
           "type": "string"
+        }
+      }
+    },
+    "coinbase.public_rest_api.Accrual": {
+      "type": "object",
+      "properties": {
+        "accrual_id": {
+          "type": "string",
+          "example": "9227410b-d2d2-4646-950d-df126601bf2a",
+          "description": "The accrual ID"
+        },
+        "date": {
+          "type": "string",
+          "example": "2023-05-01T12:00:00Z",
+          "description": "The date of accrual in UTC"
+        },
+        "portfolio_id": {
+          "type": "string",
+          "example": "e8bbed13-fa33-41de-86d5-4335d8f08166",
+          "description": "The unique ID of the portfolio"
+        },
+        "symbol": {
+          "type": "string",
+          "example": "BTC",
+          "description": "The currency symbol"
+        },
+        "loan_type": {
+          "$ref": "#/definitions/coinbase.public_rest_api.LoanType",
+          "example": "POST_TRADE_CREDIT",
+          "description": "The type of loan"
+        },
+        "interest_rate": {
+          "type": "string",
+          "example": 0.05,
+          "description": "The daily or annualized interest rate for the loan, see rate_type"
+        },
+        "nominal_accrual": {
+          "type": "string",
+          "example": 0.00013699,
+          "description": "Daily accrual amount in the principal currency"
+        },
+        "notional_accrual": {
+          "type": "string",
+          "example": 4.07,
+          "description": "Daily USD accrued interest"
+        },
+        "conversion_rate": {
+          "type": "string",
+          "example": 29687.94,
+          "description": "Accrual rate used to convert from principal to USD accrual"
+        },
+        "loan_amount": {
+          "type": "string",
+          "example": 1.05,
+          "description": "Outstanding principal of the loan"
+        },
+        "benchmark": {
+          "$ref": "#/definitions/coinbase.public_rest_api.Benchmark",
+          "example": "ZERO",
+          "description": "Source of where interest rate is fetched from"
+        },
+        "benchmark_rate": {
+          "type": "string",
+          "example": 0.0005,
+          "description": "Daily interest rate fetched from the benchmark source"
+        },
+        "spread": {
+          "type": "string",
+          "example": 0.0001,
+          "description": "Daily spread offset from the benchmark rate"
+        },
+        "rate_type": {
+          "$ref": "#/definitions/coinbase.public_rest_api.RateType",
+          "example": "BPS",
+          "description": "Type of interest rate"
+        },
+        "loan_amount_notional": {
+          "type": "string",
+          "example": 1.05,
+          "description": "Outstanding principal of the loan in USD"
+        },
+        "nominal_open_borrow_sod": {
+          "type": "string",
+          "example": 1.05,
+          "description": "Settled open borrow as of start-of-day in the principal currency"
+        },
+        "notional_open_borrow_sod": {
+          "type": "string",
+          "example": 1.05,
+          "description": "Settled open borrow as of start-of-day in USD"
         }
       }
     },
@@ -3821,7 +4594,6 @@
         },
         "chain_ids": {
           "type": "array",
-          "description": "List of compatible chain IDs for a given address, empty for Solana. Ex: 1 for ETH Mainnet or 8453 for Base. Find more [here](https://chainlist.org/).",
           "items": {
             "type": "string"
           },
@@ -3829,31 +4601,11 @@
         }
       }
     },
-    "coinbase.public_rest_api.CreateAddressGroup": {
-      "type": "object",
-      "properties": {
-        "name": {
-          "type": "string"
-        },
-        "network_type": {
-          "$ref": "#/definitions/coinbase.public_rest_api.NetworkType"
-        },
-        "addresses": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "$ref": "#/definitions/coinbase.public_rest_api.AddressEntry"
-          },
-          "title": "A list of addresses within the group"
-        }
-      }
-    },
     "coinbase.public_rest_api.AddressGroup": {
       "type": "object",
       "properties": {
         "id": {
-          "type": "string",
-          "required": true
+          "type": "string"
         },
         "name": {
           "type": "string"
@@ -3868,6 +4620,10 @@
             "$ref": "#/definitions/coinbase.public_rest_api.AddressEntry"
           },
           "title": "A list of addresses within the group"
+        },
+        "added_at": {
+          "type": "string",
+          "format": "date-time"
         }
       }
     },
@@ -4049,6 +4805,36 @@
         }
       }
     },
+    "coinbase.public_rest_api.AssetBalance": {
+      "type": "object",
+      "properties": {
+        "portfolio_id": {
+          "type": "string",
+          "example": "e8bbed13-fa33-41de-86d5-4335d8f08166",
+          "description": "The unique ID of the portfolio"
+        },
+        "symbol": {
+          "type": "string",
+          "example": "BTC",
+          "description": "The currency symbol"
+        },
+        "amount": {
+          "type": "string",
+          "example": 4000,
+          "description": "Balance amount"
+        },
+        "notional_amount": {
+          "type": "string",
+          "example": 4000,
+          "description": "Notional balance amount"
+        },
+        "conversion_rate": {
+          "type": "string",
+          "example": 1000,
+          "description": "Conversion rate"
+        }
+      }
+    },
     "coinbase.public_rest_api.AssetChange": {
       "type": "object",
       "properties": {
@@ -4152,8 +4938,18 @@
           "type": "string",
           "example": "109.42",
           "description": "The total amount in fiat unit"
+        },
+        "unbondable_amount": {
+          "type": "string",
+          "example": "109.42",
+          "description": "Amount available for unbonding/unstaking, in whole units"
         }
       }
+    },
+    "coinbase.public_rest_api.Benchmark": {
+      "type": "string",
+      "enum": ["BENCHMARK_UNSET", "ZERO", "SOFR_360", "SOFR_365", "CRYPTO_RFR"],
+      "default": "BENCHMARK_UNSET"
     },
     "coinbase.public_rest_api.BlockchainAddress": {
       "type": "object",
@@ -4166,12 +4962,42 @@
         "account_identifier": {
           "type": "string",
           "description": "The account identifier (used on some chains to distinguish accounts using the same address)",
-          "title": "The destination value’s account_identifier (MEMO/DESTINATION TAG) value\n for the withdrawal"
+          "title": "The destination value's account_identifier (MEMO/DESTINATION TAG) value\n for the withdrawal"
         },
         "network": {
           "$ref": "#/definitions/coinbase.public_rest_api.Network",
           "description": "The network this address belongs to",
           "title": "The network"
+        }
+      }
+    },
+    "coinbase.public_rest_api.BuyingPower": {
+      "type": "object",
+      "properties": {
+        "portfolio_id": {
+          "type": "string",
+          "example": "e8bbed13-fa33-41de-86d5-4335d8f08166",
+          "description": "The unique ID of the portfolio"
+        },
+        "base_currency": {
+          "type": "string",
+          "example": "BTC",
+          "description": "The symbol for the base currency"
+        },
+        "quote_currency": {
+          "type": "string",
+          "example": "USD",
+          "description": "The symbol for the quote currency"
+        },
+        "base_buying_power": {
+          "type": "string",
+          "example": 3.8533347963443316,
+          "description": "The buying power for the base currency"
+        },
+        "quote_buying_power": {
+          "type": "string",
+          "example": 2051207.48454131992255,
+          "description": "The buying power for the quote currency"
         }
       }
     },
@@ -4214,6 +5040,72 @@
         "trading_volume": {
           "type": "string",
           "description": "Average 30 days over past 3 months (e.g. 90 days divided by 3)"
+        }
+      }
+    },
+    "coinbase.public_rest_api.Conversion": {
+      "type": "object",
+      "properties": {
+        "conversion_details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/coinbase.public_rest_api.ConversionDetail"
+          },
+          "description": "Conversion details"
+        },
+        "short_collateral": {
+          "$ref": "#/definitions/coinbase.public_rest_api.ShortCollateral",
+          "description": "Short Collateral"
+        },
+        "conversion_datetime": {
+          "type": "string",
+          "example": "2023-05-01T12:00:00Z",
+          "description": "The UTC date time used for conversion"
+        },
+        "portfolio_id": {
+          "type": "string",
+          "description": "Portfolio Id"
+        }
+      }
+    },
+    "coinbase.public_rest_api.ConversionDetail": {
+      "type": "object",
+      "properties": {
+        "symbol": {
+          "type": "string",
+          "example": "BTC",
+          "description": "The currency symbol"
+        },
+        "tf_balance": {
+          "type": "string",
+          "example": 20000,
+          "description": "Trade finance balance after the conversion"
+        },
+        "notional_tf_balance": {
+          "type": "string",
+          "example": 4000,
+          "description": "Notional trade finance balance after the conversion"
+        },
+        "converted_balance": {
+          "type": "string",
+          "example": 1000,
+          "description": "Converted balance"
+        },
+        "notional_converted_balance": {
+          "type": "string",
+          "example": 1000,
+          "description": "Notional converted balance"
+        },
+        "interest_rate": {
+          "type": "string",
+          "example": 0.1,
+          "description": "Interest rate"
+        },
+        "conversion_rate": {
+          "type": "string",
+          "example": 0.1,
+          "description": "Conversion rate"
         }
       }
     },
@@ -4366,6 +5258,14 @@
         "sell_allocation_id",
         "failure_reason"
       ]
+    },
+    "coinbase.public_rest_api.CreateNewLocatesResponse": {
+      "type": "object",
+      "properties": {
+        "locate_id": {
+          "type": "string"
+        }
+      }
     },
     "coinbase.public_rest_api.CreateOnchainTransactionRequest.EvmParams": {
       "type": "object",
@@ -4594,6 +5494,36 @@
       "default": "UNKNOWN_DESTINATION",
       "title": "- UNKNOWN_DESTINATION: nil value\n - DESTINATION_PAYMENT_METHOD: A fiat bank account linked to a payment method id via Payment Method Service\n - DESTINATION_BLOCKCHAIN: A blockchain network address\n - DESTINATION_WALLET: An on platform wallet UUID \nNOTE: this is not usable in the withdrawals endpoint\n      only transfers"
     },
+    "coinbase.public_rest_api.EntityBalance": {
+      "type": "object",
+      "properties": {
+        "symbol": {
+          "type": "string",
+          "example": "BTC",
+          "description": "The display symbol for the asset"
+        },
+        "long_amount": {
+          "type": "string",
+          "example": "109.42",
+          "description": "The long balance"
+        },
+        "long_notional": {
+          "type": "string",
+          "example": "109.42",
+          "description": "The long balance in notional value"
+        },
+        "short_amount": {
+          "type": "string",
+          "example": "109.42",
+          "description": "The short balance"
+        },
+        "short_notional": {
+          "type": "string",
+          "example": "109.42",
+          "description": "The short balance in notional value"
+        }
+      }
+    },
     "coinbase.public_rest_api.EntityUser": {
       "type": "object",
       "properties": {
@@ -4635,6 +5565,66 @@
           "type": "string",
           "example": "2.99",
           "description": "Estimated upper bound for network fees (in whole units)"
+        }
+      }
+    },
+    "coinbase.public_rest_api.ExistingLocate": {
+      "type": "object",
+      "properties": {
+        "locate_id": {
+          "type": "string",
+          "example": "9227410b-d2d2-4646-950d-df126601bf2a",
+          "description": "The locate ID"
+        },
+        "entity_id": {
+          "type": "string",
+          "example": "e8bbed13-fa33-41de-86d5-4335d8f08166",
+          "description": "The unique ID of the entity"
+        },
+        "portfolio_id": {
+          "type": "string",
+          "example": "e8bbed13-fa33-41de-86d5-4335d8f08166",
+          "description": "The unique ID of the portfolio"
+        },
+        "symbol": {
+          "type": "string",
+          "example": "BTC",
+          "description": "The currency symbol"
+        },
+        "requested_amount": {
+          "type": "string",
+          "example": 5.22,
+          "description": "The requested locate amount"
+        },
+        "interest_rate": {
+          "type": "string",
+          "example": 0.05,
+          "description": "The interest rate of PM loan"
+        },
+        "status": {
+          "type": "string",
+          "example": "filled",
+          "description": "The locate status"
+        },
+        "approved_amount": {
+          "type": "string",
+          "example": 2.5,
+          "description": "The approved locate amount"
+        },
+        "conversion_date": {
+          "type": "string",
+          "example": "2023-01-01T00:00:00Z",
+          "description": "Deprecated: Use locate_date instead"
+        },
+        "created_at": {
+          "type": "string",
+          "example": "2023-01-01T00:00:00Z",
+          "description": "The date when the locate was submitted in RFC3339 format"
+        },
+        "locate_date": {
+          "type": "string",
+          "example": "2023-01-01T00:00:00Z",
+          "description": "The locate date from the CreateNewLocatesRequest in RFC3339 format"
         }
       }
     },
@@ -4764,6 +5754,11 @@
           "example": "BTC-USD",
           "description": "The product ID of the fill"
         },
+        "client_product_id": {
+          "type": "string",
+          "example": "BTC-USDC",
+          "description": "The client product ID of the fill indicating the settlement currency"
+        },
         "side": {
           "$ref": "#/definitions/coinbase.public_rest_api.OrderSide"
         },
@@ -4827,6 +5822,14 @@
             "type": "object",
             "$ref": "#/definitions/coinbase.public_rest_api.Allocation"
           }
+        }
+      }
+    },
+    "coinbase.public_rest_api.GetBuyingPowerResponse": {
+      "type": "object",
+      "properties": {
+        "buying_power": {
+          "$ref": "#/definitions/coinbase.public_rest_api.BuyingPower"
         }
       }
     },
@@ -4897,6 +5900,18 @@
         }
       }
     },
+    "coinbase.public_rest_api.GetExistingLocatesResponse": {
+      "type": "object",
+      "properties": {
+        "locates": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/coinbase.public_rest_api.ExistingLocate"
+          }
+        }
+      }
+    },
     "coinbase.public_rest_api.GetFcmBalanceResponse": {
       "type": "object",
       "properties": {
@@ -4962,6 +5977,21 @@
         }
       }
     },
+    "coinbase.public_rest_api.GetInterestAccrualsResponse": {
+      "type": "object",
+      "properties": {
+        "total_notional_accrual": {
+          "type": "string"
+        },
+        "accruals": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/coinbase.public_rest_api.Accrual"
+          }
+        }
+      }
+    },
     "coinbase.public_rest_api.GetInvoicesResponse": {
       "type": "object",
       "properties": {
@@ -4970,6 +6000,50 @@
           "items": {
             "type": "object",
             "$ref": "#/definitions/coinbase.public_rest_api.Invoice"
+          }
+        }
+      }
+    },
+    "coinbase.public_rest_api.GetLocateAvailabilitiesResponse": {
+      "type": "object",
+      "properties": {
+        "locates": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/coinbase.public_rest_api.Locate"
+          }
+        }
+      }
+    },
+    "coinbase.public_rest_api.GetMarginConversionsResponse": {
+      "type": "object",
+      "properties": {
+        "conversions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/coinbase.public_rest_api.Conversion"
+          }
+        }
+      }
+    },
+    "coinbase.public_rest_api.GetMarginInformationResponse": {
+      "type": "object",
+      "properties": {
+        "margin_information": {
+          "$ref": "#/definitions/coinbase.public_rest_api.MarginInformation"
+        }
+      }
+    },
+    "coinbase.public_rest_api.GetMarginSummariesResponse": {
+      "type": "object",
+      "properties": {
+        "margin_summaries": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/coinbase.public_rest_api.MarginSummaryHistorical"
           }
         }
       }
@@ -5146,6 +6220,21 @@
         }
       }
     },
+    "coinbase.public_rest_api.GetPortfolioInterestAccrualsResponse": {
+      "type": "object",
+      "properties": {
+        "total_notional_accrual": {
+          "type": "string"
+        },
+        "accruals": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/coinbase.public_rest_api.Accrual"
+          }
+        }
+      }
+    },
     "coinbase.public_rest_api.GetPortfolioProductsResponse": {
       "type": "object",
       "properties": {
@@ -5242,6 +6331,18 @@
         }
       }
     },
+    "coinbase.public_rest_api.GetTFTieredPricingFeesResponse": {
+      "type": "object",
+      "properties": {
+        "fees": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/coinbase.public_rest_api.TieredPricingFee"
+          }
+        }
+      }
+    },
     "coinbase.public_rest_api.GetTransactionResponse": {
       "type": "object",
       "properties": {
@@ -5322,6 +6423,14 @@
         },
         "pagination": {
           "$ref": "#/definitions/coinbase.public_rest_api.PaginatedResponse"
+        }
+      }
+    },
+    "coinbase.public_rest_api.GetWithdrawalPowerResponse": {
+      "type": "object",
+      "properties": {
+        "withdrawal_power": {
+          "$ref": "#/definitions/coinbase.public_rest_api.WithdrawalPower"
         }
       }
     },
@@ -5436,6 +6545,57 @@
       "default": "INVOICE_TYPE_UNSPECIFIED",
       "title": "Types"
     },
+    "coinbase.public_rest_api.ListAggregateEntityPositionsResponse": {
+      "type": "object",
+      "properties": {
+        "positions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/coinbase.public_rest_api.Position",
+            "required": ["positions"]
+          }
+        },
+        "pagination": {
+          "$ref": "#/definitions/coinbase.public_rest_api.PaginatedResponse"
+        }
+      },
+      "required": ["positions", "pagination"]
+    },
+    "coinbase.public_rest_api.ListEntityBalancesResponse": {
+      "type": "object",
+      "properties": {
+        "balances": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/coinbase.public_rest_api.EntityBalance",
+            "required": ["balances"]
+          }
+        },
+        "pagination": {
+          "$ref": "#/definitions/coinbase.public_rest_api.PaginatedResponse"
+        }
+      },
+      "required": ["balances", "pagination"]
+    },
+    "coinbase.public_rest_api.ListEntityPositionsResponse": {
+      "type": "object",
+      "properties": {
+        "positions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/coinbase.public_rest_api.Position",
+            "required": ["activities"]
+          }
+        },
+        "pagination": {
+          "$ref": "#/definitions/coinbase.public_rest_api.PaginatedResponse"
+        }
+      },
+      "required": ["positions", "pagination"]
+    },
     "coinbase.public_rest_api.ListOnchainAddressGroupsResponse": {
       "type": "object",
       "properties": {
@@ -5470,6 +6630,346 @@
             "$ref": "#/definitions/coinbase.public_rest_api.DefiBalance"
           },
           "description": "DeFi balances only return for the initial request. No pagination support."
+        }
+      }
+    },
+    "coinbase.public_rest_api.LoanInfo": {
+      "type": "object",
+      "properties": {
+        "portfolio_id": {
+          "type": "string",
+          "example": "e8bbed13-fa33-41de-86d5-4335d8f08166",
+          "description": "The unique ID of the portfolio"
+        },
+        "symbol": {
+          "type": "string",
+          "example": "BTC",
+          "description": "The currency symbol"
+        },
+        "amount": {
+          "type": "string",
+          "example": 10,
+          "description": "Balance amount"
+        },
+        "notional_amount": {
+          "type": "string",
+          "example": 250000,
+          "description": "Notional balance amount"
+        },
+        "due_date": {
+          "type": "string",
+          "example": 1000,
+          "description": "Settlement due date"
+        }
+      }
+    },
+    "coinbase.public_rest_api.LoanType": {
+      "type": "string",
+      "enum": [
+        "LOAN_TYPE_UNSET",
+        "BILATERAL_LENDING",
+        "TRADE_FINANCE",
+        "PORTFOLIO_MARGIN",
+        "SHORT_COLLATERAL_LOAN",
+        "SHORT_COLLATERAL"
+      ],
+      "default": "LOAN_TYPE_UNSET"
+    },
+    "coinbase.public_rest_api.Locate": {
+      "type": "object",
+      "properties": {
+        "symbol": {
+          "type": "string",
+          "example": "BTC",
+          "description": "The currency symbol"
+        },
+        "quantity": {
+          "type": "string",
+          "example": 100,
+          "description": "The available quantity located"
+        },
+        "rate": {
+          "type": "string",
+          "example": 0.05,
+          "description": "The interest rate for located symbol"
+        }
+      }
+    },
+    "coinbase.public_rest_api.MarginAddOn": {
+      "type": "object",
+      "properties": {
+        "amount": {
+          "type": "string",
+          "description": "margin add on amount"
+        },
+        "add_on_type": {
+          "$ref": "#/definitions/coinbase.public_rest_api.MarginAddOnType",
+          "description": "type of margin add on"
+        }
+      }
+    },
+    "coinbase.public_rest_api.MarginAddOnType": {
+      "type": "string",
+      "enum": [
+        "MARGIN_ADD_ON_TYPE_UNSPECIFIED",
+        "SINGLE_COIN_STRESS",
+        "CONCENTRATION_STRESS",
+        "MACRO_STRESS",
+        "SHORT_BIASED_STRESS"
+      ],
+      "default": "MARGIN_ADD_ON_TYPE_UNSPECIFIED"
+    },
+    "coinbase.public_rest_api.MarginCallRecord": {
+      "type": "object",
+      "properties": {
+        "margin_call_id": {
+          "type": "string",
+          "example": "e8bbed13-fa33-41de-86d5-4335d8f08122",
+          "description": "The unique ID of the margin call"
+        },
+        "initial_notional_amount": {
+          "type": "string",
+          "example": "123.45",
+          "description": "The initial margin call amount in notional value"
+        },
+        "outstanding_notional_amount": {
+          "type": "string",
+          "example": "122.45",
+          "description": "The outstanding margin call amount in notional value"
+        },
+        "created_at": {
+          "type": "string",
+          "example": "2023-01-01T00:00:00Z5",
+          "description": "The time the margin call is created in RFC3330 format"
+        },
+        "due_at": {
+          "type": "string",
+          "example": "2023-01-01T00:00:00Z",
+          "description": "The time the margin call is due in RFC3339 format"
+        }
+      }
+    },
+    "coinbase.public_rest_api.MarginInformation": {
+      "type": "object",
+      "properties": {
+        "margin_call_records": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/coinbase.public_rest_api.MarginCallRecord"
+          },
+          "description": "The current margin call records"
+        },
+        "margin_summary": {
+          "$ref": "#/definitions/coinbase.public_rest_api.MarginSummary"
+        }
+      }
+    },
+    "coinbase.public_rest_api.MarginSummary": {
+      "type": "object",
+      "properties": {
+        "entity_id": {
+          "type": "string",
+          "example": "e8bbed13-fa33-41de-86d5-4335d8f08166",
+          "description": "The unique ID of the entity"
+        },
+        "margin_equity": {
+          "type": "string",
+          "example": 2539231.590357535399411179,
+          "description": "The margin equity at the entity level. Margin Equity = LMV + SMV + Trading Cash Balance + Short Collateral - Pending Withdrawals"
+        },
+        "margin_requirement": {
+          "type": "string",
+          "example": 15131.7252798840904068469,
+          "description": "USD notional value of required equity in entity portfolios"
+        },
+        "excess_deficit": {
+          "type": "string",
+          "example": 2524099.86507765091,
+          "description": "margin_equity - margin_requirement"
+        },
+        "pm_credit_consumed": {
+          "type": "string",
+          "example": 10000,
+          "description": "The raw amount of portfolio margin credit used"
+        },
+        "tf_credit_limit": {
+          "type": "string",
+          "example": 2000000,
+          "description": "The maximum trade finance credit limit. This field is deprecated and will be removed in the future."
+        },
+        "tf_credit_consumed": {
+          "type": "string",
+          "example": 20000,
+          "description": "The amount of trade finance credit used (USD). This field is deprecated and will be removed in the future."
+        },
+        "tf_adjusted_asset_value": {
+          "type": "string",
+          "example": 40000,
+          "description": "TF Asset Adjusted Value (USD). This field is deprecated and will be removed in the future."
+        },
+        "tf_adjusted_liability_value": {
+          "type": "string",
+          "example": 40000,
+          "description": "TF Adjusted Liability Value (USD). This field is deprecated and will be removed in the future."
+        },
+        "tf_adjusted_credit_consumed": {
+          "type": "string",
+          "example": 30000,
+          "description": "The amount of adjusted credit used. This field is deprecated and will be removed in the future."
+        },
+        "tf_adjusted_equity": {
+          "type": "string",
+          "example": 30000,
+          "description": "The amount of adjusted equity. This field is deprecated and will be removed in the future."
+        },
+        "frozen": {
+          "type": "boolean",
+          "example": false,
+          "description": "Whether or not a entity is frozen due to balance outstanding or other reason"
+        },
+        "frozen_reason": {
+          "type": "string",
+          "description": "The reason why a entity is frozen"
+        },
+        "tf_enabled": {
+          "type": "boolean",
+          "example": true,
+          "description": "Whether TF is enabled for the entity. This field is deprecated and will be removed in the future."
+        },
+        "pm_enabled": {
+          "type": "boolean",
+          "example": true,
+          "description": "Whether PM is enabled for the entity"
+        },
+        "market_rates": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/coinbase.public_rest_api.MarketRate"
+          },
+          "description": "Market rates for the list of assets"
+        },
+        "asset_balances": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/coinbase.public_rest_api.AssetBalance"
+          },
+          "description": "Asset Balances across portfolios"
+        },
+        "tf_loans": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/coinbase.public_rest_api.LoanInfo"
+          },
+          "description": "Trade finance debit loan amounts. This field is deprecated and will be removed in the future."
+        },
+        "pm_loans": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/coinbase.public_rest_api.LoanInfo"
+          },
+          "description": "Portfolio Margin debit loan amounts"
+        },
+        "short_collateral": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/coinbase.public_rest_api.LoanInfo"
+          },
+          "description": "Short collateral amounts"
+        },
+        "gross_market_value": {
+          "type": "string",
+          "description": "Gross market value (GMV) = LMV + Abs (SMV)"
+        },
+        "net_market_value": {
+          "type": "string",
+          "description": "Net Market Value (NMV) = LMV + SMV"
+        },
+        "long_market_value": {
+          "type": "string",
+          "description": "Long Market Value (LMV) = Sum of positive notional for all assets"
+        },
+        "non_marginable_long_market_value": {
+          "type": "string",
+          "description": "Non_Marginable LMV: Sum of positive notional for each non-margin eligible coin"
+        },
+        "short_market_value": {
+          "type": "string",
+          "description": "Short Market Value (SMV) = Sum of negative notional for each margin eligible coin"
+        },
+        "gross_leverage": {
+          "type": "string",
+          "description": "Gross Leverage = GMV / Margin Requirement"
+        },
+        "net_exposure": {
+          "type": "string",
+          "description": "Net Exposure = (LMV + SMV) / GMV"
+        },
+        "portfolio_stress_triggered": {
+          "$ref": "#/definitions/coinbase.public_rest_api.MarginAddOn",
+          "description": "The dominant portfolio add-on triggered"
+        },
+        "pm_asset_info": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/coinbase.public_rest_api.PMAssetInfo"
+          },
+          "description": "PM asset info netted across the entity"
+        },
+        "pm_credit_limit": {
+          "type": "string",
+          "example": 1000000,
+          "description": "PM limit that monitors gross notional borrowings (crypto + fiat)"
+        },
+        "pm_margin_limit": {
+          "type": "string",
+          "example": 200000,
+          "description": "PM limit that monitors excess deficit"
+        },
+        "pm_margin_consumed": {
+          "type": "string",
+          "example": 5000,
+          "description": "The amount of the margin limit that is consumed by the excess deficit"
+        }
+      }
+    },
+    "coinbase.public_rest_api.MarginSummaryHistorical": {
+      "type": "object",
+      "properties": {
+        "conversion_datetime": {
+          "type": "string",
+          "example": "2023-05-01T12:00:00Z",
+          "description": "The UTC date time used for conversion"
+        },
+        "conversion_date": {
+          "type": "string",
+          "example": "2023-05-01",
+          "description": "The date used for conversion"
+        },
+        "margin_summary": {
+          "$ref": "#/definitions/coinbase.public_rest_api.MarginSummary",
+          "description": "Margin summary of the conversion"
+        }
+      }
+    },
+    "coinbase.public_rest_api.MarketRate": {
+      "type": "object",
+      "properties": {
+        "symbol": {
+          "type": "string",
+          "example": "BTC",
+          "description": "The currency symbol"
+        },
+        "rate": {
+          "type": "string",
+          "example": "27,123",
+          "description": "The current market rate of currency"
         }
       }
     },
@@ -5579,8 +7079,12 @@
     },
     "coinbase.public_rest_api.NetworkType": {
       "type": "string",
-      "enum": ["NETWORK_TYPE_EVM", "NETWORK_TYPE_SOLANA"],
-      "default": "NETWORK_TYPE_EVM"
+      "enum": [
+        "NETWORK_TYPE_UNSPECIFIED",
+        "NETWORK_TYPE_EVM",
+        "NETWORK_TYPE_SOLANA"
+      ],
+      "default": "NETWORK_TYPE_UNSPECIFIED"
     },
     "coinbase.public_rest_api.OnchainTransactionDetails": {
       "type": "object",
@@ -5756,6 +7260,11 @@
           "type": "string",
           "example": "User initiated cancellation",
           "description": "Indicates a user friendly message for regarding various aspects of the order such as cancellation or rejection reasons"
+        },
+        "client_product_id": {
+          "type": "string",
+          "example": "BTC-USDC",
+          "description": "The client product ID of the fill indicating the settlement currency"
         }
       }
     },
@@ -5796,6 +7305,79 @@
       "default": "UNKNOWN_ORDER_TYPE",
       "description": "- UNKNOWN_ORDER_TYPE: nil value\n - MARKET: A [market order](https://en.wikipedia.org/wiki/Order_(exchange)#Market_order)\n - LIMIT: A [limit order](https://en.wikipedia.org/wiki/Order_(exchange)#Limit_order)\n - TWAP: A [time-weighted average price order](https://en.wikipedia.org/wiki/Time-weighted_average_price)\n - BLOCK: A [block trade](https://en.wikipedia.org/wiki/Block_trade)\n - VWAP: A [volume-weighted average price order](https://en.wikipedia.org/wiki/Volume-weighted_average_price)\n - STOP_LIMIT: A [conditional order combined of stop order and limit order](https://en.wikipedia.org/wiki/Order_(exchange)#Stop-limit_order)\n - RFQ: A [request for quote](https://en.wikipedia.org/wiki/Request_for_quote)",
       "title": "Strategy (execution algorithm)"
+    },
+    "coinbase.public_rest_api.PMAssetInfo": {
+      "type": "object",
+      "properties": {
+        "symbol": {
+          "type": "string",
+          "description": "The currency symbol"
+        },
+        "amount": {
+          "type": "string",
+          "description": "Nominal amount of the currency"
+        },
+        "price": {
+          "type": "string",
+          "description": "Spot price for the currency"
+        },
+        "notional_amount": {
+          "type": "string",
+          "description": "Notional amount of the currency"
+        },
+        "asset_tier": {
+          "type": "string",
+          "description": "Asset tier of the currency"
+        },
+        "margin_eligible": {
+          "type": "boolean",
+          "description": "Whether the currency is margin eligible"
+        },
+        "base_margin_requirement": {
+          "type": "string",
+          "description": "Base margin requirement of the currency"
+        },
+        "base_margin_requirement_notional": {
+          "type": "string",
+          "description": "Notional amount of the currency's base margin requirement"
+        },
+        "adv_30d": {
+          "type": "string",
+          "description": "The 30d adv of the currency"
+        },
+        "hist_5d_vol": {
+          "type": "string",
+          "description": "Historic 5d volatility of the currency"
+        },
+        "hist_30d_vol": {
+          "type": "string",
+          "description": "Historic 30d volatility of the currency"
+        },
+        "hist_90d_vol": {
+          "type": "string",
+          "description": "Historic 90d volatility of the currency"
+        },
+        "volatility_addon": {
+          "type": "string",
+          "description": "Volatility margin addon of the currency position"
+        },
+        "liquidity_addon": {
+          "type": "string",
+          "description": "Liquidity margin addon of the currency position"
+        },
+        "total_position_margin": {
+          "type": "string",
+          "description": "Total position margin of the currency"
+        },
+        "short_nominal": {
+          "type": "string",
+          "description": "Nominal short position of the currency"
+        },
+        "long_nominal": {
+          "type": "string",
+          "description": "Nominal long position of the currency"
+        }
+      }
     },
     "coinbase.public_rest_api.PaginatedResponse": {
       "type": "object",
@@ -5919,10 +7501,11 @@
         "TRADING_BALANCES",
         "VAULT_BALANCES",
         "TOTAL_BALANCES",
-        "PRIME_CUSTODY_BALANCES"
+        "PRIME_CUSTODY_BALANCES",
+        "UNIFIED_TOTAL_BALANCES"
       ],
       "default": "UNKNOWN_BALANCE_TYPE",
-      "title": "- UNKNOWN_BALANCE_TYPE: nil\n - TRADING_BALANCES: Trading balances\n - VAULT_BALANCES: Vault balances\n - TOTAL_BALANCES: Total balances (The sum of vault and trading)\n - PRIME_CUSTODY_BALANCES: Prime custody balances"
+      "title": "- UNKNOWN_BALANCE_TYPE: nil\n - TRADING_BALANCES: Trading balances\n - VAULT_BALANCES: Vault balances\n - TOTAL_BALANCES: Total balances (The sum of vault and trading + prime custody)\n - PRIME_CUSTODY_BALANCES: Prime custody balances\n - UNIFIED_TOTAL_BALANCES: Unified total balance across networks and wallet types (vault + trading + prime custody)"
     },
     "coinbase.public_rest_api.PortfolioUser": {
       "type": "object",
@@ -5952,6 +7535,50 @@
           "description": "The role of the user."
         }
       }
+    },
+    "coinbase.public_rest_api.Position": {
+      "type": "object",
+      "properties": {
+        "symbol": {
+          "type": "string",
+          "example": "BTC",
+          "description": "Asset symbol"
+        },
+        "long": {
+          "type": "string",
+          "example": "10",
+          "description": "The long position based on 'reference' value"
+        },
+        "short": {
+          "type": "string",
+          "example": "10",
+          "description": "The short position based on 'reference' value"
+        },
+        "position_reference": {
+          "$ref": "#/definitions/coinbase.public_rest_api.PositionReference",
+          "description": "Position Reference"
+        }
+      }
+    },
+    "coinbase.public_rest_api.PositionReference": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "example": "e8bbed13-fa33-41de-86d5-4335d8f08166",
+          "description": "Reference ID"
+        },
+        "type": {
+          "$ref": "#/definitions/coinbase.public_rest_api.PositionReferenceType",
+          "example": "POSITION_REFERENCE_TYPE_ENTITY",
+          "description": "Reference type"
+        }
+      }
+    },
+    "coinbase.public_rest_api.PositionReferenceType": {
+      "type": "string",
+      "enum": ["POSITION_REFERENCE_TYPE_UNSPECIFIED", "ENTITY", "PORTFOLIO"],
+      "default": "POSITION_REFERENCE_TYPE_UNSPECIFIED"
     },
     "coinbase.public_rest_api.PostOrderPreviewResponse": {
       "type": "object",
@@ -6158,6 +7785,10 @@
           "type": "string",
           "example": "0.01",
           "description": "The smallest permitted price increment for the product"
+        },
+        "rfq_product_details": {
+          "$ref": "#/definitions/coinbase.public_rest_api.RFQProductDetails",
+          "description": "Details for RFQ products"
         }
       }
     },
@@ -6194,6 +7825,25 @@
       },
       "title": "Copied from https://github.cbhq.net/institutional/trading/blob/3e6da61aceb64c7cbe6f0c0f8fbdb98fd3e868dc/proxy/trading/protos/coinbase/brokerage/proxy/trading/api/orderentry.proto#L366-L370"
     },
+    "coinbase.public_rest_api.RFQProductDetails": {
+      "type": "object",
+      "properties": {
+        "tradable": {
+          "type": "boolean"
+        },
+        "min_notional_size": {
+          "type": "string"
+        },
+        "max_notional_size": {
+          "type": "string"
+        }
+      }
+    },
+    "coinbase.public_rest_api.RateType": {
+      "type": "string",
+      "enum": ["RATE_TYPE_UNSET", "BPS", "APR_360", "APR_365", "APR"],
+      "default": "RATE_TYPE_UNSET"
+    },
     "coinbase.public_rest_api.RiskAssessment": {
       "type": "object",
       "properties": {
@@ -6221,7 +7871,7 @@
         "url": {
           "type": "string",
           "example": "https://rpc.flashbots.net/fast",
-          "description": "Custom blockchain node URL. Currently only supports Flashbots RPC endpoint for EVM mainnet (https://rpc.flashbots.net/fast)."
+          "description": "Custom blockchain node URL. Currently only usable for Flashbots RPC endpoint for ETH mainnet (https://rpc.flashbots.net/fast)."
         }
       }
     },
@@ -6250,6 +7900,31 @@
         }
       }
     },
+    "coinbase.public_rest_api.ShortCollateral": {
+      "type": "object",
+      "properties": {
+        "old_balance": {
+          "type": "string",
+          "example": 1000,
+          "description": "Existing short collateral balance"
+        },
+        "new_balance": {
+          "type": "string",
+          "example": 1000,
+          "description": "New short collateral balance required"
+        },
+        "loan_interest_rate": {
+          "type": "string",
+          "example": 0.1,
+          "description": "Loan interest rate"
+        },
+        "collateral_interest_rate": {
+          "type": "string",
+          "example": 0.1,
+          "description": "Collateral interest rate"
+        }
+      }
+    },
     "coinbase.public_rest_api.SigningStatus": {
       "type": "string",
       "enum": ["SIGNING_STATUS_UNKNOWN", "SIGNED", "UNSIGNED"],
@@ -6260,6 +7935,21 @@
       "type": "string",
       "enum": ["DESC", "ASC"],
       "default": "DESC"
+    },
+    "coinbase.public_rest_api.TieredPricingFee": {
+      "type": "object",
+      "properties": {
+        "symbol": {
+          "type": "string",
+          "example": "BTC",
+          "description": "Asset symbol"
+        },
+        "fee": {
+          "type": "string",
+          "example": "4",
+          "description": "The fee in bps"
+        }
+      }
     },
     "coinbase.public_rest_api.TimeInForceType": {
       "type": "string",
@@ -6761,6 +8451,21 @@
             "$ref": "#/definitions/coinbase.public_rest_api.AssetChange"
           },
           "description": "The confirmed asset changes (onchain)"
+        }
+      }
+    },
+    "coinbase.public_rest_api.WithdrawalPower": {
+      "type": "object",
+      "properties": {
+        "symbol": {
+          "type": "string",
+          "example": "BTC",
+          "description": "The currency symbol"
+        },
+        "amount": {
+          "type": "string",
+          "example": 2.84882377,
+          "description": "Withdrawal power"
         }
       }
     },

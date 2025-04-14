@@ -31,4 +31,5 @@ export type AcceptQuoteRequest = {
    * A quote id that was returned from the quote request
    */
   quoteId: string;
+  settlCurrency?: string;
 };

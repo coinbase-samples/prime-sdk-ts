@@ -17,9 +17,12 @@ import { WalletType } from '../model/enums/WalletType';
 import { Pagination } from '../shared/pagination';
 import { GetWalletsResponse } from '../model/GetWalletsResponse';
 import { GetWalletResponse as internalGet } from '../model/GetWalletResponse';
+import { GetWalletAddressesResponse as internalGetAddresses } from '../model/GetWalletAddressesResponse';
 import { GetWalletDepositInstructionsResponse as internalGetInstructs } from '../model/GetWalletDepositInstructionsResponse';
 import { CreateWalletRequest as internalCreate } from '../model/CreateWalletRequest';
 import { CreateWalletResponse as internalCreateResp } from '../model/CreateWalletResponse';
+import { BlockchainAddress } from '../model/BlockchainAddress';
+import { WalletDepositInstructionType } from '../model/enums/WalletDepositInstructionType';
 
 export type ListWalletsRequest = Pagination & {
   portfolioId: string;
@@ -39,12 +42,35 @@ export type GetWalletResponse = internalGet;
 export type GetWalletDepositInstructionsRequest = {
   portfolioId: string;
   walletId: string;
+  depositType: WalletDepositInstructionType;
+  networkId?: string;
+  networkType?: string;
 };
 
 export type GetWalletDepositInstructionsResponse = internalGetInstructs;
+
+export type ListWalletAddressesRequest = {
+  portfolioId: string;
+  walletId: string;
+  networkId?: string;
+  networkType?: string;
+  cursor?: string;
+  limit?: number;
+};
+
+export type ListWalletAddressesResponse = internalGetAddresses;
 
 export type CreateWalletRequest = internalCreate & {
   portfolioId: string;
 };
 
 export type CreateWalletResponse = internalCreateResp;
+
+export type CreateWalletDepositAddressRequest = {
+  portfolioId: string;
+  walletId: string;
+  networkId?: string;
+  networkType?: string;
+};
+
+export type CreateWalletDepositAddressResponse = BlockchainAddress;
