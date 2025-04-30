@@ -32,6 +32,7 @@ export {
 export { PortfoliosService, IPortfoliosService } from './portfolios';
 export { PositionsService, IPositionsService } from './positions';
 export { ProductsService, IProductsService } from './products';
+export { StakingService, IStakingService } from './staking';
 export { TransactionsService, ITransactionsService } from './transactions';
 export { UsersService, IUsersService } from './users';
 export { WalletsService, IWalletsService } from './wallets';
@@ -180,6 +181,12 @@ export type {
   ListProductsRequest,
   ListProductsResponse,
 } from './products/types';
+export type {
+  CreateStakeRequest,
+  CreateStakeResponse,
+  CreateUnstakeRequest,
+  CreateUnstakeResponse,
+} from './staking/types';
 export type {
   CreateConversionRequest,
   CreateConversionResponse,

@@ -18,13 +18,12 @@
  *  Do not edit the class manually.
  */
 
-export type RpcConfig = {
+import { StakingInputs } from './StakingInputs';
+
+export type StakingInitiateRequest = {
   /**
-   * If true, transaction will not be broadcast to the network
+   * The client generated idempotency key for requested execution. Subsequent requests using the same key will fail
    */
-  skipBroadcast?: boolean;
-  /**
-   * Custom blockchain node RPC URL. (EVM-only)
-   */
-  url?: string;
+  idempotencyKey: string;
+  inputs?: StakingInputs;
 };

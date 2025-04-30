@@ -18,13 +18,9 @@
  *  Do not edit the class manually.
  */
 
-export type RpcConfig = {
+export type StakingInputs = {
   /**
-   * If true, transaction will not be broadcast to the network
+   * Optional amount to stake or unstake. If omitted, the wallet will stake or unstake the maximum amount available
    */
-  skipBroadcast?: boolean;
-  /**
-   * Custom blockchain node RPC URL. (EVM-only)
-   */
-  url?: string;
+  amount?: string;
 };
