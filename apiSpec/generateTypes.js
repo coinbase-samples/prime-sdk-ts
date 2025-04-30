@@ -23,6 +23,7 @@ const sourceDir = './types/model';
 const destDir = './types/processed';
 const destDirEnums = './types/processed/enums';
 const indexPath = path.join(destDir, 'index.ts');
+const enumIndexPath = path.join(destDirEnums, 'index.ts');
 
 const filePathReplacements = {
   coinbaseCustodyApiActivityType: 'CustodyActivityType',
@@ -173,14 +174,15 @@ function getIndexFileExport(destPath, updatedContent) {
     } else {
       typeName = typeMatch[1];
     }
+
+    return `export { ${typeName} } from './${baseName}';`;
   } else {
     const typeMatch = updatedContent.match(/export\s+type\s+(\w+)\s*=/);
     if (!typeMatch) throw new Error(`No type name found in file: ${fileName}`);
 
     typeName = typeMatch[1];
+    return `export type { ${typeName} } from './${baseName}';`;
   }
-
-  return `export type { ${typeName} } from './${fileName}';`;
 }
 
 // Main function to process files
@@ -188,6 +190,7 @@ async function processFiles() {
   // List all files in the source directory
   const files = fs.readdirSync(sourceDir);
   const indexFileContent = [];
+  const enumIndexFileContent = [];
 
   const enumClasses = [];
   for (let i = 0; i < files.length; i++) {
@@ -258,8 +261,10 @@ async function processFiles() {
           path.join(destDirEnums, file),
           filePathReplacements
         );
+        enumIndexFileContent.push(getIndexFileExport(destPath, updatedContent));
       } else {
         destPath = replaceString(destPath, filePathReplacements);
+        indexFileContent.push(getIndexFileExport(destPath, updatedContent));
       }
 
       updatedContent = addGeneratedHeader(updatedContent);
@@ -273,14 +278,13 @@ async function processFiles() {
       // Write the updated content to the destination directory
       fs.writeFileSync(destPath, updatedContent, 'utf8');
 
-      indexFileContent.push(getIndexFileExport(destPath, updatedContent));
-
       console.log(`Processed: ${file} at ${destPath}`);
     }
   }
 
   // Write to index.ts
   fs.writeFileSync(indexPath, indexFileContent.join('\n') + '\n');
+  fs.writeFileSync(enumIndexPath, enumIndexFileContent.join('\n') + '\n');
 
   console.log('All files processed.');
 }

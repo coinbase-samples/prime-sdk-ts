@@ -38,6 +38,7 @@ export { UsersService, IUsersService } from './users';
 export { WalletsService, IWalletsService } from './wallets';
 
 export type * from './model/';
+export * from './model/enums/';
 
 // preferring named exports of types
 export type {
