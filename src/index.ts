@@ -37,6 +37,8 @@ export { TransactionsService, ITransactionsService } from './transactions';
 export { UsersService, IUsersService } from './users';
 export { WalletsService, IWalletsService } from './wallets';
 
+export type * from './model/';
+
 // preferring named exports of types
 export type {
   GetActivityRequest,
