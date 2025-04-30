@@ -24,11 +24,19 @@ export type CreateOnchainTransactionRequestEvmParams = {
    */
   disableDynamicGas?: boolean;
   /**
-   * Transaction ID to replace (for speed-up/cancel operations). Common use cases: 1) Gas Price Adjustments: When a transaction is stuck due to low gas price, a new transaction with the same nonce but higher gas price can be submitted to replace it. 2) Transaction Cancellation: A user might want to cancel a pending transaction by replacing it with a new transaction (often a 0-value transfer to themselves with higher gas price).
+   * Option to disable dynamic nonce when creating a transaction. Defaults to false.
+   */
+  disableDynamicNonce?: boolean;
+  /**
+   * Transaction ID to replace (for speed-up/cancel operations). Common use cases: 1) Gas Price Adjustments: When a transaction is stuck due to low gas price, a new transaction with the same nonce but higher gas price can be submitted to replace it. 2) Transaction Cancellation: A user might want to cancel a pending transaction by replacing it with a new transaction (often a 0-value transfer to themselves with higher gas price). Note: When using this field, the disable_dynamic_nonce option must be set to false because the nonce will be automatically managed by the system.
    */
   replacedTransactionId?: string;
   /**
    * Chain ID for EVM transactions. (EVM-only)
    */
   chainId?: string;
+  /**
+   * Network name for EVM transactions. (EVM-only)
+   */
+  networkName?: string;
 };

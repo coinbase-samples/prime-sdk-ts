@@ -1,7 +1,8 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "Prime Broker REST API",
+    "title": "REST API",
+    "description": "# Welcome to Coinbase Prime API\n## Introduction\nThe Prime APIs allow for programmatic management of trading, custody, real-time market data, and account management. The following API pages detail the various REST API endpoints we offer.\n## Getting Started\nTo get started, please visit one of the following pages:\n- [Authentication](/prime/docs/rest-authentication)\n- [Pagination](/prime/docs/rest-pagination)\n- [Rate Limits](/prime/docs/rest-rate-limits)\n- [Quickstart](/prime/docs/quickstart)\n## FIX API\n- [FIX API reference](/prime/docs/fix-connectivity)\n## WebSocket API\n- [WebSocket API reference](/prime/docs/websocket-feed)",
     "version": "0.1"
   },
   "tags": [
@@ -747,7 +748,7 @@
             "format": "int32"
           }
         ],
-        "tags": ["Invoice"]
+        "tags": ["Invoices"]
       }
     },
     "/v1/entities/{entity_id}/locates_availability": {
@@ -3230,7 +3231,7 @@
             "name": "type",
             "description": "The wallet type\n\n - VAULT: A crypto vault\n - TRADING: A trading wallet\n - WALLET_TYPE_OTHER: Other wallet types (like consumer, etc)\n - QC: A QC Wallet\n - ONCHAIN: An Onchain wallet",
             "in": "query",
-            "required": true,
+            "required": false,
             "type": "string",
             "enum": [
               "UNKNOWN_WALLET_TYPE",
@@ -3377,123 +3378,6 @@
             "description": "Wallet ID",
             "in": "path",
             "required": true,
-            "type": "string"
-          }
-        ],
-        "tags": ["Wallets"]
-      }
-    },
-    "/v1/portfolios/{portfolio_id}/wallets/{wallet_id}/addresses": {
-      "get": {
-        "summary": "Get Wallet Addresses",
-        "description": "Returns all addresses associated with a wallet, including all deposit addresses, and restored addresses",
-        "operationId": "PrimeRESTAPI_GetWalletAddresses",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/coinbase.public_rest_api.GetWalletAddressesResponse"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/google.rpc.Status"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "portfolio_id",
-            "description": "The portfolio ID of the wallet",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "wallet_id",
-            "description": "The wallet ID to get deposit instructions for",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "network.id",
-            "description": "The name of the network\n\nThe network id: base, bitcoin, ethereum, solana etc",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "network.type",
-            "description": "The network type\n\nThe network type: mainnet, testnet, etc",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "cursor",
-            "description": "cursor to retrieve additional results after.",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "limit",
-            "description": "Number of items to retrieve",
-            "in": "query",
-            "required": false,
-            "type": "integer",
-            "format": "int32"
-          }
-        ],
-        "tags": ["Wallets"]
-      },
-      "post": {
-        "summary": "Create Wallet Deposit Address",
-        "description": "Creates a new deposit address for a wallet, only applicable to wallets supporting multiple deposit addresses",
-        "operationId": "PrimeRESTAPI_CreateWalletDepositAddress",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/coinbase.public_rest_api.BlockchainAddress"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/google.rpc.Status"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "portfolio_id",
-            "description": "The portfolio ID of the wallet",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "wallet_id",
-            "description": "The wallet ID to get deposit instructions for",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "network.id",
-            "description": "The name of the network\n\nThe network id: base, bitcoin, ethereum, solana etc",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "network.type",
-            "description": "The network type\n\nThe network type: mainnet, testnet, etc",
-            "in": "query",
-            "required": false,
             "type": "string"
           }
         ],
@@ -3745,6 +3629,120 @@
           }
         ],
         "tags": ["Transactions"]
+      }
+    },
+    "/v1/portfolios/{portfolio_id}/wallets/{wallet_id}/staking/initiate": {
+      "post": {
+        "summary": "Request to stake or delegate a wallet",
+        "description": "Creates an execution request to stake or delegate funds to a validator",
+        "operationId": "PrimeRESTAPI_StakingInitiate",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/coinbase.public_rest_api.StakingInitiateResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/google.rpc.Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "portfolio_id",
+            "description": "The portfolio ID",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "wallet_id",
+            "description": "The wallet ID",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "idempotency_key": {
+                  "type": "string",
+                  "description": "The client generated idempotency key for requested execution. Subsequent requests using the same key will fail"
+                },
+                "inputs": {
+                  "$ref": "#/definitions/coinbase.public_rest_api.StakingInputs",
+                  "description": "Custom inputs for staking. Requirements vary by asset"
+                }
+              },
+              "required": ["portfolio_id", "idempotency_key"]
+            }
+          }
+        ],
+        "tags": ["Staking"]
+      }
+    },
+    "/v1/portfolios/{portfolio_id}/wallets/{wallet_id}/staking/unstake": {
+      "post": {
+        "summary": "Request to unstake a wallet",
+        "description": "Creates an execution request to unstake delegated or staked funds in a wallet",
+        "operationId": "PrimeRESTAPI_StakingUnstake",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/coinbase.public_rest_api.StakingUnstakeResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/google.rpc.Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "portfolio_id",
+            "description": "The portfolio ID",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "wallet_id",
+            "description": "The wallet ID",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "idempotency_key": {
+                  "type": "string",
+                  "description": "The client generated idempotency key for requested execution. Subsequent requests using the same key will fail"
+                },
+                "inputs": {
+                  "$ref": "#/definitions/coinbase.public_rest_api.StakingInputs",
+                  "description": "Custom inputs for unstaking. Requirements vary by asset"
+                }
+              },
+              "required": ["portfolio_id", "idempotency_key"]
+            }
+          }
+        ],
+        "tags": ["Staking"]
       }
     },
     "/v1/portfolios/{portfolio_id}/wallets/{wallet_id}/transactions": {
@@ -5275,15 +5273,25 @@
           "example": false,
           "description": "Option to disable dynamic gas price adjustment for EVM transactions prior to signing and broadcast. Defaults to false."
         },
+        "disable_dynamic_nonce": {
+          "type": "boolean",
+          "example": false,
+          "description": "Option to disable dynamic nonce when creating a transaction. Defaults to false."
+        },
         "replaced_transaction_id": {
           "type": "string",
           "example": "0bf7bf1e-bafa-4d7e-9312-fa0bf3b63f27",
-          "description": "Transaction ID to replace (for speed-up/cancel operations). Common use cases: 1) Gas Price Adjustments: When a transaction is stuck due to low gas price, a new transaction with the same nonce but higher gas price can be submitted to replace it. 2) Transaction Cancellation: A user might want to cancel a pending transaction by replacing it with a new transaction (often a 0-value transfer to themselves with higher gas price)."
+          "description": "Transaction ID to replace (for speed-up/cancel operations). Common use cases: 1) Gas Price Adjustments: When a transaction is stuck due to low gas price, a new transaction with the same nonce but higher gas price can be submitted to replace it. 2) Transaction Cancellation: A user might want to cancel a pending transaction by replacing it with a new transaction (often a 0-value transfer to themselves with higher gas price). Note: When using this field, the disable_dynamic_nonce option must be set to false because the nonce will be automatically managed by the system."
         },
         "chain_id": {
           "type": "string",
           "example": 1,
           "description": "Chain ID for EVM transactions. (EVM-only)"
+        },
+        "network_name": {
+          "type": "string",
+          "example": "Ethereum",
+          "description": "Network name for EVM transactions. (EVM-only)"
         }
       }
     },
@@ -7871,7 +7879,7 @@
         "url": {
           "type": "string",
           "example": "https://rpc.flashbots.net/fast",
-          "description": "Custom blockchain node URL. Currently only usable for Flashbots RPC endpoint for ETH mainnet (https://rpc.flashbots.net/fast)."
+          "description": "Custom blockchain node RPC URL. (EVM-only)"
         }
       }
     },
@@ -7935,6 +7943,51 @@
       "type": "string",
       "enum": ["DESC", "ASC"],
       "default": "DESC"
+    },
+    "coinbase.public_rest_api.StakingInitiateResponse": {
+      "type": "object",
+      "properties": {
+        "wallet_id": {
+          "type": "string",
+          "description": "The wallet ID"
+        },
+        "transaction_id": {
+          "type": "string",
+          "description": "ID of the newly created transaction, can be used to fetch details of the current state of execution"
+        },
+        "activity_id": {
+          "type": "string",
+          "description": "The ID for the activity generated for this request"
+        }
+      },
+      "required": ["wallet_id", "transaction_id", "activity_id"]
+    },
+    "coinbase.public_rest_api.StakingInputs": {
+      "type": "object",
+      "properties": {
+        "amount": {
+          "type": "string",
+          "description": "Optional amount to stake or unstake. If omitted, the wallet will stake or unstake the maximum amount available"
+        }
+      }
+    },
+    "coinbase.public_rest_api.StakingUnstakeResponse": {
+      "type": "object",
+      "properties": {
+        "wallet_id": {
+          "type": "string",
+          "description": "The wallet ID"
+        },
+        "transaction_id": {
+          "type": "string",
+          "description": "ID of the newly created transaction, can be used to fetch details of the current state of execution"
+        },
+        "activity_id": {
+          "type": "string",
+          "description": "The ID for the activity generated for this request"
+        }
+      },
+      "required": ["wallet_id", "transaction_id", "activity_id"]
     },
     "coinbase.public_rest_api.TieredPricingFee": {
       "type": "object",

@@ -18,13 +18,17 @@
  *  Do not edit the class manually.
  */
 
-export type RpcConfig = {
+export type StakingInitiateResponse = {
   /**
-   * If true, transaction will not be broadcast to the network
+   * The wallet ID
    */
-  skipBroadcast?: boolean;
+  walletId: string;
   /**
-   * Custom blockchain node RPC URL. (EVM-only)
+   * ID of the newly created transaction, can be used to fetch details of the current state of execution
    */
-  url?: string;
+  transactionId: string;
+  /**
+   * The ID for the activity generated for this request
+   */
+  activityId: string;
 };
