@@ -15,19 +15,14 @@
  */
 import { CoinbaseCallOptions } from '@coinbase-sample/core-ts';
 import { CoinbasePrimeClient } from '../client';
-import {
-  CoinbasePrimeClientException,
-  CoinbasePrimeException,
-} from '../errors';
+
 import { ListProductsRequest, ListProductsResponse } from './types';
 
 export interface IProductsService {
   listProducts(
     request: ListProductsRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    ListProductsResponse | CoinbasePrimeClientException | CoinbasePrimeException
-  >;
+  ): Promise<ListProductsResponse>;
 }
 
 export class ProductsService implements IProductsService {
@@ -40,9 +35,7 @@ export class ProductsService implements IProductsService {
   async listProducts(
     request: ListProductsRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    ListProductsResponse | CoinbasePrimeClientException | CoinbasePrimeException
-  > {
+  ): Promise<ListProductsResponse> {
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/products`,
       callOptions: options,

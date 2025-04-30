@@ -15,10 +15,7 @@
  */
 import { CoinbaseCallOptions, Method } from '@coinbase-sample/core-ts';
 import { CoinbasePrimeClient } from '../client';
-import {
-  CoinbasePrimeClientException,
-  CoinbasePrimeException,
-} from '../errors';
+
 import {
   CreateConversionRequest,
   CreateConversionResponse,
@@ -40,65 +37,37 @@ export interface ITransactionsService {
   getTransaction(
     request: GetTransactionRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | GetTransactionResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  >;
+  ): Promise<GetTransactionResponse>;
 
   listPortfolioTransactions(
     request: ListPortfolioTransactionsRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | ListPortfolioTransactionsResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  >;
+  ): Promise<ListPortfolioTransactionsResponse>;
 
   listWalletTransactions(
     request: ListWalletTransactionsRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | ListWalletTransactionsResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  >;
+  ): Promise<ListWalletTransactionsResponse>;
 
   createConversion(
     request: CreateConversionRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | CreateConversionResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  >;
+  ): Promise<CreateConversionResponse>;
 
   createTransfer(
     request: CreateTransferRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | CreateTransferResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  >;
+  ): Promise<CreateTransferResponse>;
 
   createWithdrawal(
     request: CreateWithdrawalRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | CreateWithdrawalResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  >;
+  ): Promise<CreateWithdrawalResponse>;
 
   createOnchainTransaction(
     request: CreateOnchainTransactionRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | CreateOnchainTransactionResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  >;
+  ): Promise<CreateOnchainTransactionResponse>;
 }
 
 export class TransactionsService implements ITransactionsService {
@@ -111,11 +80,7 @@ export class TransactionsService implements ITransactionsService {
   async getTransaction(
     request: GetTransactionRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | GetTransactionResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  > {
+  ): Promise<GetTransactionResponse> {
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/transactions/${request.transactionId}`,
       callOptions: options,
@@ -127,11 +92,7 @@ export class TransactionsService implements ITransactionsService {
   async listPortfolioTransactions(
     request: ListPortfolioTransactionsRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | ListPortfolioTransactionsResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  > {
+  ): Promise<ListPortfolioTransactionsResponse> {
     const queryParams = { ...request, portfolioId: undefined };
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/transactions`,
@@ -145,11 +106,7 @@ export class TransactionsService implements ITransactionsService {
   async listWalletTransactions(
     request: ListWalletTransactionsRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | ListWalletTransactionsResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  > {
+  ): Promise<ListWalletTransactionsResponse> {
     const queryParams = {
       ...request,
       portfolioId: undefined,
@@ -167,11 +124,7 @@ export class TransactionsService implements ITransactionsService {
   async createConversion(
     request: CreateConversionRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | CreateConversionResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  > {
+  ): Promise<CreateConversionResponse> {
     const bodyParams = {
       ...request,
       portfolioId: undefined,
@@ -190,11 +143,7 @@ export class TransactionsService implements ITransactionsService {
   async createTransfer(
     request: CreateTransferRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | CreateTransferResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  > {
+  ): Promise<CreateTransferResponse> {
     const bodyParams = {
       ...request,
       portfolioId: undefined,
@@ -213,11 +162,7 @@ export class TransactionsService implements ITransactionsService {
   async createWithdrawal(
     request: CreateWithdrawalRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | CreateWithdrawalResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  > {
+  ): Promise<CreateWithdrawalResponse> {
     const bodyParams = {
       ...request,
       portfolioId: undefined,
@@ -236,11 +181,7 @@ export class TransactionsService implements ITransactionsService {
   async createOnchainTransaction(
     request: CreateOnchainTransactionRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | CreateOnchainTransactionResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  > {
+  ): Promise<CreateOnchainTransactionResponse> {
     const bodyParams = {
       ...request,
       portfolioId: undefined,

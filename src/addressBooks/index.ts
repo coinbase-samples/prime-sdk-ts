@@ -16,10 +16,6 @@
 import { CoinbaseCallOptions, Method } from '@coinbase-sample/core-ts';
 import { CoinbasePrimeClient } from '../client';
 import {
-  CoinbasePrimeClientException,
-  CoinbasePrimeException,
-} from '../errors';
-import {
   ListAddressBooksRequest,
   ListAddressBooksResponse,
   CreateAddressBookRequest,
@@ -30,20 +26,12 @@ export interface IAddressBooksService {
   listAddressBooks(
     request: ListAddressBooksRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | ListAddressBooksResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  >;
+  ): Promise<ListAddressBooksResponse>;
 
   createAddressBook(
     request: CreateAddressBookRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | CreateAddressBookResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  >;
+  ): Promise<CreateAddressBookResponse>;
 }
 
 export class AddressBooksService implements IAddressBooksService {
@@ -56,11 +44,7 @@ export class AddressBooksService implements IAddressBooksService {
   async listAddressBooks(
     request: ListAddressBooksRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | ListAddressBooksResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  > {
+  ): Promise<ListAddressBooksResponse> {
     const queryParams = { ...request, portfolioId: undefined };
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/address_book`,
@@ -74,11 +58,7 @@ export class AddressBooksService implements IAddressBooksService {
   async createAddressBook(
     request: CreateAddressBookRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | CreateAddressBookResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  > {
+  ): Promise<CreateAddressBookResponse> {
     const bodyParams = { ...request, portfolioId: undefined };
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/address_book`,

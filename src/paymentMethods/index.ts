@@ -15,10 +15,7 @@
  */
 import { CoinbaseCallOptions } from '@coinbase-sample/core-ts';
 import { CoinbasePrimeClient } from '../client';
-import {
-  CoinbasePrimeClientException,
-  CoinbasePrimeException,
-} from '../errors';
+
 import {
   ListEntityPaymentMethodsRequest,
   ListEntityPaymentMethodsResponse,
@@ -30,19 +27,11 @@ export interface IPaymentMethodsService {
   listEntityPaymentMethods(
     request: ListEntityPaymentMethodsRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | ListEntityPaymentMethodsResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  >;
+  ): Promise<ListEntityPaymentMethodsResponse>;
   getPaymentMethod(
     request: GetPaymentMethodRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | GetPaymentMethodResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  >;
+  ): Promise<GetPaymentMethodResponse>;
 }
 
 export class PaymentMethodsService implements IPaymentMethodsService {
@@ -55,11 +44,7 @@ export class PaymentMethodsService implements IPaymentMethodsService {
   async listEntityPaymentMethods(
     request: ListEntityPaymentMethodsRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | ListEntityPaymentMethodsResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  > {
+  ): Promise<ListEntityPaymentMethodsResponse> {
     const response = await this.client.request({
       url: `entities/${request.entityId}/payment-methods`,
       callOptions: options,
@@ -71,11 +56,7 @@ export class PaymentMethodsService implements IPaymentMethodsService {
   async getPaymentMethod(
     request: GetPaymentMethodRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | GetPaymentMethodResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  > {
+  ): Promise<GetPaymentMethodResponse> {
     const response = await this.client.request({
       url: `entities/${request.entityId}/payment-methods`,
       callOptions: options,

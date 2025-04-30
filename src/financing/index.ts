@@ -15,10 +15,7 @@
  */
 import { CoinbaseCallOptions } from '@coinbase-sample/core-ts';
 import { CoinbasePrimeClient } from '../client';
-import {
-  CoinbasePrimeClientException,
-  CoinbasePrimeException,
-} from '../errors';
+
 import {
   ListExistingLocatesRequest,
   ListExistingLocatesResponse,
@@ -50,101 +47,53 @@ export interface IFinancingService {
   listExistingLocates(
     request: ListExistingLocatesRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | ListExistingLocatesResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  >;
+  ): Promise<ListExistingLocatesResponse>;
   listInterestAccruals(
     request: ListInterestAccrualsRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | ListInterestAccrualsResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  >;
+  ): Promise<ListInterestAccrualsResponse>;
   listPortfolioInterestAccruals(
     request: ListPortfolioInterestAccrualsRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | ListPortfolioInterestAccrualsResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  >;
+  ): Promise<ListPortfolioInterestAccrualsResponse>;
   listMarginCallSummaries(
     request: ListMarginCallSummariesRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | ListMarginCallSummariesResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  >;
+  ): Promise<ListMarginCallSummariesResponse>;
   listMarginConversions(
     request: ListMarginConversionsRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | ListMarginConversionsResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  >;
+  ): Promise<ListMarginConversionsResponse>;
 
   getEntityLocateAvailabilities(
     request: GetEntityLocateAvailabilitiesRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | GetEntityLocateAvailabilitiesResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  >;
+  ): Promise<GetEntityLocateAvailabilitiesResponse>;
   getMarginInformation(
     request: GetMarginInformationRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | GetMarginInformationResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  >;
+  ): Promise<GetMarginInformationResponse>;
   getPortfolioBuyingPower(
     request: GetPortfolioBuyingPowerRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | GetPortfolioBuyingPowerResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  >;
+  ): Promise<GetPortfolioBuyingPowerResponse>;
   getPortfolioCreditInformation(
     request: GetPortfolioCreditInformationRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | GetPortfolioCreditInformationResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  >;
+  ): Promise<GetPortfolioCreditInformationResponse>;
   getPortfolioWithdrawalPower(
     request: GetPortfolioWithdrawalPowerRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | GetPortfolioWithdrawalPowerResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  >;
+  ): Promise<GetPortfolioWithdrawalPowerResponse>;
   getTieredPricingFees(
     request: GetTieredPricingFeesRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | GetTieredPricingFeesResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  >;
+  ): Promise<GetTieredPricingFeesResponse>;
 
   createNewLocates(
     request: CreateNewLocatesRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | CreateNewLocatesResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  >;
+  ): Promise<CreateNewLocatesResponse>;
 }
 
 export class FinancingService implements IFinancingService {
@@ -157,11 +106,7 @@ export class FinancingService implements IFinancingService {
   async listExistingLocates(
     request: ListExistingLocatesRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | ListExistingLocatesResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  > {
+  ): Promise<ListExistingLocatesResponse> {
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/locates`,
       callOptions: options,
@@ -173,11 +118,7 @@ export class FinancingService implements IFinancingService {
   async listInterestAccruals(
     request: ListInterestAccrualsRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | ListInterestAccrualsResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  > {
+  ): Promise<ListInterestAccrualsResponse> {
     const queryParams = {
       ...request,
       entityId: undefined,
@@ -194,11 +135,7 @@ export class FinancingService implements IFinancingService {
   async listPortfolioInterestAccruals(
     request: ListPortfolioInterestAccrualsRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | ListPortfolioInterestAccrualsResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  > {
+  ): Promise<ListPortfolioInterestAccrualsResponse> {
     const queryParams = {
       ...request,
       portfolioId: undefined,
@@ -215,11 +152,7 @@ export class FinancingService implements IFinancingService {
   async listMarginCallSummaries(
     request: ListMarginCallSummariesRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | ListMarginCallSummariesResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  > {
+  ): Promise<ListMarginCallSummariesResponse> {
     const queryParams = {
       ...request,
       entityId: undefined,
@@ -236,11 +169,7 @@ export class FinancingService implements IFinancingService {
   async listMarginConversions(
     request: ListMarginConversionsRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | ListMarginConversionsResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  > {
+  ): Promise<ListMarginConversionsResponse> {
     const queryParams = {
       ...request,
       portfolioId: undefined,
@@ -257,11 +186,7 @@ export class FinancingService implements IFinancingService {
   async getEntityLocateAvailabilities(
     request: GetEntityLocateAvailabilitiesRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | GetEntityLocateAvailabilitiesResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  > {
+  ): Promise<GetEntityLocateAvailabilitiesResponse> {
     const queryParams = {
       ...request,
       entityId: undefined,
@@ -278,11 +203,7 @@ export class FinancingService implements IFinancingService {
   async getMarginInformation(
     request: GetMarginInformationRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | GetMarginInformationResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  > {
+  ): Promise<GetMarginInformationResponse> {
     const response = await this.client.request({
       url: `entities/${request.entityId}/margin`,
       callOptions: options,
@@ -294,11 +215,7 @@ export class FinancingService implements IFinancingService {
   async getPortfolioBuyingPower(
     request: GetPortfolioBuyingPowerRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | GetPortfolioBuyingPowerResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  > {
+  ): Promise<GetPortfolioBuyingPowerResponse> {
     const queryParams = {
       ...request,
       portfolioId: undefined,
@@ -315,11 +232,7 @@ export class FinancingService implements IFinancingService {
   async getPortfolioCreditInformation(
     request: GetPortfolioCreditInformationRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | GetPortfolioCreditInformationResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  > {
+  ): Promise<GetPortfolioCreditInformationResponse> {
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/credit`,
       callOptions: options,
@@ -331,11 +244,7 @@ export class FinancingService implements IFinancingService {
   async getPortfolioWithdrawalPower(
     request: GetPortfolioWithdrawalPowerRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | GetPortfolioWithdrawalPowerResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  > {
+  ): Promise<GetPortfolioWithdrawalPowerResponse> {
     const queryParams = {
       ...request,
       portfolioId: undefined,
@@ -352,11 +261,7 @@ export class FinancingService implements IFinancingService {
   async getTieredPricingFees(
     request: GetTieredPricingFeesRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | GetTieredPricingFeesResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  > {
+  ): Promise<GetTieredPricingFeesResponse> {
     const queryParams = {
       ...request,
       entityId: undefined,
@@ -373,11 +278,7 @@ export class FinancingService implements IFinancingService {
   async createNewLocates(
     request: CreateNewLocatesRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | CreateNewLocatesResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  > {
+  ): Promise<CreateNewLocatesResponse> {
     const bodyParams = {
       ...request,
       portfolioId: undefined,

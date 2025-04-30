@@ -15,10 +15,7 @@
  */
 import { CoinbaseCallOptions, Method } from '@coinbase-sample/core-ts';
 import { CoinbasePrimeClient } from '../client';
-import {
-  CoinbasePrimeClientException,
-  CoinbasePrimeException,
-} from '../errors';
+
 import {
   ListEntityFuturesSweepsRequest,
   ListEntityFuturesSweepsResponse,
@@ -38,56 +35,32 @@ export interface IFuturesService {
   listEntitySweeps(
     request: ListEntityFuturesSweepsRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | ListEntityFuturesSweepsResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  >;
+  ): Promise<ListEntityFuturesSweepsResponse>;
 
   getEntityBalance(
     request: GetEntityFuturesBalanceRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | GetEntityFuturesBalanceResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  >;
+  ): Promise<GetEntityFuturesBalanceResponse>;
 
   getEntityPositions(
     request: GetEntityFuturesPositionsRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | GetEntityFuturesPositionsResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  >;
+  ): Promise<GetEntityFuturesPositionsResponse>;
 
   scheduleEntitySweep(
     request: ScheduleEntityFuturesSweepRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | ScheduleEntityFuturesSweepResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  >;
+  ): Promise<ScheduleEntityFuturesSweepResponse>;
 
   updateEntityAutoSweep(
     request: UpdateEntityFuturesAutoSweepRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | UpdateEntityFuturesAutoSweepResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  >;
+  ): Promise<UpdateEntityFuturesAutoSweepResponse>;
 
   cancelEntitySweep(
     request: CancelEntitySweepRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | CancelEntitySweepResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  >;
+  ): Promise<CancelEntitySweepResponse>;
 }
 
 export class FuturesService implements IFuturesService {
@@ -100,11 +73,7 @@ export class FuturesService implements IFuturesService {
   async listEntitySweeps(
     request: ListEntityFuturesSweepsRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | ListEntityFuturesSweepsResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  > {
+  ): Promise<ListEntityFuturesSweepsResponse> {
     const response = await this.client.request({
       url: `entities/${request.entityId}/futures/sweeps`,
       callOptions: options,
@@ -116,11 +85,7 @@ export class FuturesService implements IFuturesService {
   async getEntityBalance(
     request: GetEntityFuturesBalanceRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | GetEntityFuturesBalanceResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  > {
+  ): Promise<GetEntityFuturesBalanceResponse> {
     const response = await this.client.request({
       url: `entities/${request.entityId}/futures/balance_summary`,
       callOptions: options,
@@ -132,11 +97,7 @@ export class FuturesService implements IFuturesService {
   async getEntityPositions(
     request: GetEntityFuturesPositionsRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | GetEntityFuturesPositionsResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  > {
+  ): Promise<GetEntityFuturesPositionsResponse> {
     const queryParams = { ...request, entityId: undefined };
     const response = await this.client.request({
       url: `entities/${request.entityId}/futures/positions`,
@@ -150,11 +111,7 @@ export class FuturesService implements IFuturesService {
   async scheduleEntitySweep(
     request: ScheduleEntityFuturesSweepRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | ScheduleEntityFuturesSweepResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  > {
+  ): Promise<ScheduleEntityFuturesSweepResponse> {
     const response = await this.client.request({
       url: `entities/${request.entityId}/futures/sweeps`,
       method: Method.POST,
@@ -168,11 +125,7 @@ export class FuturesService implements IFuturesService {
   async updateEntityAutoSweep(
     request: UpdateEntityFuturesAutoSweepRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | UpdateEntityFuturesAutoSweepResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  > {
+  ): Promise<UpdateEntityFuturesAutoSweepResponse> {
     const response = await this.client.request({
       url: `entities/${request.entityId}/futures/auto_sweep`,
       method: Method.POST,
@@ -186,11 +139,7 @@ export class FuturesService implements IFuturesService {
   async cancelEntitySweep(
     request: CancelEntitySweepRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | CancelEntitySweepResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  > {
+  ): Promise<CancelEntitySweepResponse> {
     const response = await this.client.request({
       url: `entities/${request.entityId}/futures/sweeps`,
       method: Method.DELETE,

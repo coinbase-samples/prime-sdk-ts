@@ -16,10 +16,7 @@
 
 import { CoinbaseCallOptions } from '@coinbase-sample/core-ts';
 import { CoinbasePrimeClient } from '../client';
-import {
-  CoinbasePrimeClientException,
-  CoinbasePrimeException,
-} from '../errors';
+
 import {
   GetActivityRequest,
   GetActivityResponse,
@@ -32,32 +29,16 @@ import {
 } from './types';
 
 export interface IActivitiesService {
-  getActivity(
-    request: GetActivityRequest
-  ): Promise<
-    GetActivityResponse | CoinbasePrimeClientException | CoinbasePrimeException
-  >;
+  getActivity(request: GetActivityRequest): Promise<GetActivityResponse>;
   getPortfolioActivity(
     request: GetPortfolioActivitiesRequest
-  ): Promise<
-    | GetPortfolioActivityResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  >;
+  ): Promise<GetPortfolioActivityResponse>;
   listEntityActivities(
     request: ListEntityActivitiesRequest
-  ): Promise<
-    | ListEntityActivitiesResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  >;
+  ): Promise<ListEntityActivitiesResponse>;
   listPortfolioActivities(
     request: ListPortfolioActivitiesRequest
-  ): Promise<
-    | ListPortfolioActivitiesResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  >;
+  ): Promise<ListPortfolioActivitiesResponse>;
 }
 
 export class ActivitiesService implements IActivitiesService {
@@ -70,9 +51,7 @@ export class ActivitiesService implements IActivitiesService {
   async getActivity(
     request: GetActivityRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    GetActivityResponse | CoinbasePrimeClientException | CoinbasePrimeException
-  > {
+  ): Promise<GetActivityResponse> {
     const response = await this.client.request({
       url: `activities/${request.activityId}`,
       callOptions: options,
@@ -84,11 +63,7 @@ export class ActivitiesService implements IActivitiesService {
   async getPortfolioActivity(
     request: GetPortfolioActivitiesRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | GetPortfolioActivityResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  > {
+  ): Promise<GetPortfolioActivityResponse> {
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/activities/${request.activityId}`,
       callOptions: options,
@@ -100,11 +75,7 @@ export class ActivitiesService implements IActivitiesService {
   async listEntityActivities(
     request: ListEntityActivitiesRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | ListEntityActivitiesResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  > {
+  ): Promise<ListEntityActivitiesResponse> {
     const queryParams = { ...request, entityId: undefined };
     const response = await this.client.request({
       url: `entities/${request.entityId}/activities`,
@@ -118,11 +89,7 @@ export class ActivitiesService implements IActivitiesService {
   async listPortfolioActivities(
     request: ListPortfolioActivitiesRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | ListPortfolioActivitiesResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  > {
+  ): Promise<ListPortfolioActivitiesResponse> {
     const queryParams = { ...request, portfolioId: undefined };
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/activities`,

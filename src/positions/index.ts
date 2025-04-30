@@ -15,10 +15,7 @@
  */
 import { CoinbaseCallOptions } from '@coinbase-sample/core-ts';
 import { CoinbasePrimeClient } from '../client';
-import {
-  CoinbasePrimeClientException,
-  CoinbasePrimeException,
-} from '../errors';
+
 import {
   ListAggregateEntityPositionsRequest,
   ListAggregateEntityPositionsResponse,
@@ -30,19 +27,11 @@ export interface IPositionsService {
   listAggregateEntityPositions(
     request: ListAggregateEntityPositionsRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | ListAggregateEntityPositionsResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  >;
+  ): Promise<ListAggregateEntityPositionsResponse>;
   listEntityPositions(
     request: ListEntityPositionsRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | ListEntityPositionsResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  >;
+  ): Promise<ListEntityPositionsResponse>;
 }
 
 export class PositionsService implements IPositionsService {
@@ -55,11 +44,7 @@ export class PositionsService implements IPositionsService {
   async listAggregateEntityPositions(
     request: ListAggregateEntityPositionsRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | ListAggregateEntityPositionsResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  > {
+  ): Promise<ListAggregateEntityPositionsResponse> {
     const queryParams = {
       ...request,
       entityId: undefined,
@@ -76,11 +61,7 @@ export class PositionsService implements IPositionsService {
   async listEntityPositions(
     request: ListEntityPositionsRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | ListEntityPositionsResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  > {
+  ): Promise<ListEntityPositionsResponse> {
     const queryParams = {
       ...request,
       entityId: undefined,

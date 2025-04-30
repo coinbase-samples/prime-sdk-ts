@@ -16,10 +16,6 @@
 import { CoinbaseCallOptions, Method } from '@coinbase-sample/core-ts';
 import { CoinbasePrimeClient } from '../client';
 import {
-  CoinbasePrimeClientException,
-  CoinbasePrimeException,
-} from '../errors';
-import {
   CreateAllocationRequest,
   CreateAllocationResponse,
   CreateNetAllocationRequest,
@@ -36,47 +32,27 @@ export interface IAllocationService {
   createAllocation(
     request: CreateAllocationRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | CreateAllocationResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  >;
+  ): Promise<CreateAllocationResponse>;
 
   createNetAllocation(
     request: CreateNetAllocationRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | CreateNetAllocationResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  >;
+  ): Promise<CreateNetAllocationResponse>;
 
   listPortfolioAllocations(
     request: ListPortfolioAllocationsRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | ListPortfolioAllocationsResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  >;
+  ): Promise<ListPortfolioAllocationsResponse>;
 
   listNetAllocations(
     request: CreateNetAllocationRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | ListNetAllocationsResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  >;
+  ): Promise<ListNetAllocationsResponse>;
 
   getAllocation(
     request: GetAllocationRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | GetAllocationResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  >;
+  ): Promise<GetAllocationResponse>;
 }
 
 export class AllocationService implements IAllocationService {
@@ -89,11 +65,7 @@ export class AllocationService implements IAllocationService {
   async createAllocation(
     request: CreateAllocationRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | CreateAllocationResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  > {
+  ): Promise<CreateAllocationResponse> {
     const response = await this.client.request({
       url: `allocations`,
       bodyParams: request,
@@ -107,11 +79,7 @@ export class AllocationService implements IAllocationService {
   async createNetAllocation(
     request: CreateNetAllocationRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | CreateNetAllocationResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  > {
+  ): Promise<CreateNetAllocationResponse> {
     const response = await this.client.request({
       url: `allocations/net`,
       bodyParams: request,
@@ -125,11 +93,7 @@ export class AllocationService implements IAllocationService {
   async listPortfolioAllocations(
     request: ListPortfolioAllocationsRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | ListPortfolioAllocationsResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  > {
+  ): Promise<ListPortfolioAllocationsResponse> {
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/allocations`,
       callOptions: options,
@@ -141,11 +105,7 @@ export class AllocationService implements IAllocationService {
   async listNetAllocations(
     request: ListNetAllocationsRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | ListNetAllocationsResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  > {
+  ): Promise<ListNetAllocationsResponse> {
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/allocations/net/${request.nettingId}`,
       callOptions: options,
@@ -157,11 +117,7 @@ export class AllocationService implements IAllocationService {
   async getAllocation(
     request: GetAllocationRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | GetAllocationResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  > {
+  ): Promise<GetAllocationResponse> {
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/allocations/${request.allocationId}`,
       callOptions: options,

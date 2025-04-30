@@ -15,10 +15,7 @@
  */
 import { CoinbaseCallOptions, Method } from '@coinbase-sample/core-ts';
 import { CoinbasePrimeClient } from '../client';
-import {
-  CoinbasePrimeClientException,
-  CoinbasePrimeException,
-} from '../errors';
+
 import {
   ListOpenOrdersResponse,
   ListOpenOrdersRequest,
@@ -46,82 +43,52 @@ export interface IOrdersService {
   getOrder(
     request: GetOrderRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    GetOrderResponse | CoinbasePrimeClientException | CoinbasePrimeException
-  >;
+  ): Promise<GetOrderResponse>;
 
   listPortfolioFills(
     request: ListPortfolioFillsRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | ListPortfolioFillsResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  >;
+  ): Promise<ListPortfolioFillsResponse>;
 
   listPortfolioOrders(
     request: ListPortfolioOrdersRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | ListPortfolioOrdersResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  >;
+  ): Promise<ListPortfolioOrdersResponse>;
 
   listOrderFills(
     request: ListOrderFillsRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | ListOrderFillsResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  >;
+  ): Promise<ListOrderFillsResponse>;
 
   listOpenOrders(
     request: ListOpenOrdersRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | ListOpenOrdersResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  >;
+  ): Promise<ListOpenOrdersResponse>;
 
   createOrderPreview(
     request: CreateOrderPreviewRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | CreateOrderPreviewResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  >;
+  ): Promise<CreateOrderPreviewResponse>;
 
   cancelOrder(
     request: CancelOrderRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    CancelOrderResponse | CoinbasePrimeClientException | CoinbasePrimeException
-  >;
+  ): Promise<CancelOrderResponse>;
 
   createOrder(
     request: CreateOrderRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    CreateOrderResponse | CoinbasePrimeClientException | CoinbasePrimeException
-  >;
+  ): Promise<CreateOrderResponse>;
 
   createQuote(
     request: CreateQuoteRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    CreateQuoteResponse | CoinbasePrimeClientException | CoinbasePrimeException
-  >;
+  ): Promise<CreateQuoteResponse>;
 
   acceptQuote(
     request: AcceptQuoteRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    AcceptQuoteResponse | CoinbasePrimeClientException | CoinbasePrimeException
-  >;
+  ): Promise<AcceptQuoteResponse>;
 }
 
 export class OrdersService implements IOrdersService {
@@ -134,9 +101,7 @@ export class OrdersService implements IOrdersService {
   async getOrder(
     request: GetOrderRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    GetOrderResponse | CoinbasePrimeClientException | CoinbasePrimeException
-  > {
+  ): Promise<GetOrderResponse> {
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/orders/${request.orderId}`,
       callOptions: options,
@@ -148,11 +113,7 @@ export class OrdersService implements IOrdersService {
   async listPortfolioFills(
     request: ListPortfolioFillsRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | ListPortfolioFillsResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  > {
+  ): Promise<ListPortfolioFillsResponse> {
     const queryParams = { ...request, portfolioId: undefined };
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/fills`,
@@ -166,11 +127,7 @@ export class OrdersService implements IOrdersService {
   async listPortfolioOrders(
     request: ListPortfolioOrdersRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | ListPortfolioOrdersResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  > {
+  ): Promise<ListPortfolioOrdersResponse> {
     const queryParams = { ...request, portfolioId: undefined };
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/orders`,
@@ -183,11 +140,7 @@ export class OrdersService implements IOrdersService {
   async listOrderFills(
     request: ListOrderFillsRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | ListOrderFillsResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  > {
+  ): Promise<ListOrderFillsResponse> {
     const queryParams = {
       ...request,
       portfolioId: undefined,
@@ -204,11 +157,7 @@ export class OrdersService implements IOrdersService {
   async listOpenOrders(
     request: ListOpenOrdersRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | ListOpenOrdersResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  > {
+  ): Promise<ListOpenOrdersResponse> {
     const queryParams = { ...request, portfolioId: undefined };
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/open_orders`,
@@ -221,11 +170,7 @@ export class OrdersService implements IOrdersService {
   async createOrderPreview(
     request: CreateOrderPreviewRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | CreateOrderPreviewResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  > {
+  ): Promise<CreateOrderPreviewResponse> {
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/orders_preview`,
       method: Method.POST,
@@ -238,9 +183,7 @@ export class OrdersService implements IOrdersService {
   async cancelOrder(
     request: CancelOrderRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    CancelOrderResponse | CoinbasePrimeClientException | CoinbasePrimeException
-  > {
+  ): Promise<CancelOrderResponse> {
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/orders/${request.orderId}/cancel`,
       method: Method.POST,
@@ -252,9 +195,7 @@ export class OrdersService implements IOrdersService {
   async createOrder(
     request: CreateOrderRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    CreateOrderResponse | CoinbasePrimeClientException | CoinbasePrimeException
-  > {
+  ): Promise<CreateOrderResponse> {
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/order`,
       method: Method.POST,
@@ -267,9 +208,7 @@ export class OrdersService implements IOrdersService {
   async createQuote(
     request: CreateQuoteRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    CreateQuoteResponse | CoinbasePrimeClientException | CoinbasePrimeException
-  > {
+  ): Promise<CreateQuoteResponse> {
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/rfq`,
       method: Method.POST,
@@ -282,9 +221,7 @@ export class OrdersService implements IOrdersService {
   async acceptQuote(
     request: AcceptQuoteRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    AcceptQuoteResponse | CoinbasePrimeClientException | CoinbasePrimeException
-  > {
+  ): Promise<AcceptQuoteResponse> {
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/accept_quote`,
       method: Method.POST,

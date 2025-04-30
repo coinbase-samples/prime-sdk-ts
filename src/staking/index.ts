@@ -15,10 +15,7 @@
  */
 import { CoinbaseCallOptions } from '@coinbase-sample/core-ts';
 import { CoinbasePrimeClient } from '../client';
-import {
-  CoinbasePrimeClientException,
-  CoinbasePrimeException,
-} from '../errors';
+
 import {
   CreateStakeRequest,
   CreateStakeResponse,
@@ -30,17 +27,11 @@ export interface IStakingService {
   createStake(
     request: CreateStakeRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    CreateStakeResponse | CoinbasePrimeClientException | CoinbasePrimeException
-  >;
+  ): Promise<CreateStakeResponse>;
   createUnstake(
     request: CreateUnstakeRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | CreateUnstakeResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  >;
+  ): Promise<CreateUnstakeResponse>;
 }
 
 export class StakingService implements IStakingService {
@@ -53,9 +44,7 @@ export class StakingService implements IStakingService {
   async createStake(
     request: CreateStakeRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    CreateStakeResponse | CoinbasePrimeClientException | CoinbasePrimeException
-  > {
+  ): Promise<CreateStakeResponse> {
     const queryParams = {
       ...request,
       portfolioId: undefined,
@@ -73,11 +62,7 @@ export class StakingService implements IStakingService {
   async createUnstake(
     request: CreateUnstakeRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | CreateUnstakeResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  > {
+  ): Promise<CreateUnstakeResponse> {
     const queryParams = {
       ...request,
       portfolioId: undefined,

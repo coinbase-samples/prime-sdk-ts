@@ -15,10 +15,7 @@
  */
 import { CoinbaseCallOptions } from '@coinbase-sample/core-ts';
 import { CoinbasePrimeClient } from '../client';
-import {
-  CoinbasePrimeClientException,
-  CoinbasePrimeException,
-} from '../errors';
+
 import {
   ListPortfolioUsersRequest,
   ListPortfolioUsersResponse,
@@ -30,17 +27,11 @@ export interface IUsersService {
   listUsers(
     request: ListUsersRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    ListUsersResponse | CoinbasePrimeClientException | CoinbasePrimeException
-  >;
+  ): Promise<ListUsersResponse>;
   listPortfolioUsers(
     request: ListPortfolioUsersRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | ListPortfolioUsersResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  >;
+  ): Promise<ListPortfolioUsersResponse>;
 }
 
 export class UsersService implements IUsersService {
@@ -53,9 +44,7 @@ export class UsersService implements IUsersService {
   async listUsers(
     request: ListUsersRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    ListUsersResponse | CoinbasePrimeClientException | CoinbasePrimeException
-  > {
+  ): Promise<ListUsersResponse> {
     const response = await this.client.request({
       url: `entities/${request.entityId}/users`,
       callOptions: options,
@@ -67,11 +56,7 @@ export class UsersService implements IUsersService {
   async listPortfolioUsers(
     request: ListPortfolioUsersRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | ListPortfolioUsersResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  > {
+  ): Promise<ListPortfolioUsersResponse> {
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/users`,
       callOptions: options,

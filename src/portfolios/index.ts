@@ -15,10 +15,7 @@
  */
 import { CoinbaseCallOptions } from '@coinbase-sample/core-ts';
 import { CoinbasePrimeClient } from '../client';
-import {
-  CoinbasePrimeClientException,
-  CoinbasePrimeException,
-} from '../errors';
+
 import {
   GetPortfolioRequest,
   GetPortfolioResponse,
@@ -32,27 +29,17 @@ export interface IPortfoliosService {
   getPortfolio(
     request: GetPortfolioRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    GetPortfolioResponse | CoinbasePrimeClientException | CoinbasePrimeException
-  >;
+  ): Promise<GetPortfolioResponse>;
 
   getPortfolioCredit(
     request: GetPortfolioCreditRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | GetPortfolioCreditResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  >;
+  ): Promise<GetPortfolioCreditResponse>;
 
   listPortfolios(
     request: ListPortfoliosRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | ListPortfoliosResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  >;
+  ): Promise<ListPortfoliosResponse>;
 }
 
 export class PortfoliosService implements IPortfoliosService {
