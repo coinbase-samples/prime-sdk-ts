@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.3.2] - 2025-MAY-01
+
+### Added
+
+- Exporting types changes
+  - Moved all child types to explictly named, and importable from root package
+- New Service and endpoints
+  - CreateStake and CreateUnstake
+
 ## [0.3.0] - 2025-APR-10
 
 ### Added
