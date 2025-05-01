@@ -13,31 +13,46 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ListOnchainAddressGroupsResponse as listInt } from '../model/ListOnchainAddressGroupsResponse';
-import { AddressGroup } from '../model/AddressGroup';
-import { ActivityCreationResponse } from '../model/ActivityCreationResponse';
+import { Brand } from 'src/shared/brand';
+import {
+  ListOnchainAddressGroupsResponse as listInt,
+  AddressGroup,
+  ActivityCreationResponse,
+} from '../model/';
 
 export type ListOnchainAddressBookRequest = {
   portfolioId: string;
 };
 
-export type ListOnchainAddressBookResponse = listInt;
+export type ListOnchainAddressBookResponse = Brand<
+  listInt,
+  'ListOnchainAddressBookResponse'
+>;
 
 export type CreateOnchainAddressBookEntryRequest = AddressGroup & {
   portfolioId: string;
 };
 
-export type CreateOnchainAddressBookEntryResponse = ActivityCreationResponse;
+export type CreateOnchainAddressBookEntryResponse = Brand<
+  ActivityCreationResponse,
+  'CreateOnchainAddressBookEntryResponse'
+>;
 
 export type UpdateOnchainAddressBookEntryRequest = AddressGroup & {
   portfolioId: string;
 };
 
-export type UpdateOnchainAddressBookEntryResponse = ActivityCreationResponse;
+export type UpdateOnchainAddressBookEntryResponse = Brand<
+  ActivityCreationResponse,
+  'UpdateOnchainAddressBookEntryResponse'
+>;
 
 export type DeleteOnchainAddressBookEntryRequest = {
   portfolioId: string;
   addressGroupId: string;
 };
 
-export type DeleteOnchainAddressBookEntryResponse = ActivityCreationResponse;
+export type DeleteOnchainAddressBookEntryResponse = Brand<
+  ActivityCreationResponse,
+  'DeleteOnchainAddressBookEntryResponse'
+>;

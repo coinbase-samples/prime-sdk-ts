@@ -13,13 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { Brand } from 'src/shared/brand';
+import { ActivityCategory, ActivityStatus } from '../model/enums/';
+import {
+  GetActivityResponse as internalGet,
+  GetEntityActivitiesResponse,
+  GetPortfolioActivitiesResponse,
+  GetPortfolioActivityResponse as internalGetPortAct,
+} from '../model/';
 import { Pagination } from '../shared/pagination';
-import { ActivityCategory } from '../model/enums/ActivityCategory';
-import { ActivityStatus } from '../model/enums/ActivityStatus';
-import { GetActivityResponse as internalGet } from '../model/GetActivityResponse';
-import { GetEntityActivitiesResponse } from '../model/GetEntityActivitiesResponse';
-import { GetPortfolioActivitiesResponse } from '../model/GetPortfolioActivitiesResponse';
-import { GetPortfolioActivityResponse as internalGetPortAct } from '../model/GetPortfolioActivityResponse';
 
 export type ActivityFilters = Pagination & {
   symbols?: string[];
@@ -33,7 +35,7 @@ export type GetActivityRequest = {
   activityId: string;
 };
 
-export type GetActivityResponse = internalGet;
+export type GetActivityResponse = Brand<internalGet, 'GetActivityResponse'>;
 
 export type ListEntityActivitiesRequest = Pagination &
   ActivityFilters & {
@@ -48,11 +50,17 @@ export type ListPortfolioActivitiesRequest = Pagination &
     portfolioId: string;
   };
 
-export type ListPortfolioActivitiesResponse = GetPortfolioActivitiesResponse;
+export type ListPortfolioActivitiesResponse = Brand<
+  GetPortfolioActivitiesResponse,
+  'ListPortfolioActivitiesResponse'
+>;
 
 export type GetPortfolioActivitiesRequest = {
   portfolioId: string;
   activityId: string;
 };
 
-export type GetPortfolioActivityResponse = internalGetPortAct;
+export type GetPortfolioActivityResponse = Brand<
+  internalGetPortAct,
+  'GetPortfolioActivityResponse'
+>;

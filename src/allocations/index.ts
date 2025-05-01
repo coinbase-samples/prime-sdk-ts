@@ -45,7 +45,7 @@ export interface IAllocationService {
   ): Promise<ListPortfolioAllocationsResponse>;
 
   listNetAllocations(
-    request: CreateNetAllocationRequest,
+    request: ListNetAllocationsRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListNetAllocationsResponse>;
 

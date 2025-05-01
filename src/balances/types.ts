@@ -13,12 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { PortfolioBalanceType } from '../model/enums/PortfolioBalanceType';
-import { VisibilityStatus } from '../model/enums/VisibilityStatus';
-import { GetPortfolioBalancesResponse } from '../model/GetPortfolioBalancesResponse';
-import { GetWalletBalanceResponse as internalGetResp } from '../model/GetWalletBalanceResponse';
-import { ListWeb3WalletBalancesResponse } from '../model/ListWeb3WalletBalancesResponse';
-import { ListEntityBalancesResponse as internalListEntityBalances } from '../model/ListEntityBalancesResponse';
+import { Brand } from 'src/shared/brand';
+import { PortfolioBalanceType, VisibilityStatus } from '../model/enums/';
+import {
+  GetPortfolioBalancesResponse,
+  GetWalletBalanceResponse as internalGetResp,
+  ListWeb3WalletBalancesResponse,
+  ListEntityBalancesResponse as internalListEntityBalances,
+} from '../model/';
 
 export type ListPortfolioBalancesRequest = {
   portfolioId: string;
@@ -26,14 +28,20 @@ export type ListPortfolioBalancesRequest = {
   balanceType?: PortfolioBalanceType;
 };
 
-export type ListPortfolioBalancesResponse = GetPortfolioBalancesResponse;
+export type ListPortfolioBalancesResponse = Brand<
+  GetPortfolioBalancesResponse,
+  'ListPortfolioBalancesResponse'
+>;
 
 export type GetWalletBalanceRequest = {
   portfolioId: string;
   walletId: string;
 };
 
-export type GetWalletBalanceResponse = internalGetResp;
+export type GetWalletBalanceResponse = Brand<
+  internalGetResp,
+  'GetWalletBalanceResponse'
+>;
 
 export type ListOnchainWalletBalancesRequest = {
   portfolioId: string;
@@ -43,7 +51,10 @@ export type ListOnchainWalletBalancesRequest = {
   limit?: number;
 };
 
-export type ListOnchainWalletBalancesResponse = ListWeb3WalletBalancesResponse;
+export type ListOnchainWalletBalancesResponse = Brand<
+  ListWeb3WalletBalancesResponse,
+  'ListOnchainWalletBalancesResponse'
+>;
 
 export type ListEntityBalancesRequest = {
   entityId: string;
@@ -53,4 +64,7 @@ export type ListEntityBalancesRequest = {
   aggregationType?: PortfolioBalanceType;
 };
 
-export type ListEntityBalancesResponse = internalListEntityBalances;
+export type ListEntityBalancesResponse = Brand<
+  internalListEntityBalances,
+  'ListEntityBalancesResponse'
+>;

@@ -50,7 +50,7 @@ export class UsersService implements IUsersService {
       callOptions: options,
     });
 
-    return response.data as ListPortfolioUsersResponse;
+    return response.data as ListUsersResponse;
   }
 
   async listPortfolioUsers(

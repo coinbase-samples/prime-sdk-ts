@@ -13,22 +13,37 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CreateAllocationRequest as internalCreate } from '../model/CreateAllocationRequest';
-import { CreateAllocationResponse as internalResponse } from '../model/CreateAllocationResponse';
-import { CreateNetAllocationResponse as internalNetCreate } from '../model/CreateNetAllocationResponse';
-import { GetPortfolioAllocationsResponse } from '../model/GetPortfolioAllocationsResponse';
-import { GetAllocationResponse as internalGet } from '../model/GetAllocationResponse';
-import { GetAllocationsByClientNettingIdResponse } from '../model/GetAllocationsByClientNettingIdResponse';
-import { OrderSide } from '../model/enums/OrderSide';
+import { Brand } from 'src/shared/brand';
+import {
+  CreateAllocationRequest as internalCreate,
+  CreateAllocationResponse as internalResponse,
+  CreateNetAllocationResponse as internalNetCreate,
+  GetPortfolioAllocationsResponse,
+  GetAllocationResponse as internalGet,
+  GetAllocationsByClientNettingIdResponse,
+} from '../model/';
+import { OrderSide } from '../model/enums/';
 import { Pagination } from '../shared/pagination';
 
-export type CreateAllocationRequest = internalCreate;
+export type CreateAllocationRequest = Brand<
+  internalCreate,
+  'CreateAllocationRequest'
+>;
 
-export type CreateAllocationResponse = internalResponse;
+export type CreateAllocationResponse = Brand<
+  internalResponse,
+  'CreateAllocationResponse'
+>;
 
-export type CreateNetAllocationRequest = internalCreate;
+export type CreateNetAllocationRequest = Brand<
+  internalCreate,
+  'CreateNetAllocationRequest'
+>;
 
-export type CreateNetAllocationResponse = internalNetCreate;
+export type CreateNetAllocationResponse = Brand<
+  internalNetCreate,
+  'CreateNetAllocationResponse'
+>;
 
 export type ListPortfolioAllocationsRequest = Pagination & {
   portfolioId: string;
@@ -38,7 +53,10 @@ export type ListPortfolioAllocationsRequest = Pagination & {
   endDate?: string;
 };
 
-export type ListPortfolioAllocationsResponse = GetPortfolioAllocationsResponse;
+export type ListPortfolioAllocationsResponse = Brand<
+  GetPortfolioAllocationsResponse,
+  'ListPortfolioAllocationsResponse'
+>;
 
 export type ListNetAllocationsRequest = {
   portfolioId: string;
@@ -46,12 +64,14 @@ export type ListNetAllocationsRequest = {
   allocationId?: string;
 };
 
-export type ListNetAllocationsResponse =
-  GetAllocationsByClientNettingIdResponse;
+export type ListNetAllocationsResponse = Brand<
+  GetAllocationsByClientNettingIdResponse,
+  'ListNetAllocationsResponse'
+>;
 
 export type GetAllocationRequest = {
   portfolioId: string;
   allocationId: string;
 };
 
-export type GetAllocationResponse = internalGet;
+export type GetAllocationResponse = Brand<internalGet, 'GetAllocationResponse'>;

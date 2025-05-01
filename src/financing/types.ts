@@ -13,17 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { GetExistingLocatesResponse } from '../model/GetExistingLocatesResponse';
-import { GetInterestAccrualsResponse } from '../model/GetInterestAccrualsResponse';
-import { GetLocateAvailabilitiesResponse } from '../model/GetLocateAvailabilitiesResponse';
-import { GetMarginConversionsResponse } from '../model/GetMarginConversionsResponse';
-import { GetMarginSummariesResponse } from '../model/GetMarginSummariesResponse';
-import { GetMarginInformationResponse as internalGetMarginInformationResponse } from '../model/GetMarginInformationResponse';
-import { GetBuyingPowerResponse } from '../model/GetBuyingPowerResponse';
-import { GetPostTradeCreditResponse } from '../model/GetPostTradeCreditResponse';
-import { GetTFTieredPricingFeesResponse } from '../model/GetTFTieredPricingFeesResponse';
-import { GetWithdrawalPowerResponse } from '../model/GetWithdrawalPowerResponse';
-import { CreateNewLocatesResponse as internalCreateNewLocatesResponse } from '../model/CreateNewLocatesResponse';
+import { Brand } from 'src/shared/brand';
+import {
+  GetExistingLocatesResponse,
+  GetInterestAccrualsResponse,
+  GetLocateAvailabilitiesResponse,
+  GetMarginConversionsResponse,
+  GetMarginSummariesResponse,
+  GetMarginInformationResponse as internalGetMarginInformationResponse,
+  GetBuyingPowerResponse,
+  GetPostTradeCreditResponse,
+  GetTFTieredPricingFeesResponse,
+  GetWithdrawalPowerResponse,
+  CreateNewLocatesResponse as internalCreateNewLocatesResponse,
+} from '../model/';
 
 export type ListExistingLocatesRequest = {
   portfolioId: string;
@@ -32,7 +35,10 @@ export type ListExistingLocatesRequest = {
   locateDate?: string;
 };
 
-export type ListExistingLocatesResponse = GetExistingLocatesResponse;
+export type ListExistingLocatesResponse = Brand<
+  GetExistingLocatesResponse,
+  'ListExistingLocatesResponse'
+>;
 
 export type ListInterestAccrualsRequest = {
   entityId: string;
@@ -41,7 +47,10 @@ export type ListInterestAccrualsRequest = {
   endDate?: string;
 };
 
-export type ListInterestAccrualsResponse = GetInterestAccrualsResponse;
+export type ListInterestAccrualsResponse = Brand<
+  GetInterestAccrualsResponse,
+  'ListInterestAccrualsResponse'
+>;
 
 export type ListPortfolioInterestAccrualsRequest = {
   portfolioId: string;
@@ -49,7 +58,10 @@ export type ListPortfolioInterestAccrualsRequest = {
   endDate?: string;
 };
 
-export type ListPortfolioInterestAccrualsResponse = GetInterestAccrualsResponse;
+export type ListPortfolioInterestAccrualsResponse = Brand<
+  GetInterestAccrualsResponse,
+  'ListPortfolioInterestAccrualsResponse'
+>;
 
 export type ListMarginCallSummariesRequest = {
   entityId: string;
@@ -57,7 +69,10 @@ export type ListMarginCallSummariesRequest = {
   endDate?: string;
 };
 
-export type ListMarginCallSummariesResponse = GetMarginSummariesResponse;
+export type ListMarginCallSummariesResponse = Brand<
+  GetMarginSummariesResponse,
+  'ListMarginCallSummariesResponse'
+>;
 
 export type ListMarginConversionsRequest = {
   portfolioId: string;
@@ -65,21 +80,29 @@ export type ListMarginConversionsRequest = {
   endDate?: string;
 };
 
-export type ListMarginConversionsResponse = GetMarginConversionsResponse;
+export type ListMarginConversionsResponse = Brand<
+  GetMarginConversionsResponse,
+  'ListMarginConversionsResponse'
+>;
 
 export type GetEntityLocateAvailabilitiesRequest = {
   entityId: string;
   locateDate?: string;
 };
 
-export type GetEntityLocateAvailabilitiesResponse =
-  GetLocateAvailabilitiesResponse;
+export type GetEntityLocateAvailabilitiesResponse = Brand<
+  GetLocateAvailabilitiesResponse,
+  'GetEntityLocateAvailabilitiesResponse'
+>;
 
 export type GetMarginInformationRequest = {
   entityId: string;
 };
 
-export type GetMarginInformationResponse = internalGetMarginInformationResponse;
+export type GetMarginInformationResponse = Brand<
+  internalGetMarginInformationResponse,
+  'GetMarginInformationResponse'
+>;
 
 export type GetPortfolioBuyingPowerRequest = {
   portfolioId: string;
@@ -87,27 +110,39 @@ export type GetPortfolioBuyingPowerRequest = {
   quoteCurrency: string;
 };
 
-export type GetPortfolioBuyingPowerResponse = GetBuyingPowerResponse;
+export type GetPortfolioBuyingPowerResponse = Brand<
+  GetBuyingPowerResponse,
+  'GetPortfolioBuyingPowerResponse'
+>;
 
 export type GetPortfolioCreditInformationRequest = {
   portfolioId: string;
 };
 
-export type GetPortfolioCreditInformationResponse = GetPostTradeCreditResponse;
+export type GetPortfolioCreditInformationResponse = Brand<
+  GetPostTradeCreditResponse,
+  'GetPortfolioCreditInformationResponse'
+>;
 
 export type GetPortfolioWithdrawalPowerRequest = {
   portfolioId: string;
   symbol: string;
 };
 
-export type GetPortfolioWithdrawalPowerResponse = GetWithdrawalPowerResponse;
+export type GetPortfolioWithdrawalPowerResponse = Brand<
+  GetWithdrawalPowerResponse,
+  'GetPortfolioWithdrawalPowerResponse'
+>;
 
 export type GetTieredPricingFeesRequest = {
   entityId: string;
   effectiveAt?: string;
 };
 
-export type GetTieredPricingFeesResponse = GetTFTieredPricingFeesResponse;
+export type GetTieredPricingFeesResponse = Brand<
+  GetTFTieredPricingFeesResponse,
+  'GetTieredPricingFeesResponse'
+>;
 
 export type CreateNewLocatesRequest = {
   portfolioId: string;
@@ -116,4 +151,7 @@ export type CreateNewLocatesRequest = {
   locateDate?: string;
 };
 
-export type CreateNewLocatesResponse = internalCreateNewLocatesResponse;
+export type CreateNewLocatesResponse = Brand<
+  internalCreateNewLocatesResponse,
+  'CreateNewLocatesResponse'
+>;

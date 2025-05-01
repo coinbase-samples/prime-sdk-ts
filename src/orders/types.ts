@@ -13,30 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { OrderSide } from '../model/enums/OrderSide';
-import { OrderStatus } from '../model/enums/OrderStatus';
-import { OrderType } from '../model/enums/OrderType';
-import { GetOpenOrdersResponse } from '../model/GetOpenOrdersResponse';
-import { GetOrderFillsResponse } from '../model/GetOrderFillsResponse';
-import { GetOrderResponse as internalGet } from '../model/GetOrderResponse';
-import { GetOrdersResponse } from '../model/GetOrdersResponse';
-import { GetPortfolioFillsResponse } from '../model/GetPortfolioFillsResponse';
-import { OrderPreviewRequest } from '../model/OrderPreviewRequest';
-import { PostOrderPreviewResponse } from '../model/PostOrderPreviewResponse';
-import { CancelOrderResponse as internalCancel } from '../model/CancelOrderResponse';
-import { CreateOrderResponse as internalCreateResp } from '../model/CreateOrderResponse';
-import { CreateOrderRequest as internalCreate } from '../model/CreateOrderRequest';
+import { Brand } from 'src/shared/brand';
+import { OrderSide, OrderStatus, OrderType } from '../model/enums/';
+import {
+  GetOpenOrdersResponse,
+  GetOrderFillsResponse,
+  GetOrderResponse as internalGet,
+  GetOrdersResponse,
+  GetPortfolioFillsResponse,
+  OrderPreviewRequest,
+  PostOrderPreviewResponse,
+  CancelOrderResponse as internalCancel,
+  CreateOrderResponse as internalCreateResp,
+  CreateOrderRequest as internalCreate,
+  QuoteResponse,
+  AcceptQuoteRequest as internalAcceptQuoteReq,
+  AcceptQuoteResponse as internalAcceptQuoteResp,
+} from '../model/';
 import { Pagination } from '../shared/pagination';
-import { QuoteResponse } from '../model/QuoteResponse';
-import { AcceptQuoteRequest as internalAcceptQuoteReq } from '../model/AcceptQuoteRequest';
-import { AcceptQuoteResponse as internalAcceptQuoteResp } from '../model/AcceptQuoteResponse';
 
 export type GetOrderRequest = {
   portfolioId: string;
   orderId: string;
 };
 
-export type GetOrderResponse = internalGet;
+export type GetOrderResponse = Brand<internalGet, 'GetOrderResponse'>;
 
 export type ListPortfolioFillsRequest = Pagination & {
   portfolioId: string;
@@ -44,7 +45,10 @@ export type ListPortfolioFillsRequest = Pagination & {
   endDate?: string;
 };
 
-export type ListPortfolioFillsResponse = GetPortfolioFillsResponse;
+export type ListPortfolioFillsResponse = Brand<
+  GetPortfolioFillsResponse,
+  'ListPortfolioFillsResponse'
+>;
 
 export type ListPortfolioOrdersRequest = Pagination & {
   portfolioId: string;
@@ -56,14 +60,20 @@ export type ListPortfolioOrdersRequest = Pagination & {
   endDate?: string;
 };
 
-export type ListPortfolioOrdersResponse = GetOrdersResponse;
+export type ListPortfolioOrdersResponse = Brand<
+  GetOrdersResponse,
+  'ListPortfolioOrdersResponse'
+>;
 
 export type ListOrderFillsRequest = Pagination & {
   portfolioId: string;
   orderId: string;
 };
 
-export type ListOrderFillsResponse = GetOrderFillsResponse;
+export type ListOrderFillsResponse = Brand<
+  GetOrderFillsResponse,
+  'ListOrderFillsResponse'
+>;
 
 export type ListOpenOrdersRequest = Pagination & {
   portfolioId: string;
@@ -74,34 +84,46 @@ export type ListOpenOrdersRequest = Pagination & {
   endDate: string;
 };
 
-export type ListOpenOrdersResponse = GetOpenOrdersResponse;
+export type ListOpenOrdersResponse = Brand<
+  GetOpenOrdersResponse,
+  'ListOpenOrdersResponse'
+>;
 
 export type CreateOrderPreviewRequest = OrderPreviewRequest & {
   portfolioId: string;
 };
 
-export type CreateOrderPreviewResponse = PostOrderPreviewResponse;
+export type CreateOrderPreviewResponse = Brand<
+  PostOrderPreviewResponse,
+  'CreateOrderPreviewResponse'
+>;
 
 export type CancelOrderRequest = {
   portfolioId: string;
   orderId: string;
 };
 
-export type CancelOrderResponse = internalCancel;
+export type CancelOrderResponse = Brand<internalCancel, 'CancelOrderResponse'>;
 
 export type CreateOrderRequest = internalCreate & {
   portfolioId: string;
 };
-export type CreateOrderResponse = internalCreateResp;
+export type CreateOrderResponse = Brand<
+  internalCreateResp,
+  'CreateOrderResponse'
+>;
 
 export type CreateQuoteRequest = internalCreate & {
   portfolioId: string;
 };
 
-export type CreateQuoteResponse = QuoteResponse;
+export type CreateQuoteResponse = Brand<QuoteResponse, 'CreateQuoteResponse'>;
 
 export type AcceptQuoteRequest = internalAcceptQuoteReq & {
   portfolioId: string;
 };
 
-export type AcceptQuoteResponse = internalAcceptQuoteResp;
+export type AcceptQuoteResponse = Brand<
+  internalAcceptQuoteResp,
+  'AcceptQuoteResponse'
+>;

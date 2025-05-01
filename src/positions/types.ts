@@ -13,9 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { SortDirection } from '../model/enums/SortDirection';
-import { ListAggregateEntityPositionsResponse as ListAggregateEntityPositionsInt } from '../model/ListAggregateEntityPositionsResponse';
-import { ListEntityPositionsResponse as ListEntityPositionsInt } from '../model/ListEntityPositionsResponse';
+import { Brand } from 'src/shared/brand';
+import {
+  ListAggregateEntityPositionsResponse as ListAggregateEntityPositionsInt,
+  ListEntityPositionsResponse as ListEntityPositionsInt,
+} from '../model/';
 
 export type ListAggregateEntityPositionsRequest = {
   entityId: string;
@@ -23,8 +25,10 @@ export type ListAggregateEntityPositionsRequest = {
   limit?: number;
 };
 
-export type ListAggregateEntityPositionsResponse =
-  ListAggregateEntityPositionsInt;
+export type ListAggregateEntityPositionsResponse = Brand<
+  ListAggregateEntityPositionsInt,
+  'ListAggregateEntityPositionsResponse'
+>;
 
 export type ListEntityPositionsRequest = {
   entityId: string;
@@ -32,4 +36,7 @@ export type ListEntityPositionsRequest = {
   limit?: number;
 };
 
-export type ListEntityPositionsResponse = ListEntityPositionsInt;
+export type ListEntityPositionsResponse = Brand<
+  ListEntityPositionsInt,
+  'ListEntityPositionsResponse'
+>;

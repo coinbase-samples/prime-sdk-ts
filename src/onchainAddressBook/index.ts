@@ -93,7 +93,7 @@ export class OnchainAddressBookService implements IOnchainAddressBookService {
       callOptions: options,
     });
 
-    return response.data as CreateOnchainAddressBookEntryResponse;
+    return response.data as UpdateOnchainAddressBookEntryResponse;
   }
 
   async deleteOnchainAddressBook(
