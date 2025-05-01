@@ -13,16 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { WalletType } from '../model/enums/WalletType';
+import { Brand } from 'src/shared/brand';
+import { WalletType, WalletDepositInstructionType } from '../model/enums/';
+import {
+  GetWalletsResponse,
+  GetWalletResponse as internalGet,
+  GetWalletAddressesResponse as internalGetAddresses,
+  GetWalletDepositInstructionsResponse as internalGetInstructs,
+  CreateWalletRequest as internalCreate,
+  CreateWalletResponse as internalCreateResp,
+  BlockchainAddress,
+} from '../model/';
 import { Pagination } from '../shared/pagination';
-import { GetWalletsResponse } from '../model/GetWalletsResponse';
-import { GetWalletResponse as internalGet } from '../model/GetWalletResponse';
-import { GetWalletAddressesResponse as internalGetAddresses } from '../model/GetWalletAddressesResponse';
-import { GetWalletDepositInstructionsResponse as internalGetInstructs } from '../model/GetWalletDepositInstructionsResponse';
-import { CreateWalletRequest as internalCreate } from '../model/CreateWalletRequest';
-import { CreateWalletResponse as internalCreateResp } from '../model/CreateWalletResponse';
-import { BlockchainAddress } from '../model/BlockchainAddress';
-import { WalletDepositInstructionType } from '../model/enums/WalletDepositInstructionType';
 
 export type ListWalletsRequest = Pagination & {
   portfolioId: string;
@@ -30,14 +32,17 @@ export type ListWalletsRequest = Pagination & {
   symbols?: string[];
 };
 
-export type ListWalletsResponse = GetWalletsResponse;
+export type ListWalletsResponse = Brand<
+  GetWalletsResponse,
+  'ListWalletsResponse'
+>;
 
 export type GetWalletRequest = {
   portfolioId: string;
   walletId: string;
 };
 
-export type GetWalletResponse = internalGet;
+export type GetWalletResponse = Brand<internalGet, 'GetWalletResponse'>;
 
 export type GetWalletDepositInstructionsRequest = {
   portfolioId: string;
@@ -47,7 +52,10 @@ export type GetWalletDepositInstructionsRequest = {
   networkType?: string;
 };
 
-export type GetWalletDepositInstructionsResponse = internalGetInstructs;
+export type GetWalletDepositInstructionsResponse = Brand<
+  internalGetInstructs,
+  'GetWalletDepositInstructionsResponse'
+>;
 
 export type ListWalletAddressesRequest = {
   portfolioId: string;
@@ -58,13 +66,19 @@ export type ListWalletAddressesRequest = {
   limit?: number;
 };
 
-export type ListWalletAddressesResponse = internalGetAddresses;
+export type ListWalletAddressesResponse = Brand<
+  internalGetAddresses,
+  'ListWalletAddressesResponse'
+>;
 
 export type CreateWalletRequest = internalCreate & {
   portfolioId: string;
 };
 
-export type CreateWalletResponse = internalCreateResp;
+export type CreateWalletResponse = Brand<
+  internalCreateResp,
+  'CreateWalletResponse'
+>;
 
 export type CreateWalletDepositAddressRequest = {
   portfolioId: string;
@@ -73,4 +87,7 @@ export type CreateWalletDepositAddressRequest = {
   networkType?: string;
 };
 
-export type CreateWalletDepositAddressResponse = BlockchainAddress;
+export type CreateWalletDepositAddressResponse = Brand<
+  BlockchainAddress,
+  'CreateWalletDepositAddressResponse'
+>;

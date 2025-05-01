@@ -15,10 +15,7 @@
  */
 import { CoinbaseCallOptions } from '@coinbase-sample/core-ts';
 import { CoinbasePrimeClient } from '../client';
-import {
-  CoinbasePrimeClientException,
-  CoinbasePrimeException,
-} from '../errors';
+
 import {
   GetWalletBalanceRequest,
   GetWalletBalanceResponse,
@@ -34,38 +31,22 @@ export interface IBalancesService {
   listPortfolioBalances(
     request: ListPortfolioBalancesRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | ListPortfolioBalancesResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  >;
+  ): Promise<ListPortfolioBalancesResponse>;
 
   getWalletBalance(
     request: GetWalletBalanceRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | GetWalletBalanceResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  >;
+  ): Promise<GetWalletBalanceResponse>;
 
   listOnchainWalletBalances(
     request: ListOnchainWalletBalancesRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | ListOnchainWalletBalancesResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  >;
+  ): Promise<ListOnchainWalletBalancesResponse>;
 
   listEntityBalances(
     request: ListEntityBalancesRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | ListEntityBalancesResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  >;
+  ): Promise<ListEntityBalancesResponse>;
 }
 
 export class BalancesService implements IBalancesService {
@@ -78,11 +59,7 @@ export class BalancesService implements IBalancesService {
   async listPortfolioBalances(
     request: ListPortfolioBalancesRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | ListPortfolioBalancesResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  > {
+  ): Promise<ListPortfolioBalancesResponse> {
     const queryParams = { ...request, portfolioId: undefined };
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/balances`,
@@ -96,11 +73,7 @@ export class BalancesService implements IBalancesService {
   async getWalletBalance(
     request: GetWalletBalanceRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | GetWalletBalanceResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  > {
+  ): Promise<GetWalletBalanceResponse> {
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/wallets/${request.walletId}balances`,
       callOptions: options,
@@ -112,11 +85,7 @@ export class BalancesService implements IBalancesService {
   async listOnchainWalletBalances(
     request: ListOnchainWalletBalancesRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | ListOnchainWalletBalancesResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  > {
+  ): Promise<ListOnchainWalletBalancesResponse> {
     const queryParams = {
       ...request,
       portfolioId: undefined,
@@ -134,11 +103,7 @@ export class BalancesService implements IBalancesService {
   async listEntityBalances(
     request: ListEntityBalancesRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | ListEntityBalancesResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  > {
+  ): Promise<ListEntityBalancesResponse> {
     const queryParams = {
       ...request,
       entityId: undefined,

@@ -15,19 +15,14 @@
  */
 import { CoinbaseCallOptions } from '@coinbase-sample/core-ts';
 import { CoinbasePrimeClient } from '../client';
-import {
-  CoinbasePrimeClientException,
-  CoinbasePrimeException,
-} from '../errors';
+
 import { ListInvoicesRequest, ListInvoicesResponse } from './types';
 
 export interface IInvoicesService {
   listInvoicess(
     request: ListInvoicesRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    ListInvoicesResponse | CoinbasePrimeClientException | CoinbasePrimeException
-  >;
+  ): Promise<ListInvoicesResponse>;
 }
 
 export class InvoicesService implements IInvoicesService {
@@ -40,9 +35,7 @@ export class InvoicesService implements IInvoicesService {
   async listInvoicess(
     request: ListInvoicesRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    ListInvoicesResponse | CoinbasePrimeClientException | CoinbasePrimeException
-  > {
+  ): Promise<ListInvoicesResponse> {
     const response = await this.client.request({
       url: `entities/${request.entityId}/Invoicess`,
       callOptions: options,

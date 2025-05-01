@@ -15,10 +15,7 @@
  */
 import { CoinbaseCallOptions } from '@coinbase-sample/core-ts';
 import { CoinbasePrimeClient } from '../client';
-import {
-  CoinbasePrimeClientException,
-  CoinbasePrimeException,
-} from '../errors';
+
 import {
   GetPortfolioCommissionRequest,
   GetPortfolioCommissionResponse,
@@ -28,11 +25,7 @@ export interface ICommissionService {
   getPortfolioCommission(
     request: GetPortfolioCommissionRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | GetPortfolioCommissionResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  >;
+  ): Promise<GetPortfolioCommissionResponse>;
 }
 
 export class CommissionService implements ICommissionService {
@@ -45,11 +38,7 @@ export class CommissionService implements ICommissionService {
   async getPortfolioCommission(
     request: GetPortfolioCommissionRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | GetPortfolioCommissionResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  > {
+  ): Promise<GetPortfolioCommissionResponse> {
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/commission`,
       callOptions: options,

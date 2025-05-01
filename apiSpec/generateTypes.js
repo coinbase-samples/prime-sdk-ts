@@ -22,6 +22,8 @@ const parentDir = './types';
 const sourceDir = './types/model';
 const destDir = './types/processed';
 const destDirEnums = './types/processed/enums';
+const indexPath = path.join(destDir, 'index.ts');
+const enumIndexPath = path.join(destDirEnums, 'index.ts');
 
 const filePathReplacements = {
   coinbaseCustodyApiActivityType: 'CustodyActivityType',
@@ -55,6 +57,15 @@ const replacements = {
   primeRESTAPI: '',
   CoinbaseCustodyApi: '',
   coinbaseCustodyApi: '',
+};
+
+const classnameAsExceptions = ['CustodyActivityType', 'PrimeActivityType'];
+
+const prettierConfig = {
+  semi: true,
+  singleQuote: true,
+  trailingComma: 'es5',
+  parser: 'typescript',
 };
 
 // Ensure the destination directory exists
@@ -143,13 +154,47 @@ function addGeneratedHeader(updatedContent) {
   return header + updatedContent;
 }
 
+function getIndexFileExport(destPath, updatedContent) {
+  const fileName = destPath
+    .replace('types/processed/', '')
+    .replace('types/processed/enums/', '')
+    .replace('.ts', '');
+
+  const isEnum = destPath.includes('enum');
+  const baseName = fileName.replace('enums/', '');
+  let typeName = '';
+
+  if (isEnum) {
+    const typeMatch = updatedContent.match(/export\s+enum\s+(\w+)\s*/);
+    if (!typeMatch) throw new Error(`No enum name found in file: ${fileName}`);
+
+    // handle export with as syntax for namespace collisions
+    if (classnameAsExceptions.includes(baseName)) {
+      typeName = `${typeMatch[1]} as ${baseName}`;
+    } else {
+      typeName = typeMatch[1];
+    }
+
+    return `export { ${typeName} } from './${baseName}';`;
+  } else {
+    const typeMatch = updatedContent.match(/export\s+type\s+(\w+)\s*=/);
+    if (!typeMatch) throw new Error(`No type name found in file: ${fileName}`);
+
+    typeName = typeMatch[1];
+    return `export type { ${typeName} } from './${baseName}';`;
+  }
+}
+
 // Main function to process files
 async function processFiles() {
   // List all files in the source directory
   const files = fs.readdirSync(sourceDir);
+  const indexFileContent = [];
+  const enumIndexFileContent = [];
 
   const enumClasses = [];
-  files.forEach((file) => {
+  for (let i = 0; i < files.length; i++) {
+    const file = files[i];
     const sourcePath = path.join(sourceDir, file);
     if (fs.statSync(sourcePath).isFile()) {
       const content = fs.readFileSync(sourcePath, 'utf8');
@@ -166,15 +211,16 @@ async function processFiles() {
         enumClasses.push(enumName);
       }
     }
-  });
+  }
 
-  files.forEach(async (file) => {
+  for (let j = 0; j < files.length; j++) {
+    const file = files[j];
     const sourcePath = path.join(sourceDir, file);
     let destPath = path.join(destDir, file);
 
     if (skipFiles.includes(file)) {
       console.log('skipping file', file);
-      return;
+      continue;
     }
 
     // Read each file (synchronously or asynchronously)
@@ -215,18 +261,15 @@ async function processFiles() {
           path.join(destDirEnums, file),
           filePathReplacements
         );
+        enumIndexFileContent.push(getIndexFileExport(destPath, updatedContent));
       } else {
         destPath = replaceString(destPath, filePathReplacements);
+        indexFileContent.push(getIndexFileExport(destPath, updatedContent));
       }
 
       updatedContent = addGeneratedHeader(updatedContent);
 
-      updatedContent = await prettier.format(updatedContent, {
-        semi: true,
-        singleQuote: true,
-        trailingComma: 'es5',
-        parser: 'typescript',
-      });
+      updatedContent = await prettier.format(updatedContent, prettierConfig);
 
       if (fs.existsSync(destPath)) {
         console.log('file already exists: ', destPath);
@@ -234,9 +277,14 @@ async function processFiles() {
 
       // Write the updated content to the destination directory
       fs.writeFileSync(destPath, updatedContent, 'utf8');
+
       console.log(`Processed: ${file} at ${destPath}`);
     }
-  });
+  }
+
+  // Write to index.ts
+  fs.writeFileSync(indexPath, indexFileContent.join('\n') + '\n');
+  fs.writeFileSync(enumIndexPath, enumIndexFileContent.join('\n') + '\n');
 
   console.log('All files processed.');
 }

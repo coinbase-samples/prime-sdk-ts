@@ -15,10 +15,7 @@
  */
 import { CoinbaseCallOptions, Method } from '@coinbase-sample/core-ts';
 import { CoinbasePrimeClient } from '../client';
-import {
-  CoinbasePrimeClientException,
-  CoinbasePrimeException,
-} from '../errors';
+
 import {
   ListOnchainAddressBookRequest,
   ListOnchainAddressBookResponse,
@@ -34,38 +31,22 @@ export interface IOnchainAddressBookService {
   listOnchainAddressBook(
     request: ListOnchainAddressBookRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | ListOnchainAddressBookResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  >;
+  ): Promise<ListOnchainAddressBookResponse>;
 
   createOnchainAddressBookEntry(
     request: CreateOnchainAddressBookEntryRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | CreateOnchainAddressBookEntryResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  >;
+  ): Promise<CreateOnchainAddressBookEntryResponse>;
 
   updateOnchainAddressBookEntry(
     request: UpdateOnchainAddressBookEntryRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | UpdateOnchainAddressBookEntryResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  >;
+  ): Promise<UpdateOnchainAddressBookEntryResponse>;
 
   deleteOnchainAddressBook(
     request: DeleteOnchainAddressBookEntryRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | DeleteOnchainAddressBookEntryResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  >;
+  ): Promise<DeleteOnchainAddressBookEntryResponse>;
 }
 
 export class OnchainAddressBookService implements IOnchainAddressBookService {
@@ -78,11 +59,7 @@ export class OnchainAddressBookService implements IOnchainAddressBookService {
   async listOnchainAddressBook(
     request: ListOnchainAddressBookRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | ListOnchainAddressBookResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  > {
+  ): Promise<ListOnchainAddressBookResponse> {
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/onchain_address_groups`,
       callOptions: options,
@@ -94,11 +71,7 @@ export class OnchainAddressBookService implements IOnchainAddressBookService {
   async createOnchainAddressBookEntry(
     request: CreateOnchainAddressBookEntryRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | CreateOnchainAddressBookEntryResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  > {
+  ): Promise<CreateOnchainAddressBookEntryResponse> {
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/onchain_address_group`,
       bodyParams: { ...request, portfolioId: undefined },
@@ -112,11 +85,7 @@ export class OnchainAddressBookService implements IOnchainAddressBookService {
   async updateOnchainAddressBookEntry(
     request: UpdateOnchainAddressBookEntryRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | UpdateOnchainAddressBookEntryResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  > {
+  ): Promise<UpdateOnchainAddressBookEntryResponse> {
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/onchain_address_group`,
       bodyParams: { ...request, portfolioId: undefined },
@@ -124,17 +93,13 @@ export class OnchainAddressBookService implements IOnchainAddressBookService {
       callOptions: options,
     });
 
-    return response.data as CreateOnchainAddressBookEntryResponse;
+    return response.data as UpdateOnchainAddressBookEntryResponse;
   }
 
   async deleteOnchainAddressBook(
     request: DeleteOnchainAddressBookEntryRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | DeleteOnchainAddressBookEntryResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  > {
+  ): Promise<DeleteOnchainAddressBookEntryResponse> {
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/onchain_address_group/${request.addressGroupId}`,
       method: Method.DELETE,

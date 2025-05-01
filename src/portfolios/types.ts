@@ -13,9 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { GetPortfolioResponse as internalGet } from '../model/GetPortfolioResponse';
-import { GetPortfoliosResponse } from '../model/GetPortfoliosResponse';
-import { GetPostTradeCreditResponse } from '../model/GetPostTradeCreditResponse';
+import { Brand } from 'src/shared/brand';
+import {
+  GetPortfolioResponse as internalGet,
+  GetPortfoliosResponse,
+  GetPostTradeCreditResponse,
+} from '../model/';
 
 export type GetPortfolioRequest = {
   /**
@@ -24,14 +27,20 @@ export type GetPortfolioRequest = {
   portfolioId: string;
 };
 
-export type GetPortfolioResponse = internalGet;
+export type GetPortfolioResponse = Brand<internalGet, 'GetPortfolioResponse'>;
 
 export type ListPortfoliosRequest = Record<string, never>;
 
-export type ListPortfoliosResponse = GetPortfoliosResponse;
+export type ListPortfoliosResponse = Brand<
+  GetPortfoliosResponse,
+  'ListPortfoliosResponse'
+>;
 
 export type GetPortfolioCreditRequest = {
   portfolioId: string;
 };
 
-export type GetPortfolioCreditResponse = GetPostTradeCreditResponse;
+export type GetPortfolioCreditResponse = Brand<
+  GetPostTradeCreditResponse,
+  'GetPortfolioCreditResponse'
+>;

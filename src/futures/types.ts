@@ -13,48 +13,69 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { GetFcmBalanceResponse } from '../model/GetFcmBalanceResponse';
-import { GetFuturesSweepsResponse } from '../model/GetFuturesSweepsResponse';
-import { GetPositionsResponse } from '../model/GetPositionsResponse';
-import { SetAutoSweepResponse } from '../model/SetAutoSweepResponse';
-import { ScheduleFuturesSweepRequest } from '../model/ScheduleFuturesSweepRequest';
-import { ScheduleFuturesSweepResponse } from '../model/ScheduleFuturesSweepResponse';
-import { CancelFuturesSweepResponse } from '../model/CancelFuturesSweepResponse';
+import { Brand } from 'src/shared/brand';
+import {
+  GetFcmBalanceResponse,
+  GetFuturesSweepsResponse,
+  GetPositionsResponse,
+  SetAutoSweepResponse,
+  ScheduleFuturesSweepRequest,
+  ScheduleFuturesSweepResponse,
+  CancelFuturesSweepResponse,
+} from '../model/';
 
 export type ListEntityFuturesSweepsRequest = {
   entityId: string;
 };
 
-export type ListEntityFuturesSweepsResponse = GetFuturesSweepsResponse;
+export type ListEntityFuturesSweepsResponse = Brand<
+  GetFuturesSweepsResponse,
+  'ListEntityFuturesSweepsResponse'
+>;
 
 export type GetEntityFuturesBalanceRequest = {
   entityId: string;
 };
 
-export type GetEntityFuturesBalanceResponse = GetFcmBalanceResponse;
+export type GetEntityFuturesBalanceResponse = Brand<
+  GetFcmBalanceResponse,
+  'GetEntityFuturesBalanceResponse'
+>;
 
 export type GetEntityFuturesPositionsRequest = {
   entityId: string;
   productId?: string;
 };
 
-export type GetEntityFuturesPositionsResponse = GetPositionsResponse;
+export type GetEntityFuturesPositionsResponse = Brand<
+  GetPositionsResponse,
+  'GetEntityFuturesPositionsResponse'
+>;
 
 export type UpdateEntityFuturesAutoSweepRequest = {
   entityId: string;
   autoSweep: boolean;
 };
 
-export type UpdateEntityFuturesAutoSweepResponse = SetAutoSweepResponse;
+export type UpdateEntityFuturesAutoSweepResponse = Brand<
+  SetAutoSweepResponse,
+  'UpdateEntityFuturesAutoSweepResponse'
+>;
 
 export type ScheduleEntityFuturesSweepRequest = ScheduleFuturesSweepRequest & {
   entityId: string;
 };
 
-export type ScheduleEntityFuturesSweepResponse = ScheduleFuturesSweepResponse;
+export type ScheduleEntityFuturesSweepResponse = Brand<
+  ScheduleFuturesSweepResponse,
+  'ScheduleEntityFuturesSweepResponse'
+>;
 
 export type CancelEntitySweepRequest = {
   entityId: string;
 };
 
-export type CancelEntitySweepResponse = CancelFuturesSweepResponse;
+export type CancelEntitySweepResponse = Brand<
+  CancelFuturesSweepResponse,
+  'CancelEntitySweepResponse'
+>;

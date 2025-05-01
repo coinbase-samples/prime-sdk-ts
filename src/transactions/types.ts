@@ -13,19 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { TransactionType } from '../model/enums/TransactionType';
-import { GetPortfolioTransactionsResponse } from '../model/GetPortfolioTransactionsResponse';
-import { GetWalletTransactionsResponse } from '../model/GetWalletTransactionsResponse';
-import { GetTransactionResponse as internalGet } from '../model/GetTransactionResponse';
-import { CreateConversionRequest as internalCreateConversion } from '../model/CreateConversionRequest';
-import { CreateConversionResponse as internalCreateConversionResp } from '../model/CreateConversionResponse';
-import { CreateATransferBetweenTwoWallets } from '../model/createATransferBetweenTwoWallets';
-import { CreateWalletWithdrawalRequest } from '../model/CreateWalletWithdrawalRequest';
-import { CreateWalletWithdrawalResponse } from '../model/CreateWalletWithdrawalResponse';
+import { Brand } from 'src/shared/brand';
+import { TransactionType } from '../model/enums/';
+import {
+  GetPortfolioTransactionsResponse,
+  GetWalletTransactionsResponse,
+  GetTransactionResponse as internalGet,
+  CreateConversionRequest as internalCreateConversion,
+  CreateConversionResponse as internalCreateConversionResp,
+  CreateATransferBetweenTwoWallets,
+  CreateWalletWithdrawalRequest,
+  CreateWalletWithdrawalResponse,
+  CreateWalletTransferResponse,
+  CreateOnchainTransactionRequest as internalCreate,
+  CreateOnchainTransactionResponse as internalCreateResp,
+} from '../model/';
 import { Pagination } from '../shared/pagination';
-import { CreateWalletTransferResponse } from '../model/CreateWalletTransferResponse';
-import { CreateOnchainTransactionRequest as internalCreate } from '../model/CreateOnchainTransactionRequest';
-import { CreateOnchainTransactionResponse as internalCreateResp } from '../model/CreateOnchainTransactionResponse';
 
 export type ListPortfolioTransactionsRequest = Pagination & {
   portfolioId: string;
@@ -35,8 +38,10 @@ export type ListPortfolioTransactionsRequest = Pagination & {
   endTime?: string;
 };
 
-export type ListPortfolioTransactionsResponse =
-  GetPortfolioTransactionsResponse;
+export type ListPortfolioTransactionsResponse = Brand<
+  GetPortfolioTransactionsResponse,
+  'ListPortfolioTransactionsResponse'
+>;
 
 export type ListWalletTransactionsRequest = Pagination & {
   portfolioId: string;
@@ -46,39 +51,57 @@ export type ListWalletTransactionsRequest = Pagination & {
   endTime?: string;
 };
 
-export type ListWalletTransactionsResponse = GetWalletTransactionsResponse;
+export type ListWalletTransactionsResponse = Brand<
+  GetWalletTransactionsResponse,
+  'ListWalletTransactionsResponse'
+>;
 
 export type GetTransactionRequest = {
   portfolioId: string;
   transactionId: string;
 };
 
-export type GetTransactionResponse = internalGet;
+export type GetTransactionResponse = Brand<
+  internalGet,
+  'GetTransactionResponse'
+>;
 
 export type CreateConversionRequest = internalCreateConversion & {
   portfolioId: string;
   walletId: string;
 };
 
-export type CreateConversionResponse = internalCreateConversionResp;
+export type CreateConversionResponse = Brand<
+  internalCreateConversionResp,
+  'CreateConversionResponse'
+>;
 
 export type CreateTransferRequest = CreateATransferBetweenTwoWallets & {
   portfolioId: string;
   walletId: string;
 };
 
-export type CreateTransferResponse = CreateWalletTransferResponse;
+export type CreateTransferResponse = Brand<
+  CreateWalletTransferResponse,
+  'CreateTransferResponse'
+>;
 
 export type CreateWithdrawalRequest = CreateWalletWithdrawalRequest & {
   portfolioId: string;
   walletId: string;
 };
 
-export type CreateWithdrawalResponse = CreateWalletWithdrawalResponse;
+export type CreateWithdrawalResponse = Brand<
+  CreateWalletWithdrawalResponse,
+  'CreateWithdrawalResponse'
+>;
 
 export type CreateOnchainTransactionRequest = internalCreate & {
   portfolioId: string;
   walletId: string;
 };
 
-export type CreateOnchainTransactionResponse = internalCreateResp;
+export type CreateOnchainTransactionResponse = Brand<
+  internalCreateResp,
+  'CreateOnchainTransactionResponse'
+>;

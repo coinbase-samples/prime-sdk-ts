@@ -13,16 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { StakingInitiateResponse } from 'src/model/StakingInitiateResponse';
-import { StakingInitiateRequest } from 'src/model/StakingInitiateRequest';
-import { StakingUnstakeResponse } from 'src/model/StakingUnstakeResponse';
+import { Brand } from 'src/shared/brand';
+import {
+  StakingInitiateResponse,
+  StakingInitiateRequest,
+  StakingUnstakeResponse,
+} from 'src/model/';
 
 export type CreateStakeRequest = StakingInitiateRequest & {
   portfolioId: string;
   walletId: string;
 };
 
-export type CreateStakeResponse = StakingInitiateResponse;
+export type CreateStakeResponse = Brand<
+  StakingInitiateResponse,
+  'CreateStakeResponse'
+>;
 
 // Staking Initiate Request is same for unstake, double check this when updating models if need to split
 export type CreateUnstakeRequest = StakingInitiateRequest & {
@@ -30,4 +36,7 @@ export type CreateUnstakeRequest = StakingInitiateRequest & {
   walletId: string;
 };
 
-export type CreateUnstakeResponse = StakingUnstakeResponse;
+export type CreateUnstakeResponse = Brand<
+  StakingUnstakeResponse,
+  'CreateUnstakeResponse'
+>;

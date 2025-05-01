@@ -13,10 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { GetInvoicesResponse } from '../model/GetInvoicesResponse';
+import { Brand } from 'src/shared/brand';
+import { GetInvoicesResponse } from '../model/';
 
 export type ListInvoicesRequest = {
   entityId: string;
 };
 
-export type ListInvoicesResponse = GetInvoicesResponse;
+export type ListInvoicesResponse = Brand<
+  GetInvoicesResponse,
+  'ListInvoicesResponse'
+>;

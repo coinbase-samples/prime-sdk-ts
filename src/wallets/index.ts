@@ -15,10 +15,7 @@
  */
 import { CoinbaseCallOptions, Method } from '@coinbase-sample/core-ts';
 import { CoinbasePrimeClient } from '../client';
-import {
-  CoinbasePrimeClientException,
-  CoinbasePrimeException,
-} from '../errors';
+
 import {
   ListWalletsRequest,
   ListWalletsResponse,
@@ -38,50 +35,32 @@ export interface IWalletsService {
   listWallets(
     request: ListWalletsRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    ListWalletsResponse | CoinbasePrimeClientException | CoinbasePrimeException
-  >;
+  ): Promise<ListWalletsResponse>;
 
   getWallet(
     request: GetWalletRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    GetWalletResponse | CoinbasePrimeClientException | CoinbasePrimeException
-  >;
+  ): Promise<GetWalletResponse>;
 
   getWalletDepositInstructions(
     request: GetWalletDepositInstructionsRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | GetWalletDepositInstructionsResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  >;
+  ): Promise<GetWalletDepositInstructionsResponse>;
 
   listWalletAddresses(
     request: ListWalletAddressesRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | ListWalletAddressesResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  >;
+  ): Promise<ListWalletAddressesResponse>;
 
   createWallet(
     request: CreateWalletRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    CreateWalletResponse | CoinbasePrimeClientException | CoinbasePrimeException
-  >;
+  ): Promise<CreateWalletResponse>;
 
   createWalletDepositAddress(
     request: CreateWalletDepositAddressRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | CreateWalletDepositAddressResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  >;
+  ): Promise<CreateWalletDepositAddressResponse>;
 }
 
 export class WalletsService implements IWalletsService {
@@ -94,9 +73,7 @@ export class WalletsService implements IWalletsService {
   async listWallets(
     request: ListWalletsRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    ListWalletsResponse | CoinbasePrimeClientException | CoinbasePrimeException
-  > {
+  ): Promise<ListWalletsResponse> {
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/wallets`,
       callOptions: options,
@@ -108,9 +85,7 @@ export class WalletsService implements IWalletsService {
   async getWallet(
     request: GetWalletRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    GetWalletResponse | CoinbasePrimeClientException | CoinbasePrimeException
-  > {
+  ): Promise<GetWalletResponse> {
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/wallets/${request.walletId}`,
       callOptions: options,
@@ -122,11 +97,7 @@ export class WalletsService implements IWalletsService {
   async getWalletDepositInstructions(
     request: GetWalletDepositInstructionsRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | GetWalletDepositInstructionsResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  > {
+  ): Promise<GetWalletDepositInstructionsResponse> {
     let queryParams: Record<string, string | number> = {
       depositType: request.depositType,
     };
@@ -148,11 +119,7 @@ export class WalletsService implements IWalletsService {
   async listWalletAddresses(
     request: ListWalletAddressesRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | ListWalletAddressesResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  > {
+  ): Promise<ListWalletAddressesResponse> {
     let queryParams: Record<string, string | number> = {};
     if (request.networkId) {
       queryParams['network.id'] = request.networkId;
@@ -178,9 +145,7 @@ export class WalletsService implements IWalletsService {
   async createWallet(
     request: CreateWalletRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    CreateWalletResponse | CoinbasePrimeClientException | CoinbasePrimeException
-  > {
+  ): Promise<CreateWalletResponse> {
     const bodyParams = { ...request, portfolioId: undefined };
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/wallets`,
@@ -195,11 +160,7 @@ export class WalletsService implements IWalletsService {
   async createWalletDepositAddress(
     request: CreateWalletDepositAddressRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    | CreateWalletDepositAddressResponse
-    | CoinbasePrimeClientException
-    | CoinbasePrimeException
-  > {
+  ): Promise<CreateWalletDepositAddressResponse> {
     let queryParams: Record<string, string | number> = {};
     if (request.networkId) {
       queryParams['network.id'] = request.networkId;

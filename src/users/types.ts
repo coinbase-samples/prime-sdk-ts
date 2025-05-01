@@ -13,16 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { GetEntityUsersResponse } from '../model/GetEntityUsersResponse';
+import { Brand } from 'src/shared/brand';
+import { GetEntityUsersResponse } from '../model/';
 
 export type ListUsersRequest = {
   entityId: string;
 };
 
-export type ListUsersResponse = GetEntityUsersResponse;
+export type ListUsersResponse = Brand<
+  GetEntityUsersResponse,
+  'ListUsersResponse'
+>;
 
 export type ListPortfolioUsersRequest = {
   portfolioId: string;
 };
 
-export type ListPortfolioUsersResponse = GetEntityUsersResponse;
+export type ListPortfolioUsersResponse = Brand<
+  GetEntityUsersResponse,
+  'ListPortfolioUsersResponse'
+>;

@@ -15,19 +15,14 @@
  */
 import { CoinbaseCallOptions } from '@coinbase-sample/core-ts';
 import { CoinbasePrimeClient } from '../client';
-import {
-  CoinbasePrimeClientException,
-  CoinbasePrimeException,
-} from '../errors';
+
 import { ListAssetsRequest, ListAssetsResponse } from './types';
 
 export interface IAssetsService {
   listAssets(
     request: ListAssetsRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    ListAssetsResponse | CoinbasePrimeClientException | CoinbasePrimeException
-  >;
+  ): Promise<ListAssetsResponse>;
 }
 
 export class AssetsService implements IAssetsService {
@@ -40,9 +35,7 @@ export class AssetsService implements IAssetsService {
   async listAssets(
     request: ListAssetsRequest,
     options?: CoinbaseCallOptions
-  ): Promise<
-    ListAssetsResponse | CoinbasePrimeClientException | CoinbasePrimeException
-  > {
+  ): Promise<ListAssetsResponse> {
     const response = await this.client.request({
       url: `entities/${request.entityId}/assets`,
       callOptions: options,

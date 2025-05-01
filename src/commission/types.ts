@@ -13,10 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { GetPortfolioCommissionResponse as internalGet } from '../model/GetPortfolioCommissionResponse';
+import { Brand } from 'src/shared/brand';
+import { GetPortfolioCommissionResponse as internalGet } from '../model/';
 
 export type GetPortfolioCommissionRequest = {
   portfolioId: string;
 };
 
-export type GetPortfolioCommissionResponse = internalGet;
+export type GetPortfolioCommissionResponse = Brand<
+  internalGet,
+  'GetPortfolioCommissionResponse'
+>;

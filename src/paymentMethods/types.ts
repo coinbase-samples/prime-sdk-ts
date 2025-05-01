@@ -13,17 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { GetEntityPaymentMethodsResponse } from '../model/GetEntityPaymentMethodsResponse';
-import { GetEntityPaymentMethodDetailsResponse } from '../model/GetEntityPaymentMethodDetailsResponse';
+import { Brand } from 'src/shared/brand';
+import {
+  GetEntityPaymentMethodsResponse,
+  GetEntityPaymentMethodDetailsResponse,
+} from '../model/';
 
 export type ListEntityPaymentMethodsRequest = {
   entityId: string;
 };
 
-export type ListEntityPaymentMethodsResponse = GetEntityPaymentMethodsResponse;
+export type ListEntityPaymentMethodsResponse = Brand<
+  GetEntityPaymentMethodsResponse,
+  'ListEntityPaymentMethodsResponse'
+>;
 
 export type GetPaymentMethodRequest = {
   entityId: string;
 };
 
-export type GetPaymentMethodResponse = GetEntityPaymentMethodDetailsResponse;
+export type GetPaymentMethodResponse = Brand<
+  GetEntityPaymentMethodDetailsResponse,
+  'GetPaymentMethodResponse'
+>;

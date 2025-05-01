@@ -13,11 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { GetPortfolioProductsResponse } from '../model/GetPortfolioProductsResponse';
+import { Brand } from 'src/shared/brand';
+import { GetPortfolioProductsResponse } from '../model/';
 import { Pagination } from '../shared/pagination';
 
 export type ListProductsRequest = Pagination & {
   portfolioId: string;
 };
 
-export type ListProductsResponse = GetPortfolioProductsResponse;
+export type ListProductsResponse = Brand<
+  GetPortfolioProductsResponse,
+  'ListProductsResponse'
+>;
