@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CoinbaseCallOptions } from '@coinbase-sample/core-ts';
+import { CoinbaseCallOptions, Method } from '@coinbase-sample/core-ts';
 import { CoinbasePrimeClient } from '../client';
 
 import {
@@ -45,14 +45,15 @@ export class StakingService implements IStakingService {
     request: CreateStakeRequest,
     options?: CoinbaseCallOptions
   ): Promise<CreateStakeResponse> {
-    const queryParams = {
+    const bodyParams = {
       ...request,
       portfolioId: undefined,
       walletId: undefined,
     };
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/wallets/${request.walletId}/staking/initiate`,
-      queryParams,
+      method: Method.POST,
+      bodyParams,
       callOptions: options,
     });
 
@@ -63,14 +64,15 @@ export class StakingService implements IStakingService {
     request: CreateUnstakeRequest,
     options?: CoinbaseCallOptions
   ): Promise<CreateUnstakeResponse> {
-    const queryParams = {
+    const bodyParams = {
       ...request,
       portfolioId: undefined,
       walletId: undefined,
     };
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/wallets/${request.walletId}/staking/unstake`,
-      queryParams,
+      method: Method.POST,
+      bodyParams,
       callOptions: options,
     });
 

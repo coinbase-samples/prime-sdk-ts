@@ -17,7 +17,7 @@ require('dotenv').config();
 const {
   CoinbasePrimeClient,
   CoinbasePrimeCredentials,
-  TransactionsService,
+  OrdersService,
 } = require('../dist');
 
 const creds = JSON.parse(process.env.PRIME_CREDENTIALS);
@@ -31,10 +31,11 @@ const credentials = new CoinbasePrimeCredentials(
 
 const client = new CoinbasePrimeClient(credentials);
 
-const service = new TransactionsService(client);
-service
-  .listPortfolioTransactions({ portfolioId, limit: 100 })
-  .then((transactions) => {
-    console.dir(transactions, { depth: null });
+const ordersService = new OrdersService(client);
+ordersService
+  .listPortfolioOrders({ portfolioId })
+  .then((orders) => {
+    console.dir(orders, { depth: null });
+    console.log(`Total orders: ${orders.orders.length}`);
   })
   .catch((err) => console.log(err));

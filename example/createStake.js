@@ -17,11 +17,27 @@ require('dotenv').config();
 const {
   CoinbasePrimeClient,
   CoinbasePrimeCredentials,
-  TransactionsService,
+  StakingService,
 } = require('../dist');
 
 const creds = JSON.parse(process.env.PRIME_CREDENTIALS);
 const portfolioId = process.env.PORTFOLIO_ID;
+const walletId = process.env.WALLET_ID;
+
+const createStake = async (service) => {
+  const request = {
+    portfolioId,
+    walletId,
+    idempotency_key: crypto.randomUUID(),
+    inputs: {
+      amount: '0.01',
+    },
+  };
+
+  console.log('submitting stake: ', request);
+  const response = await service.createStake(request);
+  return response;
+};
 
 const credentials = new CoinbasePrimeCredentials(
   creds.AccessKey,
@@ -31,10 +47,6 @@ const credentials = new CoinbasePrimeCredentials(
 
 const client = new CoinbasePrimeClient(credentials);
 
-const service = new TransactionsService(client);
-service
-  .listPortfolioTransactions({ portfolioId, limit: 100 })
-  .then((transactions) => {
-    console.dir(transactions, { depth: null });
-  })
-  .catch((err) => console.log(err));
+const service = new StakingService(client);
+
+createStake(service).then(console.log).catch(console.error);

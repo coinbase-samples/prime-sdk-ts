@@ -94,8 +94,13 @@ export class AllocationService implements IAllocationService {
     request: ListPortfolioAllocationsRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListPortfolioAllocationsResponse> {
+    const queryParams = {
+      ...request,
+      portfolioId: undefined,
+    };
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/allocations`,
+      queryParams,
       callOptions: options,
     });
 
@@ -106,8 +111,13 @@ export class AllocationService implements IAllocationService {
     request: ListNetAllocationsRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListNetAllocationsResponse> {
+    const queryParams = {
+      ...request,
+      portfolioId: undefined,
+    };
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/allocations/net/${request.nettingId}`,
+      queryParams,
       callOptions: options,
     });
 

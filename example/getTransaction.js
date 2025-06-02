@@ -33,8 +33,11 @@ const client = new CoinbasePrimeClient(credentials);
 
 const service = new TransactionsService(client);
 service
-  .listPortfolioTransactions({ portfolioId, limit: 100 })
-  .then((transactions) => {
-    console.dir(transactions, { depth: null });
+  .getTransaction({
+    portfolioId,
+    transactionId: 'bb27b89b-d773-42b9-9542-1e665984388f', //'b74e29d1-55e2-50fd-8139-f48a5615c865',
+  })
+  .then((portfolio) => {
+    console.dir(portfolio, { depth: null });
   })
   .catch((err) => console.log(err));

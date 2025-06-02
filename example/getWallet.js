@@ -17,7 +17,7 @@ require('dotenv').config();
 const {
   CoinbasePrimeClient,
   CoinbasePrimeCredentials,
-  TransactionsService,
+  WalletsService,
 } = require('../dist');
 
 const creds = JSON.parse(process.env.PRIME_CREDENTIALS);
@@ -31,10 +31,13 @@ const credentials = new CoinbasePrimeCredentials(
 
 const client = new CoinbasePrimeClient(credentials);
 
-const service = new TransactionsService(client);
+const service = new WalletsService(client);
 service
-  .listPortfolioTransactions({ portfolioId, limit: 100 })
-  .then((transactions) => {
-    console.dir(transactions, { depth: null });
+  .getWallet({
+    portfolioId,
+    walletId: '8a8557dd-fa41-4dd7-aa4f-1216f8fa3113', //'27e9114d-be42-4007-afb2-00ebe380d016',
+  })
+  .then((portfolio) => {
+    console.dir(portfolio, { depth: null });
   })
   .catch((err) => console.log(err));
