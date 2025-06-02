@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.1] - 2025-JUN-02
+
+### Added
+
+- Adding missing query parameters to listProducts
+- Modify staking post parameters
+
 ## [0.4.0] - 2025-APR-30
 
 ### Added
@@ -42,13 +49,11 @@
     - createWalletAddress
 - Moved Request and Response types to Named Exports
 
-
 ## [0.2.1] - 2025-FEB-28
 
 ### Added
 
 - Adding support for Order's create quote and accept quote
-
 
 ## [0.1.0] - 2024-DEC-12
 
