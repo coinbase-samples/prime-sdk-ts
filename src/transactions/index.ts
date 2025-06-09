@@ -15,6 +15,10 @@
  */
 import { CoinbaseCallOptions, Method } from '@coinbase-sample/core-ts';
 import { CoinbasePrimeClient } from '../client';
+import {
+  createPaginatedResponse,
+  ResponseExtractors,
+} from '../shared/paginatedResponse';
 
 import {
   CreateConversionRequest,
@@ -94,13 +98,32 @@ export class TransactionsService implements ITransactionsService {
     options?: CoinbaseCallOptions
   ): Promise<ListPortfolioTransactionsResponse> {
     const queryParams = { ...request, portfolioId: undefined };
+    if (!queryParams.limit) {
+      queryParams.limit = this.client.getDefaultPaginationLimit();
+    }
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/transactions`,
       queryParams,
       callOptions: options,
     });
 
-    return response.data as ListPortfolioTransactionsResponse;
+    const responseData = response.data;
+
+    // Merge client defaults with call options
+    const paginationOptions = {
+      ...options,
+      maxPages: options?.maxPages ?? this.client.getMaxPages(),
+      maxItems: options?.maxItems ?? this.client.getMaxItems(),
+    };
+
+    // Enhance the response with pagination methods
+    return createPaginatedResponse(
+      responseData,
+      this.listPortfolioTransactions.bind(this),
+      request,
+      ResponseExtractors.transactions,
+      paginationOptions
+    ) as ListPortfolioTransactionsResponse;
   }
 
   async listWalletTransactions(
