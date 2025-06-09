@@ -17,11 +17,11 @@ require('dotenv').config();
 const {
   CoinbasePrimeClient,
   CoinbasePrimeCredentials,
-  AssetsService,
+  BalancesService,
 } = require('../dist');
 
 const creds = JSON.parse(process.env.PRIME_CREDENTIALS);
-const entityId = process.env.ENTITY_ID;
+const portfolioId = process.env.PORTFOLIO_ID;
 
 const credentials = new CoinbasePrimeCredentials(
   creds.AccessKey,
@@ -31,10 +31,19 @@ const credentials = new CoinbasePrimeCredentials(
 
 const client = new CoinbasePrimeClient(credentials);
 
-const assetService = new AssetsService(client);
-assetService
-  .listAssets({ entityId })
-  .then((assets) => {
-    console.dir(assets, { depth: null });
+const walletId = process.argv[2];
+if (!walletId) {
+  console.error('Please provide a wallet ID as a command line argument.');
+  process.exit(1);
+}
+
+const service = new BalancesService(client);
+service
+  .getWalletBalance({
+    portfolioId,
+    walletId,
   })
-  .catch((err) => console.log(err));
+  .then((bal) => {
+    console.dir(bal, { depth: null });
+  })
+  .catch(console.error);

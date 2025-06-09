@@ -17,11 +17,11 @@ require('dotenv').config();
 const {
   CoinbasePrimeClient,
   CoinbasePrimeCredentials,
-  AssetsService,
+  OrdersService,
 } = require('../dist');
 
 const creds = JSON.parse(process.env.PRIME_CREDENTIALS);
-const entityId = process.env.ENTITY_ID;
+const portfolioId = process.env.PORTFOLIO_ID;
 
 const credentials = new CoinbasePrimeCredentials(
   creds.AccessKey,
@@ -31,10 +31,10 @@ const credentials = new CoinbasePrimeCredentials(
 
 const client = new CoinbasePrimeClient(credentials);
 
-const assetService = new AssetsService(client);
-assetService
-  .listAssets({ entityId })
+const ordersService = new OrdersService(client);
+ordersService
+  .listPortfolioOrders({ portfolioId })
   .then((assets) => {
-    console.dir(assets, { depth: null });
+    console.log(assets);
   })
   .catch((err) => console.log(err));

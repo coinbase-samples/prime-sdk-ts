@@ -35,6 +35,9 @@ const balanceService = new BalancesService(client);
 balanceService
   .listPortfolioBalances({ portfolioId: portfolioId })
   .then((bal) => {
-    console.log(bal);
+    console.dir(
+      bal.balances.filter((b) => parseFloat(b.amount) > 0),
+      { depth: null }
+    );
   })
   .catch((err) => console.log(err));

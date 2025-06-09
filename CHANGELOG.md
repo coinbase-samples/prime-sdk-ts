@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.4.2] - 2025-JUN-10
+
+### Added
+
+- Fix getWalletBalance request
+
 ## [0.4.1] - 2025-JUN-02
 
 ### Added
