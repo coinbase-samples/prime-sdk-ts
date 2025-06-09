@@ -29,12 +29,13 @@ const credentials = new CoinbasePrimeCredentials(
   creds.Passphrase
 );
 
-const client = new CoinbasePrimeClient(credentials);
+const client = new CoinbasePrimeClient(credentials, undefined);
 
 const service = new TransactionsService(client);
 service
-  .listPortfolioTransactions({ portfolioId, limit: 100 })
+  .listPortfolioTransactions({ portfolioId })
   .then((transactions) => {
     console.dir(transactions, { depth: null });
+    console.log('total', transactions.transactions.length);
   })
   .catch((err) => console.log(err));

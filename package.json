@@ -35,6 +35,6 @@
     "typescript": "^5.8.3"
   },
   "dependencies": {
-    "@coinbase-sample/core-ts": "^0.1.4"
+    "@coinbase-sample/core-ts": "^0.2.0"
   }
 }

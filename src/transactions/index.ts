@@ -94,6 +94,9 @@ export class TransactionsService implements ITransactionsService {
     options?: CoinbaseCallOptions
   ): Promise<ListPortfolioTransactionsResponse> {
     const queryParams = { ...request, portfolioId: undefined };
+    if (!queryParams.limit) {
+      queryParams.limit = this.client.getDefaultPaginationLimit();
+    }
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/transactions`,
       queryParams,
