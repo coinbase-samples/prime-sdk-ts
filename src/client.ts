@@ -18,7 +18,13 @@ import {
   CoinbaseHttpClientRetryOptions,
 } from '@coinbase-sample/core-ts';
 
-import { API_BASE_PATH, USER_AGENT } from './constants';
+import {
+  API_BASE_PATH,
+  DEFAULT_PAGINATION_LIMIT,
+  DEFAULT_MAX_ITEMS,
+  DEFAULT_MAX_PAGES,
+  USER_AGENT,
+} from './constants';
 import { CoinbasePrimeCredentials } from './credentials';
 import { toCamelCase } from './shared/toCamelCase';
 
@@ -29,7 +35,9 @@ export class CoinbasePrimeClient extends CoinbaseClient {
     options?: CoinbaseHttpClientRetryOptions
   ) {
     const defaultClientOptions = {
-      defaultLimit: 25,
+      defaultLimit: DEFAULT_PAGINATION_LIMIT,
+      maxPages: DEFAULT_MAX_PAGES,
+      maxItems: DEFAULT_MAX_ITEMS,
       ...options,
     };
     super(
