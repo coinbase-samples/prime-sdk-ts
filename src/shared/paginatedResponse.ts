@@ -43,7 +43,7 @@ export interface PaginatedResponseMethods<
     TRequest,
     TResponse & PaginatedResponseMethods<TRequest, TResponse, TData>
   >;
-  __baseRequest: Omit<TRequest, 'cursor' | 'limit'>;
+  __baseRequest: Omit<TRequest, 'cursor'>;
   __dataExtractor: DataExtractor<TResponse, TData>;
   __config: PaginationConfig;
   __currentPage: number;
@@ -90,7 +90,7 @@ export function createPaginatedResponse<
     TRequest,
     TResponse & PaginatedResponseMethods<TRequest, TResponse, TData>
   >,
-  baseRequest: Omit<TRequest, 'cursor' | 'limit'>,
+  baseRequest: Omit<TRequest, 'cursor'>,
   dataExtractor: DataExtractor<TResponse, TData>,
   options?: CoinbaseCallOptions
 ): TResponse & PaginatedResponseMethods<TRequest, TResponse, TData> {
@@ -112,7 +112,7 @@ export function createPaginatedResponse<
 
     hasNext(): boolean {
       const pagination = (this as any).pagination;
-      const hasApiNext = pagination?.has_next ?? false;
+      const hasApiNext = pagination?.has_next ?? pagination?.hasNext ?? false;
 
       // Check if API has more pages
       if (!hasApiNext) {
@@ -141,6 +141,13 @@ export function createPaginatedResponse<
     },
 
     async next(options?: CoinbaseCallOptions) {
+      if (options?.maxPages) {
+        this.__config.maxPages = options.maxPages;
+      }
+      if (options?.maxItems) {
+        this.__config.maxItems = options.maxItems;
+      }
+
       if (!this.hasNext()) {
         return null;
       }
@@ -148,7 +155,7 @@ export function createPaginatedResponse<
       const request = {
         ...this.__baseRequest,
         cursor: this.getNextCursor(),
-        limit: this.__config.defaultLimit,
+        limit: this.__baseRequest?.limit ?? this.__config.defaultLimit,
       } as TRequest;
 
       const nextResponse = await this.__apiCall(request, options);
@@ -173,6 +180,13 @@ export function createPaginatedResponse<
       let pageCount = 1;
       let totalItems = 0;
 
+      if (options?.maxPages) {
+        this.__config.maxPages = options.maxPages;
+      }
+      if (options?.maxItems) {
+        this.__config.maxItems = options.maxItems;
+      }
+
       // Add current page data
       const currentData = this.__dataExtractor(currentResponse as any);
       allData.push(...currentData);
@@ -183,10 +197,11 @@ export function createPaginatedResponse<
       // Fetch remaining pages
       while (
         currentResponse.hasNext() &&
-        pageCount < (this.__config.maxPages || 100) &&
-        totalItems < (this.__config.maxItems || 10000)
+        pageCount < (this.__config.maxPages ?? DEFAULT_MAX_PAGES) &&
+        totalItems < (this.__config.maxItems ?? DEFAULT_MAX_ITEMS)
       ) {
-        const nextResponse = await currentResponse.next(options);
+        const nextResponse = await currentResponse.next(this.__config);
+
         if (!nextResponse) break;
 
         pageCount++;
