@@ -31,11 +31,13 @@ const credentials = new CoinbasePrimeCredentials(
 
 const client = new CoinbasePrimeClient(credentials);
 
+const walletId = process.argv[2] || process.env.WALLET_ID;
+
 const service = new WalletsService(client);
 service
   .getWallet({
     portfolioId,
-    walletId: '8a8557dd-fa41-4dd7-aa4f-1216f8fa3113', //'27e9114d-be42-4007-afb2-00ebe380d016',
+    walletId,
   })
   .then((portfolio) => {
     console.dir(portfolio, { depth: null });

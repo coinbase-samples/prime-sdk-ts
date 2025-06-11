@@ -17,11 +17,12 @@ require('dotenv').config();
 const {
   CoinbasePrimeClient,
   CoinbasePrimeCredentials,
-  TransactionsService,
+  WalletsService,
 } = require('../dist');
 
 const creds = JSON.parse(process.env.PRIME_CREDENTIALS);
 const portfolioId = process.env.PORTFOLIO_ID;
+const baseUrl = process.env.BASE_URL;
 const walletId = process.env.WALLET_ID;
 
 const credentials = new CoinbasePrimeCredentials(
@@ -30,13 +31,21 @@ const credentials = new CoinbasePrimeCredentials(
   creds.Passphrase
 );
 
-const client = new CoinbasePrimeClient(credentials);
+const client = new CoinbasePrimeClient(credentials, baseUrl);
 
-const service = new TransactionsService(client);
+const networkId = process.argv[2] || 'ethereum-mainnet';
+const cursor = process.argv[3] || undefined;
+
+const service = new WalletsService(client);
 service
-  .listWalletTransactions({ portfolioId, walletId })
-  .then((transactions) => {
-    console.dir(transactions, { depth: null });
-    console.log(transactions.headers);
+  .listWalletAddresses({
+    portfolioId,
+    walletId,
+    networkId,
+    cursor,
+    limit: 200,
+  })
+  .then((portfolio) => {
+    console.dir(portfolio, { depth: null });
   })
   .catch((err) => console.log(err));

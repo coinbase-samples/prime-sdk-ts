@@ -17,12 +17,12 @@ require('dotenv').config();
 const {
   CoinbasePrimeClient,
   CoinbasePrimeCredentials,
-  TransactionsService,
+  WalletsService,
 } = require('../dist');
 
 const creds = JSON.parse(process.env.PRIME_CREDENTIALS);
 const portfolioId = process.env.PORTFOLIO_ID;
-const walletId = process.env.WALLET_ID;
+const baseUrl = process.env.BASE_URL;
 
 const credentials = new CoinbasePrimeCredentials(
   creds.AccessKey,
@@ -30,13 +30,20 @@ const credentials = new CoinbasePrimeCredentials(
   creds.Passphrase
 );
 
-const client = new CoinbasePrimeClient(credentials);
+const client = new CoinbasePrimeClient(credentials, baseUrl);
 
-const service = new TransactionsService(client);
-service
-  .listWalletTransactions({ portfolioId, walletId })
-  .then((transactions) => {
-    console.dir(transactions, { depth: null });
-    console.log(transactions.headers);
-  })
-  .catch((err) => console.log(err));
+const walletId = process.argv[2] || process.env.WALLET_ID;
+const networkId = process.argv[3] || 'ripple-testnet';
+const service = new WalletsService(client);
+for (let i = 0; i < 200; i++) {
+  service
+    .createWalletDepositAddress({
+      portfolioId,
+      walletId,
+      networkId,
+    })
+    .then((portfolio) => {
+      console.dir(portfolio, { depth: null });
+    })
+    .catch((err) => console.log(err));
+}

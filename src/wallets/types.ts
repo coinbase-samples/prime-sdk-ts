@@ -84,7 +84,6 @@ export type CreateWalletDepositAddressRequest = {
   portfolioId: string;
   walletId: string;
   networkId?: string;
-  networkType?: string;
 };
 
 export type CreateWalletDepositAddressResponse = Brand<
