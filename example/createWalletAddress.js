@@ -34,16 +34,30 @@ const client = new CoinbasePrimeClient(credentials, baseUrl);
 
 const walletId = process.argv[2] || process.env.WALLET_ID;
 const networkId = process.argv[3] || 'ripple-testnet';
+
 const service = new WalletsService(client);
-for (let i = 0; i < 200; i++) {
-  service
-    .createWalletDepositAddress({
-      portfolioId,
-      walletId,
-      networkId,
-    })
-    .then((portfolio) => {
-      console.dir(portfolio, { depth: null });
-    })
-    .catch((err) => console.log(err));
+
+async function createBulkAddresses(amount) {
+  const addresses = [];
+  for (let i = 0; i < amount; i++) {
+    try {
+      const newAddress = await service.createWalletDepositAddress({
+        portfolioId,
+        walletId,
+        networkId,
+      });
+      console.dir(newAddress, { depth: null });
+      addresses.push(newAddress);
+    } catch (err) {
+      console.error(err);
+      if (err.message.includes('429')) {
+        console.log('Rate limit exceeded, waiting 1 second');
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+        i--;
+      }
+    }
+  }
+  return addresses;
 }
+
+createBulkAddresses(200).then(console.log).catch(console.error);
