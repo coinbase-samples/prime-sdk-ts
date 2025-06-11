@@ -23,7 +23,6 @@ const {
 const creds = JSON.parse(process.env.PRIME_CREDENTIALS);
 const portfolioId = process.env.PORTFOLIO_ID;
 const baseUrl = process.env.BASE_URL;
-const walletId = process.env.WALLET_ID;
 
 const credentials = new CoinbasePrimeCredentials(
   creds.AccessKey,
@@ -33,8 +32,9 @@ const credentials = new CoinbasePrimeCredentials(
 
 const client = new CoinbasePrimeClient(credentials, baseUrl);
 
-const networkId = process.argv[2] || 'ethereum-mainnet';
-const cursor = process.argv[3] || undefined;
+const walletId = process.argv[2] || process.env.WALLET_ID;
+const networkId = process.argv[3] || 'ethereum-mainnet';
+const cursor = process.argv[4] || undefined;
 
 const service = new WalletsService(client);
 service
