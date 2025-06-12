@@ -18,17 +18,9 @@
  *  Do not edit the class manually.
  */
 
-export type Commission = {
+export type CreateWalletDepositAddressRequest = {
   /**
-   * Fee model (all_in or cost_plus)
+   * The network name and type
    */
-  type?: string;
-  /**
-   * Commission rate (in whole percentage. Commission of 15bps is \"0.0015\")
-   */
-  rate?: string;
-  /**
-   * Average 30 days over past 3 months (e.g. 90 days divided by 3)
-   */
-  tradingVolume?: string;
+  networkId: string;
 };

@@ -29,6 +29,10 @@ import {
   CreateOnchainTransactionResponse as internalCreateResp,
 } from '../model/';
 import { Pagination } from '../shared/pagination';
+import {
+  PaginatedResponseMethods,
+  BasePaginatedRequest,
+} from '../shared/paginatedResponse';
 
 export type ListPortfolioTransactionsRequest = Pagination & {
   portfolioId: string;
@@ -38,10 +42,20 @@ export type ListPortfolioTransactionsRequest = Pagination & {
   endTime?: string;
 };
 
-export type ListPortfolioTransactionsResponse = Brand<
+// Base response type
+type BaseListPortfolioTransactionsResponse = Brand<
   GetPortfolioTransactionsResponse,
   'ListPortfolioTransactionsResponse'
 >;
+
+// Extended response type with pagination methods
+export type ListPortfolioTransactionsResponse =
+  BaseListPortfolioTransactionsResponse &
+    PaginatedResponseMethods<
+      ListPortfolioTransactionsRequest & BasePaginatedRequest,
+      BaseListPortfolioTransactionsResponse,
+      any // Transaction type
+    >;
 
 export type ListWalletTransactionsRequest = Pagination & {
   portfolioId: string;

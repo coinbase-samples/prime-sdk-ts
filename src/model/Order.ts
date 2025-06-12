@@ -109,7 +109,7 @@ export type Order = {
    */
   userContext?: string;
   /**
-   * The client product ID of the fill indicating the settlement currency
+   * The client product ID of the fill indictating the settlment currency
    */
   clientProductId?: string;
 };

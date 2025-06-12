@@ -75,7 +75,7 @@ export class BalancesService implements IBalancesService {
     options?: CoinbaseCallOptions
   ): Promise<GetWalletBalanceResponse> {
     const response = await this.client.request({
-      url: `portfolios/${request.portfolioId}/wallets/${request.walletId}balances`,
+      url: `portfolios/${request.portfolioId}/wallets/${request.walletId}/balance`,
       callOptions: options,
     });
 

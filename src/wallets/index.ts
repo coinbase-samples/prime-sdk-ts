@@ -74,8 +74,16 @@ export class WalletsService implements IWalletsService {
     request: ListWalletsRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListWalletsResponse> {
+    let queryParams: Record<string, string | number> = {};
+    if (request.limit) {
+      queryParams.limit = request.limit;
+    }
+    if (request.cursor) {
+      queryParams.cursor = request.cursor;
+    }
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/wallets`,
+      queryParams,
       callOptions: options,
     });
 
@@ -122,10 +130,7 @@ export class WalletsService implements IWalletsService {
   ): Promise<ListWalletAddressesResponse> {
     let queryParams: Record<string, string | number> = {};
     if (request.networkId) {
-      queryParams['network.id'] = request.networkId;
-    }
-    if (request.networkType) {
-      queryParams['network.type'] = request.networkType;
+      queryParams.networkId = request.networkId;
     }
     if (request.cursor) {
       queryParams.cursor = request.cursor;
@@ -161,16 +166,13 @@ export class WalletsService implements IWalletsService {
     request: CreateWalletDepositAddressRequest,
     options?: CoinbaseCallOptions
   ): Promise<CreateWalletDepositAddressResponse> {
-    let queryParams: Record<string, string | number> = {};
-    if (request.networkId) {
-      queryParams['network.id'] = request.networkId;
-    }
-    if (request.networkType) {
-      queryParams['network.type'] = request.networkType;
-    }
+    const bodyParams = {
+      networkId: request.networkId,
+    };
+
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/wallets/${request.walletId}/addresses`,
-      queryParams,
+      bodyParams,
       method: Method.POST,
       callOptions: options,
     });

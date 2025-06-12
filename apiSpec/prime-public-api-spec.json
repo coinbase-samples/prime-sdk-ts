@@ -1,8 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "REST API",
-    "description": "# Welcome to Coinbase Prime API\n## Introduction\nThe Prime APIs allow for programmatic management of trading, custody, real-time market data, and account management. The following API pages detail the various REST API endpoints we offer.\n## Getting Started\nTo get started, please visit one of the following pages:\n- [Authentication](/prime/docs/rest-authentication)\n- [Pagination](/prime/docs/rest-pagination)\n- [Rate Limits](/prime/docs/rest-rate-limits)\n- [Quickstart](/prime/docs/quickstart)\n## FIX API\n- [FIX API reference](/prime/docs/fix-connectivity)\n## WebSocket API\n- [WebSocket API reference](/prime/docs/websocket-feed)",
+    "title": "Prime Broker REST API",
     "version": "0.1"
   },
   "tags": [
@@ -748,7 +747,7 @@
             "format": "int32"
           }
         ],
-        "tags": ["Invoices"]
+        "tags": ["Invoice"]
       }
     },
     "/v1/entities/{entity_id}/locates_availability": {
@@ -1830,6 +1829,13 @@
             "name": "portfolio_id",
             "in": "path",
             "required": true,
+            "type": "string"
+          },
+          {
+            "name": "product_id",
+            "description": "Specific trading pair to check commission (e.g BTC-USD)",
+            "in": "query",
+            "required": false,
             "type": "string"
           }
         ],
@@ -3231,7 +3237,7 @@
             "name": "type",
             "description": "The wallet type\n\n - VAULT: A crypto vault\n - TRADING: A trading wallet\n - WALLET_TYPE_OTHER: Other wallet types (like consumer, etc)\n - QC: A QC Wallet\n - ONCHAIN: An Onchain wallet",
             "in": "query",
-            "required": false,
+            "required": true,
             "type": "string",
             "enum": [
               "UNKNOWN_WALLET_TYPE",
@@ -3379,6 +3385,119 @@
             "in": "path",
             "required": true,
             "type": "string"
+          }
+        ],
+        "tags": ["Wallets"]
+      }
+    },
+    "/v1/portfolios/{portfolio_id}/wallets/{wallet_id}/addresses": {
+      "get": {
+        "summary": "List Wallet Addresses",
+        "description": "Returns all deposit addresses associated with a wallet",
+        "operationId": "PrimeRESTAPI_ListWalletAddresses",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/coinbase.public_rest_api.ListWalletAddressesResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/google.rpc.Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "portfolio_id",
+            "description": "The portfolio ID associated with the wallet",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "wallet_id",
+            "description": "The wallet ID for which to retrieve all deposit addresses",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "network_id",
+            "description": "The blockchain network name and type",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "cursor",
+            "description": "Cursor to retrieve the next page of results",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "description": "Maximum number of addresses to return in a single response",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "tags": ["Wallets"]
+      },
+      "post": {
+        "summary": "Create Wallet Deposit Address",
+        "description": "Creates a new deposit address for a wallet. Only applicable to wallets that support multiple deposit addresses on a given network",
+        "operationId": "PrimeRESTAPI_CreateWalletDepositAddress",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/coinbase.public_rest_api.BlockchainAddress"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/google.rpc.Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "portfolio_id",
+            "description": "The ID of the portfolio that owns the wallet",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "wallet_id",
+            "description": "The wallet ID for which to create the deposit address",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "network_id": {
+                  "type": "string",
+                  "example": "ethereum-mainnet",
+                  "description": "The network name and type",
+                  "title": "The network information, ie which network to retrieve the deposit address for (such as base-mainnet)"
+                }
+              },
+              "required": ["network_id"]
+            }
           }
         ],
         "tags": ["Wallets"]
@@ -3681,7 +3800,7 @@
                   "description": "Custom inputs for staking. Requirements vary by asset"
                 }
               },
-              "required": ["portfolio_id", "idempotency_key"]
+              "required": ["idempotency_key"]
             }
           }
         ],
@@ -3738,7 +3857,7 @@
                   "description": "Custom inputs for unstaking. Requirements vary by asset"
                 }
               },
-              "required": ["portfolio_id", "idempotency_key"]
+              "required": ["idempotency_key"]
             }
           }
         ],
@@ -4960,7 +5079,7 @@
         "account_identifier": {
           "type": "string",
           "description": "The account identifier (used on some chains to distinguish accounts using the same address)",
-          "title": "The destination value's account_identifier (MEMO/DESTINATION TAG) value\n for the withdrawal"
+          "title": "The destination value’s account_identifier (MEMO/DESTINATION TAG) value\n for the withdrawal"
         },
         "network": {
           "$ref": "#/definitions/coinbase.public_rest_api.Network",
@@ -5029,7 +5148,7 @@
       "properties": {
         "type": {
           "type": "string",
-          "description": "Hardcode type to all_in. When we support cost+, we will have cost_plus type"
+          "description": "Fee model (all_in or cost_plus)"
         },
         "rate": {
           "type": "string",
@@ -5281,7 +5400,7 @@
         "replaced_transaction_id": {
           "type": "string",
           "example": "0bf7bf1e-bafa-4d7e-9312-fa0bf3b63f27",
-          "description": "Transaction ID to replace (for speed-up/cancel operations). Common use cases: 1) Gas Price Adjustments: When a transaction is stuck due to low gas price, a new transaction with the same nonce but higher gas price can be submitted to replace it. 2) Transaction Cancellation: A user might want to cancel a pending transaction by replacing it with a new transaction (often a 0-value transfer to themselves with higher gas price). Note: When using this field, the disable_dynamic_nonce option must be set to false because the nonce will be automatically managed by the system."
+          "description": "Transaction ID to replace (for speed-up/cancel operations). Common use cases: 1) Gas Price Adjustments: When a transaction is stuck due to low gas price, a new transaction with the same nonce but higher gas price can be submitted to replace it. 2) Transaction Cancellation: A user might want to cancel a pending transaction by replacing it with a new transaction (often a 0-value transfer to themselves with higher gas price). Note: When using this field, the disable_dynamic_nonce option must be set to false because the nonce would be automatically managed by the system."
         },
         "chain_id": {
           "type": "string",
@@ -5500,7 +5619,7 @@
         "DESTINATION_WALLET"
       ],
       "default": "UNKNOWN_DESTINATION",
-      "title": "- UNKNOWN_DESTINATION: nil value\n - DESTINATION_PAYMENT_METHOD: A fiat bank account linked to a payment method id via Payment Method Service\n - DESTINATION_BLOCKCHAIN: A blockchain network address\n - DESTINATION_WALLET: An on platform wallet UUID \nNOTE: this is not usable in the withdrawals endpoint\n      only transfers"
+      "title": "- UNKNOWN_DESTINATION: nil value\n - DESTINATION_PAYMENT_METHOD: A fiat bank account linked to a payment method id via Payment Method Service\n - DESTINATION_BLOCKCHAIN: A blockchain network address\n - DESTINATION_WALLET: An on platform wallet UUID\nNOTE: this is not usable in the withdrawals endpoint\n      only transfers"
     },
     "coinbase.public_rest_api.EntityBalance": {
       "type": "object",
@@ -5765,7 +5884,7 @@
         "client_product_id": {
           "type": "string",
           "example": "BTC-USDC",
-          "description": "The client product ID of the fill indicating the settlement currency"
+          "description": "The client product ID of the fill indictating the settlment currency"
         },
         "side": {
           "$ref": "#/definitions/coinbase.public_rest_api.OrderSide"
@@ -6359,24 +6478,6 @@
         }
       }
     },
-    "coinbase.public_rest_api.GetWalletAddressesResponse": {
-      "type": "object",
-      "properties": {
-        "addresses": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "$ref": "#/definitions/coinbase.public_rest_api.BlockchainAddress"
-          },
-          "title": "Addresses"
-        },
-        "pagination": {
-          "$ref": "#/definitions/coinbase.public_rest_api.PaginatedResponse",
-          "title": "paginated response"
-        }
-      },
-      "required": ["addresses", "pagination"]
-    },
     "coinbase.public_rest_api.GetWalletBalanceResponse": {
       "type": "object",
       "properties": {
@@ -6616,6 +6717,24 @@
         }
       },
       "required": ["address_groups"]
+    },
+    "coinbase.public_rest_api.ListWalletAddressesResponse": {
+      "type": "object",
+      "properties": {
+        "addresses": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/coinbase.public_rest_api.BlockchainAddress"
+          },
+          "title": "Addresses"
+        },
+        "pagination": {
+          "$ref": "#/definitions/coinbase.public_rest_api.PaginatedResponse",
+          "title": "paginated response"
+        }
+      },
+      "required": ["addresses", "pagination"]
     },
     "coinbase.public_rest_api.ListWeb3WalletBalancesResponse": {
       "type": "object",
@@ -7272,7 +7391,7 @@
         "client_product_id": {
           "type": "string",
           "example": "BTC-USDC",
-          "description": "The client product ID of the fill indicating the settlement currency"
+          "description": "The client product ID of the fill indictating the settlment currency"
         }
       }
     },
@@ -8188,7 +8307,7 @@
         "TRANSACTION_CONSTRUCTED"
       ],
       "default": "UNKNOWN_TRANSACTION_STATUS",
-      "description": "- UNKNOWN_TRANSACTION_STATUS: An Unknown Transaction status\n - TRANSACTION_CREATED: The Transaction has been created and is awaiting Consensus approval\nThis is a non-terminal status\n - TRANSACTION_REQUESTED: The Transaction has reached User Consensus and is awaiting Coinbase Prime approval\nThis is a non-terminal status\n - TRANSACTION_APPROVED: The Transaction has been authorized by Coinbase Prime\nThis is a non-terminal status\n - TRANSACTION_GASSING: The transaction is awaiting blockchain resources for broadcast\nThis is a non-terminal status\n - TRANSACTION_GASSED: The transaction has received blockchain resources for broadcasting\nThis is a non-terminal status\n - TRANSACTION_PROVISIONED: The transaction has been provisioned and is awaiting planning\nThis is a non-terminal status\n - TRANSACTION_PLANNED: The transaction has been constructed. \nThis is a non-terminal status\n - TRANSACTION_PROCESSING: The transaction is currently processing and awaiting finalization\nThis is a non-terminal status\n - TRANSACTION_RESTORED: The transaction has been broadcasted to the network.\nThis is a non-terminal status\n - TRANSACTION_DONE: The transaction has confirmed on-chain and finished. \nThis is a terminal status\n - TRANSACTION_IMPORT_PENDING: The transaction deposit has been detected and is awaiting finalization.\nThis is a non-terminal status\n - TRANSACTION_IMPORTED: The transaction deposit and reward has been detected.\nThis is a terminal status\n - TRANSACTION_CANCELLED: The transaction has been cancelled\nThis is a terminal status\n - TRANSACTION_REJECTED: The transaction was rejected before construction and broadcasting.\nThis is a terminal status\n - TRANSACTION_DELAYED: The transaction s taking longer than expected to confirm on-chain.\nThis is a non-terminal status\n - TRANSACTION_RETRIED: The transaction has been recreated and retried, this occurs when network congestion results in transfers becoming extremely delayed due to insufficient fees or network resources such as CPU, RAM, or NET\nThis is a terminal status\n - TRANSACTION_FAILED: The transaction failed on-chain (the fee was spent but the operation failed).\nThis is a terminal status\n - TRANSACTION_EXPIRED: The transaction has expired.\nThis is a terminal status\n - TRANSACTION_BROADCASTING: The transaction is currently broadcasting to the cryptocurrency network.\nThis is a non-terminal status\n - OTHER_TRANSACTION_STATUS: The transaction has reached an OTHER status.\nThis is a non-terminal status\n - TRANSACTION_CONSTRUCTED: The transaction  bctx is constructed but not yet broadcasting on chain\nThis is a non-terminal status",
+      "description": "- UNKNOWN_TRANSACTION_STATUS: An Unknown Transaction status\n - TRANSACTION_CREATED: The Transaction has been created and is awaiting Consensus approval\nThis is a non-terminal status\n - TRANSACTION_REQUESTED: The Transaction has reached User Consensus and is awaiting Coinbase Prime approval\nThis is a non-terminal status\n - TRANSACTION_APPROVED: The Transaction has been authorized by Coinbase Prime\nThis is a non-terminal status\n - TRANSACTION_GASSING: The transaction is awaiting blockchain resources for broadcast\nThis is a non-terminal status\n - TRANSACTION_GASSED: The transaction has received blockchain resources for broadcasting\nThis is a non-terminal status\n - TRANSACTION_PROVISIONED: The transaction has been provisioned and is awaiting planning\nThis is a non-terminal status\n - TRANSACTION_PLANNED: The transaction has been constructed.\nThis is a non-terminal status\n - TRANSACTION_PROCESSING: The transaction is currently processing and awaiting finalization\nThis is a non-terminal status\n - TRANSACTION_RESTORED: The transaction has been broadcasted to the network.\nThis is a non-terminal status\n - TRANSACTION_DONE: The transaction has confirmed on-chain and finished.\nThis is a terminal status\n - TRANSACTION_IMPORT_PENDING: The transaction deposit has been detected and is awaiting finalization.\nThis is a non-terminal status\n - TRANSACTION_IMPORTED: The transaction deposit and reward has been detected.\nThis is a terminal status\n - TRANSACTION_CANCELLED: The transaction has been cancelled\nThis is a terminal status\n - TRANSACTION_REJECTED: The transaction was rejected before construction and broadcasting.\nThis is a terminal status\n - TRANSACTION_DELAYED: The transaction s taking longer than expected to confirm on-chain.\nThis is a non-terminal status\n - TRANSACTION_RETRIED: The transaction has been recreated and retried, this occurs when network congestion results in transfers becoming extremely delayed due to insufficient fees or network resources such as CPU, RAM, or NET\nThis is a terminal status\n - TRANSACTION_FAILED: The transaction failed on-chain (the fee was spent but the operation failed).\nThis is a terminal status\n - TRANSACTION_EXPIRED: The transaction has expired.\nThis is a terminal status\n - TRANSACTION_BROADCASTING: The transaction is currently broadcasting to the cryptocurrency network.\nThis is a non-terminal status\n - OTHER_TRANSACTION_STATUS: The transaction has reached an OTHER status.\nThis is a non-terminal status\n - TRANSACTION_CONSTRUCTED: The transaction  bctx is constructed but not yet broadcasting on chain\nThis is a non-terminal status",
       "title": "Indicates the transaction status"
     },
     "coinbase.public_rest_api.TransactionType": {
@@ -8245,6 +8364,16 @@
           "type": "string",
           "example": "0bf7bf1e-bafa-4d7e-9312-fa0bf3b63f27",
           "description": "The value of the transfer location: payment method ID, wallet ID or crypto address"
+        },
+        "address": {
+          "type": "string",
+          "example": "0x742d35Cc6634C0532925a3b844Bc454e4438f44e",
+          "description": "The crypto address of the transfer location"
+        },
+        "account_identifier": {
+          "type": "string",
+          "example": "387879289",
+          "description": "The tag/memo of the address, if applicable -- required for certain assets (e.g. XRP, XLM, etc.)"
         }
       }
     },

@@ -101,6 +101,7 @@ export type { ListAggregateEntityPositionsResponse } from './ListAggregateEntity
 export type { ListEntityBalancesResponse } from './ListEntityBalancesResponse';
 export type { ListEntityPositionsResponse } from './ListEntityPositionsResponse';
 export type { ListOnchainAddressGroupsResponse } from './ListOnchainAddressGroupsResponse';
+export type { ListWalletAddressesResponse } from './ListWalletAddressesResponse';
 export type { ListWeb3WalletBalancesResponse } from './ListWeb3WalletBalancesResponse';
 export type { LoanInfo } from './LoanInfo';
 export type { Locate } from './Locate';
@@ -158,6 +159,7 @@ export type { CreateNewLocatesRequest } from './CreateNewLocatesRequest';
 export type { CreateOnchainTransactionRequest } from './CreateOnchainTransactionRequest';
 export type { CreateOrderRequest } from './CreateOrderRequest';
 export type { CreatePortfolioAddressBookEntryRequest } from './CreatePortfolioAddressBookEntryRequest';
+export type { CreateWalletDepositAddressRequest } from './CreateWalletDepositAddressRequest';
 export type { CreateWalletRequest } from './CreateWalletRequest';
 export type { CreateWalletWithdrawalRequest } from './CreateWalletWithdrawalRequest';
 export type { OrderPreviewRequest } from './OrderPreviewRequest';

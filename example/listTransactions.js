@@ -29,12 +29,42 @@ const credentials = new CoinbasePrimeCredentials(
   creds.Passphrase
 );
 
-const client = new CoinbasePrimeClient(credentials);
+const client = new CoinbasePrimeClient(credentials, undefined, { maxPages: 5 });
 
 const service = new TransactionsService(client);
+/*
+const allTransactions = [];
 service
-  .listPortfolioTransactions({ portfolioId, limit: 100 })
-  .then((transactions) => {
+  .listPortfolioTransactions({ portfolioId, limit: 50 }, { maxPages: 3 })
+  .then(async (transactions) => {
     console.dir(transactions, { depth: null });
+    console.log('total', transactions.transactions.length);
+
+    allTransactions.push(...transactions.transactions);
+
+    while (transactions.hasNext()) {
+      transactions = await transactions.next();
+      console.dir(transactions, { depth: null });
+      console.log('total', transactions.transactions.length);
+      allTransactions.push(...transactions.transactions);
+    }
+
+    console.log('complete total', allTransactions.length);
   })
   .catch((err) => console.log(err));
+*/
+
+service
+  .listPortfolioTransactions({ portfolioId }, { maxPages: 20, maxItems: 160 })
+  .then((transactions) => {
+    console.dir(transactions, { depth: null });
+
+    transactions
+      .fetchAll(undefined, (page, totalItems) => {
+        console.log('page', page);
+        console.log('totalItems', totalItems);
+      })
+      .then((allTransactions) => {
+        console.log('complete total', allTransactions.length);
+      });
+  });
