@@ -60,4 +60,4 @@ async function createBulkAddresses(amount) {
   return addresses;
 }
 
-createBulkAddresses(200).then(console.log).catch(console.error);
+createBulkAddresses(10).then(console.log).catch(console.error);
