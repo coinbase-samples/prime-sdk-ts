@@ -101,7 +101,7 @@ export type CreateWalletResponse = Brand<
 export type CreateWalletDepositAddressRequest = {
   portfolioId: string;
   walletId: string;
-  networkId?: string;
+  networkId: string;
 };
 
 export type CreateWalletDepositAddressResponse = Brand<
