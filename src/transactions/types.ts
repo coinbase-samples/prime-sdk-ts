@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Brand } from 'src/shared/brand';
+import { Brand } from '../shared/brand';
 import { TransactionType } from '../model/enums/';
 import {
   GetPortfolioTransactionsResponse,
@@ -65,10 +65,18 @@ export type ListWalletTransactionsRequest = Pagination & {
   endTime?: string;
 };
 
-export type ListWalletTransactionsResponse = Brand<
+export type BaseListWalletTransactionsResponse = Brand<
   GetWalletTransactionsResponse,
   'ListWalletTransactionsResponse'
 >;
+
+export type ListWalletTransactionsResponse =
+  BaseListWalletTransactionsResponse &
+    PaginatedResponseMethods<
+      ListWalletTransactionsRequest & BasePaginatedRequest,
+      BaseListWalletTransactionsResponse,
+      any // Transaction type
+    >;
 
 export type GetTransactionRequest = {
   portfolioId: string;

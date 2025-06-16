@@ -40,12 +40,11 @@ export class CoinbasePrimeClient extends CoinbaseClient {
       maxItems: DEFAULT_MAX_ITEMS,
       ...options,
     };
-    super(
-      apiBasePath ?? API_BASE_PATH,
-      credentials,
-      USER_AGENT,
-      defaultClientOptions
-    );
+    let basePath = API_BASE_PATH;
+    if (apiBasePath && apiBasePath.length > 0) {
+      basePath = apiBasePath;
+    }
+    super(basePath, credentials, USER_AGENT, defaultClientOptions);
 
     // transform the response data to camelCase
     this.addTransformResponse((response) => {

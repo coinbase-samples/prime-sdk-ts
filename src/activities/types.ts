@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Brand } from 'src/shared/brand';
+import { Brand } from '../shared/brand';
 import { ActivityCategory, ActivityStatus } from '../model/enums/';
 import {
   GetActivityResponse as internalGet,

@@ -13,23 +13,42 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Brand } from 'src/shared/brand';
+import { Brand } from '../shared/brand';
 import { GetEntityUsersResponse } from '../model/';
+import {
+  BasePaginatedRequest,
+  PaginatedResponseMethods,
+} from '../shared/paginatedResponse';
+import { Pagination } from 'src/shared/pagination';
 
-export type ListUsersRequest = {
+export type ListUsersRequest = Pagination & {
   entityId: string;
 };
 
-export type ListUsersResponse = Brand<
+export type BaseListUsersResponse = Brand<
   GetEntityUsersResponse,
   'ListUsersResponse'
 >;
 
-export type ListPortfolioUsersRequest = {
+export type ListUsersResponse = BaseListUsersResponse &
+  PaginatedResponseMethods<
+    ListUsersRequest & BasePaginatedRequest,
+    BaseListUsersResponse,
+    any // User type
+  >;
+
+export type ListPortfolioUsersRequest = Pagination & {
   portfolioId: string;
 };
 
-export type ListPortfolioUsersResponse = Brand<
+export type BaseListPortfolioUsersResponse = Brand<
   GetEntityUsersResponse,
   'ListPortfolioUsersResponse'
 >;
+
+export type ListPortfolioUsersResponse = BaseListPortfolioUsersResponse &
+  PaginatedResponseMethods<
+    ListPortfolioUsersRequest & BasePaginatedRequest,
+    BaseListPortfolioUsersResponse,
+    any // User type
+  >;

@@ -32,30 +32,12 @@ const credentials = new CoinbasePrimeCredentials(
 const client = new CoinbasePrimeClient(credentials, undefined, { maxPages: 5 });
 
 const service = new TransactionsService(client);
-/*
-const allTransactions = [];
-service
-  .listPortfolioTransactions({ portfolioId, limit: 50 }, { maxPages: 3 })
-  .then(async (transactions) => {
-    console.dir(transactions, { depth: null });
-    console.log('total', transactions.transactions.length);
-
-    allTransactions.push(...transactions.transactions);
-
-    while (transactions.hasNext()) {
-      transactions = await transactions.next();
-      console.dir(transactions, { depth: null });
-      console.log('total', transactions.transactions.length);
-      allTransactions.push(...transactions.transactions);
-    }
-
-    console.log('complete total', allTransactions.length);
-  })
-  .catch((err) => console.log(err));
-*/
 
 service
-  .listPortfolioTransactions({ portfolioId }, { maxPages: 20, maxItems: 160 })
+  .listPortfolioTransactions(
+    { portfolioId, limit: 100 },
+    { maxPages: 20, maxItems: 1000 }
+  )
   .then((transactions) => {
     console.dir(transactions, { depth: null });
 
@@ -66,5 +48,6 @@ service
       })
       .then((allTransactions) => {
         console.log('complete total', allTransactions.length);
+        console.dir(allTransactions, { depth: null });
       });
   });

@@ -18,8 +18,8 @@ import { CoinbasePrimeClient } from '../client';
 import {
   createPaginatedResponse,
   ResponseExtractors,
+  getDefaultPaginationOptions,
 } from '../shared/paginatedResponse';
-
 import {
   CreateConversionRequest,
   CreateConversionResponse,
@@ -110,11 +110,7 @@ export class TransactionsService implements ITransactionsService {
     const responseData = response.data;
 
     // Merge client defaults with call options
-    const paginationOptions = {
-      ...options,
-      maxPages: options?.maxPages ?? this.client.getMaxPages(),
-      maxItems: options?.maxItems ?? this.client.getMaxItems(),
-    };
+    const paginationOptions = getDefaultPaginationOptions(this.client, options);
 
     // Enhance the response with pagination methods
     return createPaginatedResponse(
@@ -135,13 +131,28 @@ export class TransactionsService implements ITransactionsService {
       portfolioId: undefined,
       walletId: undefined,
     };
+    if (!queryParams.limit) {
+      queryParams.limit = this.client.getDefaultPaginationLimit();
+    }
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/wallets/${request.walletId}/transactions`,
       queryParams,
       callOptions: options,
     });
 
-    return response.data as ListWalletTransactionsResponse;
+    const responseData = response.data;
+
+    // Merge client defaults with call options
+    const paginationOptions = getDefaultPaginationOptions(this.client, options);
+
+    // Enhance the response with pagination methods
+    return createPaginatedResponse(
+      responseData,
+      this.listWalletTransactions.bind(this),
+      request,
+      ResponseExtractors.transactions,
+      paginationOptions
+    ) as ListWalletTransactionsResponse;
   }
 
   async createConversion(

@@ -1,5 +1,22 @@
+/**
+ * Copyright 2025-present Coinbase Global, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 import { CoinbaseCallOptions } from '@coinbase-sample/core-ts';
 import { DEFAULT_MAX_ITEMS, DEFAULT_MAX_PAGES } from '../constants';
+import { CoinbasePrimeClient } from 'src/client';
 
 /**
  * Base type for paginated requests
@@ -229,18 +246,51 @@ export function createPaginatedResponse<
  * Common data extractors for typical API responses
  */
 export const ResponseExtractors = {
-  balances: <T>(response: { balances?: T[] }): T[] => response.balances || [],
-  positions: <T>(response: { positions?: T[] }): T[] =>
-    response.positions || [],
-  transactions: <T>(response: { transactions?: T[] }): T[] =>
-    response.transactions || [],
-  orders: <T>(response: { orders?: T[] }): T[] => response.orders || [],
-  fills: <T>(response: { fills?: T[] }): T[] => response.fills || [],
-  wallets: <T>(response: { wallets?: T[] }): T[] => response.wallets || [],
   activities: <T>(response: { activities?: T[] }): T[] =>
     response.activities || [],
-  users: <T>(response: { users?: T[] }): T[] => response.users || [],
+  addresses: <T>(response: { addresses?: T[] }): T[] =>
+    response.addresses || [],
   allocations: <T>(response: { allocations?: T[] }): T[] =>
     response.allocations || [],
+  balances: <T>(response: { balances?: T[] }): T[] => response.balances || [],
+  fills: <T>(response: { fills?: T[] }): T[] => response.fills || [],
+  orders: <T>(response: { orders?: T[] }): T[] => response.orders || [],
+  positions: <T>(response: { positions?: T[] }): T[] =>
+    response.positions || [],
   products: <T>(response: { products?: T[] }): T[] => response.products || [],
+  transactions: <T>(response: { transactions?: T[] }): T[] =>
+    response.transactions || [],
+  users: <T>(response: { users?: T[] }): T[] => response.users || [],
+  wallets: <T>(response: { wallets?: T[] }): T[] => response.wallets || [],
 };
+
+/**
+ * Get the default pagination options for a client
+ */
+export function getDefaultPaginationOptions(
+  client: CoinbasePrimeClient,
+  options: CoinbaseCallOptions | undefined
+): CoinbaseCallOptions {
+  return {
+    ...options,
+    maxPages: options?.maxPages ?? client.getMaxPages(),
+    maxItems: options?.maxItems ?? client.getMaxItems(),
+  };
+}
+
+export function getQueryParams(
+  client: CoinbasePrimeClient,
+  request: BasePaginatedRequest
+) {
+  let queryParams: Record<string, string | number> = {};
+  if (request.limit) {
+    queryParams.limit = request.limit;
+  }
+  if (request.cursor) {
+    queryParams.cursor = request.cursor;
+  }
+  if (!queryParams.limit) {
+    queryParams.limit = client.getDefaultPaginationLimit();
+  }
+  return queryParams;
+}

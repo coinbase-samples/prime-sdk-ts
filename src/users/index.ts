@@ -22,6 +22,12 @@ import {
   ListUsersRequest,
   ListUsersResponse,
 } from './types';
+import {
+  createPaginatedResponse,
+  getDefaultPaginationOptions,
+  getQueryParams,
+  ResponseExtractors,
+} from 'src/shared/paginatedResponse';
 
 export interface IUsersService {
   listUsers(
@@ -45,23 +51,47 @@ export class UsersService implements IUsersService {
     request: ListUsersRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListUsersResponse> {
+    const queryParams = getQueryParams(this.client, request);
     const response = await this.client.request({
       url: `entities/${request.entityId}/users`,
+      queryParams,
       callOptions: options,
     });
 
-    return response.data as ListUsersResponse;
+    const responseData = response.data;
+
+    const paginationOptions = getDefaultPaginationOptions(this.client, options);
+
+    return createPaginatedResponse(
+      responseData,
+      this.listUsers.bind(this),
+      request,
+      ResponseExtractors.users,
+      paginationOptions
+    ) as ListUsersResponse;
   }
 
   async listPortfolioUsers(
     request: ListPortfolioUsersRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListPortfolioUsersResponse> {
+    const queryParams = getQueryParams(this.client, request);
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/users`,
+      queryParams,
       callOptions: options,
     });
 
-    return response.data as ListPortfolioUsersResponse;
+    const responseData = response.data;
+
+    const paginationOptions = getDefaultPaginationOptions(this.client, options);
+
+    return createPaginatedResponse(
+      responseData,
+      this.listPortfolioUsers.bind(this),
+      request,
+      ResponseExtractors.users,
+      paginationOptions
+    ) as ListPortfolioUsersResponse;
   }
 }
