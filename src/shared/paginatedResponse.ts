@@ -283,8 +283,8 @@ export function getDefaultPaginationOptions(
 export function getQueryParams(
   client: CoinbasePrimeClient,
   request: BasePaginatedRequest
-) {
-  let queryParams: Record<string, string | number> = {};
+): Record<string, string | number | string[]> {
+  let queryParams: Record<string, string | number | string[]> = {};
   if (request.limit) {
     queryParams.limit = request.limit;
   }

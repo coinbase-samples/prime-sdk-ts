@@ -31,6 +31,10 @@ import {
   AcceptQuoteResponse as internalAcceptQuoteResp,
 } from '../model/';
 import { Pagination } from '../shared/pagination';
+import {
+  BasePaginatedRequest,
+  PaginatedResponseMethods,
+} from '../shared/paginatedResponse';
 
 export type GetOrderRequest = {
   portfolioId: string;
@@ -45,35 +49,56 @@ export type ListPortfolioFillsRequest = Pagination & {
   endDate?: string;
 };
 
-export type ListPortfolioFillsResponse = Brand<
+export type BaseListPortfolioFillsResponse = Brand<
   GetPortfolioFillsResponse,
   'ListPortfolioFillsResponse'
 >;
+
+export type ListPortfolioFillsResponse = BaseListPortfolioFillsResponse &
+  PaginatedResponseMethods<
+    ListPortfolioFillsRequest & BasePaginatedRequest,
+    BaseListPortfolioFillsResponse,
+    any // Fill type
+  >;
 
 export type ListPortfolioOrdersRequest = Pagination & {
   portfolioId: string;
   orderStatuses?: OrderStatus[];
   productIds?: string[];
-  orderTypes?: OrderType;
+  orderType?: OrderType;
   orderSide?: OrderSide;
   startDate?: string;
   endDate?: string;
 };
 
-export type ListPortfolioOrdersResponse = Brand<
+export type BaseListPortfolioOrdersResponse = Brand<
   GetOrdersResponse,
   'ListPortfolioOrdersResponse'
 >;
+
+export type ListPortfolioOrdersResponse = BaseListPortfolioOrdersResponse &
+  PaginatedResponseMethods<
+    ListPortfolioOrdersRequest & BasePaginatedRequest,
+    BaseListPortfolioOrdersResponse,
+    any // Order type
+  >;
 
 export type ListOrderFillsRequest = Pagination & {
   portfolioId: string;
   orderId: string;
 };
 
-export type ListOrderFillsResponse = Brand<
+export type BaseListOrderFillsResponse = Brand<
   GetOrderFillsResponse,
   'ListOrderFillsResponse'
 >;
+
+export type ListOrderFillsResponse = BaseListOrderFillsResponse &
+  PaginatedResponseMethods<
+    ListOrderFillsRequest & BasePaginatedRequest,
+    BaseListOrderFillsResponse,
+    any // Fill type
+  >;
 
 export type ListOpenOrdersRequest = Pagination & {
   portfolioId: string;
@@ -84,10 +109,17 @@ export type ListOpenOrdersRequest = Pagination & {
   endDate: string;
 };
 
-export type ListOpenOrdersResponse = Brand<
+export type BaseListOpenOrdersResponse = Brand<
   GetOpenOrdersResponse,
   'ListOpenOrdersResponse'
 >;
+
+export type ListOpenOrdersResponse = BaseListOpenOrdersResponse &
+  PaginatedResponseMethods<
+    ListOpenOrdersRequest & BasePaginatedRequest,
+    BaseListOpenOrdersResponse,
+    any // Order type
+  >;
 
 export type CreateOrderPreviewRequest = OrderPreviewRequest & {
   portfolioId: string;

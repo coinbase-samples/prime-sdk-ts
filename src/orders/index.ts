@@ -38,6 +38,12 @@ import {
   AcceptQuoteRequest,
   AcceptQuoteResponse,
 } from './types';
+import {
+  createPaginatedResponse,
+  getDefaultPaginationOptions,
+  getQueryParams,
+  ResponseExtractors,
+} from '../shared/paginatedResponse';
 
 export interface IOrdersService {
   getOrder(
@@ -114,57 +120,130 @@ export class OrdersService implements IOrdersService {
     request: ListPortfolioFillsRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListPortfolioFillsResponse> {
-    const queryParams = { ...request, portfolioId: undefined };
+    let queryParams = getQueryParams(this.client, request);
+
+    if (request.startDate) {
+      queryParams.startDate = new Date(request.startDate).toISOString();
+    }
+    if (request.endDate) {
+      queryParams.endDate = new Date(request.endDate).toISOString();
+    }
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/fills`,
       queryParams,
       callOptions: options,
     });
 
-    return response.data as ListPortfolioFillsResponse;
+    const paginationOptions = getDefaultPaginationOptions(this.client, options);
+
+    return createPaginatedResponse(
+      response.data,
+      this.listPortfolioFills.bind(this),
+      request,
+      ResponseExtractors.fills,
+      paginationOptions
+    ) as ListPortfolioFillsResponse;
   }
 
   async listPortfolioOrders(
     request: ListPortfolioOrdersRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListPortfolioOrdersResponse> {
-    const queryParams = { ...request, portfolioId: undefined };
+    let queryParams = getQueryParams(this.client, request);
+
+    if (request.orderStatuses) {
+      queryParams.orderStatuses = request.orderStatuses;
+    }
+    if (request.productIds) {
+      queryParams.productIds = request.productIds;
+    }
+    if (request.orderType) {
+      queryParams.orderType = request.orderType;
+    }
+    if (request.orderSide) {
+      queryParams.orderSide = request.orderSide;
+    }
+    if (request.startDate) {
+      queryParams.startDate = new Date(request.startDate).toISOString();
+    }
+    if (request.endDate) {
+      queryParams.endDate = new Date(request.endDate).toISOString();
+    }
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/orders`,
       queryParams,
       callOptions: options,
     });
-    return response.data as ListPortfolioOrdersResponse;
+
+    const paginationOptions = getDefaultPaginationOptions(this.client, options);
+
+    return createPaginatedResponse(
+      response.data,
+      this.listPortfolioOrders.bind(this),
+      request,
+      ResponseExtractors.orders,
+      paginationOptions
+    ) as ListPortfolioOrdersResponse;
   }
 
   async listOrderFills(
     request: ListOrderFillsRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListOrderFillsResponse> {
-    const queryParams = {
-      ...request,
-      portfolioId: undefined,
-      orderId: undefined,
-    };
+    const queryParams = getQueryParams(this.client, request);
+
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/orders/${request.orderId}/fills`,
       queryParams,
       callOptions: options,
     });
-    return response.data as ListOrderFillsResponse;
+
+    const paginationOptions = getDefaultPaginationOptions(this.client, options);
+
+    return createPaginatedResponse(
+      response.data,
+      this.listOrderFills.bind(this),
+      request,
+      ResponseExtractors.fills,
+      paginationOptions
+    ) as ListOrderFillsResponse;
   }
 
   async listOpenOrders(
     request: ListOpenOrdersRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListOpenOrdersResponse> {
-    const queryParams = { ...request, portfolioId: undefined };
+    let queryParams = getQueryParams(this.client, request);
+    if (request.productIds) {
+      queryParams.productIds = request.productIds;
+    }
+    if (request.orderType) {
+      queryParams.orderType = request.orderType;
+    }
+    if (request.orderSide) {
+      queryParams.orderSide = request.orderSide;
+    }
+    if (request.startDate) {
+      queryParams.startDate = new Date(request.startDate).toISOString();
+    }
+    if (request.endDate) {
+      queryParams.endDate = new Date(request.endDate).toISOString();
+    }
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/open_orders`,
       queryParams,
       callOptions: options,
     });
-    return response.data as ListOpenOrdersResponse;
+
+    const paginationOptions = getDefaultPaginationOptions(this.client, options);
+
+    return createPaginatedResponse(
+      response.data,
+      this.listOpenOrders.bind(this),
+      request,
+      ResponseExtractors.orders,
+      paginationOptions
+    ) as ListOpenOrdersResponse;
   }
 
   async createOrderPreview(

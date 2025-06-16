@@ -21,6 +21,10 @@ import {
   ListWeb3WalletBalancesResponse,
   ListEntityBalancesResponse as internalListEntityBalances,
 } from '../model/';
+import {
+  BasePaginatedRequest,
+  PaginatedResponseMethods,
+} from '../shared/paginatedResponse';
 
 export type ListPortfolioBalancesRequest = {
   portfolioId: string;
@@ -51,10 +55,18 @@ export type ListOnchainWalletBalancesRequest = {
   limit?: number;
 };
 
-export type ListOnchainWalletBalancesResponse = Brand<
+export type BaseListOnchainWalletBalancesResponse = Brand<
   ListWeb3WalletBalancesResponse,
   'ListOnchainWalletBalancesResponse'
 >;
+
+export type ListOnchainWalletBalancesResponse =
+  BaseListOnchainWalletBalancesResponse &
+    PaginatedResponseMethods<
+      ListOnchainWalletBalancesRequest & BasePaginatedRequest,
+      BaseListOnchainWalletBalancesResponse,
+      any // OnchainWalletBalance type
+    >;
 
 export type ListEntityBalancesRequest = {
   entityId: string;
@@ -64,7 +76,14 @@ export type ListEntityBalancesRequest = {
   aggregationType?: PortfolioBalanceType;
 };
 
-export type ListEntityBalancesResponse = Brand<
+export type BaseListEntityBalancesResponse = Brand<
   internalListEntityBalances,
   'ListEntityBalancesResponse'
 >;
+
+export type ListEntityBalancesResponse = BaseListEntityBalancesResponse &
+  PaginatedResponseMethods<
+    ListEntityBalancesRequest & BasePaginatedRequest,
+    BaseListEntityBalancesResponse,
+    any // EntityBalance type
+  >;

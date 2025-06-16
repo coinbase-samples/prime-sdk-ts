@@ -24,6 +24,10 @@ import {
 } from '../model/';
 import { OrderSide } from '../model/enums/';
 import { Pagination } from '../shared/pagination';
+import {
+  BasePaginatedRequest,
+  PaginatedResponseMethods,
+} from '../shared/paginatedResponse';
 
 export type CreateAllocationRequest = Brand<
   internalCreate,
@@ -53,10 +57,18 @@ export type ListPortfolioAllocationsRequest = Pagination & {
   endDate?: string;
 };
 
-export type ListPortfolioAllocationsResponse = Brand<
+export type BaseListPortfolioAllocationsResponse = Brand<
   GetPortfolioAllocationsResponse,
   'ListPortfolioAllocationsResponse'
 >;
+
+export type ListPortfolioAllocationsResponse =
+  BaseListPortfolioAllocationsResponse &
+    PaginatedResponseMethods<
+      ListPortfolioAllocationsRequest & BasePaginatedRequest,
+      BaseListPortfolioAllocationsResponse,
+      any // Allocation type
+    >;
 
 export type ListNetAllocationsRequest = {
   portfolioId: string;
