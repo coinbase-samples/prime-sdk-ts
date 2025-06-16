@@ -254,6 +254,7 @@ export const ResponseExtractors = {
     response.allocations || [],
   balances: <T>(response: { balances?: T[] }): T[] => response.balances || [],
   fills: <T>(response: { fills?: T[] }): T[] => response.fills || [],
+  invoices: <T>(response: { invoices?: T[] }): T[] => response.invoices || [],
   orders: <T>(response: { orders?: T[] }): T[] => response.orders || [],
   positions: <T>(response: { positions?: T[] }): T[] =>
     response.positions || [],
