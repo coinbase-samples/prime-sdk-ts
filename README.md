@@ -12,6 +12,28 @@ The _Prime Typescript SDK_ sample library is free and open source and released u
 
 The application and code are only available for demonstration purposes.
 
+## Pagination
+
+When creating the client, you can now specify a maxItems and maxPages to help manage paginated responses.
+
+```
+const client = new CoinbasePrimeClient(credentials, undefined, { maxPages: 5, maxItems: 1000 });
+```
+
+These values can also be added on a per paginated request, such as:
+
+```
+const client = new CoinbasePrimeClient(credentials);
+
+const service = new TransactionsService(client);
+
+service
+  .listPortfolioTransactions(
+    { portfolioId, limit: 100 },
+    { maxPages: 20, maxItems: 1000 }
+  )
+```
+
 ## Usage
 
 Here are a few examples requests:
