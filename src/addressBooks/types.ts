@@ -20,6 +20,10 @@ import {
   CreatePortfolioAddressBookEntryResponse,
 } from '../model/';
 import { Pagination } from '../shared/pagination';
+import {
+  BasePaginatedRequest,
+  PaginatedResponseMethods,
+} from '../shared/paginatedResponse';
 
 export type ListAddressBooksRequest = Pagination & {
   portfolioId: string;
@@ -27,10 +31,17 @@ export type ListAddressBooksRequest = Pagination & {
   search?: string;
 };
 
-export type ListAddressBooksResponse = Brand<
+export type BaseListAddressBooksResponse = Brand<
   GetPortfolioAddressBookResponse,
   'ListAddressBooksResponse'
 >;
+
+export type ListAddressBooksResponse = BaseListAddressBooksResponse &
+  PaginatedResponseMethods<
+    ListAddressBooksRequest & BasePaginatedRequest,
+    BaseListAddressBooksResponse,
+    any // AddressBook type
+  >;
 
 export type CreateAddressBookRequest =
   CreatePortfolioAddressBookEntryRequest & {

@@ -20,10 +20,6 @@ import {
   GetPortfoliosResponse,
   GetPostTradeCreditResponse,
 } from '../model/';
-import {
-  BasePaginatedRequest,
-  PaginatedResponseMethods,
-} from '../shared/paginatedResponse';
 
 export type GetPortfolioRequest = {
   /**
@@ -36,17 +32,10 @@ export type GetPortfolioResponse = Brand<internalGet, 'GetPortfolioResponse'>;
 
 export type ListPortfoliosRequest = Record<string, never>;
 
-export type BaseListPortfoliosResponse = Brand<
+export type ListPortfoliosResponse = Brand<
   GetPortfoliosResponse,
   'ListPortfoliosResponse'
 >;
-
-export type ListPortfoliosResponse = BaseListPortfoliosResponse &
-  PaginatedResponseMethods<
-    ListPortfoliosRequest & BasePaginatedRequest,
-    BaseListPortfoliosResponse,
-    any // Portfolio type
-  >;
 
 export type GetPortfolioCreditRequest = {
   portfolioId: string;

@@ -21,7 +21,7 @@ const {
 } = require('../dist');
 
 const creds = JSON.parse(process.env.PRIME_CREDENTIALS);
-const portfolioId = process.env.PORTFOLIO_ID;
+const entityId = process.env.ENTITY_ID;
 
 const credentials = new CoinbasePrimeCredentials(
   creds.AccessKey,
@@ -33,8 +33,8 @@ const client = new CoinbasePrimeClient(credentials);
 
 const service = new ActivitiesService(client);
 service
-  .listPortfolioActivities({
-    portfolioId,
+  .listEntityActivities({
+    entityId,
   })
   .then((activities) => {
     console.dir(activities, { depth: null });

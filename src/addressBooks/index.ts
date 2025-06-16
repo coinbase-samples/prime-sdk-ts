@@ -21,6 +21,12 @@ import {
   CreateAddressBookRequest,
   CreateAddressBookResponse,
 } from './types';
+import {
+  createPaginatedResponse,
+  getDefaultPaginationOptions,
+  getQueryParams,
+  ResponseExtractors,
+} from '../shared/paginatedResponse';
 
 export interface IAddressBooksService {
   listAddressBooks(
@@ -45,14 +51,25 @@ export class AddressBooksService implements IAddressBooksService {
     request: ListAddressBooksRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListAddressBooksResponse> {
-    const queryParams = { ...request, portfolioId: undefined };
+    const queryParams = {
+      ...getQueryParams(this.client, request),
+      portfolioId: undefined,
+    };
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/address_book`,
       queryParams,
       callOptions: options,
     });
 
-    return response.data as ListAddressBooksResponse;
+    const paginationOptions = getDefaultPaginationOptions(this.client, options);
+
+    return createPaginatedResponse(
+      response.data,
+      this.listAddressBooks.bind(this),
+      request,
+      ResponseExtractors.addresses,
+      paginationOptions
+    ) as ListAddressBooksResponse;
   }
 
   async createAddressBook(

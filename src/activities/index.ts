@@ -27,6 +27,12 @@ import {
   ListEntityActivitiesRequest,
   ListEntityActivitiesResponse,
 } from './types';
+import {
+  createPaginatedResponse,
+  getDefaultPaginationOptions,
+  getQueryParams,
+  ResponseExtractors,
+} from '../shared/paginatedResponse';
 
 export interface IActivitiesService {
   getActivity(request: GetActivityRequest): Promise<GetActivityResponse>;
@@ -76,27 +82,49 @@ export class ActivitiesService implements IActivitiesService {
     request: ListEntityActivitiesRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListEntityActivitiesResponse> {
-    const queryParams = { ...request, entityId: undefined };
+    const queryParams = {
+      ...getQueryParams(this.client, request),
+      entityId: undefined,
+    };
     const response = await this.client.request({
       url: `entities/${request.entityId}/activities`,
       queryParams,
       callOptions: options,
     });
 
-    return response.data as ListEntityActivitiesResponse;
+    const paginationOptions = getDefaultPaginationOptions(this.client, options);
+
+    return createPaginatedResponse(
+      response.data,
+      this.listEntityActivities.bind(this),
+      request,
+      ResponseExtractors.activities,
+      paginationOptions
+    ) as ListEntityActivitiesResponse;
   }
 
   async listPortfolioActivities(
     request: ListPortfolioActivitiesRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListPortfolioActivitiesResponse> {
-    const queryParams = { ...request, portfolioId: undefined };
+    const queryParams = {
+      ...getQueryParams(this.client, request),
+      portfolioId: undefined,
+    };
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/activities`,
       queryParams,
       callOptions: options,
     });
 
-    return response.data as ListPortfolioActivitiesResponse;
+    const paginationOptions = getDefaultPaginationOptions(this.client, options);
+
+    return createPaginatedResponse(
+      response.data,
+      this.listPortfolioActivities.bind(this),
+      request,
+      ResponseExtractors.activities,
+      paginationOptions
+    ) as ListPortfolioActivitiesResponse;
   }
 }
