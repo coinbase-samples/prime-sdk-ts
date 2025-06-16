@@ -95,6 +95,21 @@ export interface PaginatedResponseMethods<
 }
 
 /**
+ * Validates that a number is a positive integer
+ */
+function validatePositiveInteger(
+  value: number | undefined | null,
+  defaultValue: number
+): number {
+  if (value === undefined || value === null) return defaultValue;
+  const num = Number(value);
+  if (!Number.isInteger(num) || num <= 0) {
+    throw new Error(`Value must be a positive integer, got: ${value}`);
+  }
+  return num;
+}
+
+/**
  * Factory function to create enhanced response objects with pagination methods
  */
 export function createPaginatedResponse<
@@ -159,10 +174,16 @@ export function createPaginatedResponse<
 
     async next(options?: CoinbaseCallOptions) {
       if (options?.maxPages) {
-        this.__config.maxPages = options.maxPages;
+        this.__config.maxPages = validatePositiveInteger(
+          options.maxPages,
+          DEFAULT_MAX_PAGES
+        );
       }
       if (options?.maxItems) {
-        this.__config.maxItems = options.maxItems;
+        this.__config.maxItems = validatePositiveInteger(
+          options.maxItems,
+          DEFAULT_MAX_ITEMS
+        );
       }
 
       if (!this.hasNext()) {
@@ -198,10 +219,16 @@ export function createPaginatedResponse<
       let totalItems = 0;
 
       if (options?.maxPages) {
-        this.__config.maxPages = options.maxPages;
+        this.__config.maxPages = validatePositiveInteger(
+          options.maxPages,
+          DEFAULT_MAX_PAGES
+        );
       }
       if (options?.maxItems) {
-        this.__config.maxItems = options.maxItems;
+        this.__config.maxItems = validatePositiveInteger(
+          options.maxItems,
+          DEFAULT_MAX_ITEMS
+        );
       }
 
       // Add current page data
