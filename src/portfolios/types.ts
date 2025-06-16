@@ -13,12 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 import { Brand } from '../shared/brand';
 import {
   GetPortfolioResponse as internalGet,
   GetPortfoliosResponse,
   GetPostTradeCreditResponse,
 } from '../model/';
+import {
+  BasePaginatedRequest,
+  PaginatedResponseMethods,
+} from '../shared/paginatedResponse';
 
 export type GetPortfolioRequest = {
   /**
@@ -31,10 +36,17 @@ export type GetPortfolioResponse = Brand<internalGet, 'GetPortfolioResponse'>;
 
 export type ListPortfoliosRequest = Record<string, never>;
 
-export type ListPortfoliosResponse = Brand<
+export type BaseListPortfoliosResponse = Brand<
   GetPortfoliosResponse,
   'ListPortfoliosResponse'
 >;
+
+export type ListPortfoliosResponse = BaseListPortfoliosResponse &
+  PaginatedResponseMethods<
+    ListPortfoliosRequest & BasePaginatedRequest,
+    BaseListPortfoliosResponse,
+    any // Portfolio type
+  >;
 
 export type GetPortfolioCreditRequest = {
   portfolioId: string;

@@ -19,7 +19,7 @@ import {
   BasePaginatedRequest,
   PaginatedResponseMethods,
 } from '../shared/paginatedResponse';
-import { Pagination } from 'src/shared/pagination';
+import { Pagination } from '../shared/pagination';
 
 export type ListUsersRequest = Pagination & {
   entityId: string;

@@ -24,6 +24,11 @@ import {
   ListPortfoliosResponse,
   ListPortfoliosRequest,
 } from './types';
+import {
+  createPaginatedResponse,
+  getDefaultPaginationOptions,
+  ResponseExtractors,
+} from '../shared/paginatedResponse';
 
 export interface IPortfoliosService {
   getPortfolio(
@@ -82,6 +87,14 @@ export class PortfoliosService implements IPortfoliosService {
       callOptions: options,
     });
 
-    return response.data as ListPortfoliosResponse;
+    const paginationOptions = getDefaultPaginationOptions(this.client, options);
+
+    return createPaginatedResponse(
+      response.data,
+      this.listPortfolios.bind(this),
+      request ?? {},
+      ResponseExtractors.portfolios,
+      paginationOptions
+    ) as ListPortfoliosResponse;
   }
 }

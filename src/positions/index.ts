@@ -22,6 +22,12 @@ import {
   ListEntityPositionsRequest,
   ListEntityPositionsResponse,
 } from './types';
+import {
+  createPaginatedResponse,
+  getDefaultPaginationOptions,
+  getQueryParams,
+  ResponseExtractors,
+} from '../shared/paginatedResponse';
 
 export interface IPositionsService {
   listAggregateEntityPositions(
@@ -46,16 +52,24 @@ export class PositionsService implements IPositionsService {
     options?: CoinbaseCallOptions
   ): Promise<ListAggregateEntityPositionsResponse> {
     const queryParams = {
-      ...request,
+      ...getQueryParams(this.client, request),
       entityId: undefined,
     };
     const response = await this.client.request({
-      url: `portfolios/${request.entityId}/aggregate_positions`,
+      url: `entities/${request.entityId}/aggregate_positions`,
       callOptions: options,
       queryParams,
     });
 
-    return response.data as ListAggregateEntityPositionsResponse;
+    const paginationOptions = getDefaultPaginationOptions(this.client, options);
+
+    return createPaginatedResponse(
+      response.data,
+      this.listAggregateEntityPositions.bind(this),
+      request,
+      ResponseExtractors.positions,
+      paginationOptions
+    ) as ListAggregateEntityPositionsResponse;
   }
 
   async listEntityPositions(
@@ -63,15 +77,23 @@ export class PositionsService implements IPositionsService {
     options?: CoinbaseCallOptions
   ): Promise<ListEntityPositionsResponse> {
     const queryParams = {
-      ...request,
+      ...getQueryParams(this.client, request),
       entityId: undefined,
     };
     const response = await this.client.request({
-      url: `portfolios/${request.entityId}/positions`,
+      url: `entities/${request.entityId}/positions`,
       callOptions: options,
       queryParams,
     });
 
-    return response.data as ListEntityPositionsResponse;
+    const paginationOptions = getDefaultPaginationOptions(this.client, options);
+
+    return createPaginatedResponse(
+      response.data,
+      this.listEntityPositions.bind(this),
+      request,
+      ResponseExtractors.positions,
+      paginationOptions
+    ) as ListEntityPositionsResponse;
   }
 }

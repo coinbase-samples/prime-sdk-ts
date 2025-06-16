@@ -258,6 +258,8 @@ export const ResponseExtractors = {
   positions: <T>(response: { positions?: T[] }): T[] =>
     response.positions || [],
   products: <T>(response: { products?: T[] }): T[] => response.products || [],
+  portfolios: <T>(response: { portfolios?: T[] }): T[] =>
+    response.portfolios || [],
   transactions: <T>(response: { transactions?: T[] }): T[] =>
     response.transactions || [],
   users: <T>(response: { users?: T[] }): T[] => response.users || [],

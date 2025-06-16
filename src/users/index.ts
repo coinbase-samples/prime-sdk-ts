@@ -27,7 +27,7 @@ import {
   getDefaultPaginationOptions,
   getQueryParams,
   ResponseExtractors,
-} from 'src/shared/paginatedResponse';
+} from '../shared/paginatedResponse';
 
 export interface IUsersService {
   listUsers(
