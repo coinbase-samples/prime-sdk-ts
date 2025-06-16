@@ -42,10 +42,8 @@ export class ProductsService implements IProductsService {
     request: ListProductsRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListProductsResponse> {
-    const queryParams = {
-      ...getQueryParams(this.client, request),
-      portfolioId: undefined,
-    };
+    const queryParams = getQueryParams(this.client, request);
+
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/products`,
       queryParams,

@@ -100,9 +100,8 @@ export class AllocationService implements IAllocationService {
     request: ListPortfolioAllocationsRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListPortfolioAllocationsResponse> {
-    let queryParams: Record<string, string | number | string[]> = {
-      ...getQueryParams(this.client, request),
-    };
+    let queryParams = getQueryParams(this.client, request);
+
     if (request.startDate) {
       queryParams.startDate = new Date(request.startDate).toISOString();
     }

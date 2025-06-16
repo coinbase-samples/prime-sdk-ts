@@ -92,9 +92,8 @@ export class BalancesService implements IBalancesService {
     request: ListOnchainWalletBalancesRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListOnchainWalletBalancesResponse> {
-    let queryParams: Record<string, string | number | string[]> = {
-      ...getQueryParams(this.client, request),
-    };
+    let queryParams = getQueryParams(this.client, request);
+
     if (request.visibilityStatuses) {
       queryParams.visibilityStatuses = request.visibilityStatuses;
     }
@@ -119,9 +118,8 @@ export class BalancesService implements IBalancesService {
     request: ListEntityBalancesRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListEntityBalancesResponse> {
-    let queryParams: Record<string, string | number | string[]> = {
-      ...getQueryParams(this.client, request),
-    };
+    let queryParams = getQueryParams(this.client, request);
+
     if (request.symbols) {
       queryParams.symbols = request.symbols;
     }

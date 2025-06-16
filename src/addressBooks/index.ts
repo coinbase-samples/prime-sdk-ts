@@ -51,10 +51,8 @@ export class AddressBooksService implements IAddressBooksService {
     request: ListAddressBooksRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListAddressBooksResponse> {
-    const queryParams = {
-      ...getQueryParams(this.client, request),
-      portfolioId: undefined,
-    };
+    const queryParams = getQueryParams(this.client, request);
+
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/address_book`,
       queryParams,

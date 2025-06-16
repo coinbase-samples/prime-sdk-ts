@@ -51,10 +51,8 @@ export class PositionsService implements IPositionsService {
     request: ListAggregateEntityPositionsRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListAggregateEntityPositionsResponse> {
-    const queryParams = {
-      ...getQueryParams(this.client, request),
-      entityId: undefined,
-    };
+    const queryParams = getQueryParams(this.client, request);
+
     const response = await this.client.request({
       url: `entities/${request.entityId}/aggregate_positions`,
       callOptions: options,
@@ -76,10 +74,8 @@ export class PositionsService implements IPositionsService {
     request: ListEntityPositionsRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListEntityPositionsResponse> {
-    const queryParams = {
-      ...getQueryParams(this.client, request),
-      entityId: undefined,
-    };
+    const queryParams = getQueryParams(this.client, request);
+
     const response = await this.client.request({
       url: `entities/${request.entityId}/positions`,
       callOptions: options,
