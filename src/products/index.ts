@@ -17,6 +17,12 @@ import { CoinbaseCallOptions } from '@coinbase-sample/core-ts';
 import { CoinbasePrimeClient } from '../client';
 
 import { ListProductsRequest, ListProductsResponse } from './types';
+import {
+  createPaginatedResponse,
+  getDefaultPaginationOptions,
+  getQueryParams,
+  ResponseExtractors,
+} from '../shared/paginatedResponse';
 
 export interface IProductsService {
   listProducts(
@@ -36,16 +42,22 @@ export class ProductsService implements IProductsService {
     request: ListProductsRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListProductsResponse> {
-    const queryParams = {
-      ...request,
-      portfolioId: undefined,
-    };
+    const queryParams = getQueryParams(this.client, request);
+
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/products`,
       queryParams,
       callOptions: options,
     });
 
-    return response.data as ListProductsResponse;
+    const paginationOptions = getDefaultPaginationOptions(this.client, options);
+
+    return createPaginatedResponse(
+      response.data,
+      this.listProducts.bind(this),
+      request,
+      ResponseExtractors.products,
+      paginationOptions
+    ) as ListProductsResponse;
   }
 }

@@ -15,7 +15,11 @@
  */
 import { CoinbaseCallOptions, Method } from '@coinbase-sample/core-ts';
 import { CoinbasePrimeClient } from '../client';
-
+import {
+  createPaginatedResponse,
+  ResponseExtractors,
+  getDefaultPaginationOptions,
+} from '../shared/paginatedResponse';
 import {
   CreateConversionRequest,
   CreateConversionResponse,
@@ -94,13 +98,28 @@ export class TransactionsService implements ITransactionsService {
     options?: CoinbaseCallOptions
   ): Promise<ListPortfolioTransactionsResponse> {
     const queryParams = { ...request, portfolioId: undefined };
+    if (!queryParams.limit) {
+      queryParams.limit = this.client.getDefaultPaginationLimit();
+    }
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/transactions`,
       queryParams,
       callOptions: options,
     });
 
-    return response.data as ListPortfolioTransactionsResponse;
+    const responseData = response.data;
+
+    // Merge client defaults with call options
+    const paginationOptions = getDefaultPaginationOptions(this.client, options);
+
+    // Enhance the response with pagination methods
+    return createPaginatedResponse(
+      responseData,
+      this.listPortfolioTransactions.bind(this),
+      request,
+      ResponseExtractors.transactions,
+      paginationOptions
+    ) as ListPortfolioTransactionsResponse;
   }
 
   async listWalletTransactions(
@@ -112,13 +131,28 @@ export class TransactionsService implements ITransactionsService {
       portfolioId: undefined,
       walletId: undefined,
     };
+    if (!queryParams.limit) {
+      queryParams.limit = this.client.getDefaultPaginationLimit();
+    }
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/wallets/${request.walletId}/transactions`,
       queryParams,
       callOptions: options,
     });
 
-    return response.data as ListWalletTransactionsResponse;
+    const responseData = response.data;
+
+    // Merge client defaults with call options
+    const paginationOptions = getDefaultPaginationOptions(this.client, options);
+
+    // Enhance the response with pagination methods
+    return createPaginatedResponse(
+      responseData,
+      this.listWalletTransactions.bind(this),
+      request,
+      ResponseExtractors.transactions,
+      paginationOptions
+    ) as ListWalletTransactionsResponse;
   }
 
   async createConversion(

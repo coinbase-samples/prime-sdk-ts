@@ -26,6 +26,12 @@ import {
   ListEntityBalancesRequest,
   ListEntityBalancesResponse,
 } from './types';
+import {
+  createPaginatedResponse,
+  ResponseExtractors,
+  getDefaultPaginationOptions,
+  getQueryParams,
+} from '../shared/paginatedResponse';
 
 export interface IBalancesService {
   listPortfolioBalances(
@@ -75,7 +81,7 @@ export class BalancesService implements IBalancesService {
     options?: CoinbaseCallOptions
   ): Promise<GetWalletBalanceResponse> {
     const response = await this.client.request({
-      url: `portfolios/${request.portfolioId}/wallets/${request.walletId}balances`,
+      url: `portfolios/${request.portfolioId}/wallets/${request.walletId}/balance`,
       callOptions: options,
     });
 
@@ -86,34 +92,54 @@ export class BalancesService implements IBalancesService {
     request: ListOnchainWalletBalancesRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListOnchainWalletBalancesResponse> {
-    const queryParams = {
-      ...request,
-      portfolioId: undefined,
-      walletId: undefined,
-    };
+    let queryParams = getQueryParams(this.client, request);
+
+    if (request.visibilityStatuses) {
+      queryParams.visibilityStatuses = request.visibilityStatuses;
+    }
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/wallets/${request.walletId}/web3_balances`,
       queryParams,
       callOptions: options,
     });
 
-    return response.data as ListOnchainWalletBalancesResponse;
+    const paginationOptions = getDefaultPaginationOptions(this.client, options);
+
+    return createPaginatedResponse(
+      response.data,
+      this.listOnchainWalletBalances.bind(this),
+      request,
+      ResponseExtractors.balances,
+      paginationOptions
+    ) as ListOnchainWalletBalancesResponse;
   }
 
   async listEntityBalances(
     request: ListEntityBalancesRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListEntityBalancesResponse> {
-    const queryParams = {
-      ...request,
-      entityId: undefined,
-    };
+    let queryParams = getQueryParams(this.client, request);
+
+    if (request.symbols) {
+      queryParams.symbols = request.symbols;
+    }
+    if (request.aggregationType) {
+      queryParams.aggregationType = request.aggregationType;
+    }
     const response = await this.client.request({
       url: `entities/${request.entityId}/balances`,
       queryParams,
       callOptions: options,
     });
 
-    return response.data as ListEntityBalancesResponse;
+    const paginationOptions = getDefaultPaginationOptions(this.client, options);
+
+    return createPaginatedResponse(
+      response.data,
+      this.listEntityBalances.bind(this),
+      request,
+      ResponseExtractors.balances,
+      paginationOptions
+    ) as ListEntityBalancesResponse;
   }
 }

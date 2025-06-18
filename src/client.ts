@@ -13,15 +13,38 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CoinbaseClient } from '@coinbase-sample/core-ts';
+import {
+  CoinbaseClient,
+  CoinbaseHttpClientRetryOptions,
+} from '@coinbase-sample/core-ts';
 
-import { API_BASE_PATH, USER_AGENT } from './constants';
+import {
+  API_BASE_PATH,
+  DEFAULT_PAGINATION_LIMIT,
+  DEFAULT_MAX_ITEMS,
+  DEFAULT_MAX_PAGES,
+  USER_AGENT,
+} from './constants';
 import { CoinbasePrimeCredentials } from './credentials';
 import { toCamelCase } from './shared/toCamelCase';
 
 export class CoinbasePrimeClient extends CoinbaseClient {
-  constructor(credentials?: CoinbasePrimeCredentials, apiBasePath?: string) {
-    super(apiBasePath ?? API_BASE_PATH, credentials, USER_AGENT);
+  constructor(
+    credentials?: CoinbasePrimeCredentials,
+    apiBasePath?: string,
+    options?: CoinbaseHttpClientRetryOptions
+  ) {
+    const defaultClientOptions = {
+      defaultLimit: DEFAULT_PAGINATION_LIMIT,
+      maxPages: DEFAULT_MAX_PAGES,
+      maxItems: DEFAULT_MAX_ITEMS,
+      ...options,
+    };
+    let basePath = API_BASE_PATH;
+    if (apiBasePath && apiBasePath.length > 0) {
+      basePath = apiBasePath;
+    }
+    super(basePath, credentials, USER_AGENT, defaultClientOptions);
 
     // transform the response data to camelCase
     this.addTransformResponse((response) => {

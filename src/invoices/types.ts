@@ -13,14 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Brand } from 'src/shared/brand';
+import { Brand } from '../shared/brand';
 import { GetInvoicesResponse } from '../model/';
+import {
+  BasePaginatedRequest,
+  PaginatedResponseMethods,
+} from '../shared/paginatedResponse';
+import { Pagination } from '../shared/pagination';
 
-export type ListInvoicesRequest = {
+export type ListInvoicesRequest = Pagination & {
   entityId: string;
+  states?: string[];
+  billingYear?: string;
+  billingMonth?: string;
 };
 
-export type ListInvoicesResponse = Brand<
+export type BaseListInvoicesResponse = Brand<
   GetInvoicesResponse,
   'ListInvoicesResponse'
 >;
+
+export type ListInvoicesResponse = BaseListInvoicesResponse &
+  PaginatedResponseMethods<
+    ListInvoicesRequest & BasePaginatedRequest,
+    BaseListInvoicesResponse,
+    any // Invoice type
+  >;

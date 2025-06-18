@@ -33,7 +33,7 @@ const client = new CoinbasePrimeClient(credentials);
 
 const balanceService = new BalancesService(client);
 balanceService
-  .listPortfolioBalances({ portfolioId: portfolioId })
+  .listPortfolioBalances({ portfolioId })
   .then((bal) => {
     console.log(bal);
   })

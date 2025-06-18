@@ -29,12 +29,25 @@ const credentials = new CoinbasePrimeCredentials(
   creds.Passphrase
 );
 
-const client = new CoinbasePrimeClient(credentials);
+const client = new CoinbasePrimeClient(credentials, undefined, { maxPages: 5 });
 
 const service = new TransactionsService(client);
+
 service
-  .listPortfolioTransactions({ portfolioId, limit: 100 })
+  .listPortfolioTransactions(
+    { portfolioId, limit: 100 },
+    { maxPages: 20, maxItems: 1000 }
+  )
   .then((transactions) => {
     console.dir(transactions, { depth: null });
-  })
-  .catch((err) => console.log(err));
+
+    transactions
+      .fetchAll(undefined, (page, totalItems) => {
+        console.log('page', page);
+        console.log('totalItems', totalItems);
+      })
+      .then((allTransactions) => {
+        console.log('complete total', allTransactions.length);
+        console.dir(allTransactions, { depth: null });
+      });
+  });

@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.5.0] - 2025-JUN-17
+
+### Fixes
+
+- Fix path error in listInvoices
+
+## Added
+
+- Add pagination functions to list resources where possible
+  - List responses are expanded to have a .next and .fetchAll
+  - maxItems and maxPages can be set at the client or request level to better control pagination
+- Updated endpoints with new query parameters
+  - listPortfolioActivities
+  - listEntityActivities
+- New endpoints
+  - listWalletAddresses
+  - createWalletDepositAddress
+
 ## [0.4.1] - 2025-JUN-02
 
 ### Added

@@ -26,4 +26,12 @@ export type TransferLocation = {
    * The value of the transfer location: payment method ID, wallet ID or crypto address
    */
   value?: string;
+  /**
+   * The crypto address of the transfer location
+   */
+  address?: string;
+  /**
+   * The tag/memo of the address, if applicable -- required for certain assets (e.g. XRP, XLM, etc.)
+   */
+  accountIdentifier?: string;
 };

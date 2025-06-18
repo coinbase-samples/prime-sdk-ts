@@ -36,6 +36,7 @@ const service = new TransactionsService(client);
 service
   .listWalletTransactions({ portfolioId, walletId })
   .then((transactions) => {
-    console.log(transactions);
+    console.dir(transactions, { depth: null });
+    console.log(transactions.headers);
   })
   .catch((err) => console.log(err));

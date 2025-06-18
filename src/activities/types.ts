@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Brand } from 'src/shared/brand';
+import { Brand } from '../shared/brand';
 import { ActivityCategory, ActivityStatus } from '../model/enums/';
 import {
   GetActivityResponse as internalGet,
@@ -22,6 +22,10 @@ import {
   GetPortfolioActivityResponse as internalGetPortAct,
 } from '../model/';
 import { Pagination } from '../shared/pagination';
+import {
+  BasePaginatedRequest,
+  PaginatedResponseMethods,
+} from '../shared/paginatedResponse';
 
 export type ActivityFilters = Pagination & {
   symbols?: string[];
@@ -43,17 +47,32 @@ export type ListEntityActivitiesRequest = Pagination &
     activityLevel?: string;
   };
 
-export type ListEntityActivitiesResponse = GetEntityActivitiesResponse;
+export type BaseListEntityActivitiesResponse = GetEntityActivitiesResponse;
+
+export type ListEntityActivitiesResponse = BaseListEntityActivitiesResponse &
+  PaginatedResponseMethods<
+    ListEntityActivitiesRequest & BasePaginatedRequest,
+    BaseListEntityActivitiesResponse,
+    any // Activity type
+  >;
 
 export type ListPortfolioActivitiesRequest = Pagination &
   ActivityFilters & {
     portfolioId: string;
   };
 
-export type ListPortfolioActivitiesResponse = Brand<
+export type BaseListPortfolioActivitiesResponse = Brand<
   GetPortfolioActivitiesResponse,
   'ListPortfolioActivitiesResponse'
 >;
+
+export type ListPortfolioActivitiesResponse =
+  BaseListPortfolioActivitiesResponse &
+    PaginatedResponseMethods<
+      ListPortfolioActivitiesRequest & BasePaginatedRequest,
+      BaseListPortfolioActivitiesResponse,
+      any // Activity type
+    >;
 
 export type GetPortfolioActivitiesRequest = {
   portfolioId: string;

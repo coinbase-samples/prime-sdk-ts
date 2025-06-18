@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Brand } from 'src/shared/brand';
+import { Brand } from '../shared/brand';
 import { TransactionType } from '../model/enums/';
 import {
   GetPortfolioTransactionsResponse,
@@ -29,6 +29,10 @@ import {
   CreateOnchainTransactionResponse as internalCreateResp,
 } from '../model/';
 import { Pagination } from '../shared/pagination';
+import {
+  PaginatedResponseMethods,
+  BasePaginatedRequest,
+} from '../shared/paginatedResponse';
 
 export type ListPortfolioTransactionsRequest = Pagination & {
   portfolioId: string;
@@ -38,10 +42,20 @@ export type ListPortfolioTransactionsRequest = Pagination & {
   endTime?: string;
 };
 
-export type ListPortfolioTransactionsResponse = Brand<
+// Base response type
+type BaseListPortfolioTransactionsResponse = Brand<
   GetPortfolioTransactionsResponse,
   'ListPortfolioTransactionsResponse'
 >;
+
+// Extended response type with pagination methods
+export type ListPortfolioTransactionsResponse =
+  BaseListPortfolioTransactionsResponse &
+    PaginatedResponseMethods<
+      ListPortfolioTransactionsRequest & BasePaginatedRequest,
+      BaseListPortfolioTransactionsResponse,
+      any // Transaction type
+    >;
 
 export type ListWalletTransactionsRequest = Pagination & {
   portfolioId: string;
@@ -51,10 +65,18 @@ export type ListWalletTransactionsRequest = Pagination & {
   endTime?: string;
 };
 
-export type ListWalletTransactionsResponse = Brand<
+export type BaseListWalletTransactionsResponse = Brand<
   GetWalletTransactionsResponse,
   'ListWalletTransactionsResponse'
 >;
+
+export type ListWalletTransactionsResponse =
+  BaseListWalletTransactionsResponse &
+    PaginatedResponseMethods<
+      ListWalletTransactionsRequest & BasePaginatedRequest,
+      BaseListWalletTransactionsResponse,
+      any // Transaction type
+    >;
 
 export type GetTransactionRequest = {
   portfolioId: string;

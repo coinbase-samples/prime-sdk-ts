@@ -1,5 +1,5 @@
 /**
- * Copyright 2024-present Coinbase Global, Inc.
+ * Copyright 2025-present Coinbase Global, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,12 +17,12 @@ require('dotenv').config();
 const {
   CoinbasePrimeClient,
   CoinbasePrimeCredentials,
-  TransactionsService,
+  AllocationService,
 } = require('../dist');
 
 const creds = JSON.parse(process.env.PRIME_CREDENTIALS);
-const portfolioId = process.env.PORTFOLIO_ID;
 const baseUrl = process.env.BASE_URL;
+const portfolioId = process.env.PORTFOLIO_ID;
 
 const credentials = new CoinbasePrimeCredentials(
   creds.AccessKey,
@@ -31,15 +31,16 @@ const credentials = new CoinbasePrimeCredentials(
 );
 
 const client = new CoinbasePrimeClient(credentials, baseUrl);
-const transactionId = process.argv[2];
 
-const service = new TransactionsService(client);
-service
-  .getTransaction({
+const startDate = process.argv[2] || '2025-01-01';
+
+const allocationService = new AllocationService(client);
+allocationService
+  .listPortfolioAllocations({
     portfolioId,
-    transactionId,
+    startDate,
   })
-  .then((transaction) => {
-    console.dir(transaction, { depth: null });
+  .then((allocations) => {
+    console.log(allocations);
   })
   .catch((err) => console.log(err));

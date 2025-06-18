@@ -36,7 +36,7 @@ service
   .listPortfolioActivities({
     portfolioId,
   })
-  .then((portfolio) => {
-    console.dir(portfolio, { depth: null });
+  .then((activities) => {
+    console.dir(activities, { depth: null });
   })
   .catch((err) => console.log(err));

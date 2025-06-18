@@ -17,9 +17,15 @@ import { CoinbaseCallOptions } from '@coinbase-sample/core-ts';
 import { CoinbasePrimeClient } from '../client';
 
 import { ListInvoicesRequest, ListInvoicesResponse } from './types';
+import {
+  createPaginatedResponse,
+  getDefaultPaginationOptions,
+  getQueryParams,
+  ResponseExtractors,
+} from '../shared/paginatedResponse';
 
 export interface IInvoicesService {
-  listInvoicess(
+  listInvoices(
     request: ListInvoicesRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListInvoicesResponse>;
@@ -32,15 +38,35 @@ export class InvoicesService implements IInvoicesService {
     this.client = client;
   }
 
-  async listInvoicess(
+  async listInvoices(
     request: ListInvoicesRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListInvoicesResponse> {
+    let queryParams = getQueryParams(this.client, request);
+    if (request.states) {
+      queryParams.states = request.states;
+    }
+    if (request.billingYear) {
+      queryParams.billingYear = request.billingYear;
+    }
+    if (request.billingMonth) {
+      queryParams.billingMonth = request.billingMonth;
+    }
+
     const response = await this.client.request({
-      url: `entities/${request.entityId}/Invoicess`,
+      url: `entities/${request.entityId}/invoices`,
+      queryParams,
       callOptions: options,
     });
 
-    return response.data as ListInvoicesResponse;
+    const paginationOptions = getDefaultPaginationOptions(this.client, options);
+
+    return createPaginatedResponse(
+      response.data,
+      this.listInvoices.bind(this),
+      request,
+      ResponseExtractors.invoices,
+      paginationOptions
+    ) as ListInvoicesResponse;
   }
 }

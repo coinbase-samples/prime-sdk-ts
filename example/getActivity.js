@@ -22,6 +22,7 @@ const {
 
 const creds = JSON.parse(process.env.PRIME_CREDENTIALS);
 const portfolioId = process.env.PORTFOLIO_ID;
+const baseUrl = process.env.BASE_URL;
 
 const credentials = new CoinbasePrimeCredentials(
   creds.AccessKey,
@@ -29,7 +30,7 @@ const credentials = new CoinbasePrimeCredentials(
   creds.Passphrase
 );
 
-const client = new CoinbasePrimeClient(credentials);
+const client = new CoinbasePrimeClient(credentials, baseUrl);
 const activityId = process.argv[2];
 
 const service = new ActivitiesService(client);

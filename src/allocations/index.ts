@@ -27,6 +27,12 @@ import {
   GetAllocationRequest,
   GetAllocationResponse,
 } from './types';
+import {
+  createPaginatedResponse,
+  getDefaultPaginationOptions,
+  getQueryParams,
+  ResponseExtractors,
+} from '../shared/paginatedResponse';
 
 export interface IAllocationService {
   createAllocation(
@@ -94,17 +100,36 @@ export class AllocationService implements IAllocationService {
     request: ListPortfolioAllocationsRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListPortfolioAllocationsResponse> {
-    const queryParams = {
-      ...request,
-      portfolioId: undefined,
-    };
+    let queryParams = getQueryParams(this.client, request);
+
+    if (request.startDate) {
+      queryParams.startDate = new Date(request.startDate).toISOString();
+    }
+    if (request.endDate) {
+      queryParams.endDate = new Date(request.endDate).toISOString();
+    }
+    if (request.productIds) {
+      queryParams.productIds = request.productIds;
+    }
+    if (request.orderSide) {
+      queryParams.orderSide = request.orderSide;
+    }
+
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/allocations`,
       queryParams,
       callOptions: options,
     });
 
-    return response.data as ListPortfolioAllocationsResponse;
+    const paginationOptions = getDefaultPaginationOptions(this.client, options);
+
+    return createPaginatedResponse(
+      response.data,
+      this.listPortfolioAllocations.bind(this),
+      request,
+      ResponseExtractors.allocations,
+      paginationOptions
+    ) as ListPortfolioAllocationsResponse;
   }
 
   async listNetAllocations(
@@ -112,8 +137,7 @@ export class AllocationService implements IAllocationService {
     options?: CoinbaseCallOptions
   ): Promise<ListNetAllocationsResponse> {
     const queryParams = {
-      ...request,
-      portfolioId: undefined,
+      allocationId: request.allocationId,
     };
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/allocations/net/${request.nettingId}`,

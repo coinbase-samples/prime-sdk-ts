@@ -30,6 +30,12 @@ import {
   CreateWalletDepositAddressRequest,
   CreateWalletDepositAddressResponse,
 } from './types';
+import {
+  createPaginatedResponse,
+  getDefaultPaginationOptions,
+  getQueryParams,
+  ResponseExtractors,
+} from '../shared/paginatedResponse';
 
 export interface IWalletsService {
   listWallets(
@@ -74,12 +80,25 @@ export class WalletsService implements IWalletsService {
     request: ListWalletsRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListWalletsResponse> {
+    const queryParams = getQueryParams(this.client, request);
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/wallets`,
+      queryParams,
       callOptions: options,
     });
 
-    return response.data as ListWalletsResponse;
+    const responseData = response.data;
+
+    // Merge client defaults with call options
+    const paginationOptions = getDefaultPaginationOptions(this.client, options);
+
+    return createPaginatedResponse(
+      responseData,
+      this.listWallets.bind(this),
+      request,
+      ResponseExtractors.wallets,
+      paginationOptions
+    ) as ListWalletsResponse;
   }
 
   async getWallet(
@@ -120,26 +139,29 @@ export class WalletsService implements IWalletsService {
     request: ListWalletAddressesRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListWalletAddressesResponse> {
-    let queryParams: Record<string, string | number> = {};
+    const queryParams = getQueryParams(this.client, request);
     if (request.networkId) {
-      queryParams['network.id'] = request.networkId;
+      queryParams.networkId = request.networkId;
     }
-    if (request.networkType) {
-      queryParams['network.type'] = request.networkType;
-    }
-    if (request.cursor) {
-      queryParams.cursor = request.cursor;
-    }
-    if (request.limit) {
-      queryParams.limit = request.limit;
-    }
+
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/wallets/${request.walletId}/addresses`,
       queryParams,
       callOptions: options,
     });
 
-    return response.data as ListWalletAddressesResponse;
+    const responseData = response.data;
+
+    // Merge client defaults with call options
+    const paginationOptions = getDefaultPaginationOptions(this.client, options);
+
+    return createPaginatedResponse(
+      responseData,
+      this.listWalletAddresses.bind(this),
+      request,
+      ResponseExtractors.addresses,
+      paginationOptions
+    ) as ListWalletAddressesResponse;
   }
 
   async createWallet(
@@ -161,16 +183,13 @@ export class WalletsService implements IWalletsService {
     request: CreateWalletDepositAddressRequest,
     options?: CoinbaseCallOptions
   ): Promise<CreateWalletDepositAddressResponse> {
-    let queryParams: Record<string, string | number> = {};
-    if (request.networkId) {
-      queryParams['network.id'] = request.networkId;
-    }
-    if (request.networkType) {
-      queryParams['network.type'] = request.networkType;
-    }
+    const bodyParams = {
+      networkId: request.networkId,
+    };
+
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/wallets/${request.walletId}/addresses`,
-      queryParams,
+      bodyParams,
       method: Method.POST,
       callOptions: options,
     });

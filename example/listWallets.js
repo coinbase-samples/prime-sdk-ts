@@ -22,6 +22,7 @@ const {
 
 const creds = JSON.parse(process.env.PRIME_CREDENTIALS);
 const portfolioId = process.env.PORTFOLIO_ID;
+const baseUrl = process.env.BASE_URL;
 
 const credentials = new CoinbasePrimeCredentials(
   creds.AccessKey,
@@ -29,14 +30,19 @@ const credentials = new CoinbasePrimeCredentials(
   creds.Passphrase
 );
 
-const client = new CoinbasePrimeClient(credentials);
+const client = new CoinbasePrimeClient(credentials, baseUrl);
+
+const cursor = process.argv[2] || undefined;
 
 const service = new WalletsService(client);
 service
   .listWallets({
     portfolioId,
+    limit: 200,
+    cursor,
   })
   .then((portfolio) => {
     console.dir(portfolio, { depth: null });
+    console.log('fetched', portfolio.wallets.length, 'wallets');
   })
   .catch((err) => console.log(err));

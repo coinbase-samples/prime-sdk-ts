@@ -13,13 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Brand } from 'src/shared/brand';
+import { Brand } from '../shared/brand';
 import {
   GetPortfolioAddressBookResponse,
   CreatePortfolioAddressBookEntryRequest,
   CreatePortfolioAddressBookEntryResponse,
 } from '../model/';
 import { Pagination } from '../shared/pagination';
+import {
+  BasePaginatedRequest,
+  PaginatedResponseMethods,
+} from '../shared/paginatedResponse';
 
 export type ListAddressBooksRequest = Pagination & {
   portfolioId: string;
@@ -27,10 +31,17 @@ export type ListAddressBooksRequest = Pagination & {
   search?: string;
 };
 
-export type ListAddressBooksResponse = Brand<
+export type BaseListAddressBooksResponse = Brand<
   GetPortfolioAddressBookResponse,
   'ListAddressBooksResponse'
 >;
+
+export type ListAddressBooksResponse = BaseListAddressBooksResponse &
+  PaginatedResponseMethods<
+    ListAddressBooksRequest & BasePaginatedRequest,
+    BaseListAddressBooksResponse,
+    any // AddressBook type
+  >;
 
 export type CreateAddressBookRequest =
   CreatePortfolioAddressBookEntryRequest & {

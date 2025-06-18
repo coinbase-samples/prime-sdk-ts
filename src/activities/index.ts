@@ -27,6 +27,12 @@ import {
   ListEntityActivitiesRequest,
   ListEntityActivitiesResponse,
 } from './types';
+import {
+  createPaginatedResponse,
+  getDefaultPaginationOptions,
+  getQueryParams,
+  ResponseExtractors,
+} from '../shared/paginatedResponse';
 
 export interface IActivitiesService {
   getActivity(request: GetActivityRequest): Promise<GetActivityResponse>;
@@ -76,27 +82,78 @@ export class ActivitiesService implements IActivitiesService {
     request: ListEntityActivitiesRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListEntityActivitiesResponse> {
-    const queryParams = { ...request, entityId: undefined };
+    let queryParams = getQueryParams(this.client, request);
+    if (request.startTime) {
+      queryParams.startTime = new Date(request.startTime).toISOString();
+    }
+    if (request.endTime) {
+      queryParams.endTime = new Date(request.endTime).toISOString();
+    }
+    if (request.statuses) {
+      queryParams.statuses = request.statuses;
+    }
+    if (request.categories) {
+      queryParams.categories = request.categories;
+    }
+    if (request.symbols) {
+      queryParams.symbols = request.symbols;
+    }
+    if (request.activityLevel) {
+      queryParams.activityLevel = request.activityLevel;
+    }
+
     const response = await this.client.request({
       url: `entities/${request.entityId}/activities`,
       queryParams,
       callOptions: options,
     });
 
-    return response.data as ListEntityActivitiesResponse;
+    const paginationOptions = getDefaultPaginationOptions(this.client, options);
+
+    return createPaginatedResponse(
+      response.data,
+      this.listEntityActivities.bind(this),
+      request,
+      ResponseExtractors.activities,
+      paginationOptions
+    ) as ListEntityActivitiesResponse;
   }
 
   async listPortfolioActivities(
     request: ListPortfolioActivitiesRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListPortfolioActivitiesResponse> {
-    const queryParams = { ...request, portfolioId: undefined };
+    const queryParams = getQueryParams(this.client, request);
+    if (request.startTime) {
+      queryParams.startTime = new Date(request.startTime).toISOString();
+    }
+    if (request.endTime) {
+      queryParams.endTime = new Date(request.endTime).toISOString();
+    }
+    if (request.statuses) {
+      queryParams.statuses = request.statuses;
+    }
+    if (request.categories) {
+      queryParams.categories = request.categories;
+    }
+    if (request.symbols) {
+      queryParams.symbols = request.symbols;
+    }
+
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/activities`,
       queryParams,
       callOptions: options,
     });
 
-    return response.data as ListPortfolioActivitiesResponse;
+    const paginationOptions = getDefaultPaginationOptions(this.client, options);
+
+    return createPaginatedResponse(
+      response.data,
+      this.listPortfolioActivities.bind(this),
+      request,
+      ResponseExtractors.activities,
+      paginationOptions
+    ) as ListPortfolioActivitiesResponse;
   }
 }

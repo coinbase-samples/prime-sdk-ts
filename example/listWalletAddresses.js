@@ -1,5 +1,5 @@
 /**
- * Copyright 2024-present Coinbase Global, Inc.
+ * Copyright 2025-present Coinbase Global, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@ require('dotenv').config();
 const {
   CoinbasePrimeClient,
   CoinbasePrimeCredentials,
-  TransactionsService,
+  WalletsService,
 } = require('../dist');
 
 const creds = JSON.parse(process.env.PRIME_CREDENTIALS);
@@ -31,15 +31,21 @@ const credentials = new CoinbasePrimeCredentials(
 );
 
 const client = new CoinbasePrimeClient(credentials, baseUrl);
-const transactionId = process.argv[2];
 
-const service = new TransactionsService(client);
+const walletId = process.argv[2] || process.env.WALLET_ID;
+const networkId = process.argv[3] || 'ethereum-mainnet';
+const cursor = process.argv[4] || undefined;
+
+const service = new WalletsService(client);
 service
-  .getTransaction({
+  .listWalletAddresses({
     portfolioId,
-    transactionId,
+    walletId,
+    networkId,
+    cursor,
+    limit: 200,
   })
-  .then((transaction) => {
-    console.dir(transaction, { depth: null });
+  .then((portfolio) => {
+    console.dir(portfolio, { depth: null });
   })
   .catch((err) => console.log(err));

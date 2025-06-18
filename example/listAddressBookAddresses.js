@@ -1,5 +1,5 @@
 /**
- * Copyright 2024-present Coinbase Global, Inc.
+ * Copyright 2025-present Coinbase Global, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,12 +17,11 @@ require('dotenv').config();
 const {
   CoinbasePrimeClient,
   CoinbasePrimeCredentials,
-  TransactionsService,
+  AddressBooksService,
 } = require('../dist');
 
 const creds = JSON.parse(process.env.PRIME_CREDENTIALS);
 const portfolioId = process.env.PORTFOLIO_ID;
-const baseUrl = process.env.BASE_URL;
 
 const credentials = new CoinbasePrimeCredentials(
   creds.AccessKey,
@@ -30,16 +29,14 @@ const credentials = new CoinbasePrimeCredentials(
   creds.Passphrase
 );
 
-const client = new CoinbasePrimeClient(credentials, baseUrl);
-const transactionId = process.argv[2];
+const client = new CoinbasePrimeClient(credentials);
 
-const service = new TransactionsService(client);
+const service = new AddressBooksService(client);
 service
-  .getTransaction({
+  .listAddressBooks({
     portfolioId,
-    transactionId,
   })
-  .then((transaction) => {
-    console.dir(transaction, { depth: null });
+  .then((addressBooks) => {
+    console.dir(addressBooks, { depth: null });
   })
   .catch((err) => console.log(err));
