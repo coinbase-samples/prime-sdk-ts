@@ -1,5 +1,5 @@
 /**
- * Copyright 2025-present Coinbase Global, Inc.
+ * Copyright 2024-present Coinbase Global, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@ require('dotenv').config();
 const {
   CoinbasePrimeClient,
   CoinbasePrimeCredentials,
-  WalletsService,
+  CommissionService,
 } = require('../dist');
 
 const creds = JSON.parse(process.env.PRIME_CREDENTIALS);
@@ -31,35 +31,11 @@ const credentials = new CoinbasePrimeCredentials(
 );
 
 const client = new CoinbasePrimeClient(credentials, baseUrl);
+const service = new CommissionService(client);
 
-const walletId = process.argv[2] || process.env.WALLET_ID;
-const networkId = process.argv[3] || 'ripple-testnet';
-
-const service = new WalletsService(client);
-
-async function createBulkAddresses(amount) {
-  const addresses = [];
-  let errorCount = 0;
-  for (let i = 0; i < amount; i++) {
-    try {
-      const newAddress = await service.createWalletDepositAddress({
-        portfolioId,
-        walletId,
-        networkId,
-      });
-      console.dir(newAddress, { depth: null });
-      addresses.push(newAddress);
-    } catch (err) {
-      errorCount++;
-      console.error(errorCount, err);
-      if (err.message.includes('429')) {
-        console.log('Rate limit exceeded, waiting 1 second');
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-        i--;
-      }
-    }
-  }
-  return addresses;
-}
-
-createBulkAddresses(100).then(console.log).catch(console.error);
+service
+  .getPortfolioCommission({ portfolioId })
+  .then((commission) => {
+    console.dir(commission, { depth: null });
+  })
+  .catch((err) => console.log(err));

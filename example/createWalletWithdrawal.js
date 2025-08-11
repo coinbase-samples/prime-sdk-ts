@@ -17,49 +17,49 @@ require('dotenv').config();
 const {
   CoinbasePrimeClient,
   CoinbasePrimeCredentials,
-  WalletsService,
+  TransactionsService,
 } = require('../dist');
 
 const creds = JSON.parse(process.env.PRIME_CREDENTIALS);
 const portfolioId = process.env.PORTFOLIO_ID;
-const baseUrl = process.env.BASE_URL;
+const walletId = process.argv[2] || process.env.WALLET_ID;
+const amount = process.argv[3];
+const symbol = process.argv[4];
+const blockchainAddress = process.argv[5];
 
+if (!walletId || !amount || !symbol || !blockchainAddress) {
+  console.error(
+    'Usage: node createWalletWithdrawal.js <walletId> <amount> <symbol> <blockchainAddress>'
+  );
+  process.exit(1);
+}
+
+const baseUrl = process.env.BASE_URL;
 const credentials = new CoinbasePrimeCredentials(
   creds.AccessKey,
   creds.SecretKey,
   creds.Passphrase
 );
-
 const client = new CoinbasePrimeClient(credentials, baseUrl);
+const service = new TransactionsService(client);
 
-const walletId = process.argv[2] || process.env.WALLET_ID;
-const networkId = process.argv[3] || 'ripple-testnet';
+const request = {
+  portfolioId,
+  walletId,
+  amount,
+  currencySymbol: symbol,
+  destinationType: 'DESTINATION_BLOCKCHAIN',
+  idempotencyKey: crypto.randomUUID(),
+  blockchainAddress: {
+    address: blockchainAddress,
+  },
+};
 
-const service = new WalletsService(client);
+console.log(request);
 
-async function createBulkAddresses(amount) {
-  const addresses = [];
-  let errorCount = 0;
-  for (let i = 0; i < amount; i++) {
-    try {
-      const newAddress = await service.createWalletDepositAddress({
-        portfolioId,
-        walletId,
-        networkId,
-      });
-      console.dir(newAddress, { depth: null });
-      addresses.push(newAddress);
-    } catch (err) {
-      errorCount++;
-      console.error(errorCount, err);
-      if (err.message.includes('429')) {
-        console.log('Rate limit exceeded, waiting 1 second');
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-        i--;
-      }
-    }
-  }
-  return addresses;
-}
-
-createBulkAddresses(100).then(console.log).catch(console.error);
+service
+  .createWithdrawal(request)
+  .then((response) => {
+    console.dir(response, { depth: null });
+  })
+  .catch((err) => console.log(err));
