@@ -24,13 +24,18 @@ const {
 const creds = JSON.parse(process.env.PRIME_CREDENTIALS);
 const portfolioId = process.env.PORTFOLIO_ID;
 
-const acceptQuote = async (orderService, portfolioId, quoteId) => {
+const acceptQuote = async (
+  orderService,
+  portfolioId,
+  quoteId,
+  clientOrderId
+) => {
   const acceptRequest = {
     portfolioId,
     productId: 'BTC-USD',
     side: OrderSide.Buy,
-    clientOrderId: crypto.randomUUID(),
-    quoteId: quoteId,
+    clientOrderId,
+    quoteId,
   };
 
   console.log('Accepting quote: ', acceptRequest);
@@ -47,10 +52,11 @@ const credentials = new CoinbasePrimeCredentials(
 const client = new CoinbasePrimeClient(credentials);
 const ordersService = new OrdersService(client);
 
-// You would typically get this quoteId from a previous createQuote call
-const exampleQuoteId = process.env.QUOTE_ID || 'your-quote-id-here';
+// This is returned from the createQuote call
+const quoteId = process.argv[2] || 'your-quote-id-here';
+const clientOrderId = process.argv[3] || 'your-client-order-id-here';
 
-acceptQuote(ordersService, portfolioId, exampleQuoteId)
+acceptQuote(ordersService, portfolioId, quoteId, clientOrderId)
   .then((response) => {
     console.dir(response, { depth: null });
   })

@@ -29,7 +29,7 @@ const createQuote = async (orderService, portfolioId) => {
     portfolioId,
     productId: 'BTC-USD',
     side: OrderSide.Buy,
-    clientOrderId: crypto.randomUUID(), // This maps to clientQuoteId in the RFQ
+    clientOrderId: crypto.randomUUID(), // This maps to clientQuoteId in the accepting the quote
     limitPrice: '150000',
     baseQuantity: '0.01',
   };
