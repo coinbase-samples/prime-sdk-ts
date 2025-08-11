@@ -25,6 +25,8 @@ import {
   ListPortfolioOrdersRequest,
   GetOrderResponse,
   GetOrderRequest,
+  GetOrderEditHistoryRequest,
+  GetOrderEditHistoryResponse,
   ListPortfolioFillsRequest,
   ListPortfolioFillsResponse,
   CreateOrderPreviewRequest,
@@ -50,6 +52,11 @@ export interface IOrdersService {
     request: GetOrderRequest,
     options?: CoinbaseCallOptions
   ): Promise<GetOrderResponse>;
+
+  getOrderEditHistory(
+    request: GetOrderEditHistoryRequest,
+    options?: CoinbaseCallOptions
+  ): Promise<GetOrderEditHistoryResponse>;
 
   listPortfolioFills(
     request: ListPortfolioFillsRequest,
@@ -114,6 +121,21 @@ export class OrdersService implements IOrdersService {
     });
 
     return response.data as GetOrderResponse;
+  }
+
+  async getOrderEditHistory(
+    request: GetOrderEditHistoryRequest,
+    options?: CoinbaseCallOptions
+  ): Promise<GetOrderEditHistoryResponse> {
+    const response = await this.client.request({
+      url: `portfolios/${request.portfolioId}/orders/${request.orderId}/edit_history`,
+      callOptions: options,
+    });
+
+    // drop deprecated field
+    delete response.data.orderEditHistory;
+
+    return response.data as GetOrderEditHistoryResponse;
   }
 
   async listPortfolioFills(

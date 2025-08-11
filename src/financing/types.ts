@@ -25,6 +25,8 @@ import {
   GetPostTradeCreditResponse,
   GetTFTieredPricingFeesResponse,
   GetWithdrawalPowerResponse,
+  GetFcmMarginCallDetailsResponse as internalGetFcmMarginCallDetailsResponse,
+  GetFcmRiskLimitsResponse as internalGetFcmRiskLimitsResponse,
   CreateNewLocatesResponse as internalCreateNewLocatesResponse,
 } from '../model/';
 
@@ -154,4 +156,22 @@ export type CreateNewLocatesRequest = {
 export type CreateNewLocatesResponse = Brand<
   internalCreateNewLocatesResponse,
   'CreateNewLocatesResponse'
+>;
+
+export type GetFcmMarginCallDetailsRequest = {
+  entityId: string;
+};
+
+export type GetFcmMarginCallDetailsResponse = Brand<
+  internalGetFcmMarginCallDetailsResponse,
+  'GetFcmMarginCallDetailsResponse'
+>;
+
+export type GetFcmRiskLimitsRequest = {
+  entityId: string;
+};
+
+export type GetFcmRiskLimitsResponse = Brand<
+  internalGetFcmRiskLimitsResponse,
+  'GetFcmRiskLimitsResponse'
 >;

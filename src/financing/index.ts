@@ -39,6 +39,10 @@ import {
   GetPortfolioWithdrawalPowerResponse,
   GetTieredPricingFeesRequest,
   GetTieredPricingFeesResponse,
+  GetFcmMarginCallDetailsRequest,
+  GetFcmMarginCallDetailsResponse,
+  GetFcmRiskLimitsRequest,
+  GetFcmRiskLimitsResponse,
   CreateNewLocatesRequest,
   CreateNewLocatesResponse,
 } from './types';
@@ -89,6 +93,14 @@ export interface IFinancingService {
     request: GetTieredPricingFeesRequest,
     options?: CoinbaseCallOptions
   ): Promise<GetTieredPricingFeesResponse>;
+  getFcmMarginCallDetails(
+    request: GetFcmMarginCallDetailsRequest,
+    options?: CoinbaseCallOptions
+  ): Promise<GetFcmMarginCallDetailsResponse>;
+  getFcmRiskLimits(
+    request: GetFcmRiskLimitsRequest,
+    options?: CoinbaseCallOptions
+  ): Promise<GetFcmRiskLimitsResponse>;
 
   createNewLocates(
     request: CreateNewLocatesRequest,
@@ -273,6 +285,30 @@ export class FinancingService implements IFinancingService {
     });
 
     return response.data as GetTieredPricingFeesResponse;
+  }
+
+  async getFcmMarginCallDetails(
+    request: GetFcmMarginCallDetailsRequest,
+    options?: CoinbaseCallOptions
+  ): Promise<GetFcmMarginCallDetailsResponse> {
+    const response = await this.client.request({
+      url: `entities/${request.entityId}/futures/margin_call_details`,
+      callOptions: options,
+    });
+
+    return response.data as GetFcmMarginCallDetailsResponse;
+  }
+
+  async getFcmRiskLimits(
+    request: GetFcmRiskLimitsRequest,
+    options?: CoinbaseCallOptions
+  ): Promise<GetFcmRiskLimitsResponse> {
+    const response = await this.client.request({
+      url: `entities/${request.entityId}/futures/risk_limits`,
+      callOptions: options,
+    });
+
+    return response.data as GetFcmRiskLimitsResponse;
   }
 
   async createNewLocates(

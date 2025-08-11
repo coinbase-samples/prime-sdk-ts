@@ -21,6 +21,7 @@ import {
   GetOrderResponse as internalGet,
   GetOrdersResponse,
   GetPortfolioFillsResponse,
+  GetOrderEditHistoryResponse as internalEditHistory,
   OrderPreviewRequest,
   PostOrderPreviewResponse,
   CancelOrderResponse as internalCancel,
@@ -158,4 +159,14 @@ export type AcceptQuoteRequest = internalAcceptQuoteReq & {
 export type AcceptQuoteResponse = Brand<
   internalAcceptQuoteResp,
   'AcceptQuoteResponse'
+>;
+
+export type GetOrderEditHistoryRequest = {
+  portfolioId: string;
+  orderId: string;
+};
+
+export type GetOrderEditHistoryResponse = Brand<
+  Omit<internalEditHistory, 'orderEditHistory'>,
+  'GetOrderEditHistoryResponse'
 >;
