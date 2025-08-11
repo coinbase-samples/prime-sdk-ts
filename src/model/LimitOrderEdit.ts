@@ -18,8 +18,13 @@
  *  Do not edit the class manually.
  */
 
-export enum ProductPermissions {
-  Read = 'PRODUCT_PERMISSION_READ',
-  Trade = 'PRODUCT_PERMISSION_TRADE',
-  Lending = 'PRODUCT_PERMISSION_LENDING',
-}
+export type LimitOrderEdit = {
+  price?: string;
+  size?: string;
+  displaySize?: string;
+  stopPrice?: string;
+  stopLimitPrice?: string;
+  endTime?: Date;
+  acceptTime?: Date;
+  clientOrderId?: string;
+};

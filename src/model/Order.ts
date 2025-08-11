@@ -18,6 +18,8 @@
  *  Do not edit the class manually.
  */
 
+import { LimitOrderEdit } from './LimitOrderEdit';
+import { OrderEdit } from './OrderEdit';
 import { OrderSide } from './enums/OrderSide';
 import { OrderStatus } from './enums/OrderStatus';
 import { OrderType } from './enums/OrderType';
@@ -112,4 +114,32 @@ export type Order = {
    * The client product ID of the fill indictating the settlment currency
    */
   clientProductId?: string;
+  /**
+   * Post-only flag - indicates whether the order was placed as post-only
+   */
+  postOnly?: boolean;
+  /**
+   * The history of order edits (deprecated: use edit_history instead)
+   */
+  orderEditHistory?: Array<LimitOrderEdit>;
+  /**
+   * Indicates if this was a raise exact order (size inclusive of fees for sell orders in quote)
+   */
+  isRaiseExact?: boolean;
+  /**
+   * Display size for the order
+   */
+  displaySize?: string;
+  /**
+   * The history of order edits
+   */
+  editHistory?: Array<OrderEdit>;
+  /**
+   * The maximum order size that will show up on venue order books (in quote currency).
+   */
+  displayQuoteSize?: string;
+  /**
+   * The maximum order size that will show up on venue order books (in base currency).
+   */
+  displayBaseSize?: string;
 };

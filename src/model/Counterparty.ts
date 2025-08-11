@@ -18,8 +18,9 @@
  *  Do not edit the class manually.
  */
 
-export enum ProductPermissions {
-  Read = 'PRODUCT_PERMISSION_READ',
-  Trade = 'PRODUCT_PERMISSION_TRADE',
-  Lending = 'PRODUCT_PERMISSION_LENDING',
-}
+export type Counterparty = {
+  /**
+   * The unique counterparty ID for the portfolio
+   */
+  counterpartyId?: string;
+};

@@ -18,8 +18,29 @@
  *  Do not edit the class manually.
  */
 
-export enum ProductPermissions {
-  Read = 'PRODUCT_PERMISSION_READ',
-  Trade = 'PRODUCT_PERMISSION_TRADE',
-  Lending = 'PRODUCT_PERMISSION_LENDING',
-}
+export type GetFcmRiskLimitsResponse = {
+  /**
+   * Risk Limit set for a client
+   */
+  cfmRiskLimit?: string;
+  /**
+   * Limit utilization calculated based on total margin and PnLs
+   */
+  cfmRiskLimitUtilization?: string;
+  /**
+   * The total margin required for both positions and open orders
+   */
+  cfmTotalMargin?: string;
+  /**
+   * Open Trade Equity accrued during the current trading session
+   */
+  cfmDeltaOte?: string;
+  /**
+   * Unsettled realized PNL for positions closed intraday
+   */
+  cfmUnsettledRealizedPnl?: string;
+  /**
+   * Unsettled accrued funding PNL from the last settlement
+   */
+  cfmUnsettledAccruedFundingPnl?: string;
+};

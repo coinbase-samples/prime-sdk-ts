@@ -18,8 +18,13 @@
  *  Do not edit the class manually.
  */
 
-export enum ProductPermissions {
-  Read = 'PRODUCT_PERMISSION_READ',
-  Trade = 'PRODUCT_PERMISSION_TRADE',
-  Lending = 'PRODUCT_PERMISSION_LENDING',
-}
+export type PortfolioStakingInitiateResponse = {
+  /**
+   * The ID for the created activity
+   */
+  activityId?: string;
+  /**
+   * The ID for the created transaction
+   */
+  transactionId?: string;
+};

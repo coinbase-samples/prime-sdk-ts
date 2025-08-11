@@ -8,7 +8,7 @@
     "build": "tsc",
     "lint": "eslint . --ext .js,.ts",
     "format": "prettier --write \"**/*.{js,ts,tsx,json,css,md}\"",
-    "gen-types": "openapi-generator-cli generate -i apiSpec/prime-public-api-spec.json -g typescript-node --global-property models -o apiSpec/types --additional-properties=supportsES6=true --additional-properties=snapshot=true && cd apiSpec && node generateTypes.js",
+    "gen-types": "openapi-generator-cli generate -i apiSpec/prime-public-api-spec.yaml -g typescript-node --global-property models -o apiSpec/types --additional-properties=supportsES6=true --additional-properties=snapshot=true && cd apiSpec && node generateTypes.js",
     "replace-model": "rm -r src/model && cp -r apiSpec/types/processed src/model",
     "update-spec": "npm run gen-types && npm run replace-model"
   },
@@ -31,6 +31,7 @@
     "eslint": "^9.24.0",
     "eslint-config-prettier": "^10.1.1",
     "eslint-plugin-prettier": "^5.2.6",
+    "js-yaml": "^4.1.0",
     "prettier": "^3.5.3",
     "typescript": "^5.8.3"
   },

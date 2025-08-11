@@ -19,7 +19,6 @@
  */
 
 export enum SigningStatus {
-  SigningStatusUnknown = 'SIGNING_STATUS_UNKNOWN',
   Signed = 'SIGNED',
   Unsigned = 'UNSIGNED',
 }

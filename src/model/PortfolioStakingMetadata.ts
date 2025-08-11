@@ -18,8 +18,9 @@
  *  Do not edit the class manually.
  */
 
-export enum ProductPermissions {
-  Read = 'PRODUCT_PERMISSION_READ',
-  Trade = 'PRODUCT_PERMISSION_TRADE',
-  Lending = 'PRODUCT_PERMISSION_LENDING',
-}
+export type PortfolioStakingMetadata = {
+  /**
+   * An optional custom identifier (up to 255 characters) to attach to the transaction.  This is not a searchable transaction field.
+   */
+  externalId?: string;
+};

@@ -18,8 +18,26 @@
  *  Do not edit the class manually.
  */
 
-export enum ProductPermissions {
-  Read = 'PRODUCT_PERMISSION_READ',
-  Trade = 'PRODUCT_PERMISSION_TRADE',
-  Lending = 'PRODUCT_PERMISSION_LENDING',
-}
+import { FcmMarginCallState } from './enums/FcmMarginCallState';
+import { FcmMarginCallType } from './enums/FcmMarginCallType';
+
+export type FCMMarginCall = {
+  type?: FcmMarginCallType;
+  state?: FcmMarginCallState;
+  /**
+   * Initial margin call amount to settle
+   */
+  initialAmount?: string;
+  /**
+   * Remaining margin call amount to settle
+   */
+  remainingAmount?: string;
+  /**
+   * Business date when the margin call was opened
+   */
+  businessDate?: Date;
+  /**
+   * The deadline by which the margin call must be satisfied
+   */
+  cureDeadline?: Date;
+};

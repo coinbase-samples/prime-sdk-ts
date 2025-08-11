@@ -18,6 +18,9 @@
  *  Do not edit the class manually.
  */
 
+/**
+ * StakingInitiateResponse contains the response data from initiating a staking operation.
+ */
 export type StakingInitiateResponse = {
   /**
    * The wallet ID

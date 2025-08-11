@@ -19,7 +19,6 @@
  */
 
 export enum ActivityType {
-  Unknown = 'ACTIVITY_TYPE_UNKNOWN',
   GovernanceVote = 'ACTIVITY_TYPE_GOVERNANCE_VOTE',
   Invitation = 'ACTIVITY_TYPE_INVITATION',
   WalletChange = 'ACTIVITY_TYPE_WALLET_CHANGE',

@@ -18,8 +18,11 @@
  *  Do not edit the class manually.
  */
 
-export enum ProductPermissions {
-  Read = 'PRODUCT_PERMISSION_READ',
-  Trade = 'PRODUCT_PERMISSION_TRADE',
-  Lending = 'PRODUCT_PERMISSION_LENDING',
-}
+import { FCMMarginCall } from './FCMMarginCall';
+
+export type GetFcmMarginCallDetailsResponse = {
+  /**
+   * List of margin calls
+   */
+  marginCalls?: Array<FCMMarginCall>;
+};

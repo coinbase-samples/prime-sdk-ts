@@ -55,4 +55,8 @@ export type GetFcmBalanceResponse = {
    * Clearing account ID
    */
   clearingAccountId?: string;
+  /**
+   * Unsettled accrued funding PNL from the last settlement
+   */
+  cfmUnsettledAccruedFundingPnl?: string;
 };

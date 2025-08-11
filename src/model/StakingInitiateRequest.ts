@@ -18,12 +18,15 @@
  *  Do not edit the class manually.
  */
 
-import { StakingInputs } from './StakingInputs';
+import { WalletStakeInputs } from './WalletStakeInputs';
 
+/**
+ * StakingInitiateRequest represents a request to initiate a staking operation.
+ */
 export type StakingInitiateRequest = {
   /**
    * The client generated idempotency key for requested execution. Subsequent requests using the same key will fail
    */
   idempotencyKey: string;
-  inputs?: StakingInputs;
+  inputs?: WalletStakeInputs;
 };

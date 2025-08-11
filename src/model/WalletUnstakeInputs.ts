@@ -18,8 +18,12 @@
  *  Do not edit the class manually.
  */
 
-export enum ProductPermissions {
-  Read = 'PRODUCT_PERMISSION_READ',
-  Trade = 'PRODUCT_PERMISSION_TRADE',
-  Lending = 'PRODUCT_PERMISSION_LENDING',
-}
+/**
+ * WalletUnstakeInputs contains the custom inputs for unstaking operations on a wallet. Requirements and supported fields vary by asset type.
+ */
+export type WalletUnstakeInputs = {
+  /**
+   * Optional amount to unstake (ETH only). If omitted, the wallet will unstake the maximum amount available
+   */
+  amount?: string;
+};

@@ -19,7 +19,6 @@
  */
 
 export enum TransferLocationType {
-  TransferLocationTypeUnknown = 'TRANSFER_LOCATION_TYPE_UNKNOWN',
   PaymentMethod = 'PAYMENT_METHOD',
   Wallet = 'WALLET',
   Address = 'ADDRESS',

@@ -22,4 +22,8 @@ export type RFQProductDetails = {
   tradable?: boolean;
   minNotionalSize?: string;
   maxNotionalSize?: string;
+  minBaseSize?: string;
+  maxBaseSize?: string;
+  minQuoteSize?: string;
+  maxQuoteSize?: string;
 };

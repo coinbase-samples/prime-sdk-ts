@@ -18,8 +18,8 @@
  *  Do not edit the class manually.
  */
 
-export enum ProductPermissions {
-  Read = 'PRODUCT_PERMISSION_READ',
-  Trade = 'PRODUCT_PERMISSION_TRADE',
-  Lending = 'PRODUCT_PERMISSION_LENDING',
+export enum FcmMarginCallType {
+  Unspecified = 'FCM_MARGIN_CALL_TYPE_UNSPECIFIED',
+  Urgent = 'FCM_MARGIN_CALL_TYPE_URGENT',
+  Regular = 'FCM_MARGIN_CALL_TYPE_REGULAR',
 }

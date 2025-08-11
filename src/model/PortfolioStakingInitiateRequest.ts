@@ -18,8 +18,20 @@
  *  Do not edit the class manually.
  */
 
-export enum ProductPermissions {
-  Read = 'PRODUCT_PERMISSION_READ',
-  Trade = 'PRODUCT_PERMISSION_TRADE',
-  Lending = 'PRODUCT_PERMISSION_LENDING',
-}
+import { PortfolioStakingMetadata } from './PortfolioStakingMetadata';
+
+export type PortfolioStakingInitiateRequest = {
+  /**
+   * The client generated idempotency key (uuid required) for requested execution. Subsequent requests using the same key will not create new transactions.
+   */
+  idempotencyKey: string;
+  /**
+   * The currency symbol to stake
+   */
+  currencySymbol: string;
+  /**
+   * The quantity of the chosen currency to stake
+   */
+  amount: string;
+  metadata?: PortfolioStakingMetadata;
+};

@@ -18,8 +18,20 @@
  *  Do not edit the class manually.
  */
 
-export enum ProductPermissions {
-  Read = 'PRODUCT_PERMISSION_READ',
-  Trade = 'PRODUCT_PERMISSION_TRADE',
-  Lending = 'PRODUCT_PERMISSION_LENDING',
-}
+import { LimitOrderEdit } from './LimitOrderEdit';
+import { OrderEdit } from './OrderEdit';
+
+export type GetOrderEditHistoryResponse = {
+  /**
+   * The order ID
+   */
+  orderId: string;
+  /**
+   * The history of order edits (deprecated: use edit_history instead)
+   */
+  orderEditHistory?: Array<LimitOrderEdit>;
+  /**
+   * The history of order edits
+   */
+  editHistory: Array<OrderEdit>;
+};

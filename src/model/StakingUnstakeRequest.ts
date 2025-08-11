@@ -18,8 +18,15 @@
  *  Do not edit the class manually.
  */
 
-export enum ProductPermissions {
-  Read = 'PRODUCT_PERMISSION_READ',
-  Trade = 'PRODUCT_PERMISSION_TRADE',
-  Lending = 'PRODUCT_PERMISSION_LENDING',
-}
+import { WalletUnstakeInputs } from './WalletUnstakeInputs';
+
+/**
+ * StakingUnstakeRequest represents a request to initiate an unstaking operation.
+ */
+export type StakingUnstakeRequest = {
+  /**
+   * The client generated idempotency key for requested execution. Subsequent requests using the same key will fail
+   */
+  idempotencyKey: string;
+  inputs?: WalletUnstakeInputs;
+};
