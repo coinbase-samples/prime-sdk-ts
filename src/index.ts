@@ -189,6 +189,10 @@ export type {
   CreateStakeResponse,
   CreateUnstakeRequest,
   CreateUnstakeResponse,
+  CreatePortfolioStakeRequest,
+  CreatePortfolioStakeResponse,
+  CreatePortfolioUnstakeRequest,
+  CreatePortfolioUnstakeResponse,
 } from './staking/types';
 export type {
   CreateConversionRequest,

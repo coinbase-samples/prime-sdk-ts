@@ -21,6 +21,10 @@ import {
   CreateStakeResponse,
   CreateUnstakeRequest,
   CreateUnstakeResponse,
+  CreatePortfolioStakeRequest,
+  CreatePortfolioStakeResponse,
+  CreatePortfolioUnstakeRequest,
+  CreatePortfolioUnstakeResponse,
 } from './types';
 
 export interface IStakingService {
@@ -32,6 +36,14 @@ export interface IStakingService {
     request: CreateUnstakeRequest,
     options?: CoinbaseCallOptions
   ): Promise<CreateUnstakeResponse>;
+  createPortfolioStake(
+    request: CreatePortfolioStakeRequest,
+    options?: CoinbaseCallOptions
+  ): Promise<CreatePortfolioStakeResponse>;
+  createPortfolioUnstake(
+    request: CreatePortfolioUnstakeRequest,
+    options?: CoinbaseCallOptions
+  ): Promise<CreatePortfolioUnstakeResponse>;
 }
 
 export class StakingService implements IStakingService {
@@ -77,5 +89,41 @@ export class StakingService implements IStakingService {
     });
 
     return response.data as CreateUnstakeResponse;
+  }
+
+  async createPortfolioStake(
+    request: CreatePortfolioStakeRequest,
+    options?: CoinbaseCallOptions
+  ): Promise<CreatePortfolioStakeResponse> {
+    const bodyParams = {
+      ...request,
+      portfolioId: undefined,
+    };
+    const response = await this.client.request({
+      url: `portfolios/${request.portfolioId}/staking/initiate`,
+      method: Method.POST,
+      bodyParams,
+      callOptions: options,
+    });
+
+    return response.data as CreatePortfolioStakeResponse;
+  }
+
+  async createPortfolioUnstake(
+    request: CreatePortfolioUnstakeRequest,
+    options?: CoinbaseCallOptions
+  ): Promise<CreatePortfolioUnstakeResponse> {
+    const bodyParams = {
+      ...request,
+      portfolioId: undefined,
+    };
+    const response = await this.client.request({
+      url: `portfolios/${request.portfolioId}/staking/unstake`,
+      method: Method.POST,
+      bodyParams,
+      callOptions: options,
+    });
+
+    return response.data as CreatePortfolioUnstakeResponse;
   }
 }

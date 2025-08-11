@@ -18,6 +18,10 @@ import {
   StakingInitiateResponse,
   StakingInitiateRequest,
   StakingUnstakeResponse,
+  PortfolioStakingInitiateRequest,
+  PortfolioStakingInitiateResponse,
+  PortfolioStakingUnstakeRequest,
+  PortfolioStakingUnstakeResponse,
 } from 'src/model/';
 
 export type CreateStakeRequest = StakingInitiateRequest & {
@@ -39,4 +43,22 @@ export type CreateUnstakeRequest = StakingInitiateRequest & {
 export type CreateUnstakeResponse = Brand<
   StakingUnstakeResponse,
   'CreateUnstakeResponse'
+>;
+
+export type CreatePortfolioStakeRequest = PortfolioStakingInitiateRequest & {
+  portfolioId: string;
+};
+
+export type CreatePortfolioStakeResponse = Brand<
+  PortfolioStakingInitiateResponse,
+  'CreatePortfolioStakeResponse'
+>;
+
+export type CreatePortfolioUnstakeRequest = PortfolioStakingUnstakeRequest & {
+  portfolioId: string;
+};
+
+export type CreatePortfolioUnstakeResponse = Brand<
+  PortfolioStakingUnstakeResponse,
+  'CreatePortfolioUnstakeResponse'
 >;
