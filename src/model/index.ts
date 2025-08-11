@@ -183,6 +183,5 @@ export type { ScheduleFuturesSweepRequest } from './ScheduleFuturesSweepRequest'
 export type { SetAutoSweepRequest } from './SetAutoSweepRequest';
 export type { StakingInitiateRequest } from './StakingInitiateRequest';
 export type { StakingUnstakeRequest } from './StakingUnstakeRequest';
-export type { CreateAllocationRequest } from './CreateAllocationRequest';
 export type { CreateNetAllocationRequest } from './CreateNetAllocationRequest';
 export type { RFQ } from './RFQ';

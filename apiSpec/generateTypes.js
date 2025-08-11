@@ -293,9 +293,13 @@ async function processFiles() {
     }
   }
 
+  // Deduplicate exports before writing to index.ts
+  const uniqueIndexContent = [...new Set(indexFileContent)];
+  const uniqueEnumIndexContent = [...new Set(enumIndexFileContent)];
+
   // Write to index.ts
-  fs.writeFileSync(indexPath, indexFileContent.join('\n') + '\n');
-  fs.writeFileSync(enumIndexPath, enumIndexFileContent.join('\n') + '\n');
+  fs.writeFileSync(indexPath, uniqueIndexContent.join('\n') + '\n');
+  fs.writeFileSync(enumIndexPath, uniqueEnumIndexContent.join('\n') + '\n');
 
   console.log('All files processed.');
 }
