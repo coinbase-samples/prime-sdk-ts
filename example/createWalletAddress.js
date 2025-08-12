@@ -39,6 +39,7 @@ const service = new WalletsService(client);
 
 async function createBulkAddresses(amount) {
   const addresses = [];
+  let errorCount = 0;
   for (let i = 0; i < amount; i++) {
     try {
       const newAddress = await service.createWalletDepositAddress({
@@ -49,7 +50,8 @@ async function createBulkAddresses(amount) {
       console.dir(newAddress, { depth: null });
       addresses.push(newAddress);
     } catch (err) {
-      console.error(err);
+      errorCount++;
+      console.error(errorCount, err);
       if (err.message.includes('429')) {
         console.log('Rate limit exceeded, waiting 1 second');
         await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -60,4 +62,4 @@ async function createBulkAddresses(amount) {
   return addresses;
 }
 
-createBulkAddresses(10).then(console.log).catch(console.error);
+createBulkAddresses(100).then(console.log).catch(console.error);

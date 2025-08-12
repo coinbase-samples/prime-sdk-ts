@@ -35,8 +35,17 @@ export type OrderPreviewRequest = {
   isRaiseExact?: boolean;
   historicalPov?: string;
   stopPrice?: string;
-  /**
-   * next: 15
-   */
   settlCurrency?: string;
+  /**
+   * Specifies whether the order is treated as a post only order.
+   */
+  postOnly?: boolean;
+  /**
+   * The maximum order size that will show up on venue order books (in quote currency).
+   */
+  displayQuoteSize?: string;
+  /**
+   * The maximum order size that will show up on venue order books (in base currency).
+   */
+  displayBaseSize?: string;
 };

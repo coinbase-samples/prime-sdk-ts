@@ -22,7 +22,6 @@
  * - VAULT: A crypto vault  - TRADING: A trading wallet  - WALLET_TYPE_OTHER: Other wallet types (like consumer, etc)  - QC: A QC Wallet  - ONCHAIN: An Onchain wallet
  */
 export enum WalletType {
-  UnknownWalletType = 'UNKNOWN_WALLET_TYPE',
   Vault = 'VAULT',
   Trading = 'TRADING',
   WalletTypeOther = 'WALLET_TYPE_OTHER',

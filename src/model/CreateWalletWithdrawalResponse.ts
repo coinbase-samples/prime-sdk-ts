@@ -19,6 +19,7 @@
  */
 
 import { BlockchainAddress } from './BlockchainAddress';
+import { CounterpartyDestination } from './CounterpartyDestination';
 
 export type CreateWalletWithdrawalResponse = {
   /**
@@ -50,6 +51,7 @@ export type CreateWalletWithdrawalResponse = {
    */
   sourceType?: string;
   blockchainDestination?: BlockchainAddress;
+  counterpartyDestination?: CounterpartyDestination;
   blockchainSource?: BlockchainAddress;
   /**
    * The id of the just created transaction

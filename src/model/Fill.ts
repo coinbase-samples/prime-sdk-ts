@@ -62,4 +62,12 @@ export type Fill = {
    * The name of the venue
    */
   venue?: string;
+  /**
+   * The venue fees incurred for the fill
+   */
+  venueFees?: string;
+  /**
+   * The CES commission incurred for the fill
+   */
+  cesCommission?: string;
 };

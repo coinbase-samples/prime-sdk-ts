@@ -34,13 +34,17 @@ export type CreateOrderRequest = {
   expiryTime?: Date;
   timeInForce?: TimeInForceType;
   stpId?: string;
+  /**
+   * Optionally specify a display size. This is the maximum order size that will show up on venue order books. Specifying a value here effectively makes a LIMIT order into an \"iceberg\" style order. This property only applies to LIMIT orders and will be ignored for other order types.
+   */
   displayQuoteSize?: string;
   displayBaseSize?: string;
   isRaiseExact?: boolean;
   historicalPov?: string;
   stopPrice?: string;
-  /**
-   * next: 19
-   */
   settlCurrency?: string;
+  /**
+   * Post-only flag - when true, the order will only be posted to the order book and not immediately matched. Only applicable to LIMIT orders with GTC or GTD time in force.  next: 20
+   */
+  postOnly?: boolean;
 };

@@ -12,6 +12,8 @@ export { AssetChangeType } from './AssetChangeType';
 export { Benchmark } from './Benchmark';
 export { DestinationType } from './DestinationType';
 export { FcmFuturesSweepStatus } from './FcmFuturesSweepStatus';
+export { FcmMarginCallState } from './FcmMarginCallState';
+export { FcmMarginCallType } from './FcmMarginCallType';
 export { FcmPositionSide } from './FcmPositionSide';
 export { HierarchyType } from './HierarchyType';
 export { InvoiceState } from './InvoiceState';

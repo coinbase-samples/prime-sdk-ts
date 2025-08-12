@@ -18,6 +18,9 @@
  *  Do not edit the class manually.
  */
 
+/**
+ * StakingUnstakeResponse contains the response data from initiating an unstaking operation.
+ */
 export type StakingUnstakeResponse = {
   /**
    * The wallet ID

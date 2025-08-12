@@ -21,6 +21,8 @@ import {
   GetPortfolioResponse,
   GetPortfolioCreditRequest,
   GetPortfolioCreditResponse,
+  GetCounterpartyIdRequest,
+  GetCounterpartyIdResponse,
   ListPortfoliosResponse,
   ListPortfoliosRequest,
 } from './types';
@@ -35,6 +37,11 @@ export interface IPortfoliosService {
     request: GetPortfolioCreditRequest,
     options?: CoinbaseCallOptions
   ): Promise<GetPortfolioCreditResponse>;
+
+  getCounterpartyId(
+    request: GetCounterpartyIdRequest,
+    options?: CoinbaseCallOptions
+  ): Promise<GetCounterpartyIdResponse>;
 
   listPortfolios(
     request: ListPortfoliosRequest,
@@ -71,6 +78,18 @@ export class PortfoliosService implements IPortfoliosService {
     });
 
     return response.data as GetPortfolioCreditResponse;
+  }
+
+  async getCounterpartyId(
+    request: GetCounterpartyIdRequest,
+    options?: CoinbaseCallOptions
+  ): Promise<GetCounterpartyIdResponse> {
+    const response = await this.client.request({
+      url: `portfolios/${request.portfolioId}/counterparty`,
+      callOptions: options,
+    });
+
+    return response.data as GetCounterpartyIdResponse;
   }
 
   async listPortfolios(

@@ -35,6 +35,10 @@ const filePathReplacements = {
   CoinbaseCustodyApi: '',
   coinbaseCustodyApi: '',
   rFQ: 'RFQ',
+  CoinbaseBrokerageProxyEventsMaterializedApi: '',
+  coinbaseBrokerageProxyEventsMaterializedApi: '',
+  publicRestApi: '',
+  PublicRestApi: '',
 };
 
 const skipFiles = [
@@ -57,6 +61,10 @@ const replacements = {
   primeRESTAPI: '',
   CoinbaseCustodyApi: '',
   coinbaseCustodyApi: '',
+  CoinbaseBrokerageProxyEventsMaterializedApi: '',
+  coinbaseBrokerageProxyEventsMaterializedApi: '',
+  publicRestApi: '',
+  PublicRestApi: '',
 };
 
 const classnameAsExceptions = ['CustodyActivityType', 'PrimeActivityType'];
@@ -178,7 +186,10 @@ function getIndexFileExport(destPath, updatedContent) {
     return `export { ${typeName} } from './${baseName}';`;
   } else {
     const typeMatch = updatedContent.match(/export\s+type\s+(\w+)\s*=/);
-    if (!typeMatch) throw new Error(`No type name found in file: ${fileName}`);
+    if (!typeMatch)
+      throw new Error(
+        `No type name found in file: ${fileName} destPath: ${destPath}`
+      );
 
     typeName = typeMatch[1];
     return `export type { ${typeName} } from './${baseName}';`;
@@ -282,9 +293,13 @@ async function processFiles() {
     }
   }
 
+  // Deduplicate exports before writing to index.ts
+  const uniqueIndexContent = [...new Set(indexFileContent)];
+  const uniqueEnumIndexContent = [...new Set(enumIndexFileContent)];
+
   // Write to index.ts
-  fs.writeFileSync(indexPath, indexFileContent.join('\n') + '\n');
-  fs.writeFileSync(enumIndexPath, enumIndexFileContent.join('\n') + '\n');
+  fs.writeFileSync(indexPath, uniqueIndexContent.join('\n') + '\n');
+  fs.writeFileSync(enumIndexPath, uniqueEnumIndexContent.join('\n') + '\n');
 
   console.log('All files processed.');
 }

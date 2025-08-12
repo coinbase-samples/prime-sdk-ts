@@ -82,4 +82,24 @@ export type PostOrderPreviewResponse = {
    * The estimated participation rate for a TWAP/VWAP order. This field can be specified instead of expiry time, and will be used to compute the expiry time of the order based on historical participation rate.
    */
   historicalPov?: string;
+  /**
+   * Raise Exact order flag
+   */
+  isRaiseExact?: boolean;
+  /**
+   * Stop price for the order
+   */
+  stopPrice?: string;
+  /**
+   * The maximum order size that will show up on venue order books.
+   */
+  displaySize?: string;
+  /**
+   * The maximum order size that will show up on venue order books (in quote currency).
+   */
+  displayQuoteSize?: string;
+  /**
+   * The maximum order size that will show up on venue order books (in base currency).
+   */
+  displayBaseSize?: string;
 };

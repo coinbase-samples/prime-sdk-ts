@@ -19,6 +19,7 @@
  */
 
 import { BlockchainAddress } from './BlockchainAddress';
+import { CounterpartyDestination } from './CounterpartyDestination';
 import { DestinationType } from './enums/DestinationType';
 import { PaymentMethodDestination } from './PaymentMethodDestination';
 
@@ -38,4 +39,5 @@ export type CreateWalletWithdrawalRequest = {
   currencySymbol: string;
   paymentMethod?: PaymentMethodDestination;
   blockchainAddress?: BlockchainAddress;
+  counterparty?: CounterpartyDestination;
 };

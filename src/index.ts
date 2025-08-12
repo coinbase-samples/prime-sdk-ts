@@ -21,6 +21,7 @@ export { AllocationService, IAllocationService } from './allocations';
 export { AssetsService, IAssetsService } from './assets';
 export { BalancesService, IBalancesService } from './balances';
 export { CommissionService, ICommissionService } from './commission';
+export { FinancingService, IFinancingService } from './financing';
 export { FuturesService, IFuturesService } from './futures';
 export { InvoicesService, IInvoicesService } from './invoices';
 export { OnchainAddressBookService } from './onchainAddressBook';
@@ -105,6 +106,10 @@ export type {
   GetPortfolioCreditInformationResponse,
   GetPortfolioWithdrawalPowerRequest,
   GetPortfolioWithdrawalPowerResponse,
+  GetFcmMarginCallDetailsRequest,
+  GetFcmMarginCallDetailsResponse,
+  GetFcmRiskLimitsRequest,
+  GetFcmRiskLimitsResponse,
   GetTieredPricingFeesRequest,
   GetTieredPricingFeesResponse,
   CreateNewLocatesRequest,
@@ -151,6 +156,8 @@ export type {
   CreateQuoteResponse,
   GetOrderRequest,
   GetOrderResponse,
+  GetOrderEditHistoryRequest,
+  GetOrderEditHistoryResponse,
   ListOpenOrdersRequest,
   ListOpenOrdersResponse,
   ListOrderFillsRequest,
@@ -173,6 +180,8 @@ export type {
   GetPortfolioCreditResponse,
   GetPortfolioRequest,
   GetPortfolioResponse,
+  GetCounterpartyIdRequest,
+  GetCounterpartyIdResponse,
 } from './portfolios/types';
 export type {
   ListAggregateEntityPositionsRequest,
@@ -189,6 +198,10 @@ export type {
   CreateStakeResponse,
   CreateUnstakeRequest,
   CreateUnstakeResponse,
+  CreatePortfolioStakeRequest,
+  CreatePortfolioStakeResponse,
+  CreatePortfolioUnstakeRequest,
+  CreatePortfolioUnstakeResponse,
 } from './staking/types';
 export type {
   CreateConversionRequest,

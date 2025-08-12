@@ -19,6 +19,7 @@ import {
   GetPortfolioResponse as internalGet,
   GetPortfoliosResponse,
   GetPostTradeCreditResponse,
+  GetPortfolioCounterpartyIDResponse as internalGetCounterpartyIdResponse,
 } from '../model/';
 
 export type GetPortfolioRequest = {
@@ -44,4 +45,13 @@ export type GetPortfolioCreditRequest = {
 export type GetPortfolioCreditResponse = Brand<
   GetPostTradeCreditResponse,
   'GetPortfolioCreditResponse'
+>;
+
+export type GetCounterpartyIdRequest = {
+  portfolioId: string;
+};
+
+export type GetCounterpartyIdResponse = Brand<
+  internalGetCounterpartyIdResponse,
+  'GetCounterpartyIdResponse'
 >;

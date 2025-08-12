@@ -47,8 +47,4 @@ export type CreateAllocationRequest = {
    * The portfolio where to allocate the remainder of the size
    */
   remainderDestinationPortfolio?: string;
-  /**
-   * The ID to identify an in-flight net allocation.
-   */
-  nettingId?: string;
 };
