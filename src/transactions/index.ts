@@ -165,7 +165,7 @@ export class TransactionsService implements ITransactionsService {
       walletId: undefined,
     };
     const response = await this.client.request({
-      url: `portfolios/${request.portfolioId}/wallets/${request.walletId}/conversions`,
+      url: `portfolios/${request.portfolioId}/wallets/${request.walletId}/conversion`,
       bodyParams,
       method: Method.POST,
       callOptions: options,
