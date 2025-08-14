@@ -100,24 +100,17 @@ export class AllocationService implements IAllocationService {
     request: ListPortfolioAllocationsRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListPortfolioAllocationsResponse> {
-    let queryParams = getQueryParams(this.client, request);
-
-    if (request.startDate) {
-      queryParams.startDate = new Date(request.startDate).toISOString();
-    }
-    if (request.endDate) {
-      queryParams.endDate = new Date(request.endDate).toISOString();
-    }
-    if (request.productIds) {
-      queryParams.productIds = request.productIds;
-    }
-    if (request.orderSide) {
-      queryParams.orderSide = request.orderSide;
-    }
+    const paginationParams = getQueryParams(this.client, request);
+    const { limit, cursor, sortDirection, portfolioId, ...queryParams } =
+      request;
+    const finalQueryParams = {
+      ...paginationParams,
+      ...queryParams,
+    };
 
     const response = await this.client.request({
-      url: `portfolios/${request.portfolioId}/allocations`,
-      queryParams,
+      url: `portfolios/${portfolioId}/allocations`,
+      queryParams: finalQueryParams,
       callOptions: options,
     });
 
