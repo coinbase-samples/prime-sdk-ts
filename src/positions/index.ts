@@ -51,12 +51,16 @@ export class PositionsService implements IPositionsService {
     request: ListAggregateEntityPositionsRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListAggregateEntityPositionsResponse> {
-    const queryParams = getQueryParams(this.client, request);
-
+    const paginationParams = getQueryParams(this.client, request);
+    const { limit, cursor, sortDirection, entityId, ...queryParams } = request;
+    const finalQueryParams = {
+      ...paginationParams,
+      ...queryParams,
+    };
     const response = await this.client.request({
-      url: `entities/${request.entityId}/aggregate_positions`,
+      url: `entities/${entityId}/aggregate_positions`,
       callOptions: options,
-      queryParams,
+      queryParams: finalQueryParams,
     });
 
     const paginationOptions = getDefaultPaginationOptions(this.client, options);
@@ -74,12 +78,16 @@ export class PositionsService implements IPositionsService {
     request: ListEntityPositionsRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListEntityPositionsResponse> {
-    const queryParams = getQueryParams(this.client, request);
-
+    const paginationParams = getQueryParams(this.client, request);
+    const { limit, cursor, sortDirection, entityId, ...queryParams } = request;
+    const finalQueryParams = {
+      ...paginationParams,
+      ...queryParams,
+    };
     const response = await this.client.request({
-      url: `entities/${request.entityId}/positions`,
+      url: `entities/${entityId}/positions`,
       callOptions: options,
-      queryParams,
+      queryParams: finalQueryParams,
     });
 
     const paginationOptions = getDefaultPaginationOptions(this.client, options);

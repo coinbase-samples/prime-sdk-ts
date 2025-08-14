@@ -51,10 +51,15 @@ export class UsersService implements IUsersService {
     request: ListUsersRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListUsersResponse> {
-    const queryParams = getQueryParams(this.client, request);
+    const paginationParams = getQueryParams(this.client, request);
+    const { limit, cursor, sortDirection, entityId, ...queryParams } = request;
+    const finalQueryParams = {
+      ...paginationParams,
+      ...queryParams,
+    };
     const response = await this.client.request({
-      url: `entities/${request.entityId}/users`,
-      queryParams,
+      url: `entities/${entityId}/users`,
+      queryParams: finalQueryParams,
       callOptions: options,
     });
 
@@ -75,10 +80,16 @@ export class UsersService implements IUsersService {
     request: ListPortfolioUsersRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListPortfolioUsersResponse> {
-    const queryParams = getQueryParams(this.client, request);
+    const paginationParams = getQueryParams(this.client, request);
+    const { limit, cursor, sortDirection, portfolioId, ...queryParams } =
+      request;
+    const finalQueryParams = {
+      ...paginationParams,
+      ...queryParams,
+    };
     const response = await this.client.request({
-      url: `portfolios/${request.portfolioId}/users`,
-      queryParams,
+      url: `portfolios/${portfolioId}/users`,
+      queryParams: finalQueryParams,
       callOptions: options,
     });
 

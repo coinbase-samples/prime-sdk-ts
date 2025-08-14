@@ -142,17 +142,16 @@ export class OrdersService implements IOrdersService {
     request: ListPortfolioFillsRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListPortfolioFillsResponse> {
-    let queryParams = getQueryParams(this.client, request);
-
-    if (request.startDate) {
-      queryParams.startDate = new Date(request.startDate).toISOString();
-    }
-    if (request.endDate) {
-      queryParams.endDate = new Date(request.endDate).toISOString();
-    }
+    const paginationParams = getQueryParams(this.client, request);
+    const { limit, cursor, sortDirection, portfolioId, ...queryParams } =
+      request;
+    const finalQueryParams = {
+      ...paginationParams,
+      ...queryParams,
+    };
     const response = await this.client.request({
-      url: `portfolios/${request.portfolioId}/fills`,
-      queryParams,
+      url: `portfolios/${portfolioId}/fills`,
+      queryParams: finalQueryParams,
       callOptions: options,
     });
 
@@ -171,29 +170,16 @@ export class OrdersService implements IOrdersService {
     request: ListPortfolioOrdersRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListPortfolioOrdersResponse> {
-    let queryParams = getQueryParams(this.client, request);
-
-    if (request.orderStatuses) {
-      queryParams.orderStatuses = request.orderStatuses;
-    }
-    if (request.productIds) {
-      queryParams.productIds = request.productIds;
-    }
-    if (request.orderType) {
-      queryParams.orderType = request.orderType;
-    }
-    if (request.orderSide) {
-      queryParams.orderSide = request.orderSide;
-    }
-    if (request.startDate) {
-      queryParams.startDate = new Date(request.startDate).toISOString();
-    }
-    if (request.endDate) {
-      queryParams.endDate = new Date(request.endDate).toISOString();
-    }
+    const paginationParams = getQueryParams(this.client, request);
+    const { limit, cursor, sortDirection, portfolioId, ...queryParams } =
+      request;
+    const finalQueryParams = {
+      ...paginationParams,
+      ...queryParams,
+    };
     const response = await this.client.request({
-      url: `portfolios/${request.portfolioId}/orders`,
-      queryParams,
+      url: `portfolios/${portfolioId}/orders`,
+      queryParams: finalQueryParams,
       callOptions: options,
     });
 
@@ -212,11 +198,22 @@ export class OrdersService implements IOrdersService {
     request: ListOrderFillsRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListOrderFillsResponse> {
-    const queryParams = getQueryParams(this.client, request);
-
+    const paginationParams = getQueryParams(this.client, request);
+    const {
+      limit,
+      cursor,
+      sortDirection,
+      portfolioId,
+      orderId,
+      ...queryParams
+    } = request;
+    const finalQueryParams = {
+      ...paginationParams,
+      ...queryParams,
+    };
     const response = await this.client.request({
-      url: `portfolios/${request.portfolioId}/orders/${request.orderId}/fills`,
-      queryParams,
+      url: `portfolios/${portfolioId}/orders/${orderId}/fills`,
+      queryParams: finalQueryParams,
       callOptions: options,
     });
 
@@ -235,25 +232,16 @@ export class OrdersService implements IOrdersService {
     request: ListOpenOrdersRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListOpenOrdersResponse> {
-    let queryParams = getQueryParams(this.client, request);
-    if (request.productIds) {
-      queryParams.productIds = request.productIds;
-    }
-    if (request.orderType) {
-      queryParams.orderType = request.orderType;
-    }
-    if (request.orderSide) {
-      queryParams.orderSide = request.orderSide;
-    }
-    if (request.startDate) {
-      queryParams.startDate = new Date(request.startDate).toISOString();
-    }
-    if (request.endDate) {
-      queryParams.endDate = new Date(request.endDate).toISOString();
-    }
+    const paginationParams = getQueryParams(this.client, request);
+    const { limit, cursor, sortDirection, portfolioId, ...queryParams } =
+      request;
+    const finalQueryParams = {
+      ...paginationParams,
+      ...queryParams,
+    };
     const response = await this.client.request({
-      url: `portfolios/${request.portfolioId}/open_orders`,
-      queryParams,
+      url: `portfolios/${portfolioId}/open_orders`,
+      queryParams: finalQueryParams,
       callOptions: options,
     });
 
@@ -273,7 +261,7 @@ export class OrdersService implements IOrdersService {
     options?: CoinbaseCallOptions
   ): Promise<CreateOrderPreviewResponse> {
     const response = await this.client.request({
-      url: `portfolios/${request.portfolioId}/orders_preview`,
+      url: `portfolios/${request.portfolioId}/order_preview`,
       method: Method.POST,
       bodyParams: request,
       callOptions: options,

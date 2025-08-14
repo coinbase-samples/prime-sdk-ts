@@ -42,11 +42,16 @@ export class ProductsService implements IProductsService {
     request: ListProductsRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListProductsResponse> {
-    const queryParams = getQueryParams(this.client, request);
-
+    const paginationParams = getQueryParams(this.client, request);
+    const { limit, cursor, sortDirection, portfolioId, ...queryParams } =
+      request;
+    const finalQueryParams = {
+      ...paginationParams,
+      ...queryParams,
+    };
     const response = await this.client.request({
-      url: `portfolios/${request.portfolioId}/products`,
-      queryParams,
+      url: `portfolios/${portfolioId}/products`,
+      queryParams: finalQueryParams,
       callOptions: options,
     });
 

@@ -19,6 +19,7 @@ import {
   createPaginatedResponse,
   ResponseExtractors,
   getDefaultPaginationOptions,
+  getQueryParams,
 } from '../shared/paginatedResponse';
 import {
   CreateConversionRequest,
@@ -97,13 +98,16 @@ export class TransactionsService implements ITransactionsService {
     request: ListPortfolioTransactionsRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListPortfolioTransactionsResponse> {
-    const queryParams = { ...request, portfolioId: undefined };
-    if (!queryParams.limit) {
-      queryParams.limit = this.client.getDefaultPaginationLimit();
-    }
+    const paginationParams = getQueryParams(this.client, request);
+    const { limit, cursor, sortDirection, portfolioId, ...queryParams } =
+      request;
+    const finalQueryParams = {
+      ...paginationParams,
+      ...queryParams,
+    };
     const response = await this.client.request({
-      url: `portfolios/${request.portfolioId}/transactions`,
-      queryParams,
+      url: `portfolios/${portfolioId}/transactions`,
+      queryParams: finalQueryParams,
       callOptions: options,
     });
 
@@ -126,17 +130,22 @@ export class TransactionsService implements ITransactionsService {
     request: ListWalletTransactionsRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListWalletTransactionsResponse> {
-    const queryParams = {
-      ...request,
-      portfolioId: undefined,
-      walletId: undefined,
+    const paginationParams = getQueryParams(this.client, request);
+    const {
+      limit,
+      cursor,
+      sortDirection,
+      portfolioId,
+      walletId,
+      ...queryParams
+    } = request;
+    const finalQueryParams = {
+      ...paginationParams,
+      ...queryParams,
     };
-    if (!queryParams.limit) {
-      queryParams.limit = this.client.getDefaultPaginationLimit();
-    }
     const response = await this.client.request({
-      url: `portfolios/${request.portfolioId}/wallets/${request.walletId}/transactions`,
-      queryParams,
+      url: `portfolios/${portfolioId}/wallets/${walletId}/transactions`,
+      queryParams: finalQueryParams,
       callOptions: options,
     });
 

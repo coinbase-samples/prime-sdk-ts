@@ -119,8 +119,10 @@ export class FinancingService implements IFinancingService {
     request: ListExistingLocatesRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListExistingLocatesResponse> {
+    const { portfolioId, ...queryParams } = request;
     const response = await this.client.request({
-      url: `portfolios/${request.portfolioId}/locates`,
+      url: `portfolios/${portfolioId}/locates`,
+      queryParams,
       callOptions: options,
     });
 
@@ -131,12 +133,9 @@ export class FinancingService implements IFinancingService {
     request: ListInterestAccrualsRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListInterestAccrualsResponse> {
-    const queryParams = {
-      ...request,
-      entityId: undefined,
-    };
+    const { entityId, ...queryParams } = request;
     const response = await this.client.request({
-      url: `entities/${request.entityId}/accruals`,
+      url: `entities/${entityId}/accruals`,
       callOptions: options,
       queryParams,
     });

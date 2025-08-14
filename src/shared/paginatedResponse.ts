@@ -17,6 +17,7 @@
 import { CoinbaseCallOptions } from '@coinbase-sample/core-ts';
 import { DEFAULT_MAX_ITEMS, DEFAULT_MAX_PAGES } from '../constants';
 import { CoinbasePrimeClient } from 'src/client';
+import { SortDirection } from '../model/enums/SortDirection';
 
 /**
  * Base type for paginated requests
@@ -24,6 +25,7 @@ import { CoinbasePrimeClient } from 'src/client';
 export type BasePaginatedRequest = {
   cursor?: string;
   limit?: number;
+  sortDirection?: SortDirection.Asc | SortDirection.Desc | undefined;
 };
 
 /**
@@ -318,6 +320,9 @@ export function getQueryParams(
   }
   if (request.cursor) {
     queryParams.cursor = request.cursor;
+  }
+  if (request.sortDirection) {
+    queryParams.sortDirection = request.sortDirection;
   }
   if (!queryParams.limit) {
     queryParams.limit = client.getDefaultPaginationLimit();

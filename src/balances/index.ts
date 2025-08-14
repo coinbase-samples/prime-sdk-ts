@@ -66,9 +66,9 @@ export class BalancesService implements IBalancesService {
     request: ListPortfolioBalancesRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListPortfolioBalancesResponse> {
-    const queryParams = { ...request, portfolioId: undefined };
+    const { portfolioId, ...queryParams } = request;
     const response = await this.client.request({
-      url: `portfolios/${request.portfolioId}/balances`,
+      url: `portfolios/${portfolioId}/balances`,
       queryParams,
       callOptions: options,
     });
@@ -92,14 +92,15 @@ export class BalancesService implements IBalancesService {
     request: ListOnchainWalletBalancesRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListOnchainWalletBalancesResponse> {
-    let queryParams = getQueryParams(this.client, request);
-
-    if (request.visibilityStatuses) {
-      queryParams.visibilityStatuses = request.visibilityStatuses;
-    }
+    const paginationParams = getQueryParams(this.client, request);
+    const { limit, cursor, portfolioId, walletId, ...queryParams } = request;
+    const finalQueryParams = {
+      ...paginationParams,
+      ...queryParams,
+    };
     const response = await this.client.request({
-      url: `portfolios/${request.portfolioId}/wallets/${request.walletId}/web3_balances`,
-      queryParams,
+      url: `portfolios/${portfolioId}/wallets/${walletId}/web3_balances`,
+      queryParams: finalQueryParams,
       callOptions: options,
     });
 
@@ -118,17 +119,15 @@ export class BalancesService implements IBalancesService {
     request: ListEntityBalancesRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListEntityBalancesResponse> {
-    let queryParams = getQueryParams(this.client, request);
-
-    if (request.symbols) {
-      queryParams.symbols = request.symbols;
-    }
-    if (request.aggregationType) {
-      queryParams.aggregationType = request.aggregationType;
-    }
+    const paginationParams = getQueryParams(this.client, request);
+    const { limit, cursor, entityId, ...queryParams } = request;
+    const finalQueryParams = {
+      ...paginationParams,
+      ...queryParams,
+    };
     const response = await this.client.request({
-      url: `entities/${request.entityId}/balances`,
-      queryParams,
+      url: `entities/${entityId}/balances`,
+      queryParams: finalQueryParams,
       callOptions: options,
     });
 

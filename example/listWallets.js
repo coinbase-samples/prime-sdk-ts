@@ -32,12 +32,14 @@ const credentials = new CoinbasePrimeCredentials(
 
 const client = new CoinbasePrimeClient(credentials, baseUrl);
 
-const cursor = process.argv[2] || undefined;
+const type = process.argv[2] || 'VAULT';
+const cursor = process.argv[3] || undefined;
 
 const service = new WalletsService(client);
 service
   .listWallets({
     portfolioId,
+    type,
     limit: 200,
     cursor,
   })

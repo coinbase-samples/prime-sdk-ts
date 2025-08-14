@@ -80,10 +80,15 @@ export class WalletsService implements IWalletsService {
     request: ListWalletsRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListWalletsResponse> {
-    const queryParams = getQueryParams(this.client, request);
+    const paginationParams = getQueryParams(this.client, request);
+    const { limit, cursor, portfolioId, ...queryParams } = request;
+    const finalQueryParams = {
+      ...paginationParams,
+      ...queryParams,
+    };
     const response = await this.client.request({
-      url: `portfolios/${request.portfolioId}/wallets`,
-      queryParams,
+      url: `portfolios/${portfolioId}/wallets`,
+      queryParams: finalQueryParams,
       callOptions: options,
     });
 
@@ -139,14 +144,16 @@ export class WalletsService implements IWalletsService {
     request: ListWalletAddressesRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListWalletAddressesResponse> {
-    const queryParams = getQueryParams(this.client, request);
-    if (request.networkId) {
-      queryParams.networkId = request.networkId;
-    }
+    const paginationParams = getQueryParams(this.client, request);
+    const { limit, cursor, portfolioId, walletId, ...queryParams } = request;
+    const finalQueryParams = {
+      ...paginationParams,
+      ...queryParams,
+    };
 
     const response = await this.client.request({
-      url: `portfolios/${request.portfolioId}/wallets/${request.walletId}/addresses`,
-      queryParams,
+      url: `portfolios/${portfolioId}/wallets/${walletId}/addresses`,
+      queryParams: finalQueryParams,
       callOptions: options,
     });
 

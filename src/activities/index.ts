@@ -82,29 +82,16 @@ export class ActivitiesService implements IActivitiesService {
     request: ListEntityActivitiesRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListEntityActivitiesResponse> {
-    let queryParams = getQueryParams(this.client, request);
-    if (request.startTime) {
-      queryParams.startTime = new Date(request.startTime).toISOString();
-    }
-    if (request.endTime) {
-      queryParams.endTime = new Date(request.endTime).toISOString();
-    }
-    if (request.statuses) {
-      queryParams.statuses = request.statuses;
-    }
-    if (request.categories) {
-      queryParams.categories = request.categories;
-    }
-    if (request.symbols) {
-      queryParams.symbols = request.symbols;
-    }
-    if (request.activityLevel) {
-      queryParams.activityLevel = request.activityLevel;
-    }
+    const paginationParams = getQueryParams(this.client, request);
+    const { limit, cursor, sortDirection, entityId, ...queryParams } = request;
+    const finalQueryParams = {
+      ...paginationParams,
+      ...queryParams,
+    };
 
     const response = await this.client.request({
-      url: `entities/${request.entityId}/activities`,
-      queryParams,
+      url: `entities/${entityId}/activities`,
+      queryParams: finalQueryParams,
       callOptions: options,
     });
 
@@ -123,26 +110,17 @@ export class ActivitiesService implements IActivitiesService {
     request: ListPortfolioActivitiesRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListPortfolioActivitiesResponse> {
-    const queryParams = getQueryParams(this.client, request);
-    if (request.startTime) {
-      queryParams.startTime = new Date(request.startTime).toISOString();
-    }
-    if (request.endTime) {
-      queryParams.endTime = new Date(request.endTime).toISOString();
-    }
-    if (request.statuses) {
-      queryParams.statuses = request.statuses;
-    }
-    if (request.categories) {
-      queryParams.categories = request.categories;
-    }
-    if (request.symbols) {
-      queryParams.symbols = request.symbols;
-    }
+    const paginationParams = getQueryParams(this.client, request);
+    const { limit, cursor, sortDirection, portfolioId, ...queryParams } =
+      request;
+    const finalQueryParams = {
+      ...paginationParams,
+      ...queryParams,
+    };
 
     const response = await this.client.request({
-      url: `portfolios/${request.portfolioId}/activities`,
-      queryParams,
+      url: `portfolios/${portfolioId}/activities`,
+      queryParams: finalQueryParams,
       callOptions: options,
     });
 

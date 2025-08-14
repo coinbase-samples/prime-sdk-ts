@@ -42,20 +42,16 @@ export class InvoicesService implements IInvoicesService {
     request: ListInvoicesRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListInvoicesResponse> {
-    let queryParams = getQueryParams(this.client, request);
-    if (request.states) {
-      queryParams.states = request.states;
-    }
-    if (request.billingYear) {
-      queryParams.billingYear = request.billingYear;
-    }
-    if (request.billingMonth) {
-      queryParams.billingMonth = request.billingMonth;
-    }
+    const paginationParams = getQueryParams(this.client, request);
+    const { limit, cursor, sortDirection, entityId, ...queryParams } = request;
+    const finalQueryParams = {
+      ...paginationParams,
+      ...queryParams,
+    };
 
     const response = await this.client.request({
-      url: `entities/${request.entityId}/invoices`,
-      queryParams,
+      url: `entities/${entityId}/invoices`,
+      queryParams: finalQueryParams,
       callOptions: options,
     });
 
