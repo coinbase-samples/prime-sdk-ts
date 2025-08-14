@@ -42,7 +42,11 @@ service
     cursor,
   })
   .then((portfolio) => {
-    console.dir(portfolio, { depth: null });
-    console.log('fetched', portfolio.wallets.length, 'wallets');
+    portfolio.fetchAll().then((wallets) => {
+      wallets.forEach((wallet) => {
+        console.log(wallet);
+      });
+      console.log('fetched', wallets.length, 'wallets');
+    });
   })
   .catch((err) => console.log(err));
