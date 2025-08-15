@@ -13,10 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  CoinbaseClient,
-  CoinbaseHttpClientRetryOptions,
-} from '@coinbase-sample/core-ts';
+import { CoinbaseClient } from '@coinbase-sample/core-ts';
 
 import {
   API_BASE_PATH,
@@ -24,35 +21,33 @@ import {
   DEFAULT_MAX_ITEMS,
   DEFAULT_MAX_PAGES,
   USER_AGENT,
-} from './constants';
-import { CoinbasePrimeCredentials } from './credentials';
-import { toCamelCase } from './shared/toCamelCase';
-import { createCredentialsFromEnv } from './shared/envUtils';
-import type {
-  LazyServiceGetters,
-  CoinbasePrimeClientConfig,
-} from './clientWithServicesTypes';
+} from '../constants';
+import { CoinbasePrimeCredentials } from '../credentials';
+import { toCamelCase } from '../shared/toCamelCase';
+import { createCredentialsFromEnv } from '../shared/envUtils';
+import type { CoinbasePrimeClientConfig, IPrimeApiClient } from './types';
+import { LazyServiceGetters } from './clientWithServicesTypes';
 
 // Import service interfaces for proper typing
-import type { IActivitiesService } from './activities';
-import type { IAddressBooksService } from './addressBooks';
-import type { IAllocationService } from './allocations';
-import type { IAssetsService } from './assets';
-import type { IBalancesService } from './balances';
-import type { ICommissionService } from './commission';
-import type { IFinancingService } from './financing';
-import type { IFuturesService } from './futures';
-import type { IInvoicesService } from './invoices';
-import type { OnchainAddressBookService } from './onchainAddressBook';
-import type { IOrdersService } from './orders';
-import type { IPaymentMethodsService } from './paymentMethods';
-import type { IPortfoliosService } from './portfolios';
-import type { IPositionsService } from './positions';
-import type { IProductsService } from './products';
-import type { IStakingService } from './staking';
-import type { ITransactionsService } from './transactions';
-import type { IUsersService } from './users';
-import type { IWalletsService } from './wallets';
+import type { IActivitiesService } from '../activities';
+import type { IAddressBooksService } from '../addressBooks';
+import type { IAllocationService } from '../allocations';
+import type { IAssetsService } from '../assets';
+import type { IBalancesService } from '../balances';
+import type { ICommissionService } from '../commission';
+import type { IFinancingService } from '../financing';
+import type { IFuturesService } from '../futures';
+import type { IInvoicesService } from '../invoices';
+import type { OnchainAddressBookService } from '../onchainAddressBook';
+import type { IOrdersService } from '../orders';
+import type { IPaymentMethodsService } from '../paymentMethods';
+import type { IPortfoliosService } from '../portfolios';
+import type { IPositionsService } from '../positions';
+import type { IProductsService } from '../products';
+import type { IStakingService } from '../staking';
+import type { ITransactionsService } from '../transactions';
+import type { IUsersService } from '../users';
+import type { IWalletsService } from '../wallets';
 
 /**
  * Enhanced Coinbase Prime Client with lazy-loaded service getters.
@@ -61,7 +56,7 @@ import type { IWalletsService } from './wallets';
  */
 export class CoinbasePrimeClientWithServices
   extends CoinbaseClient
-  implements LazyServiceGetters
+  implements LazyServiceGetters, IPrimeApiClient
 {
   // Private cached service instances
   private _activitiesService?: IActivitiesService;
@@ -134,7 +129,7 @@ export class CoinbasePrimeClientWithServices
    */
   get activities(): IActivitiesService {
     if (!this._activitiesService) {
-      const { ActivitiesService } = require('./activities');
+      const { ActivitiesService } = require('../activities');
       this._activitiesService = new ActivitiesService(this);
     }
     return this._activitiesService!;
@@ -149,7 +144,7 @@ export class CoinbasePrimeClientWithServices
    */
   get addressBooks(): IAddressBooksService {
     if (!this._addressBooksService) {
-      const { AddressBooksService } = require('./addressBooks');
+      const { AddressBooksService } = require('../addressBooks');
       this._addressBooksService = new AddressBooksService(this);
     }
     return this._addressBooksService!;
@@ -164,7 +159,7 @@ export class CoinbasePrimeClientWithServices
    */
   get allocations(): IAllocationService {
     if (!this._allocationService) {
-      const { AllocationService } = require('./allocations');
+      const { AllocationService } = require('../allocations');
       this._allocationService = new AllocationService(this);
     }
     return this._allocationService!;
@@ -179,7 +174,7 @@ export class CoinbasePrimeClientWithServices
    */
   get assets(): IAssetsService {
     if (!this._assetsService) {
-      const { AssetsService } = require('./assets');
+      const { AssetsService } = require('../assets');
       this._assetsService = new AssetsService(this);
     }
     return this._assetsService!;
@@ -194,7 +189,7 @@ export class CoinbasePrimeClientWithServices
    */
   get balances(): IBalancesService {
     if (!this._balancesService) {
-      const { BalancesService } = require('./balances');
+      const { BalancesService } = require('../balances');
       this._balancesService = new BalancesService(this);
     }
     return this._balancesService!;
@@ -209,7 +204,7 @@ export class CoinbasePrimeClientWithServices
    */
   get commission(): ICommissionService {
     if (!this._commissionService) {
-      const { CommissionService } = require('./commission');
+      const { CommissionService } = require('../commission');
       this._commissionService = new CommissionService(this);
     }
     return this._commissionService!;
@@ -224,7 +219,7 @@ export class CoinbasePrimeClientWithServices
    */
   get financing(): IFinancingService {
     if (!this._financingService) {
-      const { FinancingService } = require('./financing');
+      const { FinancingService } = require('../financing');
       this._financingService = new FinancingService(this);
     }
     return this._financingService!;
@@ -239,7 +234,7 @@ export class CoinbasePrimeClientWithServices
    */
   get futures(): IFuturesService {
     if (!this._futuresService) {
-      const { FuturesService } = require('./futures');
+      const { FuturesService } = require('../futures');
       this._futuresService = new FuturesService(this);
     }
     return this._futuresService!;
@@ -254,7 +249,7 @@ export class CoinbasePrimeClientWithServices
    */
   get invoices(): IInvoicesService {
     if (!this._invoicesService) {
-      const { InvoicesService } = require('./invoices');
+      const { InvoicesService } = require('../invoices');
       this._invoicesService = new InvoicesService(this);
     }
     return this._invoicesService!;
@@ -269,7 +264,7 @@ export class CoinbasePrimeClientWithServices
    */
   get onchainAddressBook(): OnchainAddressBookService {
     if (!this._onchainAddressBookService) {
-      const { OnchainAddressBookService } = require('./onchainAddressBook');
+      const { OnchainAddressBookService } = require('../onchainAddressBook');
       this._onchainAddressBookService = new OnchainAddressBookService(this);
     }
     return this._onchainAddressBookService!;
@@ -290,7 +285,7 @@ export class CoinbasePrimeClientWithServices
    */
   get orders(): IOrdersService {
     if (!this._ordersService) {
-      const { OrdersService } = require('./orders');
+      const { OrdersService } = require('../orders');
       this._ordersService = new OrdersService(this);
     }
     return this._ordersService!;
@@ -305,7 +300,7 @@ export class CoinbasePrimeClientWithServices
    */
   get paymentMethods(): IPaymentMethodsService {
     if (!this._paymentMethodsService) {
-      const { PaymentMethodsService } = require('./paymentMethods');
+      const { PaymentMethodsService } = require('../paymentMethods');
       this._paymentMethodsService = new PaymentMethodsService(this);
     }
     return this._paymentMethodsService!;
@@ -320,7 +315,7 @@ export class CoinbasePrimeClientWithServices
    */
   get portfolios(): IPortfoliosService {
     if (!this._portfoliosService) {
-      const { PortfoliosService } = require('./portfolios');
+      const { PortfoliosService } = require('../portfolios');
       this._portfoliosService = new PortfoliosService(this);
     }
     return this._portfoliosService!;
@@ -335,7 +330,7 @@ export class CoinbasePrimeClientWithServices
    */
   get positions(): IPositionsService {
     if (!this._positionsService) {
-      const { PositionsService } = require('./positions');
+      const { PositionsService } = require('../positions');
       this._positionsService = new PositionsService(this);
     }
     return this._positionsService!;
@@ -350,7 +345,7 @@ export class CoinbasePrimeClientWithServices
    */
   get products(): IProductsService {
     if (!this._productsService) {
-      const { ProductsService } = require('./products');
+      const { ProductsService } = require('../products');
       this._productsService = new ProductsService(this);
     }
     return this._productsService!;
@@ -365,7 +360,7 @@ export class CoinbasePrimeClientWithServices
    */
   get staking(): IStakingService {
     if (!this._stakingService) {
-      const { StakingService } = require('./staking');
+      const { StakingService } = require('../staking');
       this._stakingService = new StakingService(this);
     }
     return this._stakingService!;
@@ -380,7 +375,7 @@ export class CoinbasePrimeClientWithServices
    */
   get transactions(): ITransactionsService {
     if (!this._transactionsService) {
-      const { TransactionsService } = require('./transactions');
+      const { TransactionsService } = require('../transactions');
       this._transactionsService = new TransactionsService(this);
     }
     return this._transactionsService!;
@@ -395,7 +390,7 @@ export class CoinbasePrimeClientWithServices
    */
   get users(): IUsersService {
     if (!this._usersService) {
-      const { UsersService } = require('./users');
+      const { UsersService } = require('../users');
       this._usersService = new UsersService(this);
     }
     return this._usersService!;
@@ -410,7 +405,7 @@ export class CoinbasePrimeClientWithServices
    */
   get wallets(): IWalletsService {
     if (!this._walletsService) {
-      const { WalletsService } = require('./wallets');
+      const { WalletsService } = require('../wallets');
       this._walletsService = new WalletsService(this);
     }
     return this._walletsService!;

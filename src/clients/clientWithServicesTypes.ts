@@ -14,32 +14,28 @@
  * limitations under the License.
  */
 
-// Import core types
-import type { CoinbaseHttpClientRetryOptions } from '@coinbase-sample/core-ts';
-
-// Import service interfaces for proper typing
-import type { IActivitiesService } from './activities';
-import type { IAddressBooksService } from './addressBooks';
-import type { IAllocationService } from './allocations';
-import type { IAssetsService } from './assets';
-import type { IBalancesService } from './balances';
-import type { ICommissionService } from './commission';
-import type { IFinancingService } from './financing';
-import type { IFuturesService } from './futures';
-import type { IInvoicesService } from './invoices';
-import type { OnchainAddressBookService } from './onchainAddressBook';
-import type { IOrdersService } from './orders';
-import type { IPaymentMethodsService } from './paymentMethods';
-import type { IPortfoliosService } from './portfolios';
-import type { IPositionsService } from './positions';
-import type { IProductsService } from './products';
-import type { IStakingService } from './staking';
-import type { ITransactionsService } from './transactions';
-import type { IUsersService } from './users';
-import type { IWalletsService } from './wallets';
+import type { IActivitiesService } from '../activities';
+import type { IAddressBooksService } from '../addressBooks';
+import type { IAllocationService } from '../allocations';
+import type { IAssetsService } from '../assets';
+import type { IBalancesService } from '../balances';
+import type { ICommissionService } from '../commission';
+import type { IFinancingService } from '../financing';
+import type { IFuturesService } from '../futures';
+import type { IInvoicesService } from '../invoices';
+import type { OnchainAddressBookService } from '../onchainAddressBook';
+import type { IOrdersService } from '../orders';
+import type { IPaymentMethodsService } from '../paymentMethods';
+import type { IPortfoliosService } from '../portfolios';
+import type { IPositionsService } from '../positions';
+import type { IProductsService } from '../products';
+import type { IStakingService } from '../staking';
+import type { ITransactionsService } from '../transactions';
+import type { IUsersService } from '../users';
+import type { IWalletsService } from '../wallets';
 
 /**
- * Interface defining all lazy service getters for the enhanced client
+ * Interface defining all lazy service getters for the modular client
  */
 export interface LazyServiceGetters {
   /**
@@ -137,36 +133,3 @@ export interface LazyServiceGetters {
    */
   readonly wallets: IWalletsService;
 }
-
-/**
- * Configuration options for the enhanced client.
- * Includes all CoinbaseHttpClientRetryOptions plus Prime-specific options.
- */
-export interface CoinbasePrimeClientConfig {
-  transformRequest?: any;
-  transformResponse?: any;
-  timeout?: number;
-  // Include all options from CoinbaseHttpClientRetryOptions
-  retries?: number;
-  retryDelay?: number;
-  retryExponential?: boolean;
-  retryCustomFunction?: (retryCount: number) => number;
-
-  // Pagination options
-  defaultLimit?: number;
-  maxPages?: number;
-  maxItems?: number;
-}
-
-/**
- * Factory function type for creating service instances
- */
-export type ServiceFactory<T> = () => T;
-
-/**
- * Type helper for lazy service initialization
- */
-export type LazyService<T> = {
-  instance?: T;
-  factory: ServiceFactory<T>;
-};
