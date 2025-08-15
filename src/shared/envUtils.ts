@@ -19,6 +19,10 @@ import { CoinbasePrimeCredentials } from '../credentials';
  * Shared utility function to create credentials from environment variables
  * Used by both CoinbasePrimeClient and CoinbasePrimeClientWithServices
  *
+ * Automatically attempts to load .env file if dotenv is available.
+ * If dotenv is not installed or .env file doesn't exist, falls back to
+ * using environment variables set directly.
+ *
  * @advanced For custom scenarios. Most users should use Client.fromEnv() instead.
  * @example
  * ```typescript
@@ -31,11 +35,21 @@ import { CoinbasePrimeCredentials } from '../credentials';
  * ```
  */
 export function createCredentialsFromEnv(): CoinbasePrimeCredentials {
+  // Try to load .env file if dotenv is available (optional)
+  try {
+    require('dotenv').config();
+  } catch (error) {
+    // dotenv not installed or .env file doesn't exist - that's fine
+    // Environment variables might be set directly via shell, Docker, CI/CD, etc.
+  }
+
   const credsJson = process.env.PRIME_CREDENTIALS;
   if (!credsJson) {
     throw new Error(
       'PRIME_CREDENTIALS environment variable is required. ' +
-        'Set it to a JSON string with AccessKey, SecretKey, and Passphrase.'
+        'Set it to a JSON string with AccessKey, SecretKey, and Passphrase. ' +
+        'You can set it directly (export PRIME_CREDENTIALS=\'{"AccessKey":"...","SecretKey":"...","Passphrase":"..."}\') ' +
+        'or create a .env file with PRIME_CREDENTIALS={"AccessKey":"...","SecretKey":"...","Passphrase":"..."}.'
     );
   }
 

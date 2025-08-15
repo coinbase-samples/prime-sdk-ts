@@ -13,11 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-require('dotenv').config();
 const { CoinbasePrimeClientWithServices } = require('../dist');
 
-const portfolioId = process.env.PORTFOLIO_ID;
 const client = CoinbasePrimeClientWithServices.fromEnv();
+const portfolioId = process.env.PORTFOLIO_ID;
 
 client.activities
   .listPortfolioActivities({
