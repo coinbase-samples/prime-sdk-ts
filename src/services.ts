@@ -46,16 +46,9 @@ export { WalletsService, IWalletsService } from './wallets';
 export type * from './model/';
 export * from './model/enums/';
 
-// Export core-ts types that services depend on
+// Export only the types that services actually need
 export type {
-  IPrimeApiClient,
-  CoinbaseClient,
-  CoinbaseHttpClientRetryOptions,
-  CoinbaseCallOptions,
-  Method,
-  CoinbaseClientException,
-  CoinbaseError,
-  CoinbaseResponse,
-  TransformRequestFn,
-  TransformResponseFn,
+  IPrimeApiClient, // Interface for client dependency injection
+  CoinbaseCallOptions, // Optional parameters for service methods
+  Method, // HTTP method enum for requests
 } from './clients';

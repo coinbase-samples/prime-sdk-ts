@@ -1,6 +1,6 @@
 {
   "name": "@coinbase-sample/prime-sdk-ts",
-  "version": "0.6.2",
+  "version": "0.6.3",
   "main": "dist/index.js",
   "types": "dist/types/index.d.ts",
   "exports": {
@@ -23,6 +23,11 @@
       "types": "./dist/types/services.d.ts",
       "import": "./dist/services.js",
       "require": "./dist/services.js"
+    },
+    "./client": {
+      "types": "./dist/types/client-only.d.ts",
+      "import": "./dist/client-only.js",
+      "require": "./dist/client-only.js"
     },
     "./types": {
       "types": "./dist/types/types.d.ts"
