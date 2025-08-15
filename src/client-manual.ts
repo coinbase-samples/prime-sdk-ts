@@ -1,5 +1,5 @@
 /**
- * Copyright 2024-present Coinbase Global, Inc.
+ * Copyright 2025-present Coinbase Global, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,9 +14,13 @@
  * limitations under the License.
  */
 
-// Re-export commonly used core-ts objects for convenience
-// This allows users to import everything from a single package
+// Manual client entry point - for users who prefer manual service instantiation
+// with comprehensive type exports and full control over service lifecycle
+
 export {
+  IPrimeApiClient,
+  CoinbasePrimeClient,
+  CoinbasePrimeClientConfig,
   CoinbaseClient,
   CoinbaseHttpClientRetryOptions,
   CoinbaseCallOptions,
@@ -26,14 +30,11 @@ export {
   CoinbaseResponse,
   TransformRequestFn,
   TransformResponseFn,
-  CoinbasePrimeClientWithServices,
-  CoinbasePrimeClientConfig,
-  CoinbasePrimeClient,
-  IPrimeApiClient,
 } from './clients';
 export { CoinbasePrimeCredentials } from './credentials';
 export { createCredentialsFromEnv } from './shared/envUtils';
 
+// Export all individual services for manual instantiation
 export { ActivitiesService, IActivitiesService } from './activities';
 export { AddressBooksService, IAddressBooksService } from './addressBooks';
 export { AllocationService, IAllocationService } from './allocations';
@@ -57,10 +58,12 @@ export { TransactionsService, ITransactionsService } from './transactions';
 export { UsersService, IUsersService } from './users';
 export { WalletsService, IWalletsService } from './wallets';
 
+// Export all model types and enums
 export type * from './model/';
 export * from './model/enums/';
 
-// preferring named exports of types
+// Export ALL service-specific request/response types for comprehensive access
+// This provides everything in one import but creates a larger bundle
 export type {
   GetActivityRequest,
   GetActivityResponse,
@@ -71,12 +74,14 @@ export type {
   ListPortfolioActivitiesRequest,
   ListPortfolioActivitiesResponse,
 } from './activities/types';
+
 export type {
   CreateAddressBookRequest,
   CreateAddressBookResponse,
   ListAddressBooksRequest,
   ListAddressBooksResponse,
 } from './addressBooks/types';
+
 export type {
   CreateAllocationRequest,
   CreateAllocationResponse,
@@ -89,7 +94,9 @@ export type {
   GetAllocationRequest,
   GetAllocationResponse,
 } from './allocations/types';
+
 export type { ListAssetsRequest, ListAssetsResponse } from './assets/types';
+
 export type {
   GetWalletBalanceRequest,
   GetWalletBalanceResponse,
@@ -100,10 +107,37 @@ export type {
   ListEntityBalancesRequest,
   ListEntityBalancesResponse,
 } from './balances/types';
+
 export type {
   GetPortfolioCommissionRequest,
   GetPortfolioCommissionResponse,
 } from './commission/types';
+
+export type {
+  AcceptQuoteRequest,
+  AcceptQuoteResponse,
+  CancelOrderRequest,
+  CancelOrderResponse,
+  CreateOrderPreviewRequest,
+  CreateOrderPreviewResponse,
+  CreateOrderRequest,
+  CreateOrderResponse,
+  CreateQuoteRequest,
+  CreateQuoteResponse,
+  GetOrderRequest,
+  GetOrderResponse,
+  GetOrderEditHistoryRequest,
+  GetOrderEditHistoryResponse,
+  ListOpenOrdersRequest,
+  ListOpenOrdersResponse,
+  ListOrderFillsRequest,
+  ListOrderFillsResponse,
+  ListPortfolioFillsRequest,
+  ListPortfolioFillsResponse,
+  ListPortfolioOrdersRequest,
+  ListPortfolioOrdersResponse,
+} from './orders/types';
+
 export type {
   ListExistingLocatesRequest,
   ListExistingLocatesResponse,
@@ -134,6 +168,7 @@ export type {
   CreateNewLocatesRequest,
   CreateNewLocatesResponse,
 } from './financing/types';
+
 export type {
   CancelEntitySweepRequest,
   CancelEntitySweepResponse,
@@ -148,10 +183,12 @@ export type {
   UpdateEntityFuturesAutoSweepRequest,
   UpdateEntityFuturesAutoSweepResponse,
 } from './futures/types';
+
 export type {
   ListInvoicesRequest,
   ListInvoicesResponse,
 } from './invoices/types';
+
 export type {
   CreateOnchainAddressBookEntryRequest,
   CreateOnchainAddressBookEntryResponse,
@@ -162,36 +199,14 @@ export type {
   UpdateOnchainAddressBookEntryRequest,
   UpdateOnchainAddressBookEntryResponse,
 } from './onchainAddressBook/types';
-export type {
-  AcceptQuoteRequest,
-  AcceptQuoteResponse,
-  CancelOrderRequest,
-  CancelOrderResponse,
-  CreateOrderPreviewRequest,
-  CreateOrderPreviewResponse,
-  CreateOrderRequest,
-  CreateOrderResponse,
-  CreateQuoteRequest,
-  CreateQuoteResponse,
-  GetOrderRequest,
-  GetOrderResponse,
-  GetOrderEditHistoryRequest,
-  GetOrderEditHistoryResponse,
-  ListOpenOrdersRequest,
-  ListOpenOrdersResponse,
-  ListOrderFillsRequest,
-  ListOrderFillsResponse,
-  ListPortfolioFillsRequest,
-  ListPortfolioFillsResponse,
-  ListPortfolioOrdersRequest,
-  ListPortfolioOrdersResponse,
-} from './orders/types';
+
 export type {
   GetPaymentMethodRequest,
   GetPaymentMethodResponse,
   ListEntityPaymentMethodsRequest,
   ListEntityPaymentMethodsResponse,
 } from './paymentMethods/types';
+
 export type {
   ListPortfoliosRequest,
   ListPortfoliosResponse,
@@ -202,16 +217,19 @@ export type {
   GetCounterpartyIdRequest,
   GetCounterpartyIdResponse,
 } from './portfolios/types';
+
 export type {
   ListAggregateEntityPositionsRequest,
   ListAggregateEntityPositionsResponse,
   ListEntityPositionsRequest,
   ListEntityPositionsResponse,
 } from './positions/types';
+
 export type {
   ListProductsRequest,
   ListProductsResponse,
 } from './products/types';
+
 export type {
   CreateStakeRequest,
   CreateStakeResponse,
@@ -222,6 +240,7 @@ export type {
   CreatePortfolioUnstakeRequest,
   CreatePortfolioUnstakeResponse,
 } from './staking/types';
+
 export type {
   CreateConversionRequest,
   CreateConversionResponse,
@@ -238,12 +257,14 @@ export type {
   ListWalletTransactionsRequest,
   ListWalletTransactionsResponse,
 } from './transactions/types';
+
 export type {
   ListPortfolioUsersRequest,
   ListPortfolioUsersResponse,
   ListUsersRequest,
   ListUsersResponse,
 } from './users/types';
+
 export type {
   CreateWalletRequest,
   CreateWalletResponse,

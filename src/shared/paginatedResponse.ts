@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-import { CoinbaseCallOptions } from '@coinbase-sample/core-ts';
+import { CoinbaseCallOptions, IPrimeApiClient } from '../clients';
 import { DEFAULT_MAX_ITEMS, DEFAULT_MAX_PAGES } from '../constants';
-import { CoinbasePrimeClient } from 'src/client';
 import { SortDirection } from '../model/enums/SortDirection';
 
 /**
@@ -300,7 +299,7 @@ export const ResponseExtractors = {
  * Get the default pagination options for a client
  */
 export function getDefaultPaginationOptions(
-  client: CoinbasePrimeClient,
+  client: IPrimeApiClient,
   options: CoinbaseCallOptions | undefined
 ): CoinbaseCallOptions {
   return {
@@ -311,7 +310,7 @@ export function getDefaultPaginationOptions(
 }
 
 export function getQueryParams(
-  client: CoinbasePrimeClient,
+  client: IPrimeApiClient,
   request: BasePaginatedRequest
 ): Record<string, string | number | string[]> {
   let queryParams: Record<string, string | number | string[]> = {};

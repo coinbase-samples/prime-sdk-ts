@@ -13,8 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CoinbaseCallOptions } from '@coinbase-sample/core-ts';
-import { CoinbasePrimeClient } from '../client';
+import { IPrimeApiClient, CoinbaseCallOptions } from '../clients';
 
 import {
   ListExistingLocatesRequest,
@@ -109,9 +108,9 @@ export interface IFinancingService {
 }
 
 export class FinancingService implements IFinancingService {
-  private client: CoinbasePrimeClient;
+  private client: IPrimeApiClient;
 
-  constructor(client: CoinbasePrimeClient) {
+  constructor(client: IPrimeApiClient) {
     this.client = client;
   }
 
