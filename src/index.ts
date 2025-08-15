@@ -13,8 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+// Re-export commonly used core-ts objects for convenience
+// This allows users to import everything from a single package
+export {
+  CoinbaseClient,
+  CoinbaseHttpClientRetryOptions,
+  CoinbaseCallOptions,
+  Method,
+  CoinbaseClientException,
+  CoinbaseError,
+  CoinbaseResponse,
+  TransformRequestFn,
+  TransformResponseFn,
+} from '@coinbase-sample/core-ts';
+
 export { CoinbasePrimeClient } from './client';
+export { CoinbasePrimeClientWithServices } from './clientWithServices';
+export type {
+  LazyServiceGetters,
+  CoinbasePrimeClientConfig,
+} from './clientWithServicesTypes';
 export { CoinbasePrimeCredentials } from './credentials';
+export { createCredentialsFromEnv } from './shared/envUtils';
+
 export { ActivitiesService, IActivitiesService } from './activities';
 export { AddressBooksService, IAddressBooksService } from './addressBooks';
 export { AllocationService, IAllocationService } from './allocations';

@@ -27,6 +27,7 @@ import {
 } from './constants';
 import { CoinbasePrimeCredentials } from './credentials';
 import { toCamelCase } from './shared/toCamelCase';
+import { createCredentialsFromEnv } from './shared/envUtils';
 
 export class CoinbasePrimeClient extends CoinbaseClient {
   constructor(
@@ -53,5 +54,18 @@ export class CoinbasePrimeClient extends CoinbaseClient {
         data: toCamelCase(response.data),
       };
     });
+  }
+
+  /**
+   * Create a client from environment variables
+   * Requires PRIME_CREDENTIALS environment variable with JSON containing:
+   * { "AccessKey": "...", "SecretKey": "...", "Passphrase": "..." }
+   */
+  static fromEnv(
+    apiBaseUrl?: string,
+    options?: CoinbaseHttpClientRetryOptions
+  ): CoinbasePrimeClient {
+    const credentials = createCredentialsFromEnv();
+    return new CoinbasePrimeClient(credentials, apiBaseUrl, options);
   }
 }
