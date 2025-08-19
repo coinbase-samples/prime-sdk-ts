@@ -14,8 +14,7 @@
  * limitations under the License.
  */
 
-import { CoinbaseCallOptions } from '@coinbase-sample/core-ts';
-import { CoinbasePrimeClient } from '../client';
+import { IPrimeApiClient, CoinbaseCallOptions } from '../clients';
 
 import {
   GetActivityRequest,
@@ -48,9 +47,9 @@ export interface IActivitiesService {
 }
 
 export class ActivitiesService implements IActivitiesService {
-  private client: CoinbasePrimeClient;
+  private client: IPrimeApiClient;
 
-  constructor(client: CoinbasePrimeClient) {
+  constructor(client: IPrimeApiClient) {
     this.client = client;
   }
 

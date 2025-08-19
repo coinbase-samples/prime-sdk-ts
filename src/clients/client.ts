@@ -13,10 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  CoinbaseClient,
-  CoinbaseHttpClientRetryOptions,
-} from '@coinbase-sample/core-ts';
+import { CoinbaseClient } from '@coinbase-sample/core-ts';
 
 import {
   API_BASE_PATH,
@@ -24,15 +21,20 @@ import {
   DEFAULT_MAX_ITEMS,
   DEFAULT_MAX_PAGES,
   USER_AGENT,
-} from './constants';
-import { CoinbasePrimeCredentials } from './credentials';
-import { toCamelCase } from './shared/toCamelCase';
+} from '../constants';
+import { CoinbasePrimeCredentials } from '../credentials';
+import { toCamelCase } from '../shared/toCamelCase';
+import { createCredentialsFromEnv } from '../shared/envUtils';
+import type { CoinbasePrimeClientConfig, IPrimeApiClient } from './types';
 
-export class CoinbasePrimeClient extends CoinbaseClient {
+export class CoinbasePrimeClient
+  extends CoinbaseClient
+  implements IPrimeApiClient
+{
   constructor(
     credentials?: CoinbasePrimeCredentials,
     apiBasePath?: string,
-    options?: CoinbaseHttpClientRetryOptions
+    options?: CoinbasePrimeClientConfig
   ) {
     const defaultClientOptions = {
       defaultLimit: DEFAULT_PAGINATION_LIMIT,
@@ -53,5 +55,18 @@ export class CoinbasePrimeClient extends CoinbaseClient {
         data: toCamelCase(response.data),
       };
     });
+  }
+
+  /**
+   * Create a client from environment variables
+   * Requires PRIME_CREDENTIALS environment variable with JSON containing:
+   * { "AccessKey": "...", "SecretKey": "...", "Passphrase": "..." }
+   */
+  static fromEnv(
+    apiBaseUrl?: string,
+    options?: CoinbasePrimeClientConfig
+  ): CoinbasePrimeClient {
+    const credentials = createCredentialsFromEnv();
+    return new CoinbasePrimeClient(credentials, apiBaseUrl, options);
   }
 }

@@ -13,26 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-require('dotenv').config();
-const {
-  CoinbasePrimeClient,
-  CoinbasePrimeCredentials,
-  ActivitiesService,
-} = require('../dist');
+const { CoinbasePrimeClientWithServices } = require('../dist');
 
-const creds = JSON.parse(process.env.PRIME_CREDENTIALS);
+const client = CoinbasePrimeClientWithServices.fromEnv();
 const portfolioId = process.env.PORTFOLIO_ID;
 
-const credentials = new CoinbasePrimeCredentials(
-  creds.AccessKey,
-  creds.SecretKey,
-  creds.Passphrase
-);
-
-const client = new CoinbasePrimeClient(credentials);
-
-const service = new ActivitiesService(client);
-service
+client.activities
   .listPortfolioActivities({
     portfolioId,
   })

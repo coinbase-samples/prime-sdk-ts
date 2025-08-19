@@ -13,8 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CoinbaseCallOptions, Method } from '@coinbase-sample/core-ts';
-import { CoinbasePrimeClient } from '../client';
+import { CoinbaseCallOptions, Method, IPrimeApiClient } from '../clients';
 import {
   ListAddressBooksRequest,
   ListAddressBooksResponse,
@@ -41,9 +40,9 @@ export interface IAddressBooksService {
 }
 
 export class AddressBooksService implements IAddressBooksService {
-  private client: CoinbasePrimeClient;
+  private client: IPrimeApiClient;
 
-  constructor(client: CoinbasePrimeClient) {
+  constructor(client: IPrimeApiClient) {
     this.client = client;
   }
 
