@@ -20,12 +20,12 @@
  * This example demonstrates how to list wallets for a portfolio.
  *
  * Usage:
- *   node listWallets.js [type]
+ *   node examples/wallets/listWallets.js [type]
  *
  * Examples:
- *   node listWallets.js
- *   node listWallets.js VAULT
- *   node listWallets.js TRADING
+ *   node examples/wallets/listWallets.js
+ *   node examples/wallets/listWallets.js VAULT
+ *   node examples/wallets/listWallets.js TRADING
  */
 
 // #docs operationId: PrimeRESTAPI_ListWallets

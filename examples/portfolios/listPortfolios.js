@@ -20,10 +20,10 @@
  * This example demonstrates how to list all portfolios for the authenticated entity.
  *
  * Usage:
- *   node listPortfolios.js
+ *   node examples/portfolios/listPortfolios.js
  *
  * Example:
- *   node listPortfolios.js
+ *   node examples/portfolios/listPortfolios.js
  */
 
 // #docs operationId: PrimeRESTAPI_ListPortfolios

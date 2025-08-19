@@ -21,10 +21,10 @@
  * using the Activities service.
  *
  * Usage:
- *   node getActivity.js <activityId>
+ *   node examples/activities/getActivity.js <activityId>
  *
  * Example:
- *   node getActivity.js 550e8400-e29b-41d4-a716-446655440000
+ *   node examples/activities/getActivity.js 550e8400-e29b-41d4-a716-446655440000
  */
 
 // #docs operationId: PrimeRESTAPI_GetActivity
@@ -40,8 +40,8 @@ if (!activityId) {
   console.error(
     `
     Error: Activity ID is required
-    Usage: node getActivity.js <activityId>
-    Example: node getActivity.js 550e8400-e29b-41d4-a716-446655440000
+    Usage: node examples/activities/getActivity.js <activityId>
+    Example: node examples/activities/getActivity.js 550e8400-e29b-41d4-a716-446655440000
     `
   );
   return;

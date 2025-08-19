@@ -20,12 +20,12 @@
  * This example demonstrates how to create a market order using the Orders service.
  *
  * Usage:
- *   node createOrder.js [side] [productId] [baseQuantity]
+ *   node examples/orders/createOrder.js [side] [productId] [baseQuantity]
  *
  * Examples:
- *   node createOrder.js
- *   node createOrder.js BUY BTC-USD 0.001
- *   node createOrder.js SELL ETH-USD 0.1
+ *   node examples/orders/createOrder.js
+ *   node examples/orders/createOrder.js BUY BTC-USD 0.001
+ *   node examples/orders/createOrder.js SELL ETH-USD 0.1
  */
 
 // #docs operationId: PrimeRESTAPI_CreateOrder

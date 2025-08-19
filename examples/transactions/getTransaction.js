@@ -20,10 +20,10 @@
  * This example demonstrates how to retrieve transaction details.
  *
  * Usage:
- *   node getTransaction.js <transactionId>
+ *   node examples/transactions/getTransaction.js <transactionId>
  *
  * Example:
- *   node getTransaction.js 550e8400-e29b-41d4-a716-446655440000
+ *   node examples/transactions/getTransaction.js 550e8400-e29b-41d4-a716-446655440000
  */
 
 // #docs operationId: PrimeRESTAPI_GetTransaction
@@ -39,8 +39,8 @@ if (!transactionId) {
   console.error(
     `
     Error: Transaction ID is required
-    Usage: node getTransaction.js <transactionId>
-    Example: node getTransaction.js 550e8400-e29b-41d4-a716-446655440000
+    Usage: node examples/transactions/getTransaction.js <transactionId>
+    Example: node examples/transactions/getTransaction.js 550e8400-e29b-41d4-a716-446655440000
     `
   );
   return;

@@ -20,11 +20,11 @@
  * This example demonstrates how to create a staking request for a wallet.
  *
  * Usage:
- *   node createStake.js [amount]
+ *   node examples/staking/createStake.js [amount]
  *
  * Examples:
- *   node createStake.js
- *   node createStake.js 0.5
+ *   node examples/staking/createStake.js
+ *   node examples/staking/createStake.js 0.5
  */
 
 // #docs operationId: PrimeRESTAPI_CreateStake

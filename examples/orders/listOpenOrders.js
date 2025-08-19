@@ -20,11 +20,11 @@
  * This example demonstrates how to list open orders for a portfolio.
  *
  * Usage:
- *   node listOpenOrders.js [productId]
+ *   node examples/orders/listOpenOrders.js [productId]
  *
  * Examples:
- *   node listOpenOrders.js
- *   node listOpenOrders.js BTC-USD
+ *   node examples/orders/listOpenOrders.js
+ *   node examples/orders/listOpenOrders.js BTC-USD
  */
 
 // #docs operationId: PrimeRESTAPI_ListOpenOrders
