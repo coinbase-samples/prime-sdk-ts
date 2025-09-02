@@ -15,42 +15,51 @@
  */
 
 /**
- * Example: Get Activity Details
+ * Example: Get Portfolio Activity Details
  *
  * This example demonstrates how to retrieve detailed information about a specific activity
- * using the Activities service.
+ * within a specific portfolio using the Activities service.
  *
  * Usage:
- *   node examples/activities/getActivity.js <activityId>
+ *   node examples/activities/getPortfolioActivity.js <activityId>
  *
  * Example:
- *   node examples/activities/getActivity.js 550e8400-e29b-41d4-a716-446655440000
+ *   node examples/activities/getPortfolioActivity.js 550e8400-e29b-41d4-a716-446655440000
  */
 
-// #docs operationId: PrimeRESTAPI_GetActivity
-// #docs operationName: Get Activity
+// #docs operationId: PrimeRESTAPI_GetPortfolioActivity
+// #docs operationName: Get Portfolio Activity
 
 const { CoinbasePrimeClientWithServices } = require('../../dist');
 
 const client = CoinbasePrimeClientWithServices.fromEnv();
+const portfolioId = process.env.PORTFOLIO_ID;
 const activityId = process.argv[2];
 
 if (!activityId) {
   console.error(
     `
     Error: Activity ID is required
-    Usage: node examples/activities/getActivity.js <activityId>
-    Example: node examples/activities/getActivity.js 550e8400-e29b-41d4-a716-446655440000
+    Usage: node examples/activities/getPortfolioActivity.js <activityId>
+    Example: node examples/activities/getPortfolioActivity.js 550e8400-e29b-41d4-a716-446655440000
     `
   );
   return;
 }
 
-async function getActivityExample() {
-  try {
-    console.log(`🔍 Fetching activity details - Activity ID: ${activityId}`);
+if (!portfolioId) {
+  console.error('Error: PORTFOLIO_ID environment variable is required');
+  return;
+}
 
-    const activity = await client.activities.getActivity({
+async function getPortfolioActivityExample() {
+  try {
+    console.log(
+      `🔍 Fetching portfolio activity details - Portfolio ID: ${portfolioId} - Activity ID: ${activityId}`
+    );
+
+    const activity = await client.activities.getPortfolioActivity({
+      portfolioId,
       activityId,
     });
 
@@ -60,4 +69,4 @@ async function getActivityExample() {
   }
 }
 
-getActivityExample();
+getPortfolioActivityExample();

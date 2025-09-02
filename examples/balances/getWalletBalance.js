@@ -15,55 +15,62 @@
  */
 
 /**
- * Example: Create Order
+ * Example: Get Wallet Balance
  *
- * This example demonstrates how to create a market order using the Orders service.
+ * This example demonstrates how to retrieve balance information for a specific wallet
+ * using the Balances service.
  *
  * Usage:
- *   node examples/orders/createOrder.js [side] [productId] [baseQuantity]
+ *   node examples/balances/getWalletBalance.js <walletId>
  *
- * Examples:
- *   node examples/orders/createOrder.js
- *   node examples/orders/createOrder.js BUY BTC-USD 0.001
- *   node examples/orders/createOrder.js SELL ETH-USD 0.1
+ * Example:
+ *   node examples/balances/getWalletBalance.js wallet-123
  */
 
-// #docs operationId: PrimeRESTAPI_CreateOrder
-// #docs operationName: Create Order
+// #docs operationId: PrimeRESTAPI_GetWalletBalance
+// #docs operationName: Get Wallet Balance
 
 const { CoinbasePrimeClientWithServices } = require('../../dist');
 
 const client = CoinbasePrimeClientWithServices.fromEnv();
 const portfolioId = process.env.PORTFOLIO_ID;
-const side = process.argv[2] || 'BUY';
-const productId = process.argv[3] || 'ADA-USD';
-const baseQuantity = process.argv[4] || '2';
+const walletId = process.argv[2];
+
+if (!walletId) {
+  console.error(
+    `
+    Error: Wallet ID is required
+    Usage: node examples/balances/getWalletBalance.js <walletId>
+    
+    Example:
+      node examples/balances/getWalletBalance.js wallet-123
+    `
+  );
+  return;
+}
 
 if (!portfolioId) {
   console.error('Error: PORTFOLIO_ID environment variable is required');
   return;
 }
 
-async function createOrderExample() {
+async function getWalletBalanceExample() {
   try {
-    const order = {
+    console.log(
+      `🔍 Fetching wallet balance - Portfolio ID: ${portfolioId} - Wallet ID: ${walletId}`
+    );
+
+    const walletBalance = await client.balances.getWalletBalance({
       portfolioId,
-      side,
-      productId,
-      type: 'MARKET',
-      baseQuantity,
-      clientOrderId: crypto.randomUUID(),
-    };
+      walletId,
+    });
 
-    console.log(`📝 Creating order`);
-    console.dir(order);
-
-    const response = await client.orders.createOrder(order);
-
-    console.dir(response, { depth: null });
+    console.dir(walletBalance, { depth: null });
   } catch (error) {
     console.error(error);
   }
 }
 
-createOrderExample();
+getWalletBalanceExample();
+
+

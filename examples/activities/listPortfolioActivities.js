@@ -18,14 +18,18 @@
  * Example: List Portfolio Activities
  *
  * This example demonstrates how to retrieve a list of activities for a portfolio
- * with optional filtering by category and type.
+ * with optional filtering by categories and statuses. Multiple values can be
+ * provided as comma-separated lists.
  *
  * Usage:
- *   node examples/activities/listPortfolioActivities.js [category] [type]
+ *   node examples/activities/listPortfolioActivities.js [categories] [statuses]
  *
  * Examples:
  *   node examples/activities/listPortfolioActivities.js
+ *   node examples/activities/listPortfolioActivities.js ACTIVITY_CATEGORY_TRANSACTION
+ *   node examples/activities/listPortfolioActivities.js ACTIVITY_CATEGORY_TRANSACTION,ACTIVITY_CATEGORY_TRANSFER
  *   node examples/activities/listPortfolioActivities.js ACTIVITY_CATEGORY_TRANSACTION ACTIVITY_STATUS_COMPLETED
+ *   node examples/activities/listPortfolioActivities.js ACTIVITY_CATEGORY_TRANSACTION,ACTIVITY_CATEGORY_TRANSFER ACTIVITY_STATUS_COMPLETED,ACTIVITY_STATUS_PENDING
  */
 
 // #docs operationId: PrimeRESTAPI_ListPortfolioActivities
@@ -35,8 +39,8 @@ const { CoinbasePrimeClientWithServices } = require('../../dist');
 
 const client = CoinbasePrimeClientWithServices.fromEnv();
 const portfolioId = process.env.PORTFOLIO_ID;
-const category = process.argv[2];
-const status = process.argv[3];
+const categoriesArg = process.argv[2];
+const statusesArg = process.argv[3];
 
 if (!portfolioId) {
   console.error('Error: PORTFOLIO_ID environment variable is required');
@@ -46,23 +50,24 @@ if (!portfolioId) {
 async function listPortfolioActivitiesExample() {
   try {
     let requestMessage = `📋 Listing portfolio activities - Portfolio ID: ${portfolioId}`;
-    console.log(requestMessage);
-    if (category) requestMessage += ` - Category: ${category}`;
-    if (status) requestMessage += ` - Status: ${status}`;
+    if (categoriesArg) requestMessage += `, Categories: ${categoriesArg}`;
+    if (statusesArg) requestMessage += `, Statuses: ${statusesArg}`;
+
     console.log(requestMessage);
 
     const request = {
       portfolioId,
-      categories: [category],
-      statuses: [status],
     };
+
+    if (categoriesArg) request.categories = categoriesArg.split(',');
+    if (statusesArg) request.statuses = statusesArg.split(',');
 
     const activitiesResponse =
       await client.activities.listPortfolioActivities(request);
 
     console.dir(activitiesResponse, { depth: null });
   } catch (error) {
-    console.error(error);
+    console.error('❌ Error listing portfolio activities:', error);
   }
 }
 

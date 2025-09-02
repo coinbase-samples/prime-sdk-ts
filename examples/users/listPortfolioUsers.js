@@ -15,55 +15,46 @@
  */
 
 /**
- * Example: Create Order
+ * Example: List Portfolio Users
  *
- * This example demonstrates how to create a market order using the Orders service.
+ * This example demonstrates how to retrieve all users associated with a specific portfolio
+ * using the Users service. This provides information about users who have access to the
+ * specific portfolio, including their roles and permissions at the portfolio level.
  *
  * Usage:
- *   node examples/orders/createOrder.js [side] [productId] [baseQuantity]
+ *   node examples/users/listPortfolioUsers.js
  *
- * Examples:
- *   node examples/orders/createOrder.js
- *   node examples/orders/createOrder.js BUY BTC-USD 0.001
- *   node examples/orders/createOrder.js SELL ETH-USD 0.1
+ * Environment Variables Required:
+ *   - PORTFOLIO_ID: The ID of the portfolio to list users for
  */
 
-// #docs operationId: PrimeRESTAPI_CreateOrder
-// #docs operationName: Create Order
+// #docs operationId: PrimeRESTAPI_GetPortfolioUsers
+// #docs operationName: List Portfolio Users
 
 const { CoinbasePrimeClientWithServices } = require('../../dist');
 
 const client = CoinbasePrimeClientWithServices.fromEnv();
 const portfolioId = process.env.PORTFOLIO_ID;
-const side = process.argv[2] || 'BUY';
-const productId = process.argv[3] || 'ADA-USD';
-const baseQuantity = process.argv[4] || '2';
 
 if (!portfolioId) {
   console.error('Error: PORTFOLIO_ID environment variable is required');
   return;
 }
 
-async function createOrderExample() {
+async function listPortfolioUsersExample() {
   try {
-    const order = {
+    console.log(`👥 Listing portfolio users - Portfolio ID: ${portfolioId}`);
+
+    const request = {
       portfolioId,
-      side,
-      productId,
-      type: 'MARKET',
-      baseQuantity,
-      clientOrderId: crypto.randomUUID(),
     };
 
-    console.log(`📝 Creating order`);
-    console.dir(order);
+    const usersResponse = await client.users.listPortfolioUsers(request);
 
-    const response = await client.orders.createOrder(order);
-
-    console.dir(response, { depth: null });
+    console.dir(usersResponse, { depth: null });
   } catch (error) {
-    console.error(error);
+    console.error('❌ Error listing portfolio users:', error);
   }
 }
 
-createOrderExample();
+listPortfolioUsersExample();

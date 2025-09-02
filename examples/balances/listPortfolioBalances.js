@@ -15,30 +15,28 @@
  */
 
 /**
- * Example: List Wallets
+ * Example: List Portfolio Balances
  *
- * This example demonstrates how to retrieve all wallets for a specific portfolio
- * using the Wallets service. Wallets can be filtered by type and symbols.
+ * This example demonstrates how to retrieve balance information for a specific portfolio
+ * using the Balances service.
  *
  * Usage:
- *   node examples/wallets/listWallets.js [walletType] [symbols]
+ *   node examples/balances/listPortfolioBalances.js [balanceType] [symbolsCsv]
  *
  * Examples:
- *   node examples/wallets/listWallets.js
- *   node examples/wallets/listWallets.js TRADING BTC,ETH
- *
- * Environment Variables Required:
- *   - PORTFOLIO_ID: The ID of the portfolio to list wallets for
+ *   node examples/balances/listPortfolioBalances.js
+ *   node examples/balances/listPortfolioBalances.js TRADING_BALANCES
+ *   node examples/balances/listPortfolioBalances.js VAULT_BALANCES BTC,ETH
  */
 
-// #docs operationId: PrimeRESTAPI_GetWallets
-// #docs operationName: List Wallets
+// #docs operationId: PrimeRESTAPI_GetPortfolioBalances
+// #docs operationName: List Portfolio Balances
 
 const { CoinbasePrimeClientWithServices } = require('../../dist');
 
 const client = CoinbasePrimeClientWithServices.fromEnv();
 const portfolioId = process.env.PORTFOLIO_ID;
-const walletType = process.argv[2];
+const balanceType = process.argv[2];
 const symbolsCsv = process.argv[3];
 
 if (!portfolioId) {
@@ -46,25 +44,26 @@ if (!portfolioId) {
   return;
 }
 
-async function listWalletsExample() {
+async function listPortfolioBalancesExample() {
   try {
-    let requestMessage = `💼 Listing wallets - Portfolio ID: ${portfolioId}`;
-    requestMessage += ` - Type: ${walletType}`;
+    let requestMessage = `📋 Listing portfolio balances - Portfolio ID: ${portfolioId}`;
+    if (balanceType) requestMessage += ` - Type: ${balanceType}`;
     if (symbolsCsv) requestMessage += ` - Symbols: ${symbolsCsv}`;
     console.log(requestMessage);
 
     const request = {
       portfolioId,
-      type: walletType,
+      balanceType,
       symbols: symbolsCsv ? symbolsCsv.split(',') : undefined,
     };
 
-    const walletsResponse = await client.wallets.listWallets(request);
+    const balancesResponse =
+      await client.balances.listPortfolioBalances(request);
 
-    console.dir(walletsResponse, { depth: null });
+    console.dir(balancesResponse, { depth: null });
   } catch (error) {
-    console.error('❌ Error listing wallets:', error);
+    console.error(error);
   }
 }
 
-listWalletsExample();
+listPortfolioBalancesExample();

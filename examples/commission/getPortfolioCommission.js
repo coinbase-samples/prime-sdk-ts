@@ -15,55 +15,49 @@
  */
 
 /**
- * Example: Create Order
+ * Example: Get Portfolio Commission
  *
- * This example demonstrates how to create a market order using the Orders service.
+ * This example demonstrates how to retrieve commission information for a specific portfolio
+ * using the Commission service. The commission information includes the fee model type,
+ * commission rate, and average trading volume.
  *
  * Usage:
- *   node examples/orders/createOrder.js [side] [productId] [baseQuantity]
+ *   node examples/commission/getPortfolioCommission.js
  *
- * Examples:
- *   node examples/orders/createOrder.js
- *   node examples/orders/createOrder.js BUY BTC-USD 0.001
- *   node examples/orders/createOrder.js SELL ETH-USD 0.1
+ * Environment Variables Required:
+ *   - PORTFOLIO_ID: The ID of the portfolio to get commission information for
  */
 
-// #docs operationId: PrimeRESTAPI_CreateOrder
-// #docs operationName: Create Order
+// #docs operationId: PrimeRESTAPI_GetPortfolioCommission
+// #docs operationName: Get Portfolio Commission
 
 const { CoinbasePrimeClientWithServices } = require('../../dist');
 
 const client = CoinbasePrimeClientWithServices.fromEnv();
 const portfolioId = process.env.PORTFOLIO_ID;
-const side = process.argv[2] || 'BUY';
-const productId = process.argv[3] || 'ADA-USD';
-const baseQuantity = process.argv[4] || '2';
 
 if (!portfolioId) {
   console.error('Error: PORTFOLIO_ID environment variable is required');
   return;
 }
 
-async function createOrderExample() {
+async function getPortfolioCommissionExample() {
   try {
-    const order = {
+    console.log(
+      `💰 Getting portfolio commission information - Portfolio ID: ${portfolioId}`
+    );
+
+    const request = {
       portfolioId,
-      side,
-      productId,
-      type: 'MARKET',
-      baseQuantity,
-      clientOrderId: crypto.randomUUID(),
     };
 
-    console.log(`📝 Creating order`);
-    console.dir(order);
+    const commissionResponse =
+      await client.commission.getPortfolioCommission(request);
 
-    const response = await client.orders.createOrder(order);
-
-    console.dir(response, { depth: null });
+    console.dir(commissionResponse, { depth: null });
   } catch (error) {
-    console.error(error);
+    console.error('❌ Error getting portfolio commission:', error);
   }
 }
 
-createOrderExample();
+getPortfolioCommissionExample();

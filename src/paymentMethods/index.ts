@@ -40,6 +40,7 @@ export class PaymentMethodsService implements IPaymentMethodsService {
     this.client = client;
   }
 
+  // TODO: rename me to remove Entity in a minor version change
   async listEntityPaymentMethods(
     request: ListEntityPaymentMethodsRequest,
     options?: CoinbaseCallOptions
@@ -57,7 +58,7 @@ export class PaymentMethodsService implements IPaymentMethodsService {
     options?: CoinbaseCallOptions
   ): Promise<GetPaymentMethodResponse> {
     const response = await this.client.request({
-      url: `entities/${request.entityId}/payment-methods`,
+      url: `entities/${request.entityId}/payment-methods/${request.paymentMethodId}`,
       callOptions: options,
     });
 

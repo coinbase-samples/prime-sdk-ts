@@ -15,55 +15,42 @@
  */
 
 /**
- * Example: Create Order
+ * Example: List Address Books
  *
- * This example demonstrates how to create a market order using the Orders service.
+ * This example demonstrates how to retrieve a list of address book entries
+ * for a portfolio using the AddressBooks service.
  *
  * Usage:
- *   node examples/orders/createOrder.js [side] [productId] [baseQuantity]
- *
- * Examples:
- *   node examples/orders/createOrder.js
- *   node examples/orders/createOrder.js BUY BTC-USD 0.001
- *   node examples/orders/createOrder.js SELL ETH-USD 0.1
+ *   node examples/addressBooks/listAddressBooks.js
  */
 
-// #docs operationId: PrimeRESTAPI_CreateOrder
-// #docs operationName: Create Order
+// #docs operationId: PrimeRESTAPI_ListAddressBooks
+// #docs operationName: List Address Books
 
 const { CoinbasePrimeClientWithServices } = require('../../dist');
 
 const client = CoinbasePrimeClientWithServices.fromEnv();
 const portfolioId = process.env.PORTFOLIO_ID;
-const side = process.argv[2] || 'BUY';
-const productId = process.argv[3] || 'ADA-USD';
-const baseQuantity = process.argv[4] || '2';
 
 if (!portfolioId) {
   console.error('Error: PORTFOLIO_ID environment variable is required');
   return;
 }
 
-async function createOrderExample() {
+async function listAddressBooksExample() {
   try {
-    const order = {
+    console.log(
+      `📋 Listing address book entries - Portfolio ID: ${portfolioId}`
+    );
+
+    const addressBooksResponse = await client.addressBooks.listAddressBooks({
       portfolioId,
-      side,
-      productId,
-      type: 'MARKET',
-      baseQuantity,
-      clientOrderId: crypto.randomUUID(),
-    };
+    });
 
-    console.log(`📝 Creating order`);
-    console.dir(order);
-
-    const response = await client.orders.createOrder(order);
-
-    console.dir(response, { depth: null });
+    console.dir(addressBooksResponse, { depth: null });
   } catch (error) {
     console.error(error);
   }
 }
 
-createOrderExample();
+listAddressBooksExample();

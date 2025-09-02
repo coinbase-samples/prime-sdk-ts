@@ -5,4 +5,5 @@ node_modules/
 .idea/
 apiSpec/types
 example/test
+examples/test
 ai-docs/

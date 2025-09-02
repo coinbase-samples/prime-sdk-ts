@@ -15,55 +15,48 @@
  */
 
 /**
- * Example: Create Order
+ * Example: List Onchain Address Book
  *
- * This example demonstrates how to create a market order using the Orders service.
+ * This example demonstrates how to retrieve all address groups from the onchain
+ * address book for a specific portfolio using the OnchainAddressBook service.
  *
  * Usage:
- *   node examples/orders/createOrder.js [side] [productId] [baseQuantity]
+ *   node examples/onchainAddressBook/listOnchainAddressBook.js
  *
- * Examples:
- *   node examples/orders/createOrder.js
- *   node examples/orders/createOrder.js BUY BTC-USD 0.001
- *   node examples/orders/createOrder.js SELL ETH-USD 0.1
+ * Environment Variables Required:
+ *   - PORTFOLIO_ID: The ID of the portfolio to list address book entries for
  */
 
-// #docs operationId: PrimeRESTAPI_CreateOrder
-// #docs operationName: Create Order
+// #docs operationId: PrimeRESTAPI_ListOnchainAddressGroups
+// #docs operationName: List Onchain Address Book
 
 const { CoinbasePrimeClientWithServices } = require('../../dist');
 
 const client = CoinbasePrimeClientWithServices.fromEnv();
 const portfolioId = process.env.PORTFOLIO_ID;
-const side = process.argv[2] || 'BUY';
-const productId = process.argv[3] || 'ADA-USD';
-const baseQuantity = process.argv[4] || '2';
 
 if (!portfolioId) {
   console.error('Error: PORTFOLIO_ID environment variable is required');
   return;
 }
 
-async function createOrderExample() {
+async function listOnchainAddressBookExample() {
   try {
-    const order = {
+    console.log(
+      `📋 Listing onchain address book - Portfolio ID: ${portfolioId}`
+    );
+
+    const request = {
       portfolioId,
-      side,
-      productId,
-      type: 'MARKET',
-      baseQuantity,
-      clientOrderId: crypto.randomUUID(),
     };
 
-    console.log(`📝 Creating order`);
-    console.dir(order);
+    const addressBookResponse =
+      await client.onchainAddressBook.listOnchainAddressBook(request);
 
-    const response = await client.orders.createOrder(order);
-
-    console.dir(response, { depth: null });
+    console.dir(addressBookResponse, { depth: null });
   } catch (error) {
-    console.error(error);
+    console.error('❌ Error listing onchain address book:', error);
   }
 }
 
-createOrderExample();
+listOnchainAddressBookExample();

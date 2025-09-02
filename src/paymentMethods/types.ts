@@ -30,6 +30,7 @@ export type ListEntityPaymentMethodsResponse = Brand<
 
 export type GetPaymentMethodRequest = {
   entityId: string;
+  paymentMethodId: string;
 };
 
 export type GetPaymentMethodResponse = Brand<
