@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export const VERSION = '0.6.3';
+export const VERSION = '0.6.4';
 export const API_BASE_PATH = 'https://api.prime.coinbase.com/v1/';
 export const USER_AGENT = 'coinbase-prime-ts/' + VERSION;
 export const CB_ACCESS_KEY_HEADER = 'X-CB-ACCESS-KEY';

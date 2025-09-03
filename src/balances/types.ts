@@ -28,7 +28,7 @@ import {
 
 export type ListPortfolioBalancesRequest = {
   portfolioId: string;
-  symbol: string;
+  symbols?: string[];
   balanceType?: PortfolioBalanceType;
 };
 

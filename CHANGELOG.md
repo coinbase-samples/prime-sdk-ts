@@ -1,6 +1,22 @@
 # Changelog
 
-## [0.6.3] - 2025-AUG-XX
+## [0.6.4] - 2025-SEP-03
+
+### Fixed
+
+- Updated core-ts to improve query param array handling
+- Fixed query param naming of symbol to symbols for ListPortfolioBalancesRequest
+- Fixed GetPaymentMethodRequest type to include paymentMethodId
+
+### Added
+
+#### 📚 Comprehensive Service Examples
+- **Complete SDK Examples**: Added 50+ working examples across all services
+  - Full CRUD operations for portfolios, futures, orders, transactions, and more
+  - Consistent error handling and multiline console output formatting
+  - Flexible CLI arguments with sensible defaults and environment variable support
+
+## [0.6.3] - 2025-AUG-19
 
 ### Added
 
