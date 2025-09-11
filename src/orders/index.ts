@@ -38,6 +38,8 @@ import {
   CreateQuoteResponse,
   AcceptQuoteRequest,
   AcceptQuoteResponse,
+  EditOrderRequest,
+  EditOrderResponse,
 } from './types';
 import {
   createPaginatedResponse,
@@ -101,6 +103,11 @@ export interface IOrdersService {
     request: AcceptQuoteRequest,
     options?: CoinbaseCallOptions
   ): Promise<AcceptQuoteResponse>;
+
+  editOrder(
+    request: EditOrderRequest,
+    options?: CoinbaseCallOptions
+  ): Promise<EditOrderResponse>;
 }
 
 export class OrdersService implements IOrdersService {
@@ -317,5 +324,19 @@ export class OrdersService implements IOrdersService {
       callOptions: options,
     });
     return response.data as AcceptQuoteResponse;
+  }
+
+  async editOrder(
+    request: EditOrderRequest,
+    options?: CoinbaseCallOptions
+  ): Promise<EditOrderResponse> {
+    const { portfolioId, orderId, ...bodyParams } = request;
+    const response = await this.client.request({
+      url: `portfolios/${portfolioId}/orders/${orderId}/edit`,
+      method: Method.PUT,
+      bodyParams,
+      callOptions: options,
+    });
+    return response.data as EditOrderResponse;
   }
 }

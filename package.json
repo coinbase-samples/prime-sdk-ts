@@ -55,11 +55,11 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
-    "@types/node": "^22.14.0",
-    "@typescript-eslint/eslint-plugin": "^8.39.1",
-    "@typescript-eslint/parser": "^8.39.1",
-    "dotenv": "^17.2.1",
-    "eslint": "^9.33.0",
+    "@types/node": "^24.3.1",
+    "@typescript-eslint/eslint-plugin": "^8.43.0",
+    "@typescript-eslint/parser": "^8.43.0",
+    "dotenv": "^17.2.2",
+    "eslint": "^9.35.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.4",
     "js-yaml": "^4.1.0",
@@ -67,6 +67,6 @@
     "typescript": "^5.9.2"
   },
   "dependencies": {
-    "@coinbase-sample/core-ts": "^0.2.1"
+    "@coinbase-sample/core-ts": "^0.2.2"
   }
 }

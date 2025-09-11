@@ -170,3 +170,22 @@ export type GetOrderEditHistoryResponse = Brand<
   Omit<internalEditHistory, 'orderEditHistory'>,
   'GetOrderEditHistoryResponse'
 >;
+
+export type EditOrderRequest = {
+  portfolioId: string;
+  orderId: string;
+  productId?: string;
+  origClientOrderId: string;
+  clientOrderId: string;
+  baseQuantity?: string;
+  quoteValue?: string;
+  limitPrice?: string;
+  expiryTime?: string;
+  displayQuoteSize?: string;
+  displayBaseSize?: string;
+  stopPrice?: string;
+};
+
+export type EditOrderResponse = {
+  orderId: string;
+};
