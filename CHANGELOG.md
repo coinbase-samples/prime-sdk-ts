@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.6.4] - 2025-SEP-11
+
+### Added
+- New Edit Order Endpoints
+  - beta edit order
+  - beta get order edit history
+
+
 ## [0.6.4] - 2025-SEP-03
 
 ### Fixed
