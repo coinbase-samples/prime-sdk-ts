@@ -158,6 +158,7 @@ paths:
             items:
               type: string
               enum:
+                - OTHER_ACTIVITY_CATEGORY
                 - ACTIVITY_CATEGORY_ORDER
                 - ACTIVITY_CATEGORY_TRANSACTION
                 - ACTIVITY_CATEGORY_ACCOUNT
@@ -182,12 +183,12 @@ paths:
                 - ACTIVITY_STATUS_FAILED
         - name: start_time
           in: query
-          description: Filter created time by start date
+          description: Filter created time by start date (RFC3339 format)
           schema:
             type: string
         - name: end_time
           in: query
-          description: Filter created time by end date
+          description: Filter created time by end date (RFC3339 format)
           schema:
             type: string
         - name: cursor
@@ -992,6 +993,7 @@ paths:
             items:
               type: string
               enum:
+                - OTHER_ACTIVITY_CATEGORY
                 - ACTIVITY_CATEGORY_ORDER
                 - ACTIVITY_CATEGORY_TRANSACTION
                 - ACTIVITY_CATEGORY_ACCOUNT
@@ -1016,12 +1018,12 @@ paths:
                 - ACTIVITY_STATUS_FAILED
         - name: start_time
           in: query
-          description: Filter created time by start date
+          description: Filter created time by start date (RFC3339 format)
           schema:
             type: string
         - name: end_time
           in: query
-          description: Filter created time by end date
+          description: Filter created time by end date (RFC3339 format)
           schema:
             type: string
         - name: cursor
@@ -2256,8 +2258,10 @@ paths:
     put:
       tags:
         - Orders
-      summary: Edit Order
-      description: Edit an order.
+      summary: Edit Order (Beta)
+      description:
+        Edit an open order. This feature is in beta please reach out to
+        your Coinbase Prime account manager for more information.
       operationId: PrimeRESTAPI_EditOrder
       parameters:
         - name: portfolio_id
@@ -2282,39 +2286,37 @@ paths:
               type: object
               properties:
                 product_id:
-                  title: |-
-                    The product ID of the order being edited
-                    deprecated: the order ID is sufficient to identify the product ID
                   type: string
+                  description: 'Deprecated: The product ID of the order being edited'
                 orig_client_order_id:
-                  title: The client order ID of the order being edited
                   type: string
+                  description: The client order ID of the order being edited
                 client_order_id:
-                  title: The updated version of the client order ID
                   type: string
+                  description: The updated version of the client order ID
                 base_quantity:
-                  title:
-                    Order size in base asset units (either `base_quantity` or
-                    `quote_value` is required)
                   type: string
+                  description:
+                    Order size in base asset units (either `base_quantity`
+                    or `quote_value` is required)
                 quote_value:
-                  title:
-                    "Order size in quote asset units, i.e. the amount the user\
-                    \ wants to spend (when buying) or receive (when selling); the\
-                    \ quantity in base units will be determined based on the market\
+                  type: string
+                  description:
+                    "Order size in quote asset units, i.e. the amount the\
+                    \ user wants to spend (when buying) or receive (when selling);\
+                    \ the quantity in base units will be determined based on the market\
                     \ liquidity and indicated `quote_value` (either `base_quantity`\
                     \ or `quote_value` is required)"
-                  type: string
                 limit_price:
-                  title:
-                    "The limit price (required for TWAP, VWAP, LIMIT, and STOP_LIMIT\
-                    \ orders)"
                   type: string
+                  description:
+                    "The limit price (required for TWAP, VWAP, LIMIT, and\
+                    \ STOP_LIMIT orders)"
                 expiry_time:
-                  title:
+                  type: string
+                  description:
                     "The expiry time of the order in UTC (TWAP, VWAP, LIMIT,\
                     \ and STOP_LIMIT GTD only)"
-                  type: string
                   format: date-time
                 display_quote_size:
                   type: string
@@ -2329,11 +2331,11 @@ paths:
                     books. Specifying a value here effectively makes a LIMIT order
                     into an "iceberg" style order.
                 stop_price:
-                  title:
-                    Specifies the stop price at which the order activates. The
-                    order is activated if the last trade price on Coinbase Exchange
-                    crosses the stop price specified on the order
                   type: string
+                  description:
+                    Specifies the stop price at which the order activates.
+                    The order is activated if the last trade price on Coinbase Exchange
+                    crosses the stop price specified on the order
         required: true
       responses:
         '200':
@@ -3281,6 +3283,53 @@ paths:
               schema:
                 $ref: '#/components/schemas/coinbase.public_rest_api.CreateOnchainTransactionResponse'
       x-codegen-request-body-name: body
+  /v1/portfolios/{portfolio_id}/wallets/{wallet_id}/staking/claim_rewards:
+    post:
+      tags:
+        - Staking
+      summary: Request to claim rewards for a staked wallet
+      description:
+        Creates a request to claim the pending staking rewards from the
+        specified wallet
+      operationId: PrimeRESTAPI_StakingClaimRewards
+      parameters:
+        - name: portfolio_id
+          in: path
+          description: The portfolio ID
+          required: true
+          schema:
+            type: string
+        - name: wallet_id
+          in: path
+          description: The wallet ID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              required:
+                - idempotency_key
+              type: object
+              properties:
+                idempotency_key:
+                  type: string
+                  description:
+                    The client generated idempotency key for requested
+                    execution. Any subsequent requests with the same key will return
+                    the original response
+                inputs:
+                  $ref: '#/components/schemas/coinbase.public_rest_api.WalletClaimRewardsInputs'
+        required: true
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.StakingClaimRewardsResponse'
+      x-codegen-request-body-name: body
   /v1/portfolios/{portfolio_id}/wallets/{wallet_id}/staking/initiate:
     post:
       tags:
@@ -3991,7 +4040,9 @@ components:
           $ref: '#/components/schemas/coinbase.public_rest_api.HierarchyType'
     coinbase.public_rest_api.ActivityCategory:
       type: string
+      default: OTHER_ACTIVITY_CATEGORY
       enum:
+        - OTHER_ACTIVITY_CATEGORY
         - ACTIVITY_CATEGORY_ORDER
         - ACTIVITY_CATEGORY_TRANSACTION
         - ACTIVITY_CATEGORY_ACCOUNT
@@ -4870,8 +4921,8 @@ components:
       type: object
       properties:
         order_id:
-          title: The ID of the order being edited
           type: string
+          description: The ID of the order being edited
     coinbase.public_rest_api.EntityBalance:
       type: object
       properties:
@@ -6933,26 +6984,26 @@ components:
       type: object
       properties:
         tradable:
-          title: Whether the product is tradable via RFQ
           type: boolean
+          description: Whether the product is tradable via RFQ
         min_notional_size:
-          title: Minimum notional size for RFQ
           type: string
+          description: 'Deprecated: Value will be an empty string'
         max_notional_size:
-          title: Maximum notional size for RFQ
           type: string
+          description: 'Deprecated: Value will be an empty string'
         min_base_size:
-          title: Minimum base size for RFQ
           type: string
+          description: Minimum base size for RFQ
         max_base_size:
-          title: Maximum base size for RFQ
           type: string
+          description: Maximum base size for RFQ
         min_quote_size:
-          title: Minimum quote size for RFQ
           type: string
+          description: Minimum quote size for RFQ
         max_quote_size:
-          title: Maximum quote size for RFQ
           type: string
+          description: Maximum quote size for RFQ
     coinbase.public_rest_api.RateType:
       type: string
       default: RATE_TYPE_UNSET
@@ -7041,6 +7092,24 @@ components:
       enum:
         - DESC
         - ASC
+    coinbase.public_rest_api.StakingClaimRewardsResponse:
+      required:
+        - activity_id
+        - transaction_id
+        - wallet_id
+      type: object
+      properties:
+        wallet_id:
+          type: string
+          description: The wallet ID
+        transaction_id:
+          type: string
+          description:
+            "ID of the newly created transaction, can be used to fetch\
+            \ details of the current state of execution"
+        activity_id:
+          type: string
+          description: The ID for the activity generated for this request
     coinbase.public_rest_api.StakingInitiateResponse:
       required:
         - activity_id
@@ -7462,6 +7531,17 @@ components:
           $ref: '#/components/schemas/coinbase.public_rest_api.WalletVisibility'
         network:
           $ref: '#/components/schemas/coinbase.public_rest_api.Network'
+    coinbase.public_rest_api.WalletClaimRewardsInputs:
+      type: object
+      properties:
+        amount:
+          type: string
+          description:
+            "Optional amount to claim rewards (ETH only). If omitted, the\
+            \ wallet will claim the maximum amount available"
+      description: |-
+        WalletClaimRewardsInputs contains the custom inputs for claim rewards operations on a wallet.
+        Requirements and supported fields vary by asset type.
     coinbase.public_rest_api.WalletCryptoDepositInstructions:
       type: object
       properties:
