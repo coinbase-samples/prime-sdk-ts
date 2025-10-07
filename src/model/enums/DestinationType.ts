@@ -19,8 +19,8 @@
  */
 
 export enum DestinationType {
-  PaymentMethod = 'DESTINATION_PAYMENT_METHOD',
-  Blockchain = 'DESTINATION_BLOCKCHAIN',
-  Wallet = 'DESTINATION_WALLET',
-  Counterparty = 'DESTINATION_COUNTERPARTY',
+  DestinationPaymentMethod = 'DESTINATION_PAYMENT_METHOD',
+  DestinationBlockchain = 'DESTINATION_BLOCKCHAIN',
+  DestinationWallet = 'DESTINATION_WALLET',
+  DestinationCounterparty = 'DESTINATION_COUNTERPARTY',
 }

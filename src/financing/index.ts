@@ -44,6 +44,8 @@ import {
   GetFcmRiskLimitsResponse,
   CreateNewLocatesRequest,
   CreateNewLocatesResponse,
+  GetCrossMarginOverviewRequest,
+  GetCrossMarginOverviewResponse,
 } from './types';
 
 export interface IFinancingService {
@@ -105,6 +107,11 @@ export interface IFinancingService {
     request: CreateNewLocatesRequest,
     options?: CoinbaseCallOptions
   ): Promise<CreateNewLocatesResponse>;
+
+  getCrossMarginOverview(
+    request: GetCrossMarginOverviewRequest,
+    options?: CoinbaseCallOptions
+  ): Promise<GetCrossMarginOverviewResponse>;
 }
 
 export class FinancingService implements IFinancingService {
@@ -324,5 +331,17 @@ export class FinancingService implements IFinancingService {
     });
 
     return response.data as CreateNewLocatesResponse;
+  }
+
+  async getCrossMarginOverview(
+    request: GetCrossMarginOverviewRequest,
+    options?: CoinbaseCallOptions
+  ): Promise<GetCrossMarginOverviewResponse> {
+    const response = await this.client.request({
+      url: `entities/${request.entityId}/cross_margin`,
+      callOptions: options,
+    });
+
+    return response.data as GetCrossMarginOverviewResponse;
   }
 }

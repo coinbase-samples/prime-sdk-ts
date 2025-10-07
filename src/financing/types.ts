@@ -28,6 +28,7 @@ import {
   GetFcmMarginCallDetailsResponse as internalGetFcmMarginCallDetailsResponse,
   GetFcmRiskLimitsResponse as internalGetFcmRiskLimitsResponse,
   CreateNewLocatesResponse as internalCreateNewLocatesResponse,
+  GetCrossMarginOverviewResponse as internalGetCrossMarginOverviewResponse,
 } from '../model/';
 
 export type ListExistingLocatesRequest = {
@@ -174,4 +175,13 @@ export type GetFcmRiskLimitsRequest = {
 export type GetFcmRiskLimitsResponse = Brand<
   internalGetFcmRiskLimitsResponse,
   'GetFcmRiskLimitsResponse'
+>;
+
+export type GetCrossMarginOverviewRequest = {
+  entityId: string;
+};
+
+export type GetCrossMarginOverviewResponse = Brand<
+  internalGetCrossMarginOverviewResponse,
+  'GetCrossMarginOverviewResponse'
 >;

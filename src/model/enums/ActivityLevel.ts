@@ -19,7 +19,7 @@
  */
 
 export enum ActivityLevel {
-  All = 'ACTIVITY_LEVEL_ALL',
-  Portfolio = 'ACTIVITY_LEVEL_PORTFOLIO',
-  Entity = 'ACTIVITY_LEVEL_ENTITY',
+  ActivityLevelAll = 'ACTIVITY_LEVEL_ALL',
+  ActivityLevelPortfolio = 'ACTIVITY_LEVEL_PORTFOLIO',
+  ActivityLevelEntity = 'ACTIVITY_LEVEL_ENTITY',
 }

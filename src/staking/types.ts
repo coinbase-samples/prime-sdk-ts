@@ -15,6 +15,10 @@
  */
 import { Brand } from '../shared/brand';
 import {
+  BasePaginatedRequest,
+  PaginatedResponseMethods,
+} from '../shared/paginatedResponse';
+import {
   StakingInitiateResponse,
   StakingInitiateRequest,
   StakingUnstakeResponse,
@@ -22,6 +26,10 @@ import {
   PortfolioStakingInitiateResponse,
   PortfolioStakingUnstakeRequest,
   PortfolioStakingUnstakeResponse,
+  ListTransactionValidatorsResponse as internalListTransactionValidatorsResponse,
+  StakingClaimRewardsRequest as internalStakingClaimRewardsRequest,
+  StakingClaimRewardsResponse as internalStakingClaimRewardsResponse,
+  WalletClaimRewardsInputs,
 } from 'src/model/';
 
 export type CreateStakeRequest = StakingInitiateRequest & {
@@ -61,4 +69,32 @@ export type CreatePortfolioUnstakeRequest = PortfolioStakingUnstakeRequest & {
 export type CreatePortfolioUnstakeResponse = Brand<
   PortfolioStakingUnstakeResponse,
   'CreatePortfolioUnstakeResponse'
+>;
+
+export type QueryTransactionValidatorsRequest = BasePaginatedRequest & {
+  portfolioId: string;
+  transactionIds: string[];
+};
+
+export type BaseQueryTransactionValidatorsResponse = Brand<
+  internalListTransactionValidatorsResponse,
+  'BaseQueryTransactionValidatorsResponse'
+>;
+
+export type QueryTransactionValidatorsResponse =
+  BaseQueryTransactionValidatorsResponse &
+    PaginatedResponseMethods<
+      QueryTransactionValidatorsRequest,
+      BaseQueryTransactionValidatorsResponse,
+      any
+    >;
+
+export type ClaimRewardsRequest = internalStakingClaimRewardsRequest & {
+  portfolioId: string;
+  walletId: string;
+};
+
+export type ClaimRewardsResponse = Brand<
+  internalStakingClaimRewardsResponse,
+  'ClaimRewardsResponse'
 >;

@@ -30,6 +30,8 @@ import {
   QuoteResponse,
   AcceptQuoteRequest as internalAcceptQuoteReq,
   AcceptQuoteResponse as internalAcceptQuoteResp,
+  EditOrderRequest as internalEditOrderRequest,
+  EditOrderResponse as internalEditOrderResponse,
 } from '../model/';
 import { Pagination } from '../shared/pagination';
 import {
@@ -169,4 +171,14 @@ export type GetOrderEditHistoryRequest = {
 export type GetOrderEditHistoryResponse = Brand<
   Omit<internalEditHistory, 'orderEditHistory'>,
   'GetOrderEditHistoryResponse'
+>;
+
+export type EditOrderRequest = internalEditOrderRequest & {
+  portfolioId: string;
+  orderId: string;
+};
+
+export type EditOrderResponse = Brand<
+  internalEditOrderResponse,
+  'EditOrderResponse'
 >;

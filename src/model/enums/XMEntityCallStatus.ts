@@ -19,10 +19,12 @@
  */
 
 /**
- * - UNKNOWN_PAYMENT_METHOD_TYPE: nil value  - METHOD_WIRE: Wire transfer  - METHOD_SEN: Silvergate exchange network  - METHOD_SWIFT: Swift
+ * - ENTITY_NO_CALL: There are no margin calls  - ENTITY_OPEN_STANDARD_CALL: There is a standard margin call. There are no urgent margin calls, and no expired margin calls.  - ENTITY_OPEN_URGENT_CALL: There is an urgent margin call. It is possible that there could also be a standard margin call, but there are no expired margin calls.  - ENTITY_AGED_CALL: At least one open margin call is aged (standard or urgent). This may trigger the SESSION_LOCKED control status.
  */
-export enum PaymentMethodType {
-  MethodWire = 'METHOD_WIRE',
-  MethodSen = 'METHOD_SEN',
-  MethodSwift = 'METHOD_SWIFT',
+export enum XMEntityCallStatus {
+  XmEntityCallStatusUnspecified = 'XM_ENTITY_CALL_STATUS_UNSPECIFIED',
+  EntityNoCall = 'ENTITY_NO_CALL',
+  EntityOpenStandardCall = 'ENTITY_OPEN_STANDARD_CALL',
+  EntityOpenUrgentCall = 'ENTITY_OPEN_URGENT_CALL',
+  EntityAgedCall = 'ENTITY_AGED_CALL',
 }

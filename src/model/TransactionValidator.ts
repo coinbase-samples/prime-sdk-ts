@@ -18,9 +18,16 @@
  *  Do not edit the class manually.
  */
 
-export type StakingInputs = {
+import { ValidatorStatus } from './enums/ValidatorStatus';
+
+export type TransactionValidator = {
   /**
-   * Optional amount to stake or unstake. If omitted, the wallet will stake or unstake the maximum amount available
+   * The ID of the transaction which staked to this validator
    */
-  amount?: string;
+  transactionId: string;
+  /**
+   * The address (public key) of the validator
+   */
+  validatorAddress: string;
+  validatorStatus: ValidatorStatus;
 };

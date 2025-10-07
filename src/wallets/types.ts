@@ -18,7 +18,7 @@ import { WalletType, WalletDepositInstructionType } from '../model/enums/';
 import {
   GetWalletsResponse,
   GetWalletResponse as internalGet,
-  GetWalletAddressesResponse as internalGetAddresses,
+  ListWalletAddressesResponse as internalGetAddresses,
   GetWalletDepositInstructionsResponse as internalGetInstructs,
   CreateWalletRequest as internalCreate,
   CreateWalletResponse as internalCreateResp,

@@ -18,10 +18,11 @@
  *  Do not edit the class manually.
  */
 
-import { BlockchainAddress } from './BlockchainAddress';
-import { PaginatedResponse } from './PaginatedResponse';
-
-export type GetWalletAddressesResponse = {
-  addresses: Array<BlockchainAddress>;
-  pagination: PaginatedResponse;
-};
+/**
+ * - CBE: Coinbase Exchange, trading venue that can receive the XM loan  - FCM: Coinbase’s Futures Commission Merchant, trading venue that can receive the XM loan
+ */
+export enum XMParty {
+  XmPartyUnspecified = 'XM_PARTY_UNSPECIFIED',
+  Cbe = 'CBE',
+  Fcm = 'FCM',
+}

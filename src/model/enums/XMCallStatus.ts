@@ -18,10 +18,13 @@
  *  Do not edit the class manually.
  */
 
-export enum FcmMarginCallState {
-  FcmMarginCallStateUnspecified = 'FCM_MARGIN_CALL_STATE_UNSPECIFIED',
-  FcmMarginCallStateClosed = 'FCM_MARGIN_CALL_STATE_CLOSED',
-  FcmMarginCallStateRolledOver = 'FCM_MARGIN_CALL_STATE_ROLLED_OVER',
-  FcmMarginCallStateDefault = 'FCM_MARGIN_CALL_STATE_DEFAULT',
-  FcmMarginCallStateOfficial = 'FCM_MARGIN_CALL_STATE_OFFICIAL',
+/**
+ * - CALL_STATUS_OPEN: Margin call is open and not expired  - CALL_STATUS_AGED: Margin call is open and it is expired  - CALL_STATUS_SETTLED: Margin call is fully settled  - CALL_STATUS_CANCELED: Margin call was canceled by Credit Risk
+ */
+export enum XMCallStatus {
+  XmCallStatusUnspecified = 'XM_CALL_STATUS_UNSPECIFIED',
+  CallStatusOpen = 'CALL_STATUS_OPEN',
+  CallStatusAged = 'CALL_STATUS_AGED',
+  CallStatusSettled = 'CALL_STATUS_SETTLED',
+  CallStatusCanceled = 'CALL_STATUS_CANCELED',
 }

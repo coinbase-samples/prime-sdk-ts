@@ -18,10 +18,11 @@
  *  Do not edit the class manually.
  */
 
-export enum FcmMarginCallState {
-  FcmMarginCallStateUnspecified = 'FCM_MARGIN_CALL_STATE_UNSPECIFIED',
-  FcmMarginCallStateClosed = 'FCM_MARGIN_CALL_STATE_CLOSED',
-  FcmMarginCallStateRolledOver = 'FCM_MARGIN_CALL_STATE_ROLLED_OVER',
-  FcmMarginCallStateDefault = 'FCM_MARGIN_CALL_STATE_DEFAULT',
-  FcmMarginCallStateOfficial = 'FCM_MARGIN_CALL_STATE_OFFICIAL',
+export enum ValidatorStatus {
+  ValidatorStatusUnspecified = 'VALIDATOR_STATUS_UNSPECIFIED',
+  ValidatorStatusPending = 'VALIDATOR_STATUS_PENDING',
+  ValidatorStatusActive = 'VALIDATOR_STATUS_ACTIVE',
+  ValidatorStatusExiting = 'VALIDATOR_STATUS_EXITING',
+  ValidatorStatusExited = 'VALIDATOR_STATUS_EXITED',
+  ValidatorStatusWithdrawn = 'VALIDATOR_STATUS_WITHDRAWN',
 }

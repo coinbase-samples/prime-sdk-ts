@@ -19,9 +19,9 @@
  */
 
 export enum FcmFuturesSweepStatus {
-  Unspecified = 'FCM_FUTURES_SWEEP_STATUS_UNSPECIFIED',
-  Pending = 'FCM_FUTURES_SWEEP_STATUS_PENDING',
-  Closed = 'FCM_FUTURES_SWEEP_STATUS_CLOSED',
-  Canceled = 'FCM_FUTURES_SWEEP_STATUS_CANCELED',
-  Processing = 'FCM_FUTURES_SWEEP_STATUS_PROCESSING',
+  FcmFuturesSweepStatusUnspecified = 'FCM_FUTURES_SWEEP_STATUS_UNSPECIFIED',
+  FcmFuturesSweepStatusPending = 'FCM_FUTURES_SWEEP_STATUS_PENDING',
+  FcmFuturesSweepStatusClosed = 'FCM_FUTURES_SWEEP_STATUS_CLOSED',
+  FcmFuturesSweepStatusCanceled = 'FCM_FUTURES_SWEEP_STATUS_CANCELED',
+  FcmFuturesSweepStatusProcessing = 'FCM_FUTURES_SWEEP_STATUS_PROCESSING',
 }
