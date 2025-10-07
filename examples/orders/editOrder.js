@@ -15,77 +15,76 @@
  */
 
 /**
- * Example: Edit Order (Beta)
- *
- * This example demonstrates how to edit an open order.
- * This feature is in beta - please reach out to your Coinbase Prime account manager for more information.
+ * Example: Edit an existing order
  *
  * Usage:
- *   node examples/orders/editOrder.js [orderId] [origClientOrderId] [limitPrice] [baseQuantity]
+ *   node examples/orders/editOrder.js <portfolioId> <orderId> <origClientOrderId> <newClientOrderId> [newPrice] [newBaseQuantity]
  *
- * Examples:
- *   node examples/orders/editOrder.js
- *   node examples/orders/editOrder.js order-123 client-order-456 50000.00 0.001
+ * Required CLI arguments:
+ *   portfolioId - Portfolio ID containing the order
+ *   orderId - Order ID to edit
+ *   origClientOrderId - Original client order ID
+ *   newClientOrderId - New client order ID
+ *
+ * Optional CLI arguments:
+ *   newPrice - New limit price for the order
+ *   newBaseQuantity - New base quantity for the order
+ *
+ * Example:
+ *   node examples/orders/editOrder.js 12345 order_abc123 orig_client_123 new_client_123 50000 0.001
  */
 
 // #docs operationId: PrimeRESTAPI_EditOrder
 // #docs operationName: Edit Order
 
-const { CoinbasePrimeClientWithServices } = require('../../dist');
+const {
+  CoinbasePrimeClientWithServices,
+} = require('@coinbase-sample/prime-sdk-ts');
 
 const client = CoinbasePrimeClientWithServices.fromEnv();
 const portfolioId = process.env.PORTFOLIO_ID;
-const orderId = process.argv[2] || process.env.ORDER_ID;
-const origClientOrderId = process.argv[3] || process.env.ORIG_CLIENT_ORDER_ID;
-const limitPrice = process.argv[4] || '50000.00';
-const baseQuantity = process.argv[5] || '0.001';
+const newClientOrderId = crypto.randomUUID();
 
-if (!portfolioId) {
-  console.error('Error: PORTFOLIO_ID environment variable is required');
-  return;
-}
+const orderId = process.argv[2];
+const origClientOrderId = process.argv[3];
+const newPrice = process.argv[4];
+const newBaseQuantity = process.argv[5];
 
-if (!orderId) {
+if (!orderId || !origClientOrderId) {
   console.error(
-    'Error: ORDER_ID environment variable or command line argument is required'
+    'Missing required arguments: orderId and origClientOrderId are required'
   );
-  console.log(
-    'Usage: node examples/orders/editOrder.js [orderId] [origClientOrderId] [limitPrice] [baseQuantity]'
-  );
-  return;
+  process.exit(1);
 }
 
-if (!origClientOrderId) {
-  console.error(
-    'Error: ORIG_CLIENT_ORDER_ID environment variable or command line argument is required'
-  );
-  console.log(
-    'Usage: node examples/orders/editOrder.js [orderId] [origClientOrderId] [limitPrice] [baseQuantity]'
-  );
-  return;
-}
-
-async function editOrderExample() {
+async function editOrder() {
   try {
+    console.log(`Editing order ${orderId} in portfolio ${portfolioId}...`);
+
     const request = {
       portfolioId,
       orderId,
       origClientOrderId,
-      clientOrderId: crypto.randomUUID(), // New client order ID
-      limitPrice,
-      baseQuantity,
+      clientOrderId: newClientOrderId,
     };
 
-    console.log(`✏  Editing order - Order`);
-    console.dir(request);
+    // Add optional parameters if provided
+    if (newPrice) {
+      request.limitPrice = newPrice;
+    }
+    if (newBaseQuantity) {
+      request.baseQuantity = newBaseQuantity;
+    }
 
     const response = await client.orders.editOrder(request);
 
     console.dir(response);
   } catch (error) {
-    console.error('\n❌ Error editing order:');
-    console.error(error);
+    console.error('Error editing order:', error.message);
+    if (error.response?.data) {
+      console.error('API Error Details:', error.response.data);
+    }
   }
 }
 
-editOrderExample();
+editOrder();

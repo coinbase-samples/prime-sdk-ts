@@ -1,5 +1,27 @@
 # Changelog
 
+## [0.7.0] - 2025-OCT-09
+
+### Added
+
+#### 🆕 New API Endpoints
+
+**Staking Service**
+- **`queryTransactionValidators()`**: Query ETH 0x02 validators associated with wallet-level stake transactions
+
+**Financing Service**
+- **`getCrossMarginOverview()`**: Retrieve live Cross Margin (XM) data for XM customers
+
+**Orders Service**
+- **`editOrder()`**: Edit an existing open order (Beta)
+  - Modify limit price, base quantity, quote value, and other order parameters
+
+### Changed
+
+#### 📝 NPM Scripts
+- **`fetch-spec`**: New script to download the latest OpenAPI spec from Coinbase Prime API
+- **`update-spec`**: Enhanced to include fetching the latest spec before generating types
+
 ## [0.6.4] - 2025-SEP-03
 
 ### Fixed
