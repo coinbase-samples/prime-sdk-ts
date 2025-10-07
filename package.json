@@ -39,9 +39,10 @@
     "build": "tsc",
     "lint": "eslint . --ext .js,.ts",
     "format": "prettier --write \"**/*.{js,ts,tsx,json,css,md}\"",
+    "fetch-spec": "curl -o apiSpec/prime-public-api-spec.yaml https://api.prime.coinbase.com/v1/openapi.yaml",
     "gen-types": "openapi-generator-cli generate -i apiSpec/prime-public-api-spec.yaml -g typescript-node --global-property models -o apiSpec/types --additional-properties=supportsES6=true --additional-properties=snapshot=true && cd apiSpec && node generateTypes.js",
     "replace-model": "rm -r src/model && cp -r apiSpec/types/processed src/model",
-    "update-spec": "npm run gen-types && npm run replace-model"
+    "update-spec": "npm run fetch-spec && npm run gen-types && npm run replace-model"
   },
   "files": [
     "dist/"
