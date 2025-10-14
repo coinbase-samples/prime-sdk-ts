@@ -18,33 +18,40 @@
  *  Do not edit the class manually.
  */
 
-export type RFQProductDetails = {
+import { XMRiskNettingInfo } from './XMRiskNettingInfo';
+
+export type XMSummary = {
   /**
-   * Whether the product is tradable via RFQ
+   * Cross Margin Margin Requirement (XMMR) notional
    */
-  tradable?: boolean;
+  marginRequirement?: string;
   /**
-   * Deprecated: Value will be an empty string
+   * Equity notional
    */
-  minNotionalSize?: string;
+  accountEquity?: string;
   /**
-   * Deprecated: Value will be an empty string
+   * Equity - XMMR (margin excess is > 0)
    */
-  maxNotionalSize?: string;
+  marginExcessShortfall?: string;
   /**
-   * Minimum base size for RFQ
+   * Credit consumed from Cross Margin Credit Limit (XMCL)
    */
-  minBaseSize?: string;
+  consumedCredit?: string;
   /**
-   * Maximum base size for RFQ
+   * XM Credit Limit (XMCL) is the maximum notional USD of total fiat and digital asset loans
    */
-  maxBaseSize?: string;
+  xmCreditLimit?: string;
   /**
-   * Minimum quote size for RFQ
+   * XM Margin Limit (XMML) is the maximum notional USD deficit
    */
-  minQuoteSize?: string;
+  xmMarginLimit?: string;
   /**
-   * Maximum quote size for RFQ
+   * Equity attributed by spot
    */
-  maxQuoteSize?: string;
+  spotEquity?: string;
+  /**
+   * Equity attributed by futures
+   */
+  futuresEquity?: string;
+  riskNettingInfo?: XMRiskNettingInfo;
 };

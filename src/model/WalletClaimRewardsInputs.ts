@@ -18,11 +18,12 @@
  *  Do not edit the class manually.
  */
 
-import { AddressEntry } from './AddressEntry';
-import { NetworkType } from './enums/NetworkType';
-
-export type CreateAddressGroup = {
-  name?: string;
-  networkType?: NetworkType;
-  addresses?: Array<AddressEntry>;
+/**
+ * WalletClaimRewardsInputs contains the custom inputs for claim rewards operations on a wallet. Requirements and supported fields vary by asset type.
+ */
+export type WalletClaimRewardsInputs = {
+  /**
+   * Optional amount to claim rewards (ETH only). If omitted, the wallet will claim the maximum amount available
+   */
+  amount?: string;
 };

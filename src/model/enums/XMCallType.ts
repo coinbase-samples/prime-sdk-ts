@@ -18,10 +18,11 @@
  *  Do not edit the class manually.
  */
 
-export enum FcmMarginCallState {
-  FcmMarginCallStateUnspecified = 'FCM_MARGIN_CALL_STATE_UNSPECIFIED',
-  FcmMarginCallStateClosed = 'FCM_MARGIN_CALL_STATE_CLOSED',
-  FcmMarginCallStateRolledOver = 'FCM_MARGIN_CALL_STATE_ROLLED_OVER',
-  FcmMarginCallStateDefault = 'FCM_MARGIN_CALL_STATE_DEFAULT',
-  FcmMarginCallStateOfficial = 'FCM_MARGIN_CALL_STATE_OFFICIAL',
+/**
+ * - CALL_TYPE_STANDARD: Evaluated at standard margin call evaluation time  - CALL_TYPE_URGENT: Evaluated in realtime
+ */
+export enum XMCallType {
+  XmCallTypeUnspecified = 'XM_CALL_TYPE_UNSPECIFIED',
+  CallTypeStandard = 'CALL_TYPE_STANDARD',
+  CallTypeUrgent = 'CALL_TYPE_URGENT',
 }

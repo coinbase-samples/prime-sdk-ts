@@ -32,7 +32,7 @@
  *   node examples/activities/listPortfolioActivities.js ACTIVITY_CATEGORY_TRANSACTION,ACTIVITY_CATEGORY_TRANSFER ACTIVITY_STATUS_COMPLETED,ACTIVITY_STATUS_PENDING
  */
 
-// #docs operationId: PrimeRESTAPI_ListPortfolioActivities
+// #docs operationId: PrimeRESTAPI_GetPortfolioActivities
 // #docs operationName: List Portfolio Activities
 
 const { CoinbasePrimeClientWithServices } = require('../../dist');

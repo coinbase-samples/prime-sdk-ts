@@ -18,10 +18,17 @@
  *  Do not edit the class manually.
  */
 
-export enum FcmMarginCallState {
-  FcmMarginCallStateUnspecified = 'FCM_MARGIN_CALL_STATE_UNSPECIFIED',
-  FcmMarginCallStateClosed = 'FCM_MARGIN_CALL_STATE_CLOSED',
-  FcmMarginCallStateRolledOver = 'FCM_MARGIN_CALL_STATE_ROLLED_OVER',
-  FcmMarginCallStateDefault = 'FCM_MARGIN_CALL_STATE_DEFAULT',
-  FcmMarginCallStateOfficial = 'FCM_MARGIN_CALL_STATE_OFFICIAL',
-}
+export type StakingClaimRewardsResponse = {
+  /**
+   * The wallet ID
+   */
+  walletId: string;
+  /**
+   * ID of the newly created transaction, can be used to fetch details of the current state of execution
+   */
+  transactionId: string;
+  /**
+   * The ID for the activity generated for this request
+   */
+  activityId: string;
+};

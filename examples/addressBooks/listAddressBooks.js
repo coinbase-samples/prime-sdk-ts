@@ -24,7 +24,7 @@
  *   node examples/addressBooks/listAddressBooks.js
  */
 
-// #docs operationId: PrimeRESTAPI_ListAddressBooks
+// #docs operationId: PrimeRESTAPI_GetPortfolioAddressBook
 // #docs operationName: List Address Books
 
 const { CoinbasePrimeClientWithServices } = require('../../dist');

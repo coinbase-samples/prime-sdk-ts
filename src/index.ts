@@ -133,6 +133,8 @@ export type {
   GetTieredPricingFeesResponse,
   CreateNewLocatesRequest,
   CreateNewLocatesResponse,
+  GetCrossMarginOverviewRequest,
+  GetCrossMarginOverviewResponse,
 } from './financing/types';
 export type {
   CancelEntitySweepRequest,
@@ -185,6 +187,8 @@ export type {
   ListPortfolioFillsResponse,
   ListPortfolioOrdersRequest,
   ListPortfolioOrdersResponse,
+  EditOrderRequest,
+  EditOrderResponse,
 } from './orders/types';
 export type {
   GetPaymentMethodRequest,
@@ -221,6 +225,11 @@ export type {
   CreatePortfolioStakeResponse,
   CreatePortfolioUnstakeRequest,
   CreatePortfolioUnstakeResponse,
+  QueryTransactionValidatorsRequest,
+  QueryTransactionValidatorsResponse,
+  BaseQueryTransactionValidatorsResponse,
+  ClaimRewardsRequest,
+  ClaimRewardsResponse,
 } from './staking/types';
 export type {
   CreateConversionRequest,

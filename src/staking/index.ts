@@ -14,6 +14,10 @@
  * limitations under the License.
  */
 import { IPrimeApiClient, CoinbaseCallOptions, Method } from '../clients';
+import {
+  createPaginatedResponse,
+  getDefaultPaginationOptions,
+} from '../shared/paginatedResponse';
 
 import {
   CreateStakeRequest,
@@ -24,6 +28,10 @@ import {
   CreatePortfolioStakeResponse,
   CreatePortfolioUnstakeRequest,
   CreatePortfolioUnstakeResponse,
+  QueryTransactionValidatorsRequest,
+  QueryTransactionValidatorsResponse,
+  ClaimRewardsRequest,
+  ClaimRewardsResponse,
 } from './types';
 
 export interface IStakingService {
@@ -43,6 +51,14 @@ export interface IStakingService {
     request: CreatePortfolioUnstakeRequest,
     options?: CoinbaseCallOptions
   ): Promise<CreatePortfolioUnstakeResponse>;
+  queryTransactionValidators(
+    request: QueryTransactionValidatorsRequest,
+    options?: CoinbaseCallOptions
+  ): Promise<QueryTransactionValidatorsResponse>;
+  claimRewards(
+    request: ClaimRewardsRequest,
+    options?: CoinbaseCallOptions
+  ): Promise<ClaimRewardsResponse>;
 }
 
 export class StakingService implements IStakingService {
@@ -124,5 +140,55 @@ export class StakingService implements IStakingService {
     });
 
     return response.data as CreatePortfolioUnstakeResponse;
+  }
+
+  async queryTransactionValidators(
+    request: QueryTransactionValidatorsRequest,
+    options?: CoinbaseCallOptions
+  ): Promise<QueryTransactionValidatorsResponse> {
+    const paginationOptions = getDefaultPaginationOptions(this.client, options);
+
+    const { transactionIds, cursor, limit, sortDirection } = request;
+    const bodyParams = {
+      transactionIds,
+      cursor,
+      limit,
+      sortDirection,
+    };
+    const response = await this.client.request({
+      url: `portfolios/${request.portfolioId}/staking/transaction-validators/query`,
+      method: Method.POST,
+      bodyParams,
+      callOptions: options,
+    });
+
+    const responseData = response.data;
+
+    return createPaginatedResponse(
+      responseData,
+      this.queryTransactionValidators.bind(this),
+      request,
+      (r) => r.transactionValidators || [],
+      paginationOptions
+    ) as QueryTransactionValidatorsResponse;
+  }
+
+  async claimRewards(
+    request: ClaimRewardsRequest,
+    options?: CoinbaseCallOptions
+  ): Promise<ClaimRewardsResponse> {
+    const { idempotencyKey, inputs, portfolioId, walletId } = request;
+    const bodyParams = {
+      idempotencyKey,
+      inputs,
+    };
+    const response = await this.client.request({
+      url: `portfolios/${portfolioId}/wallets/${walletId}/staking/claim_rewards`,
+      method: Method.POST,
+      bodyParams,
+      callOptions: options,
+    });
+
+    return response.data as ClaimRewardsResponse;
   }
 }

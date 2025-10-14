@@ -18,10 +18,36 @@
  *  Do not edit the class manually.
  */
 
-export enum FcmMarginCallState {
-  FcmMarginCallStateUnspecified = 'FCM_MARGIN_CALL_STATE_UNSPECIFIED',
-  FcmMarginCallStateClosed = 'FCM_MARGIN_CALL_STATE_CLOSED',
-  FcmMarginCallStateRolledOver = 'FCM_MARGIN_CALL_STATE_ROLLED_OVER',
-  FcmMarginCallStateDefault = 'FCM_MARGIN_CALL_STATE_DEFAULT',
-  FcmMarginCallStateOfficial = 'FCM_MARGIN_CALL_STATE_OFFICIAL',
-}
+import { XMParty } from './enums/XMParty';
+
+export type XMLoan = {
+  /**
+   * Financing loan UUID
+   */
+  loanId?: string;
+  loanParty?: XMParty;
+  /**
+   * Loan principal currency
+   */
+  principalCurrency?: string;
+  /**
+   * Loan principal currency market price
+   */
+  principalCurrencyMarketPrice?: string;
+  /**
+   * Principal amount (nominal) as of loan initiation
+   */
+  initialPrincipalAmount?: string;
+  /**
+   * Current outstanding amount (nominal)
+   */
+  outstandingPrincipalAmount?: string;
+  /**
+   * Timestamp when the loan was created / initiated
+   */
+  createdAt?: Date;
+  /**
+   * Timestamp when the loan was last updated
+   */
+  updatedAt?: Date;
+};

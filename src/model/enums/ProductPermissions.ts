@@ -19,7 +19,7 @@
  */
 
 export enum ProductPermissions {
-  Read = 'PRODUCT_PERMISSION_READ',
-  Trade = 'PRODUCT_PERMISSION_TRADE',
-  Lending = 'PRODUCT_PERMISSION_LENDING',
+  ProductPermissionRead = 'PRODUCT_PERMISSION_READ',
+  ProductPermissionTrade = 'PRODUCT_PERMISSION_TRADE',
+  ProductPermissionLending = 'PRODUCT_PERMISSION_LENDING',
 }

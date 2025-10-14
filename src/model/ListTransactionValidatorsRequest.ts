@@ -18,10 +18,20 @@
  *  Do not edit the class manually.
  */
 
-export enum FcmMarginCallState {
-  FcmMarginCallStateUnspecified = 'FCM_MARGIN_CALL_STATE_UNSPECIFIED',
-  FcmMarginCallStateClosed = 'FCM_MARGIN_CALL_STATE_CLOSED',
-  FcmMarginCallStateRolledOver = 'FCM_MARGIN_CALL_STATE_ROLLED_OVER',
-  FcmMarginCallStateDefault = 'FCM_MARGIN_CALL_STATE_DEFAULT',
-  FcmMarginCallStateOfficial = 'FCM_MARGIN_CALL_STATE_OFFICIAL',
-}
+import { SortDirection } from './enums/SortDirection';
+
+export type ListTransactionValidatorsRequest = {
+  /**
+   * List of transaction IDs to filter validators by. Maximum of 100 transaction IDs allowed per request.
+   */
+  transactionIds: Array<string>;
+  /**
+   * Cursor for pagination
+   */
+  cursor?: string;
+  /**
+   * Maximum number of transaction-validator associations to return per page. Default is 100, maximum is 1000.
+   */
+  limit?: number;
+  sortDirection?: SortDirection;
+};

@@ -19,7 +19,7 @@
  */
 
 export enum WalletVisibility {
-  Unspecified = 'WALLET_VISIBILITY_UNSPECIFIED',
-  Visible = 'WALLET_VISIBILITY_VISIBLE',
-  Hidden = 'WALLET_VISIBILITY_HIDDEN',
+  WalletVisibilityUnspecified = 'WALLET_VISIBILITY_UNSPECIFIED',
+  WalletVisibilityVisible = 'WALLET_VISIBILITY_VISIBLE',
+  WalletVisibilityHidden = 'WALLET_VISIBILITY_HIDDEN',
 }

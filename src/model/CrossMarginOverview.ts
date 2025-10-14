@@ -18,10 +18,24 @@
  *  Do not edit the class manually.
  */
 
-export enum FcmMarginCallState {
-  FcmMarginCallStateUnspecified = 'FCM_MARGIN_CALL_STATE_UNSPECIFIED',
-  FcmMarginCallStateClosed = 'FCM_MARGIN_CALL_STATE_CLOSED',
-  FcmMarginCallStateRolledOver = 'FCM_MARGIN_CALL_STATE_ROLLED_OVER',
-  FcmMarginCallStateDefault = 'FCM_MARGIN_CALL_STATE_DEFAULT',
-  FcmMarginCallStateOfficial = 'FCM_MARGIN_CALL_STATE_OFFICIAL',
-}
+import { XMControlStatus } from './enums/XMControlStatus';
+import { XMEntityCallStatus } from './enums/XMEntityCallStatus';
+import { XMLoan } from './XMLoan';
+import { XMMarginCall } from './XMMarginCall';
+import { XMMarginLevel } from './enums/XMMarginLevel';
+import { XMSummary } from './XMSummary';
+
+export type CrossMarginOverview = {
+  controlStatus?: XMControlStatus;
+  callStatus?: XMEntityCallStatus;
+  marginLevel?: XMMarginLevel;
+  marginSummary?: XMSummary;
+  /**
+   * List of active XM margin calls
+   */
+  activeMarginCalls?: Array<XMMarginCall>;
+  /**
+   * List of active XM loans
+   */
+  activeLoans?: Array<XMLoan>;
+};

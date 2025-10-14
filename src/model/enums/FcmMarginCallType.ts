@@ -19,7 +19,7 @@
  */
 
 export enum FcmMarginCallType {
-  Unspecified = 'FCM_MARGIN_CALL_TYPE_UNSPECIFIED',
-  Urgent = 'FCM_MARGIN_CALL_TYPE_URGENT',
-  Regular = 'FCM_MARGIN_CALL_TYPE_REGULAR',
+  FcmMarginCallTypeUnspecified = 'FCM_MARGIN_CALL_TYPE_UNSPECIFIED',
+  FcmMarginCallTypeUrgent = 'FCM_MARGIN_CALL_TYPE_URGENT',
+  FcmMarginCallTypeRegular = 'FCM_MARGIN_CALL_TYPE_REGULAR',
 }

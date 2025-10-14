@@ -25,4 +25,5 @@ export enum LoanType {
   PortfolioMargin = 'PORTFOLIO_MARGIN',
   ShortCollateralLoan = 'SHORT_COLLATERAL_LOAN',
   ShortCollateral = 'SHORT_COLLATERAL',
+  CrossMargin = 'CROSS_MARGIN',
 }

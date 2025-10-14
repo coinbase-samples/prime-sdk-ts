@@ -18,10 +18,13 @@
  *  Do not edit the class manually.
  */
 
-export enum FcmMarginCallState {
-  FcmMarginCallStateUnspecified = 'FCM_MARGIN_CALL_STATE_UNSPECIFIED',
-  FcmMarginCallStateClosed = 'FCM_MARGIN_CALL_STATE_CLOSED',
-  FcmMarginCallStateRolledOver = 'FCM_MARGIN_CALL_STATE_ROLLED_OVER',
-  FcmMarginCallStateDefault = 'FCM_MARGIN_CALL_STATE_DEFAULT',
-  FcmMarginCallStateOfficial = 'FCM_MARGIN_CALL_STATE_OFFICIAL',
-}
+import { PaginatedResponse } from './PaginatedResponse';
+import { TransactionValidator } from './TransactionValidator';
+
+export type ListTransactionValidatorsResponse = {
+  /**
+   * List of transaction-to-validator associations. Each entry represents one transaction staking to one validator.
+   */
+  transactionValidators: Array<TransactionValidator>;
+  pagination: PaginatedResponse;
+};

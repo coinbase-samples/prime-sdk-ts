@@ -28,7 +28,7 @@
  *   node examples/activities/listEntityActivities.js ACTIVITY_CATEGORY_TRANSACTION ACTIVITY_STATUS_COMPLETED
  */
 
-// #docs operationId: PrimeRESTAPI_ListEntityActivities
+// #docs operationId: PrimeRESTAPI_GetEntityActivities
 // #docs operationName: List Entity Activities
 
 const { CoinbasePrimeClientWithServices } = require('../../dist');

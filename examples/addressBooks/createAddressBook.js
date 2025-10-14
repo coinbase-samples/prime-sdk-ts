@@ -28,7 +28,7 @@
  *   node examples/addressBooks/createAddressBook.js XRP Main_XRP_Wallet rn7d8bZhsdz9ecf586XsvbmVePfxYGrs22 750937718
  */
 
-// #docs operationId: PrimeRESTAPI_CreateAddressBook
+// #docs operationId: PrimeRESTAPI_CreatePortfolioAddressBookEntry
 // #docs operationName: Create Address Book Entry
 
 const { CoinbasePrimeClientWithServices } = require('../../dist');
