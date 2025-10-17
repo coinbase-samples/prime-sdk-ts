@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.7.1] - 2025-OCT-17
+
+### Added
+
+#### 🆕 New API Endpoints
+
+**Products Service**
+- **`listProductCandles()`**: Get historical candle data for a product (Beta)
+  - Retrieve time-series market data with open, high, low, close, and volume
+  - Support for multiple granularities (1min, 5min, 15min, 30min, 1hr, 2hr, 4hr, 6hr, 1day)
+  - Includes example with default 24-hour time range
+
 ## [0.7.0] - 2025-OCT-09
 
 ### Added
