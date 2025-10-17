@@ -28,7 +28,7 @@
  *   node examples/allocations/listNetAllocations.js netting-123 allocation-456,allocation-789
  */
 
-// #docs operationId: rimeRESTAPI_GetAllocationsByClientNettingId
+// #docs operationId: PrimeRESTAPI_GetAllocationsByClientNettingId
 // #docs operationName: List Net Allocations
 
 const { CoinbasePrimeClientWithServices } = require('../../dist');

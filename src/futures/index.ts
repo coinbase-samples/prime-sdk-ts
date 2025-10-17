@@ -28,6 +28,10 @@ import {
   UpdateEntityFuturesAutoSweepResponse,
   CancelEntitySweepRequest,
   CancelEntitySweepResponse,
+  GetEntityFuturesRiskLimitsRequest,
+  GetEntityFuturesRiskLimitsResponse,
+  GetEntityFuturesMarginCallDetailsRequest,
+  GetEntityFuturesMarginCallDetailsResponse,
 } from './types';
 
 export interface IFuturesService {
@@ -60,6 +64,16 @@ export interface IFuturesService {
     request: CancelEntitySweepRequest,
     options?: CoinbaseCallOptions
   ): Promise<CancelEntitySweepResponse>;
+
+  getRiskLimits(
+    request: GetEntityFuturesRiskLimitsRequest,
+    options?: CoinbaseCallOptions
+  ): Promise<GetEntityFuturesRiskLimitsResponse>;
+
+  getMarginCallDetails(
+    request: GetEntityFuturesMarginCallDetailsRequest,
+    options?: CoinbaseCallOptions
+  ): Promise<GetEntityFuturesMarginCallDetailsResponse>;
 }
 
 export class FuturesService implements IFuturesService {
@@ -147,4 +161,47 @@ export class FuturesService implements IFuturesService {
 
     return response.data as CancelEntitySweepResponse;
   }
+
+  async getRiskLimits(
+    request: GetEntityFuturesRiskLimitsRequest,
+    options?: CoinbaseCallOptions
+  ): Promise<GetEntityFuturesRiskLimitsResponse> {
+    const response = await this.client.request({
+      url: `entities/${request.entityId}/futures/risk_limits`,
+      callOptions: options,
+    });
+
+    return response.data as GetEntityFuturesRiskLimitsResponse;
+  }
+
+  async getMarginCallDetails(
+    request: GetEntityFuturesMarginCallDetailsRequest,
+    options?: CoinbaseCallOptions
+  ): Promise<GetEntityFuturesMarginCallDetailsResponse> {
+    const response = await this.client.request({
+      url: `entities/${request.entityId}/futures/margin_call_details`,
+      callOptions: options,
+    });
+
+    return response.data as GetEntityFuturesMarginCallDetailsResponse;
+  }
 }
+
+export type {
+  ListEntityFuturesSweepsRequest,
+  ListEntityFuturesSweepsResponse,
+  GetEntityFuturesBalanceRequest,
+  GetEntityFuturesBalanceResponse,
+  GetEntityFuturesPositionsRequest,
+  GetEntityFuturesPositionsResponse,
+  ScheduleEntityFuturesSweepRequest,
+  ScheduleEntityFuturesSweepResponse,
+  UpdateEntityFuturesAutoSweepRequest,
+  UpdateEntityFuturesAutoSweepResponse,
+  CancelEntitySweepRequest,
+  CancelEntitySweepResponse,
+  GetEntityFuturesRiskLimitsRequest,
+  GetEntityFuturesRiskLimitsResponse,
+  GetEntityFuturesMarginCallDetailsRequest,
+  GetEntityFuturesMarginCallDetailsResponse,
+} from './types';

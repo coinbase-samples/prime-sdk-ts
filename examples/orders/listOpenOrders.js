@@ -27,7 +27,7 @@
  *   node examples/orders/listOpenOrders.js BTC-USD
  */
 
-// #docs operationId: PrimeRESTAPI_ListOpenOrders
+// #docs operationId: PrimeRESTAPI_GetOpenOrders
 // #docs operationName: List Open Orders
 
 const { CoinbasePrimeClientWithServices } = require('../../dist');

@@ -28,7 +28,7 @@
  *   - ENTITY_ID: The ID of the entity to get futures balance for
  */
 
-// #docs operationId: PrimeRESTAPI_GetFCMBalance
+// #docs operationId: PrimeRESTAPI_GetFcmBalance
 // #docs operationName: Get FCM Balance
 
 const { CoinbasePrimeClientWithServices } = require('../../dist');

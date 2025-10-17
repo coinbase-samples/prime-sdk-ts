@@ -26,7 +26,7 @@
  *   node examples/portfolios/listPortfolios.js
  */
 
-// #docs operationId: PrimeRESTAPI_ListPortfolios
+// #docs operationId: PrimeRESTAPI_GetPortfolios
 // #docs operationName: List Portfolios
 
 const { CoinbasePrimeClientWithServices } = require('../../dist');
