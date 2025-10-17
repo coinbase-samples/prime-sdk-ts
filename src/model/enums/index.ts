@@ -10,6 +10,7 @@ export { AllocationSizeType } from './AllocationSizeType';
 export { AllocationStatus } from './AllocationStatus';
 export { AssetChangeType } from './AssetChangeType';
 export { Benchmark } from './Benchmark';
+export { CandlesGranularity } from './CandlesGranularity';
 export { DestinationType } from './DestinationType';
 export { FcmFuturesSweepStatus } from './FcmFuturesSweepStatus';
 export { FcmMarginCallState } from './FcmMarginCallState';

@@ -1395,6 +1395,65 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/coinbase.public_rest_api.GetBuyingPowerResponse'
+  /v1/portfolios/{portfolio_id}/candles:
+    get:
+      tags:
+      - Products
+      summary: Get Public Product Candles (Beta)
+      description: "Get rates for a single product by product ID, grouped in buckets.\
+        \ This feature is in beta please reach out to your Coinbase Prime account\
+        \ manager for more information."
+      operationId: PrimeRESTAPI_GetCandles
+      parameters:
+      - name: portfolio_id
+        in: path
+        description: The portfolio id requesting market data.
+        required: true
+        schema:
+          type: string
+      - name: product_id
+        in: query
+        description: The trading pair.
+        required: true
+        schema:
+          type: string
+      - name: start_time
+        in: query
+        description: Timestamp for starting range of aggregations
+        required: true
+        schema:
+          type: string
+          format: date-time
+      - name: end_time
+        in: query
+        description: Timestamp for ending range of aggregations
+        required: true
+        schema:
+          type: string
+          format: date-time
+      - name: granularity
+        in: query
+        description: The timeframe each candle represents.
+        required: true
+        schema:
+          type: string
+          enum:
+          - ONE_MINUTE
+          - FIVE_MINUTES
+          - FIFTEEN_MINUTES
+          - ONE_HOUR
+          - SIX_HOURS
+          - ONE_DAY
+          - THIRTY_MINUTE
+          - TWO_HOUR
+          - FOUR_HOUR
+      responses:
+        "200":
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.GetCandlesResponse'
   /v1/portfolios/{portfolio_id}/commission:
     get:
       tags:
@@ -4500,6 +4559,52 @@ components:
           type: string
           description: The unique UUID for the order
           example: 82c879c1-84e1-44ed-a8c2-1ac239cf09ad
+    coinbase.public_rest_api.Candle:
+      title: Represents a single candle data point
+      type: object
+      properties:
+        timestamp:
+          title: Timestamp for the start of the candle period
+          type: string
+          format: date-time
+        open:
+          title: Opening price for the period
+          type: string
+          description: Opening price for the period
+          example: "50000.00"
+        high:
+          title: Highest price during the period
+          type: string
+          description: Highest price during the period
+          example: "51000.00"
+        low:
+          title: Lowest price during the period
+          type: string
+          description: Lowest price during the period
+          example: "49500.00"
+        close:
+          title: Closing price for the period
+          type: string
+          description: Closing price for the period
+          example: "50500.00"
+        volume:
+          title: Volume traded during the period
+          type: string
+          description: Volume traded during the period
+          example: "1234.56"
+    coinbase.public_rest_api.CandlesGranularity:
+      title: Enum for candle granularity (time intervals)
+      type: string
+      enum:
+      - ONE_MINUTE
+      - FIVE_MINUTES
+      - FIFTEEN_MINUTES
+      - ONE_HOUR
+      - SIX_HOURS
+      - ONE_DAY
+      - THIRTY_MINUTE
+      - TWO_HOUR
+      - FOUR_HOUR
     coinbase.public_rest_api.Commission:
       type: object
       properties:
@@ -5219,6 +5324,14 @@ components:
       properties:
         buying_power:
           $ref: '#/components/schemas/coinbase.public_rest_api.BuyingPower'
+    coinbase.public_rest_api.GetCandlesResponse:
+      title: Candle response structure
+      type: object
+      properties:
+        candles:
+          type: array
+          items:
+            $ref: '#/components/schemas/coinbase.public_rest_api.Candle'
     coinbase.public_rest_api.GetCrossMarginOverviewResponse:
       type: object
       properties:
