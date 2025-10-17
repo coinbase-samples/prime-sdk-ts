@@ -14,7 +14,8 @@
  * limitations under the License.
  */
 import { Brand } from '../shared/brand';
-import { GetPortfolioProductsResponse } from '../model/';
+import { GetPortfolioProductsResponse, GetCandlesResponse } from '../model/';
+import { CandlesGranularity } from '../model/enums/';
 import { Pagination } from '../shared/pagination';
 import {
   PaginatedResponseMethods,
@@ -36,3 +37,16 @@ export type ListProductsResponse = BaseListProductsResponse &
     BaseListProductsResponse,
     any // Transaction type
   >;
+
+export type ListProductCandlesRequest = {
+  portfolioId: string;
+  productId: string;
+  startTime: string;
+  endTime: string;
+  granularity: CandlesGranularity;
+};
+
+export type ListProductCandlesResponse = Brand<
+  GetCandlesResponse,
+  'ListProductCandlesResponse'
+>;

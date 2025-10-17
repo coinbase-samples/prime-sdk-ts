@@ -15,7 +15,12 @@
  */
 import { IPrimeApiClient, CoinbaseCallOptions } from '../clients';
 
-import { ListProductsRequest, ListProductsResponse } from './types';
+import {
+  ListProductsRequest,
+  ListProductsResponse,
+  ListProductCandlesRequest,
+  ListProductCandlesResponse,
+} from './types';
 import {
   createPaginatedResponse,
   getDefaultPaginationOptions,
@@ -28,6 +33,11 @@ export interface IProductsService {
     request: ListProductsRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListProductsResponse>;
+
+  listProductCandles(
+    request: ListProductCandlesRequest,
+    options?: CoinbaseCallOptions
+  ): Promise<ListProductCandlesResponse>;
 }
 
 export class ProductsService implements IProductsService {
@@ -63,5 +73,24 @@ export class ProductsService implements IProductsService {
       ResponseExtractors.products,
       paginationOptions
     ) as ListProductsResponse;
+  }
+
+  async listProductCandles(
+    request: ListProductCandlesRequest,
+    options?: CoinbaseCallOptions
+  ): Promise<ListProductCandlesResponse> {
+    const { portfolioId, productId, startTime, endTime, granularity } = request;
+    const response = await this.client.request({
+      url: `portfolios/${portfolioId}/candles`,
+      queryParams: {
+        product_id: productId,
+        start_time: startTime,
+        end_time: endTime,
+        granularity: granularity,
+      },
+      callOptions: options,
+    });
+
+    return response.data as ListProductCandlesResponse;
   }
 }
