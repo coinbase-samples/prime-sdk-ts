@@ -38,7 +38,7 @@ const { CoinbasePrimeClientWithServices } = require('../../dist');
 
 const client = CoinbasePrimeClientWithServices.fromEnv();
 const portfolioId = process.env.PORTFOLIO_ID;
-const walletType = process.argv[2];
+const type = process.argv[2];
 const symbolsCsv = process.argv[3];
 
 if (!portfolioId) {
@@ -49,13 +49,13 @@ if (!portfolioId) {
 async function listWalletsExample() {
   try {
     let requestMessage = `💼 Listing wallets - Portfolio ID: ${portfolioId}`;
-    requestMessage += ` - Type: ${walletType}`;
+    requestMessage += ` - Type: ${type}`;
     if (symbolsCsv) requestMessage += ` - Symbols: ${symbolsCsv}`;
     console.log(requestMessage);
 
     const request = {
       portfolioId,
-      type: walletType,
+      type,
       symbols: symbolsCsv ? symbolsCsv.split(',') : undefined,
     };
 

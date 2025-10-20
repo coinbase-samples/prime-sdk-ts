@@ -215,6 +215,8 @@ export type {
 export type {
   ListProductsRequest,
   ListProductsResponse,
+  ListProductCandlesRequest,
+  ListProductCandlesResponse,
 } from './products/types';
 export type {
   CreateStakeRequest,

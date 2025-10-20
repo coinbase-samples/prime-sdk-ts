@@ -35,7 +35,7 @@
  *   - PORTFOLIO_ID: The ID of the portfolio to preview the order for
  */
 
-// #docs operationId: PrimeRESTAPI_PostOrderPreview
+// #docs operationId: PrimeRESTAPI_OrderPreview
 // #docs operationName: Post Order Preview
 
 const { CoinbasePrimeClientWithServices } = require('../../dist');

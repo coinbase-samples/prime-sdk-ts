@@ -22,6 +22,8 @@ import {
   ScheduleFuturesSweepRequest,
   ScheduleFuturesSweepResponse,
   CancelFuturesSweepResponse,
+  GetFcmRiskLimitsResponse,
+  GetFcmMarginCallDetailsResponse,
 } from '../model/';
 
 export type ListEntityFuturesSweepsRequest = {
@@ -78,4 +80,22 @@ export type CancelEntitySweepRequest = {
 export type CancelEntitySweepResponse = Brand<
   CancelFuturesSweepResponse,
   'CancelEntitySweepResponse'
+>;
+
+export type GetEntityFuturesRiskLimitsRequest = {
+  entityId: string;
+};
+
+export type GetEntityFuturesRiskLimitsResponse = Brand<
+  GetFcmRiskLimitsResponse,
+  'GetEntityFuturesRiskLimitsResponse'
+>;
+
+export type GetEntityFuturesMarginCallDetailsRequest = {
+  entityId: string;
+};
+
+export type GetEntityFuturesMarginCallDetailsResponse = Brand<
+  GetFcmMarginCallDetailsResponse,
+  'GetEntityFuturesMarginCallDetailsResponse'
 >;
