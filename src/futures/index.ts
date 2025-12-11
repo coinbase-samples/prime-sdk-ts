@@ -32,6 +32,10 @@ import {
   GetEntityFuturesRiskLimitsResponse,
   GetEntityFuturesMarginCallDetailsRequest,
   GetEntityFuturesMarginCallDetailsResponse,
+  GetFcmSettingsRequest,
+  GetFcmSettingsResponse,
+  SetFcmSettingsRequest,
+  SetFcmSettingsResponse,
 } from './types';
 
 export interface IFuturesService {
@@ -74,6 +78,16 @@ export interface IFuturesService {
     request: GetEntityFuturesMarginCallDetailsRequest,
     options?: CoinbaseCallOptions
   ): Promise<GetEntityFuturesMarginCallDetailsResponse>;
+
+  getFcmSettings(
+    request: GetFcmSettingsRequest,
+    options?: CoinbaseCallOptions
+  ): Promise<GetFcmSettingsResponse>;
+
+  setFcmSettings(
+    request: SetFcmSettingsRequest,
+    options?: CoinbaseCallOptions
+  ): Promise<SetFcmSettingsResponse>;
 }
 
 export class FuturesService implements IFuturesService {
@@ -185,6 +199,32 @@ export class FuturesService implements IFuturesService {
 
     return response.data as GetEntityFuturesMarginCallDetailsResponse;
   }
+
+  async getFcmSettings(
+    request: GetFcmSettingsRequest,
+    options?: CoinbaseCallOptions
+  ): Promise<GetFcmSettingsResponse> {
+    const response = await this.client.request({
+      url: `entities/${request.entityId}/futures/settings`,
+      callOptions: options,
+    });
+
+    return response.data as GetFcmSettingsResponse;
+  }
+
+  async setFcmSettings(
+    request: SetFcmSettingsRequest,
+    options?: CoinbaseCallOptions
+  ): Promise<SetFcmSettingsResponse> {
+    const response = await this.client.request({
+      url: `entities/${request.entityId}/futures/settings`,
+      method: Method.POST,
+      bodyParams: { targetDerivativesExcess: request.targetDerivativesExcess },
+      callOptions: options,
+    });
+
+    return response.data as SetFcmSettingsResponse;
+  }
 }
 
 export type {
@@ -204,4 +244,8 @@ export type {
   GetEntityFuturesRiskLimitsResponse,
   GetEntityFuturesMarginCallDetailsRequest,
   GetEntityFuturesMarginCallDetailsResponse,
+  GetFcmSettingsRequest,
+  GetFcmSettingsResponse,
+  SetFcmSettingsRequest,
+  SetFcmSettingsResponse,
 } from './types';

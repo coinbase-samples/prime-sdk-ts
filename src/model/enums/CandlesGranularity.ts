@@ -25,7 +25,7 @@ export enum CandlesGranularity {
   OneHour = 'ONE_HOUR',
   SixHours = 'SIX_HOURS',
   OneDay = 'ONE_DAY',
-  ThirtyMinute = 'THIRTY_MINUTE',
-  TwoHour = 'TWO_HOUR',
-  FourHour = 'FOUR_HOUR',
+  ThirtyMinutes = 'THIRTY_MINUTES',
+  TwoHours = 'TWO_HOURS',
+  FourHours = 'FOUR_HOURS',
 }

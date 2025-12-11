@@ -29,6 +29,8 @@ import {
   ListTransactionValidatorsResponse as internalListTransactionValidatorsResponse,
   StakingClaimRewardsRequest as internalStakingClaimRewardsRequest,
   StakingClaimRewardsResponse as internalStakingClaimRewardsResponse,
+  PreviewUnstakeResponse as internalPreviewUnstakeResponse,
+  GetUnstakingStatusResponse as internalGetUnstakingStatusResponse,
   WalletClaimRewardsInputs,
 } from 'src/model/';
 
@@ -97,4 +99,25 @@ export type ClaimRewardsRequest = internalStakingClaimRewardsRequest & {
 export type ClaimRewardsResponse = Brand<
   internalStakingClaimRewardsResponse,
   'ClaimRewardsResponse'
+>;
+
+export type PreviewUnstakeRequest = {
+  portfolioId: string;
+  walletId: string;
+  amount: string;
+};
+
+export type PreviewUnstakeResponse = Brand<
+  internalPreviewUnstakeResponse,
+  'PreviewUnstakeResponse'
+>;
+
+export type GetUnstakingStatusRequest = {
+  portfolioId: string;
+  walletId: string;
+};
+
+export type GetUnstakingStatusResponse = Brand<
+  internalGetUnstakingStatusResponse,
+  'GetUnstakingStatusResponse'
 >;

@@ -18,12 +18,27 @@
  *  Do not edit the class manually.
  */
 
-/**
- * - CALL_TYPE_STANDARD: Evaluated at standard margin call evaluation time  - CALL_TYPE_URGENT: Evaluated in realtime  - CALL_TYPE_DEBIT: Evaluated at debit call evaluation time
- */
-export enum XMCallType {
-  XmCallTypeUnspecified = 'XM_CALL_TYPE_UNSPECIFIED',
-  CallTypeStandard = 'CALL_TYPE_STANDARD',
-  CallTypeUrgent = 'CALL_TYPE_URGENT',
-  CallTypeDebit = 'CALL_TYPE_DEBIT',
-}
+import { ValidatorUnstakingInfo } from './ValidatorUnstakingInfo';
+
+export type GetUnstakingStatusResponse = {
+  /**
+   * The portfolio ID
+   */
+  portfolioId: string;
+  /**
+   * The wallet ID
+   */
+  walletId: string;
+  /**
+   * The wallet address
+   */
+  walletAddress: string;
+  /**
+   * Current timestamp at time of API call
+   */
+  currentTimestamp: Date;
+  /**
+   * List of validators with unstaking information for this wallet
+   */
+  validators: Array<ValidatorUnstakingInfo>;
+};

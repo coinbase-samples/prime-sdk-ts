@@ -19,11 +19,10 @@
  */
 
 /**
- * - CALL_TYPE_STANDARD: Evaluated at standard margin call evaluation time  - CALL_TYPE_URGENT: Evaluated in realtime  - CALL_TYPE_DEBIT: Evaluated at debit call evaluation time
+ * - TRAVEL_RULE_WALLET_TYPE_UNSPECIFIED: Default unspecified wallet type  - TRAVEL_RULE_WALLET_TYPE_VASP: Centralized exchange wallet  - TRAVEL_RULE_WALLET_TYPE_SELF_CUSTODIED: Self-hosted/custodial wallet
  */
-export enum XMCallType {
-  XmCallTypeUnspecified = 'XM_CALL_TYPE_UNSPECIFIED',
-  CallTypeStandard = 'CALL_TYPE_STANDARD',
-  CallTypeUrgent = 'CALL_TYPE_URGENT',
-  CallTypeDebit = 'CALL_TYPE_DEBIT',
+export enum TravelRuleWalletType {
+  TravelRuleWalletTypeUnspecified = 'TRAVEL_RULE_WALLET_TYPE_UNSPECIFIED',
+  TravelRuleWalletTypeVasp = 'TRAVEL_RULE_WALLET_TYPE_VASP',
+  TravelRuleWalletTypeSelfCustodied = 'TRAVEL_RULE_WALLET_TYPE_SELF_CUSTODIED',
 }

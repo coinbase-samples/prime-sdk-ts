@@ -20,6 +20,7 @@
 
 import { OrderSide } from './enums/OrderSide';
 import { OrderType } from './enums/OrderType';
+import { PegOffsetType } from './enums/PegOffsetType';
 import { TimeInForceType } from './enums/TimeInForceType';
 
 export type OrderPreviewRequest = {
@@ -48,4 +49,10 @@ export type OrderPreviewRequest = {
    * The maximum order size that will show up on venue order books (in base currency).
    */
   displayBaseSize?: string;
+  pegOffsetType?: PegOffsetType;
+  offset?: string;
+  /**
+   * next: 21
+   */
+  wigLevel?: string;
 };

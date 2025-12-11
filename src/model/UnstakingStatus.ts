@@ -18,12 +18,30 @@
  *  Do not edit the class manually.
  */
 
-/**
- * - CALL_TYPE_STANDARD: Evaluated at standard margin call evaluation time  - CALL_TYPE_URGENT: Evaluated in realtime  - CALL_TYPE_DEBIT: Evaluated at debit call evaluation time
- */
-export enum XMCallType {
-  XmCallTypeUnspecified = 'XM_CALL_TYPE_UNSPECIFIED',
-  CallTypeStandard = 'CALL_TYPE_STANDARD',
-  CallTypeUrgent = 'CALL_TYPE_URGENT',
-  CallTypeDebit = 'CALL_TYPE_DEBIT',
-}
+import { EstimateType } from './enums/EstimateType';
+import { UnstakeType } from './enums/UnstakeType';
+
+export type UnstakingStatus = {
+  /**
+   * Amount being unstaked (whole amount, e.g., 16 ETH)
+   */
+  amount: string;
+  unstakeType?: UnstakeType;
+  /**
+   * Estimated date when unstaking will complete (ISO 8601 format)
+   */
+  finishingAt?: Date;
+  /**
+   * Estimated hours until this unstaking request completes
+   */
+  remainingHours?: number;
+  /**
+   * Timestamp when the unstake request was originally created
+   */
+  requestedAt?: Date;
+  estimateType: EstimateType;
+  /**
+   * Detailed explanation of the estimate status for display to users.
+   */
+  estimateDescription: string;
+};

@@ -18,12 +18,13 @@
  *  Do not edit the class manually.
  */
 
+import { BlockchainAddress } from './BlockchainAddress';
+import { TravelRuleWalletType } from './enums/TravelRuleWalletType';
+
 /**
- * - CALL_TYPE_STANDARD: Evaluated at standard margin call evaluation time  - CALL_TYPE_URGENT: Evaluated in realtime  - CALL_TYPE_DEBIT: Evaluated at debit call evaluation time
+ * Details about the custody wallet used in the transfer.
  */
-export enum XMCallType {
-  XmCallTypeUnspecified = 'XM_CALL_TYPE_UNSPECIFIED',
-  CallTypeStandard = 'CALL_TYPE_STANDARD',
-  CallTypeUrgent = 'CALL_TYPE_URGENT',
-  CallTypeDebit = 'CALL_TYPE_DEBIT',
-}
+export type TravelRuleWalletDetails = {
+  walletType?: TravelRuleWalletType;
+  walletAddress?: BlockchainAddress;
+};

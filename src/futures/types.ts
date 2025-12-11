@@ -24,6 +24,8 @@ import {
   CancelFuturesSweepResponse,
   GetFcmRiskLimitsResponse,
   GetFcmMarginCallDetailsResponse,
+  GetFcmSettingsResponse as internalGetFcmSettingsResponse,
+  SetFcmSettingsResponse as internalSetFcmSettingsResponse,
 } from '../model/';
 
 export type ListEntityFuturesSweepsRequest = {
@@ -98,4 +100,23 @@ export type GetEntityFuturesMarginCallDetailsRequest = {
 export type GetEntityFuturesMarginCallDetailsResponse = Brand<
   GetFcmMarginCallDetailsResponse,
   'GetEntityFuturesMarginCallDetailsResponse'
+>;
+
+export type GetFcmSettingsRequest = {
+  entityId: string;
+};
+
+export type GetFcmSettingsResponse = Brand<
+  internalGetFcmSettingsResponse,
+  'GetFcmSettingsResponse'
+>;
+
+export type SetFcmSettingsRequest = {
+  entityId: string;
+  targetDerivativesExcess: string;
+};
+
+export type SetFcmSettingsResponse = Brand<
+  internalSetFcmSettingsResponse,
+  'SetFcmSettingsResponse'
 >;

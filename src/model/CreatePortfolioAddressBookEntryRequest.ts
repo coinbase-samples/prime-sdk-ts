@@ -18,6 +18,8 @@
  *  Do not edit the class manually.
  */
 
+import { TravelRuleEntry } from './TravelRuleEntry';
+
 export type CreatePortfolioAddressBookEntryRequest = {
   /**
    * Crypto address to add
@@ -35,4 +37,9 @@ export type CreatePortfolioAddressBookEntryRequest = {
    * Account Identifier (memo/destination tag)
    */
   accountIdentifier?: string;
+  /**
+   * List of compatible chain IDs for the address, empty for Solana
+   */
+  chainIds?: Array<string>;
+  travelRuleData?: TravelRuleEntry;
 };

@@ -20,6 +20,7 @@
 
 import { OrderSide } from './enums/OrderSide';
 import { OrderType } from './enums/OrderType';
+import { PegOffsetType } from './enums/PegOffsetType';
 import { TimeInForceType } from './enums/TimeInForceType';
 
 export type CreateOrderRequest = {
@@ -44,7 +45,13 @@ export type CreateOrderRequest = {
   stopPrice?: string;
   settlCurrency?: string;
   /**
-   * Post-only flag - when true, the order will only be posted to the order book and not immediately matched. Only applicable to LIMIT orders with GTC or GTD time in force.  next: 20
+   * Post-only flag - when true, the order will only be posted to the order book and not immediately matched. Only applicable to LIMIT orders with GTC or GTD time in force.
    */
   postOnly?: boolean;
+  pegOffsetType?: PegOffsetType;
+  offset?: string;
+  /**
+   * next: 23
+   */
+  wigLevel?: string;
 };
