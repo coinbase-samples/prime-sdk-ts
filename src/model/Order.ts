@@ -142,4 +142,16 @@ export type Order = {
    * The maximum order size that will show up on venue order books (in base currency).
    */
   displayBaseSize?: string;
+  /**
+   * The peg offset type for PEG orders (PRICE, BASIS_POINTS, or CUMULATIVE_DEPTH_IN_BASE_UNITS)
+   */
+  pegOffsetType?: string;
+  /**
+   * The offset value for PEG orders
+   */
+  offset?: string;
+  /**
+   * The wig (would if good) level for PEG orders - best price opposite to limit_price
+   */
+  wigLevel?: string;
 };

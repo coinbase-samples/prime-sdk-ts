@@ -29,6 +29,8 @@ import {
   GetFcmRiskLimitsResponse as internalGetFcmRiskLimitsResponse,
   CreateNewLocatesResponse as internalCreateNewLocatesResponse,
   GetCrossMarginOverviewResponse as internalGetCrossMarginOverviewResponse,
+  ListTFObligationsResponse as internalListTFObligationsResponse,
+  ListFinancingEligibleAssetsResponse as internalListFinancingEligibleAssetsResponse,
 } from '../model/';
 
 export type ListExistingLocatesRequest = {
@@ -184,4 +186,20 @@ export type GetCrossMarginOverviewRequest = {
 export type GetCrossMarginOverviewResponse = Brand<
   internalGetCrossMarginOverviewResponse,
   'GetCrossMarginOverviewResponse'
+>;
+
+export type ListTFObligationsRequest = {
+  entityId: string;
+};
+
+export type ListTFObligationsResponse = Brand<
+  internalListTFObligationsResponse,
+  'ListTFObligationsResponse'
+>;
+
+export type ListFinancingEligibleAssetsRequest = Record<string, never>;
+
+export type ListFinancingEligibleAssetsResponse = Brand<
+  internalListFinancingEligibleAssetsResponse,
+  'ListFinancingEligibleAssetsResponse'
 >;

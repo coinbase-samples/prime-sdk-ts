@@ -54,4 +54,8 @@ export type NetworkDetails = {
    * Base URL to our recommended block explorer (crypto only)
    */
   networkLink?: string;
+  /**
+   * Indicates the symbol that can be used to query other endpoints, related to transactions, wallets, and activities, to get information particularly for this asset on the network
+   */
+  networkScopedSymbol?: string;
 };

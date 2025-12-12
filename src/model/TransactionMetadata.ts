@@ -19,9 +19,11 @@
  */
 
 import { MatchMetadata } from './MatchMetadata';
+import { RewardMetadata } from './RewardMetadata';
 import { Web3TransactionMetadata } from './Web3TransactionMetadata';
 
 export type TransactionMetadata = {
   matchMetadata?: MatchMetadata;
   web3TransactionMetadata?: Web3TransactionMetadata;
+  rewardMetadata?: RewardMetadata;
 };

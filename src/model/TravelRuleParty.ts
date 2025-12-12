@@ -18,12 +18,17 @@
  *  Do not edit the class manually.
  */
 
+import { DateOfBirth } from './DateOfBirth';
+import { DetailedAddress } from './DetailedAddress';
+import { NaturalPersonName } from './NaturalPersonName';
+
 /**
- * - CALL_TYPE_STANDARD: Evaluated at standard margin call evaluation time  - CALL_TYPE_URGENT: Evaluated in realtime  - CALL_TYPE_DEBIT: Evaluated at debit call evaluation time
+ * Represents one of the Transmittal Parties involved in a Travel Rule transfer, either originator or beneficiary.
  */
-export enum XMCallType {
-  XmCallTypeUnspecified = 'XM_CALL_TYPE_UNSPECIFIED',
-  CallTypeStandard = 'CALL_TYPE_STANDARD',
-  CallTypeUrgent = 'CALL_TYPE_URGENT',
-  CallTypeDebit = 'CALL_TYPE_DEBIT',
-}
+export type TravelRuleParty = {
+  name?: string;
+  detailedAddress?: DetailedAddress;
+  naturalPersonName?: NaturalPersonName;
+  dateOfBirth?: DateOfBirth;
+  telephoneNumber?: string;
+};

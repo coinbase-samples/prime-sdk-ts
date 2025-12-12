@@ -207,6 +207,12 @@ paths:
           enum:
           - DESC
           - ASC
+      - name: get_network_unified_activities
+        in: query
+        description: Flag to request retrieval of all activities across all networks
+          for a given symbol
+        schema:
+          type: boolean
       responses:
         "200":
           description: A successful response.
@@ -468,6 +474,60 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/coinbase.public_rest_api.GetFcmRiskLimitsResponse'
+  /v1/entities/{entity_id}/futures/settings:
+    get:
+      tags:
+      - Futures
+      summary: Get FCM Settings
+      description: Get settings related to FCM.
+      operationId: PrimeRESTAPI_GetFcmSettings
+      parameters:
+      - name: entity_id
+        in: path
+        description: Entity ID
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.GetFcmSettingsResponse'
+    post:
+      tags:
+      - Futures
+      summary: Set FCM Settings
+      description: Update settings related to FCM.
+      operationId: PrimeRESTAPI_SetFcmSettings
+      parameters:
+      - name: entity_id
+        in: path
+        description: Entity ID
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                target_derivatives_excess:
+                  type: string
+                  description: Target CFM Excess amount to set. Only non-negative
+                    number is allowed
+                  example: "1000.00"
+        required: true
+      responses:
+        "200":
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.SetFcmSettingsResponse'
+      x-codegen-request-body-name: body
   /v1/entities/{entity_id}/futures/sweeps:
     get:
       tags:
@@ -775,6 +835,27 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/coinbase.public_rest_api.ListEntityPositionsResponse'
+  /v1/entities/{entity_id}/tf_obligations:
+    get:
+      tags:
+      - Financing
+      summary: List Trade Finance Obligations
+      description: List trade finance obligations for a given entity.
+      operationId: PrimeRESTAPI_ListTFObligations
+      parameters:
+      - name: entity_id
+        in: path
+        description: The entity ID to retrieve obligations for
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.ListTFObligationsResponse'
   /v1/entities/{entity_id}/tf_tiered_fees:
     get:
       tags:
@@ -843,6 +924,21 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/coinbase.public_rest_api.GetEntityUsersResponse'
+  /v1/financing/eligible-assets:
+    get:
+      tags:
+      - Financing
+      summary: List Financing Eligible Assets
+      description: Get all assets eligible for Trade Finance with their adjustment
+        factors.
+      operationId: PrimeRESTAPI_ListFinancingEligibleAssets
+      responses:
+        "200":
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.ListFinancingEligibleAssetsResponse'
   /v1/portfolios:
     get:
       tags:
@@ -1052,6 +1148,12 @@ paths:
           enum:
           - DESC
           - ASC
+      - name: get_network_unified_activities
+        in: query
+        description: Flag to request retrieval of all activities across all networks
+          for a given symbol
+        schema:
+          type: boolean
       responses:
         "200":
           description: A successful response.
@@ -1174,6 +1276,14 @@ paths:
                 account_identifier:
                   type: string
                   description: Account Identifier (memo/destination tag)
+                chain_ids:
+                  type: array
+                  description: "List of compatible chain IDs for the address, empty\
+                    \ for Solana"
+                  items:
+                    type: string
+                travel_rule_data:
+                  $ref: '#/components/schemas/coinbase.public_rest_api.TravelRuleEntry'
         required: true
       responses:
         "200":
@@ -1187,7 +1297,7 @@ paths:
     get:
       tags:
       - Allocations
-      summary: Get Portfolio Allocations
+      summary: List Portfolio Allocations
       description: List historical allocations for a given portfolio.
       operationId: PrimeRESTAPI_GetPortfolioAllocations
       parameters:
@@ -1444,9 +1554,9 @@ paths:
           - ONE_HOUR
           - SIX_HOURS
           - ONE_DAY
-          - THIRTY_MINUTE
-          - TWO_HOUR
-          - FOUR_HOUR
+          - THIRTY_MINUTES
+          - TWO_HOURS
+          - FOUR_HOURS
       responses:
         "200":
           description: A successful response.
@@ -1816,7 +1926,7 @@ paths:
       - Orders
       summary: List Open Orders
       description: "List all open orders. <br /><br />**Caution:** The maximum number\
-        \ of orders returned is 1000. If a client has more than 1000 open orders,\
+        \ of orders returned is 5000. If a client has more than 5000 open orders,\
         \ an error is returned prompting the user to use Websocket API, or FIX API\
         \ to stream open orders."
       operationId: PrimeRESTAPI_GetOpenOrders
@@ -1849,6 +1959,7 @@ paths:
            - VWAP: A [volume-weighted average price order](https://en.wikipedia.org/wiki/Volume-weighted_average_price)
            - STOP_LIMIT: A [conditional order combined of stop order and limit order](https://en.wikipedia.org/wiki/Order_(exchange)#Stop-limit_order)
            - RFQ: A [request for quote](https://en.wikipedia.org/wiki/Request_for_quote)
+           - PEG: A pegged order that dynamically adjust based on market conditions while maintaining execution discretion and avoiding adverse selection
         schema:
           type: string
           enum:
@@ -1859,6 +1970,7 @@ paths:
           - VWAP
           - STOP_LIMIT
           - RFQ
+          - PEG
       - name: cursor
         in: query
         description: "**Deprecated** - this endpoint always returns one page with\
@@ -2004,10 +2116,21 @@ paths:
                   type: string
                 post_only:
                   type: boolean
-                  description: |-
-                    Post-only flag - when true, the order will only be posted to the order book and not immediately matched. Only applicable to LIMIT orders with GTC or GTD time in force.
-
-                    next: 20
+                  description: "Post-only flag - when true, the order will only be\
+                    \ posted to the order book and not immediately matched. Only applicable\
+                    \ to LIMIT orders with GTC or GTD time in force."
+                peg_offset_type:
+                  $ref: '#/components/schemas/coinbase.public_rest_api.PegOffsetType'
+                offset:
+                  title: Offset value for PEG orders. 0 means peg to BBO. Only non-negative
+                    values are allowed (PEG orders only)
+                  type: string
+                wig_level:
+                  title: "WIG (Would if Good) level - the best price a pegged order\
+                    \ would be placed on venues, opposite to limit_price (PEG orders\
+                    \ only)"
+                  type: string
+                  description: "next: 23"
         required: true
       responses:
         "200":
@@ -2102,6 +2225,18 @@ paths:
                   description: The maximum order size that will show up on venue order
                     books (in base currency).
                   example: "10.5"
+                peg_offset_type:
+                  $ref: '#/components/schemas/coinbase.public_rest_api.PegOffsetType'
+                offset:
+                  title: Offset value for PEG orders. 0 means peg to BBO. Only non-negative
+                    values are allowed (PEG orders only)
+                  type: string
+                wig_level:
+                  title: "WIG (Would if Good) level - the best price a pegged order\
+                    \ would be placed on venues, opposite to limit_price (PEG orders\
+                    \ only)"
+                  type: string
+                  description: "next: 21"
         required: true
       responses:
         "200":
@@ -2177,6 +2312,7 @@ paths:
            - VWAP: A [volume-weighted average price order](https://en.wikipedia.org/wiki/Volume-weighted_average_price)
            - STOP_LIMIT: A [conditional order combined of stop order and limit order](https://en.wikipedia.org/wiki/Order_(exchange)#Stop-limit_order)
            - RFQ: A [request for quote](https://en.wikipedia.org/wiki/Request_for_quote)
+           - PEG: A pegged order that dynamically adjust based on market conditions while maintaining execution discretion and avoiding adverse selection
         schema:
           type: string
           enum:
@@ -2187,6 +2323,7 @@ paths:
           - VWAP
           - STOP_LIMIT
           - RFQ
+          - PEG
       - name: cursor
         in: query
         description: Cursor used for pagination (last consumed record)
@@ -2712,8 +2849,7 @@ paths:
       tags:
       - Transactions
       summary: List Portfolio Transactions
-      description: List transactions for a given portfolio (only transactions that
-        affect balances are accessible).
+      description: List transactions for a given portfolio.
       operationId: PrimeRESTAPI_GetPortfolioTransactions
       parameters:
       - name: portfolio_id
@@ -2767,6 +2903,8 @@ paths:
            - WEB3_TRANSACTION: On-chain transaction initiated with Prime Onchain Wallet
           Deprecated: Use ONCHAIN_TRANSACTION instead
            - ONCHAIN_TRANSACTION: On-chain transaction initiated with Prime Onchain Wallet
+           - PORTFOLIO_STAKE: Portfolio-level staking operation
+           - PORTFOLIO_UNSTAKE: Portfolio-level unstaking operation
         style: form
         explode: true
         schema:
@@ -2807,6 +2945,8 @@ paths:
             - VOTE_AUTHORIZE
             - WEB3_TRANSACTION
             - ONCHAIN_TRANSACTION
+            - PORTFOLIO_STAKE
+            - PORTFOLIO_UNSTAKE
       - name: start_time
         in: query
         description: "UTC timestamp from which to filter the response (inclusive,\
@@ -2841,6 +2981,26 @@ paths:
           enum:
           - DESC
           - ASC
+      - name: get_network_unified_transactions
+        in: query
+        description: Flag to request retrieval of all transactions across all networks
+          for a given symbol
+        schema:
+          type: boolean
+      - name: travel_rule_status
+        in: query
+        description: (Alpha) Filter for status of returned transactions' travel rule
+          submissions - an inclusive OR filter
+        style: form
+        explode: true
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - TRAVEL_RULE_STATUS_UNSPECIFIED
+            - TRAVEL_RULE_STATUS_PENDING
+            - TRAVEL_RULE_STATUS_SUBMITTED
       responses:
         "200":
           description: A successful response.
@@ -2853,8 +3013,7 @@ paths:
       tags:
       - Transactions
       summary: Get Transaction by Transaction ID
-      description: Retrieve a specific transaction by its transaction ID (only transactions
-        that affect balances are accessible).
+      description: Retrieve a specific transaction by its transaction ID.
       operationId: PrimeRESTAPI_GetTransaction
       parameters:
       - name: portfolio_id
@@ -2979,6 +3138,12 @@ paths:
           type: array
           items:
             type: string
+      - name: get_network_unified_wallets
+        in: query
+        description: Flag to request retrieval of all wallets across all networks
+          for a given symbol
+        schema:
+          type: boolean
       responses:
         "200":
           description: A successful response.
@@ -3083,8 +3248,8 @@ paths:
           type: string
       - name: network_id
         in: query
-        description: The blockchain network name and type
-        required: true
+        description: "The blockchain network name and type, provide an empty network\
+          \ to retrieve addresses across all networks for this wallet"
         schema:
           type: string
       - name: cursor
@@ -3483,13 +3648,84 @@ paths:
               schema:
                 $ref: '#/components/schemas/coinbase.public_rest_api.StakingUnstakeResponse'
       x-codegen-request-body-name: body
+  /v1/portfolios/{portfolio_id}/wallets/{wallet_id}/staking/unstake/preview:
+    post:
+      tags:
+      - Staking
+      summary: Preview Unstake
+      description: Previews an unstaking request with the given amount and returns
+        the estimated amount that would be unstaked. This feature currently only supports
+        ETH.
+      operationId: PrimeRESTAPI_PreviewUnstake
+      parameters:
+      - name: portfolio_id
+        in: path
+        description: The portfolio ID
+        required: true
+        schema:
+          type: string
+      - name: wallet_id
+        in: path
+        description: The wallet ID
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              required:
+              - amount
+              type: object
+              properties:
+                amount:
+                  type: string
+                  description: Amount to preview unstaking
+              description: PreviewUnstakeRequest represents a request to preview an
+                unstaking operation.
+        required: true
+      responses:
+        "200":
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.PreviewUnstakeResponse'
+      x-codegen-request-body-name: body
+  /v1/portfolios/{portfolio_id}/wallets/{wallet_id}/staking/unstake/status:
+    get:
+      tags:
+      - Staking
+      summary: Get Unstaking Status
+      description: Get unstaking estimates for a wallet. Returns estimated completion
+        times for active unstaking requests.
+      operationId: PrimeRESTAPI_GetUnstakingStatus
+      parameters:
+      - name: portfolio_id
+        in: path
+        description: The portfolio ID
+        required: true
+        schema:
+          type: string
+      - name: wallet_id
+        in: path
+        description: The wallet ID
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.GetUnstakingStatusResponse'
   /v1/portfolios/{portfolio_id}/wallets/{wallet_id}/transactions:
     get:
       tags:
       - Transactions
       summary: List Wallet Transactions
-      description: Retrieve transactions for a given wallet (only transactions that
-        affect balances are accessible).
+      description: Retrieve transactions for a given wallet.
       operationId: PrimeRESTAPI_GetWalletTransactions
       parameters:
       - name: portfolio_id
@@ -3544,6 +3780,8 @@ paths:
            - WEB3_TRANSACTION: On-chain transaction initiated with Prime Onchain Wallet
           Deprecated: Use ONCHAIN_TRANSACTION instead
            - ONCHAIN_TRANSACTION: On-chain transaction initiated with Prime Onchain Wallet
+           - PORTFOLIO_STAKE: Portfolio-level staking operation
+           - PORTFOLIO_UNSTAKE: Portfolio-level unstaking operation
         style: form
         explode: true
         schema:
@@ -3584,6 +3822,8 @@ paths:
             - VOTE_AUTHORIZE
             - WEB3_TRANSACTION
             - ONCHAIN_TRANSACTION
+            - PORTFOLIO_STAKE
+            - PORTFOLIO_UNSTAKE
       - name: start_time
         in: query
         description: "UTC timestamp from which to filter the response (inclusive,\
@@ -4602,9 +4842,9 @@ components:
       - ONE_HOUR
       - SIX_HOURS
       - ONE_DAY
-      - THIRTY_MINUTE
-      - TWO_HOUR
-      - FOUR_HOUR
+      - THIRTY_MINUTES
+      - TWO_HOURS
+      - FOUR_HOURS
     coinbase.public_rest_api.Commission:
       type: object
       properties:
@@ -4966,6 +5206,22 @@ components:
           description: List of active XM loans
           items:
             $ref: '#/components/schemas/coinbase.public_rest_api.XMLoan'
+    coinbase.public_rest_api.DateOfBirth:
+      title: Date of birth representation
+      type: object
+      properties:
+        year:
+          title: Year (YYYY format)
+          type: integer
+          format: int64
+        month:
+          title: Month (1-12)
+          type: integer
+          format: int64
+        day:
+          title: Day (1-31)
+          type: integer
+          format: int64
     coinbase.public_rest_api.DefiBalance:
       type: object
       properties:
@@ -5013,6 +5269,31 @@ components:
       - DESTINATION_BLOCKCHAIN
       - DESTINATION_WALLET
       - DESTINATION_COUNTERPARTY
+    coinbase.public_rest_api.DetailedAddress:
+      title: Detailed address information
+      type: object
+      properties:
+        address_1:
+          title: Primary address line
+          type: string
+        address_2:
+          title: Secondary address line (optional)
+          type: string
+        address_3:
+          title: Tertiary address line (optional)
+          type: string
+        city:
+          title: City name
+          type: string
+        state:
+          title: State or province
+          type: string
+        country_code:
+          title: ISO 3166-1 alpha-2 country code
+          type: string
+        postal_code:
+          title: Postal/ZIP code
+          type: string
     coinbase.public_rest_api.EditOrderResponse:
       type: object
       properties:
@@ -5064,6 +5345,13 @@ components:
           example: 2c521d6c-1cfb-4371-bf9c-5a42938d3e75
         role:
           $ref: '#/components/schemas/coinbase.public_rest_api.UserRole'
+    coinbase.public_rest_api.EstimateType:
+      type: string
+      default: UNSPECIFIED
+      enum:
+      - UNSPECIFIED
+      - LIVE
+      - INTERIM
     coinbase.public_rest_api.EstimatedNetworkFees:
       type: object
       properties:
@@ -5464,6 +5752,13 @@ components:
           type: string
           description: Unsettled accrued funding PNL from the last settlement
           example: "10.12"
+    coinbase.public_rest_api.GetFcmSettingsResponse:
+      type: object
+      properties:
+        target_derivatives_excess:
+          type: string
+          description: Target derivatives excess in the FCM
+          example: "1000.00"
     coinbase.public_rest_api.GetFuturesSweepsResponse:
       type: object
       properties:
@@ -5739,6 +6034,34 @@ components:
       properties:
         transaction:
           $ref: '#/components/schemas/coinbase.public_rest_api.Transaction'
+    coinbase.public_rest_api.GetUnstakingStatusResponse:
+      required:
+      - current_timestamp
+      - portfolio_id
+      - validators
+      - wallet_address
+      - wallet_id
+      type: object
+      properties:
+        portfolio_id:
+          type: string
+          description: The portfolio ID
+        wallet_id:
+          type: string
+          description: The wallet ID
+        wallet_address:
+          type: string
+          description: The wallet address
+        current_timestamp:
+          type: string
+          description: Current timestamp at time of API call
+          format: date-time
+          example: 2025-10-17T15:30:00Z
+        validators:
+          type: array
+          description: List of validators with unstaking information for this wallet
+          items:
+            $ref: '#/components/schemas/coinbase.public_rest_api.ValidatorUnstakingInfo'
     coinbase.public_rest_api.GetWalletBalanceResponse:
       type: object
       properties:
@@ -5898,6 +6221,16 @@ components:
             $ref: '#/components/schemas/coinbase.public_rest_api.Position'
         pagination:
           $ref: '#/components/schemas/coinbase.public_rest_api.PaginatedResponse'
+    coinbase.public_rest_api.ListFinancingEligibleAssetsResponse:
+      title: ListFinancingEligibleAssetsResponse contains the list of financing eligible
+        assets with their details
+      type: object
+      properties:
+        assets:
+          type: array
+          description: List of assets eligible for Trade Finance
+          items:
+            $ref: '#/components/schemas/coinbase.public_rest_api.TFAsset'
     coinbase.public_rest_api.ListOnchainAddressGroupsResponse:
       required:
       - address_groups
@@ -5907,6 +6240,15 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/coinbase.public_rest_api.AddressGroup'
+    coinbase.public_rest_api.ListTFObligationsResponse:
+      title: Response containing trade finance obligations for an entity
+      type: object
+      properties:
+        obligations:
+          type: array
+          description: The list of obligations (loans) for the entity.
+          items:
+            $ref: '#/components/schemas/coinbase.public_rest_api.TFObligation'
     coinbase.public_rest_api.ListTransactionValidatorsResponse:
       required:
       - pagination
@@ -5964,7 +6306,7 @@ components:
         amount:
           type: string
           description: Balance amount
-          example: "10"
+          example: "150000"
         notional_amount:
           type: string
           description: Notional balance amount
@@ -6236,6 +6578,19 @@ components:
         name:
           type: string
           description: NFT item name
+    coinbase.public_rest_api.NaturalPersonName:
+      title: Natural person name components
+      type: object
+      properties:
+        first_name:
+          title: Given/first name
+          type: string
+        middle_name:
+          title: optional middle name (currently unused)
+          type: string
+        last_name:
+          title: Family/last name
+          type: string
     coinbase.public_rest_api.Network:
       type: object
       properties:
@@ -6285,6 +6640,12 @@ components:
           type: string
           description: Base URL to our recommended block explorer (crypto only)
           example: https://live.blockcypher.com/btc/
+        network_scoped_symbol:
+          type: string
+          description: "Indicates the symbol that can be used to query other endpoints,\
+            \ related to transactions, wallets, and activities, to get information\
+            \ particularly for this asset on the network"
+          example: BASEUSDC
     coinbase.public_rest_api.NetworkFamily:
       type: string
       default: NETWORK_FAMILY_UNSPECIFIED
@@ -6498,6 +6859,21 @@ components:
           description: The maximum order size that will show up on venue order books
             (in base currency).
           example: "10.5"
+        peg_offset_type:
+          title: PEG order specific fields
+          type: string
+          description: "The peg offset type for PEG orders (PRICE, BASIS_POINTS, or\
+            \ CUMULATIVE_DEPTH_IN_BASE_UNITS)"
+          example: PEG_OFFSET_TYPE_PRICE
+        offset:
+          type: string
+          description: The offset value for PEG orders
+          example: "100"
+        wig_level:
+          type: string
+          description: The wig (would if good) level for PEG orders - best price opposite
+            to limit_price
+          example: "100000"
     coinbase.public_rest_api.OrderEdit:
       type: object
       properties:
@@ -6575,6 +6951,7 @@ components:
          - VWAP: A [volume-weighted average price order](https://en.wikipedia.org/wiki/Volume-weighted_average_price)
          - STOP_LIMIT: A [conditional order combined of stop order and limit order](https://en.wikipedia.org/wiki/Order_(exchange)#Stop-limit_order)
          - RFQ: A [request for quote](https://en.wikipedia.org/wiki/Request_for_quote)
+         - PEG: A pegged order that dynamically adjust based on market conditions while maintaining execution discretion and avoiding adverse selection
       enum:
       - MARKET
       - LIMIT
@@ -6583,6 +6960,7 @@ components:
       - VWAP
       - STOP_LIMIT
       - RFQ
+      - PEG
     coinbase.public_rest_api.PMAssetInfo:
       type: object
       properties:
@@ -6701,6 +7079,18 @@ components:
       - METHOD_WIRE
       - METHOD_SEN
       - METHOD_SWIFT
+    coinbase.public_rest_api.PegOffsetType:
+      title: Peg offset type for PEG orders
+      type: string
+      description: |-
+        - UNKNOWN_PEG_OFFSET_TYPE: nil value
+         - PEG_OFFSET_TYPE_PRICE: Offset specified in price units
+         - PEG_OFFSET_TYPE_BPS: Offset specified in basis points (BPS)
+         - PEG_OFFSET_TYPE_DEPTH: Offset specified in depth
+      enum:
+      - PEG_OFFSET_TYPE_PRICE
+      - PEG_OFFSET_TYPE_BPS
+      - PEG_OFFSET_TYPE_DEPTH
     coinbase.public_rest_api.Portfolio:
       type: object
       properties:
@@ -6967,6 +7357,22 @@ components:
           type: string
           description: The amount of adjusted portfolio equity
           example: "2000"
+    coinbase.public_rest_api.PreviewUnstakeResponse:
+      required:
+      - estimated_amount
+      type: object
+      properties:
+        estimated_amount:
+          type: string
+          description: Estimated amount that would be unstaked
+      description: PreviewUnstakeResponse contains the response data from previewing
+        an unstaking operation.
+    coinbase.public_rest_api.ProcessRequirements:
+      title: Represents the status of various process requirements for a transaction
+      type: object
+      properties:
+        travel_rule_status:
+          $ref: '#/components/schemas/coinbase.public_rest_api.TravelRuleStatus'
     coinbase.public_rest_api.Product:
       type: object
       properties:
@@ -7072,6 +7478,35 @@ components:
       - APR_360
       - APR_365
       - APR
+    coinbase.public_rest_api.RewardMetadata:
+      type: object
+      properties:
+        subtype:
+          $ref: '#/components/schemas/coinbase.public_rest_api.RewardSubtype'
+    coinbase.public_rest_api.RewardSubtype:
+      title: Indicates the reward subtype
+      type: string
+      description: |-
+        - REWARD_SUBTYPE_UNKNOWN: An unknown reward subtype, reward subtype may not be supported in the API response yet
+         - MEV_REWARD: A maximal extractable value reward
+        i.e. sol mev rewards
+         - INFLATION_REWARD: An inflationary reward
+        i.e. solana inflationary rewards
+         - BLOCK_REWARD: A block reward
+        i.e. solana block rewards
+         - VALIDATOR_REWARD: A validator reward
+        i.e. ethereum validator (consensus layer) rewards
+         - TRANSACTION_REWARD: A transaction reward
+        i.e. ethereum transaction (execution layer) rewards
+         - STAKING_FEE_REBATE_REWARD: A staking fee rebate reward
+        i.e. coinbase pays rebates for staking fees to eligible delegators
+      enum:
+      - MEV_REWARD
+      - INFLATION_REWARD
+      - BLOCK_REWARD
+      - VALIDATOR_REWARD
+      - TRANSACTION_REWARD
+      - STAKING_FEE_REBATE_REWARD
     coinbase.public_rest_api.RiskAssessment:
       title: New message for risk assessment details
       type: object
@@ -7109,6 +7544,13 @@ components:
           description: Request ID
           example: 00000000-0000-0000-0000-000000000000
     coinbase.public_rest_api.SetAutoSweepResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Success
+          example: true
+    coinbase.public_rest_api.SetFcmSettingsResponse:
       type: object
       properties:
         success:
@@ -7204,6 +7646,47 @@ components:
           description: The ID for the activity generated for this request
       description: StakingUnstakeResponse contains the response data from initiating
         an unstaking operation.
+    coinbase.public_rest_api.TFAsset:
+      title: TFAsset represents an asset eligible for Trade Finance with adjustment
+        factors
+      type: object
+      properties:
+        symbol:
+          type: string
+          description: The asset symbol
+          example: BTC
+        asset_adjustment:
+          type: string
+          description: The asset adjustment factor for Trade Finance
+          example: "0.85"
+        liability_adjustment:
+          type: string
+          description: The liability adjustment factor for Trade Finance
+          example: "1.15"
+    coinbase.public_rest_api.TFObligation:
+      title: Trade finance obligation information
+      type: object
+      properties:
+        portfolio_id:
+          type: string
+          description: The unique ID of the portfolio
+          example: e8bbed13-fa33-41de-86d5-4335d8f08166
+        symbol:
+          type: string
+          description: The currency symbol
+          example: BTC
+        amount_due:
+          type: string
+          description: Current amount due
+          example: "150000"
+        notional_amount:
+          type: string
+          description: Loan notional amount
+          example: "250000"
+        due_date:
+          type: string
+          description: Settlement due date
+          example: "1000"
     coinbase.public_rest_api.TieredPricingFee:
       type: object
       properties:
@@ -7321,6 +7804,8 @@ components:
           $ref: '#/components/schemas/coinbase.public_rest_api.OnchainTransactionDetails'
         network_info:
           $ref: '#/components/schemas/coinbase.public_rest_api.Network'
+        process_requirements:
+          $ref: '#/components/schemas/coinbase.public_rest_api.ProcessRequirements'
     coinbase.public_rest_api.TransactionMetadata:
       type: object
       properties:
@@ -7328,6 +7813,8 @@ components:
           $ref: '#/components/schemas/coinbase.public_rest_api.MatchMetadata'
         web3_transaction_metadata:
           $ref: '#/components/schemas/coinbase.public_rest_api.Web3TransactionMetadata'
+        reward_metadata:
+          $ref: '#/components/schemas/coinbase.public_rest_api.RewardMetadata'
     coinbase.public_rest_api.TransactionStatus:
       title: Indicates the transaction status
       type: string
@@ -7436,6 +7923,8 @@ components:
          - WEB3_TRANSACTION: On-chain transaction initiated with Prime Onchain Wallet
         Deprecated: Use ONCHAIN_TRANSACTION instead
          - ONCHAIN_TRANSACTION: On-chain transaction initiated with Prime Onchain Wallet
+         - PORTFOLIO_STAKE: Portfolio-level staking operation
+         - PORTFOLIO_UNSTAKE: Portfolio-level unstaking operation
       enum:
       - DEPOSIT
       - WITHDRAWAL
@@ -7470,6 +7959,8 @@ components:
       - VOTE_AUTHORIZE
       - WEB3_TRANSACTION
       - ONCHAIN_TRANSACTION
+      - PORTFOLIO_STAKE
+      - PORTFOLIO_UNSTAKE
     coinbase.public_rest_api.TransactionValidator:
       required:
       - transaction_id
@@ -7521,6 +8012,123 @@ components:
       - OTHER
       - MULTIPLE_ADDRESSES
       - COUNTERPARTY_ID
+    coinbase.public_rest_api.TravelRuleEntry:
+      type: object
+      properties:
+        id:
+          title: Unique identifier for the Travel Rule entry
+          type: string
+        blockchain_address:
+          $ref: '#/components/schemas/coinbase.public_rest_api.BlockchainAddress'
+        originator:
+          $ref: '#/components/schemas/coinbase.public_rest_api.TravelRuleParty'
+        beneficiary:
+          $ref: '#/components/schemas/coinbase.public_rest_api.TravelRuleParty'
+        vasp:
+          $ref: '#/components/schemas/coinbase.public_rest_api.VASP'
+        wallet_details:
+          $ref: '#/components/schemas/coinbase.public_rest_api.TravelRuleWalletDetails'
+        transfer_purpose:
+          title: Purpose of the transfer (free-form text)
+          type: string
+        is_self_certified:
+          title: True if the user owns the wallet (self-certification)
+          type: boolean
+        is_intermediary:
+          title: True if using Coinbase as an intermediary VASP
+          type: boolean
+        is_self:
+          title: True if this is a self-transfer
+          type: boolean
+      description: Travel Rule Entry for sending addresses.
+    coinbase.public_rest_api.TravelRuleParty:
+      type: object
+      properties:
+        name:
+          title: Name of the person or entity initiating the transfer
+          type: string
+        detailed_address:
+          $ref: '#/components/schemas/coinbase.public_rest_api.DetailedAddress'
+        natural_person_name:
+          $ref: '#/components/schemas/coinbase.public_rest_api.NaturalPersonName'
+        date_of_birth:
+          $ref: '#/components/schemas/coinbase.public_rest_api.DateOfBirth'
+        telephone_number:
+          title: Contact telephone number
+          type: string
+      description: |-
+        Represents one of the Transmittal Parties involved in a Travel Rule transfer,
+        either originator or beneficiary.
+    coinbase.public_rest_api.TravelRuleStatus:
+      title: Travel rule compliance status for a transaction
+      type: string
+      default: TRAVEL_RULE_STATUS_UNSPECIFIED
+      enum:
+      - TRAVEL_RULE_STATUS_UNSPECIFIED
+      - TRAVEL_RULE_STATUS_PENDING
+      - TRAVEL_RULE_STATUS_SUBMITTED
+    coinbase.public_rest_api.TravelRuleWalletDetails:
+      type: object
+      properties:
+        wallet_type:
+          $ref: '#/components/schemas/coinbase.public_rest_api.TravelRuleWalletType'
+        wallet_address:
+          $ref: '#/components/schemas/coinbase.public_rest_api.BlockchainAddress'
+      description: Details about the custody wallet used in the transfer.
+    coinbase.public_rest_api.TravelRuleWalletType:
+      title: Type of wallet being used for transfers
+      type: string
+      description: |-
+        - TRAVEL_RULE_WALLET_TYPE_UNSPECIFIED: Default unspecified wallet type
+         - TRAVEL_RULE_WALLET_TYPE_VASP: Centralized exchange wallet
+         - TRAVEL_RULE_WALLET_TYPE_SELF_CUSTODIED: Self-hosted/custodial wallet
+      default: TRAVEL_RULE_WALLET_TYPE_UNSPECIFIED
+      enum:
+      - TRAVEL_RULE_WALLET_TYPE_UNSPECIFIED
+      - TRAVEL_RULE_WALLET_TYPE_VASP
+      - TRAVEL_RULE_WALLET_TYPE_SELF_CUSTODIED
+    coinbase.public_rest_api.UnstakeType:
+      type: string
+      default: UNSTAKE_TYPE_UNSPECIFIED
+      enum:
+      - UNSTAKE_TYPE_UNSPECIFIED
+      - UNSTAKE_TYPE_PARTIAL
+      - UNSTAKE_TYPE_FULL
+    coinbase.public_rest_api.UnstakingStatus:
+      required:
+      - amount
+      - estimate_description
+      - estimate_type
+      type: object
+      properties:
+        amount:
+          type: string
+          description: "Amount being unstaked (whole amount, e.g., 16 ETH)"
+          example: "16"
+        unstake_type:
+          $ref: '#/components/schemas/coinbase.public_rest_api.UnstakeType'
+        finishing_at:
+          type: string
+          description: Estimated date when unstaking will complete (ISO 8601 format)
+          format: date-time
+          example: 2025-10-27T00:00:00Z
+        remaining_hours:
+          type: integer
+          description: Estimated hours until this unstaking request completes
+          format: int64
+          example: 672
+        requested_at:
+          type: string
+          description: Timestamp when the unstake request was originally created
+          format: date-time
+          example: 2025-09-29T12:00:00Z
+        estimate_type:
+          $ref: '#/components/schemas/coinbase.public_rest_api.EstimateType'
+        estimate_description:
+          type: string
+          description: Detailed explanation of the estimate status for display to
+            users.
+          example: Live estimate based on current network conditions
     coinbase.public_rest_api.UserAction:
       type: object
       properties:
@@ -7546,6 +8154,7 @@ components:
          - FULL_TRADER: A trader with full permissions
          - TEAM_MANAGER: A team manager
          - APPROVER: An approver
+         - TAX_MANAGER: A tax manager
       enum:
       - AUDITOR
       - SIGNATORY
@@ -7556,6 +8165,20 @@ components:
       - FULL_TRADER
       - TEAM_MANAGER
       - APPROVER
+      - TAX_MANAGER
+    coinbase.public_rest_api.VASP:
+      type: object
+      properties:
+        id:
+          title: Unique Identifier
+          type: string
+        country_code:
+          title: ISO 3166-1 alpha-2 country code of the VASP
+          type: string
+        lei_number:
+          title: Legal Entity Identifier (LEI) of the VASP
+          type: string
+      description: Virtual Asset Service Provider (VASP).
     coinbase.public_rest_api.ValidatorStatus:
       type: string
       default: VALIDATOR_STATUS_UNSPECIFIED
@@ -7566,6 +8189,20 @@ components:
       - VALIDATOR_STATUS_EXITING
       - VALIDATOR_STATUS_EXITED
       - VALIDATOR_STATUS_WITHDRAWN
+    coinbase.public_rest_api.ValidatorUnstakingInfo:
+      required:
+      - statuses
+      - validator_address
+      type: object
+      properties:
+        validator_address:
+          type: string
+          description: The validator address (public key)
+        statuses:
+          type: array
+          description: List of active unstaking requests for this validator
+          items:
+            $ref: '#/components/schemas/coinbase.public_rest_api.UnstakingStatus'
     coinbase.public_rest_api.VisibilityStatus:
       title: |-
         - UNKNOWN_VISIBILITY_STATUS: nil
@@ -7778,7 +8415,7 @@ components:
           description: Withdrawal power
           example: "2.84882377"
     coinbase.public_rest_api.XMCallStatus:
-      title: XMControlStatus is the current status of the margin call
+      title: XMCallStatus is the current status of the margin call
       type: string
       description: |-
         - CALL_STATUS_OPEN: Margin call is open and not expired
@@ -7798,11 +8435,13 @@ components:
       description: |-
         - CALL_TYPE_STANDARD: Evaluated at standard margin call evaluation time
          - CALL_TYPE_URGENT: Evaluated in realtime
+         - CALL_TYPE_DEBIT: Evaluated at debit call evaluation time
       default: XM_CALL_TYPE_UNSPECIFIED
       enum:
       - XM_CALL_TYPE_UNSPECIFIED
       - CALL_TYPE_STANDARD
       - CALL_TYPE_URGENT
+      - CALL_TYPE_DEBIT
     coinbase.public_rest_api.XMControlStatus:
       title: XMControlStatus is a summarization of XM customer controls for trades
         and withdrawals
@@ -7818,13 +8457,16 @@ components:
       - TRADES_ONLY
       - SESSION_LOCKED
     coinbase.public_rest_api.XMEntityCallStatus:
-      title: XMEntityCallStatus is a summarization of active XM margin calls (MCs)
       type: string
       description: |-
-        - ENTITY_NO_CALL: There are no margin calls
-         - ENTITY_OPEN_STANDARD_CALL: There is a standard margin call. There are no urgent margin calls, and no expired margin calls.
-         - ENTITY_OPEN_URGENT_CALL: There is an urgent margin call. It is possible that there could also be a standard margin call, but there are no expired margin calls.
-         - ENTITY_AGED_CALL: At least one open margin call is aged (standard or urgent). This may trigger the SESSION_LOCKED control status.
+        XMEntityCallStatus summarizes the state of open margin calls or debit calls. When multiple calls exist, the status reflects the highest priority call type.
+        Priority order (highest to lowest): aged > urgent > standard > debit.
+
+         - ENTITY_NO_CALL: There are no margin calls or debit calls.
+         - ENTITY_OPEN_STANDARD_CALL: There is a standard margin call. There may also be debit calls, but there are no urgent margin calls or expired calls..
+         - ENTITY_OPEN_URGENT_CALL: There is an urgent margin call. There may also be standard margin calls or debit calls, but there are no expired calls.
+         - ENTITY_AGED_CALL: At least one open margin call (standard or urgent) or debit call is aged. This will trigger the SESSION_LOCKED control status.
+         - ENTITY_OPEN_DEBIT_CALL: There is a debit call. There are no standard margin calls, urgent margin calls, or expired calls.
       default: XM_ENTITY_CALL_STATUS_UNSPECIFIED
       enum:
       - XM_ENTITY_CALL_STATUS_UNSPECIFIED
@@ -7832,6 +8474,7 @@ components:
       - ENTITY_OPEN_STANDARD_CALL
       - ENTITY_OPEN_URGENT_CALL
       - ENTITY_AGED_CALL
+      - ENTITY_OPEN_DEBIT_CALL
     coinbase.public_rest_api.XMLoan:
       title: XMLoan contains details about a Cross Margin loan
       type: object

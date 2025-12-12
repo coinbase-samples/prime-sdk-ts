@@ -46,6 +46,10 @@ import {
   CreateNewLocatesResponse,
   GetCrossMarginOverviewRequest,
   GetCrossMarginOverviewResponse,
+  ListTFObligationsRequest,
+  ListTFObligationsResponse,
+  ListFinancingEligibleAssetsRequest,
+  ListFinancingEligibleAssetsResponse,
 } from './types';
 
 export interface IFinancingService {
@@ -112,6 +116,16 @@ export interface IFinancingService {
     request: GetCrossMarginOverviewRequest,
     options?: CoinbaseCallOptions
   ): Promise<GetCrossMarginOverviewResponse>;
+
+  listTFObligations(
+    request: ListTFObligationsRequest,
+    options?: CoinbaseCallOptions
+  ): Promise<ListTFObligationsResponse>;
+
+  listFinancingEligibleAssets(
+    request?: ListFinancingEligibleAssetsRequest,
+    options?: CoinbaseCallOptions
+  ): Promise<ListFinancingEligibleAssetsResponse>;
 }
 
 export class FinancingService implements IFinancingService {
@@ -343,5 +357,29 @@ export class FinancingService implements IFinancingService {
     });
 
     return response.data as GetCrossMarginOverviewResponse;
+  }
+
+  async listTFObligations(
+    request: ListTFObligationsRequest,
+    options?: CoinbaseCallOptions
+  ): Promise<ListTFObligationsResponse> {
+    const response = await this.client.request({
+      url: `entities/${request.entityId}/tf_obligations`,
+      callOptions: options,
+    });
+
+    return response.data as ListTFObligationsResponse;
+  }
+
+  async listFinancingEligibleAssets(
+    request?: ListFinancingEligibleAssetsRequest,
+    options?: CoinbaseCallOptions
+  ): Promise<ListFinancingEligibleAssetsResponse> {
+    const response = await this.client.request({
+      url: `financing/eligible-assets`,
+      callOptions: options,
+    });
+
+    return response.data as ListFinancingEligibleAssetsResponse;
   }
 }

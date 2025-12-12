@@ -22,6 +22,7 @@ import { AssetChange } from './AssetChange';
 import { EstimatedNetworkFees } from './EstimatedNetworkFees';
 import { Network } from './Network';
 import { OnchainTransactionDetails } from './OnchainTransactionDetails';
+import { ProcessRequirements } from './ProcessRequirements';
 import { TransactionMetadata } from './TransactionMetadata';
 import { TransactionStatus } from './enums/TransactionStatus';
 import { TransactionType } from './enums/TransactionType';
@@ -100,4 +101,5 @@ export type Transaction = {
   idempotencyKey?: string;
   onchainDetails?: OnchainTransactionDetails;
   networkInfo?: Network;
+  processRequirements?: ProcessRequirements;
 };

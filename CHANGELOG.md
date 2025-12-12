@@ -1,5 +1,52 @@
 # Changelog
 
+## [0.8.0] - 2025-DEC-11
+
+### Added
+
+#### 🆕 New API Endpoints
+
+**Futures Service**
+- **`getFcmSettings()`**: Get FCM settings for an entity
+  - Retrieve target derivatives excess configuration
+- **`setFcmSettings()`**: Update FCM settings for an entity
+  - Set target derivatives excess amount
+
+**Financing Service**
+- **`listTFObligations()`**: List Trade Finance obligations for an entity
+  - Retrieve trade finance loans with amount due, notional amounts, and due dates
+- **`listFinancingEligibleAssets()`**: List assets eligible for Trade Finance
+  - Get all assets with their asset and liability adjustment factors
+
+**Staking Service**
+- **`previewUnstake()`**: Preview an unstaking operation
+  - Get estimated amount that would be unstaked before initiating (ETH only)
+- **`getUnstakingStatus()`**: Get unstaking status for a wallet
+  - Retrieve estimated completion times for active unstaking requests
+
+#### 📝 New Request Fields
+
+**Transactions**
+- `listPortfolioTransactions()` now supports:
+  - `getNetworkUnifiedTransactions`: Flag to retrieve all transactions across all networks for a given symbol
+  - `travelRuleStatus`: Filter by travel rule status (Alpha)
+
+**Activities**
+- `listEntityActivities()` and `listPortfolioActivities()` now support:
+  - `getNetworkUnifiedActivities`: Flag to retrieve all activities across all networks for a given symbol
+
+**Wallets**
+- `listWallets()` now supports:
+  - `getNetworkUnifiedWallets`: Flag to retrieve all wallets across all networks for a given symbol
+
+#### 🔄 Updated Types
+
+- New order type: `PEG` - Pegged orders that dynamically adjust based on market conditions
+- New transaction types: `PORTFOLIO_STAKE`, `PORTFOLIO_UNSTAKE` - Portfolio-level staking operations
+- New Travel Rule types for compliance: `TravelRuleEntry`, `TravelRuleParty`, `VASP`, `TravelRuleStatus`
+- New staking types: `PreviewUnstakeResponse`, `GetUnstakingStatusResponse`, `ValidatorUnstakingInfo`, `UnstakingStatus`
+- Candle granularity enum fixes: `THIRTY_MINUTE` → `THIRTY_MINUTES`, `TWO_HOUR` → `TWO_HOURS`, `FOUR_HOUR` → `FOUR_HOURS`
+
 ## [0.7.1] - 2025-OCT-17
 
 ### Added

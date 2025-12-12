@@ -33,6 +33,7 @@ export type ActivityFilters = Pagination & {
   statuses?: ActivityStatus[];
   startTime?: string;
   endTime?: string;
+  getNetworkUnifiedActivities?: boolean;
 };
 
 export type GetActivityRequest = {

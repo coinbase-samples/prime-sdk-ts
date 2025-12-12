@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 import { Brand } from '../shared/brand';
-import { TransactionType } from '../model/enums/';
+import { TransactionType, TravelRuleStatus } from '../model/enums/';
 import {
   GetPortfolioTransactionsResponse,
   GetWalletTransactionsResponse,
@@ -40,6 +40,8 @@ export type ListPortfolioTransactionsRequest = Pagination & {
   types?: TransactionType[];
   startTime?: string;
   endTime?: string;
+  getNetworkUnifiedTransactions?: boolean;
+  travelRuleStatus?: TravelRuleStatus[];
 };
 
 // Base response type

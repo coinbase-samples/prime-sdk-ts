@@ -18,12 +18,8 @@
  *  Do not edit the class manually.
  */
 
-/**
- * - CALL_TYPE_STANDARD: Evaluated at standard margin call evaluation time  - CALL_TYPE_URGENT: Evaluated in realtime  - CALL_TYPE_DEBIT: Evaluated at debit call evaluation time
- */
-export enum XMCallType {
-  XmCallTypeUnspecified = 'XM_CALL_TYPE_UNSPECIFIED',
-  CallTypeStandard = 'CALL_TYPE_STANDARD',
-  CallTypeUrgent = 'CALL_TYPE_URGENT',
-  CallTypeDebit = 'CALL_TYPE_DEBIT',
+export enum TravelRuleStatus {
+  TravelRuleStatusUnspecified = 'TRAVEL_RULE_STATUS_UNSPECIFIED',
+  TravelRuleStatusPending = 'TRAVEL_RULE_STATUS_PENDING',
+  TravelRuleStatusSubmitted = 'TRAVEL_RULE_STATUS_SUBMITTED',
 }

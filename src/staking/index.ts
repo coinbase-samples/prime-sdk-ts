@@ -32,6 +32,10 @@ import {
   QueryTransactionValidatorsResponse,
   ClaimRewardsRequest,
   ClaimRewardsResponse,
+  PreviewUnstakeRequest,
+  PreviewUnstakeResponse,
+  GetUnstakingStatusRequest,
+  GetUnstakingStatusResponse,
 } from './types';
 
 export interface IStakingService {
@@ -59,6 +63,16 @@ export interface IStakingService {
     request: ClaimRewardsRequest,
     options?: CoinbaseCallOptions
   ): Promise<ClaimRewardsResponse>;
+
+  previewUnstake(
+    request: PreviewUnstakeRequest,
+    options?: CoinbaseCallOptions
+  ): Promise<PreviewUnstakeResponse>;
+
+  getUnstakingStatus(
+    request: GetUnstakingStatusRequest,
+    options?: CoinbaseCallOptions
+  ): Promise<GetUnstakingStatusResponse>;
 }
 
 export class StakingService implements IStakingService {
@@ -190,5 +204,37 @@ export class StakingService implements IStakingService {
     });
 
     return response.data as ClaimRewardsResponse;
+  }
+
+  async previewUnstake(
+    request: PreviewUnstakeRequest,
+    options?: CoinbaseCallOptions
+  ): Promise<PreviewUnstakeResponse> {
+    const bodyParams = {
+      ...request,
+      portfolioId: undefined,
+      walletId: undefined,
+    };
+    const response = await this.client.request({
+      url: `portfolios/${request.portfolioId}/wallets/${request.walletId}/staking/unstake/preview`,
+      method: Method.POST,
+      bodyParams,
+      callOptions: options,
+    });
+
+    return response.data as PreviewUnstakeResponse;
+  }
+
+  async getUnstakingStatus(
+    request: GetUnstakingStatusRequest,
+    options?: CoinbaseCallOptions
+  ): Promise<GetUnstakingStatusResponse> {
+    const { portfolioId, walletId } = request;
+    const response = await this.client.request({
+      url: `portfolios/${portfolioId}/wallets/${walletId}/staking/unstake/status`,
+      callOptions: options,
+    });
+
+    return response.data as GetUnstakingStatusResponse;
   }
 }

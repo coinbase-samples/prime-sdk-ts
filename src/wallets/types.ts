@@ -34,6 +34,7 @@ export type ListWalletsRequest = Pagination & {
   portfolioId: string;
   type: WalletType;
   symbols?: string[];
+  getNetworkUnifiedWallets?: boolean;
 };
 
 export type BaseListWalletsResponse = Brand<

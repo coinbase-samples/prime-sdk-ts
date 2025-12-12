@@ -18,12 +18,25 @@
  *  Do not edit the class manually.
  */
 
-/**
- * - CALL_TYPE_STANDARD: Evaluated at standard margin call evaluation time  - CALL_TYPE_URGENT: Evaluated in realtime  - CALL_TYPE_DEBIT: Evaluated at debit call evaluation time
- */
-export enum XMCallType {
-  XmCallTypeUnspecified = 'XM_CALL_TYPE_UNSPECIFIED',
-  CallTypeStandard = 'CALL_TYPE_STANDARD',
-  CallTypeUrgent = 'CALL_TYPE_URGENT',
-  CallTypeDebit = 'CALL_TYPE_DEBIT',
-}
+export type TFObligation = {
+  /**
+   * The unique ID of the portfolio
+   */
+  portfolioId?: string;
+  /**
+   * The currency symbol
+   */
+  symbol?: string;
+  /**
+   * Current amount due
+   */
+  amountDue?: string;
+  /**
+   * Loan notional amount
+   */
+  notionalAmount?: string;
+  /**
+   * Settlement due date
+   */
+  dueDate?: string;
+};

@@ -19,11 +19,10 @@
  */
 
 /**
- * - CALL_TYPE_STANDARD: Evaluated at standard margin call evaluation time  - CALL_TYPE_URGENT: Evaluated in realtime  - CALL_TYPE_DEBIT: Evaluated at debit call evaluation time
+ * - UNKNOWN_PEG_OFFSET_TYPE: nil value  - PEG_OFFSET_TYPE_PRICE: Offset specified in price units  - PEG_OFFSET_TYPE_BPS: Offset specified in basis points (BPS)  - PEG_OFFSET_TYPE_DEPTH: Offset specified in depth
  */
-export enum XMCallType {
-  XmCallTypeUnspecified = 'XM_CALL_TYPE_UNSPECIFIED',
-  CallTypeStandard = 'CALL_TYPE_STANDARD',
-  CallTypeUrgent = 'CALL_TYPE_URGENT',
-  CallTypeDebit = 'CALL_TYPE_DEBIT',
+export enum PegOffsetType {
+  PegOffsetTypePrice = 'PEG_OFFSET_TYPE_PRICE',
+  PegOffsetTypeBps = 'PEG_OFFSET_TYPE_BPS',
+  PegOffsetTypeDepth = 'PEG_OFFSET_TYPE_DEPTH',
 }
