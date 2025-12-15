@@ -33,6 +33,21 @@ export {
 } from './clients';
 export { CoinbasePrimeCredentials } from './credentials';
 export { createCredentialsFromEnv } from './shared/envUtils';
+export { CoinbasePrimeClientException, CoinbasePrimeException } from './errors';
+export {
+  createValidator,
+  validate,
+  isValidUUID,
+  validateRequiredUUID,
+  validateOptionalUUID,
+  validateRequiredString,
+  validateOptionalString,
+} from './shared/validation';
+export type {
+  ValidationError,
+  ValidationResult,
+  PropertyValidator,
+} from './shared/validation';
 
 export { ActivitiesService, IActivitiesService } from './activities';
 export { AddressBooksService, IAddressBooksService } from './addressBooks';

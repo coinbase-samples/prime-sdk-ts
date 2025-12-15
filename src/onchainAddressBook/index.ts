@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 import { CoinbaseCallOptions, Method, IPrimeApiClient } from '../clients';
+import { validate } from '../shared/validation';
 
 import {
   ListOnchainAddressBookRequest,
@@ -59,6 +60,10 @@ export class OnchainAddressBookService implements IOnchainAddressBookService {
     request: ListOnchainAddressBookRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListOnchainAddressBookResponse> {
+    validate(request)
+      .requiredUUID((r) => r.portfolioId)
+      .check();
+
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/onchain_address_groups`,
       callOptions: options,
@@ -71,6 +76,10 @@ export class OnchainAddressBookService implements IOnchainAddressBookService {
     request: CreateOnchainAddressBookEntryRequest,
     options?: CoinbaseCallOptions
   ): Promise<CreateOnchainAddressBookEntryResponse> {
+    validate(request)
+      .requiredUUID((r) => r.portfolioId)
+      .check();
+
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/onchain_address_group`,
       bodyParams: { ...request, portfolioId: undefined },
@@ -85,6 +94,10 @@ export class OnchainAddressBookService implements IOnchainAddressBookService {
     request: UpdateOnchainAddressBookEntryRequest,
     options?: CoinbaseCallOptions
   ): Promise<UpdateOnchainAddressBookEntryResponse> {
+    validate(request)
+      .requiredUUID((r) => r.portfolioId)
+      .check();
+
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/onchain_address_group`,
       bodyParams: { ...request, portfolioId: undefined },
@@ -99,6 +112,11 @@ export class OnchainAddressBookService implements IOnchainAddressBookService {
     request: DeleteOnchainAddressBookEntryRequest,
     options?: CoinbaseCallOptions
   ): Promise<DeleteOnchainAddressBookEntryResponse> {
+    validate(request)
+      .requiredUUID((r) => r.portfolioId)
+      .requiredUUID((r) => r.addressGroupId)
+      .check();
+
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/onchain_address_group/${request.addressGroupId}`,
       method: Method.DELETE,

@@ -39,8 +39,9 @@ const { CoinbasePrimeClientWithServices } = require('../../dist');
 
 const client = CoinbasePrimeClientWithServices.fromEnv();
 const portfolioId = process.env.PORTFOLIO_ID;
-const categoriesArg = process.argv[2];
-const statusesArg = process.argv[3];
+const symbolsArg = process.argv[2];
+const categoriesArg = process.argv[3];
+const statusesArg = process.argv[4];
 
 if (!portfolioId) {
   console.error('Error: PORTFOLIO_ID environment variable is required');
@@ -50,6 +51,7 @@ if (!portfolioId) {
 async function listPortfolioActivitiesExample() {
   try {
     let requestMessage = `📋 Listing portfolio activities - Portfolio ID: ${portfolioId}`;
+    if (symbolsArg) requestMessage += `, Symbols: ${symbolsArg}`;
     if (categoriesArg) requestMessage += `, Categories: ${categoriesArg}`;
     if (statusesArg) requestMessage += `, Statuses: ${statusesArg}`;
 
@@ -59,6 +61,7 @@ async function listPortfolioActivitiesExample() {
       portfolioId,
     };
 
+    if (symbolsArg) request.symbols = symbolsArg.split(',');
     if (categoriesArg) request.categories = categoriesArg.split(',');
     if (statusesArg) request.statuses = statusesArg.split(',');
 

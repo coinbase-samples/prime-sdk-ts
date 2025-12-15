@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 import { CoinbaseCallOptions, Method, IPrimeApiClient } from '../clients';
+import { validate } from '../shared/validation';
 
 import {
   ListOpenOrdersResponse,
@@ -121,6 +122,11 @@ export class OrdersService implements IOrdersService {
     request: GetOrderRequest,
     options?: CoinbaseCallOptions
   ): Promise<GetOrderResponse> {
+    validate(request)
+      .requiredUUID((r) => r.portfolioId)
+      .requiredUUID((r) => r.orderId)
+      .check();
+
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/orders/${request.orderId}`,
       callOptions: options,
@@ -330,6 +336,11 @@ export class OrdersService implements IOrdersService {
     request: EditOrderRequest,
     options?: CoinbaseCallOptions
   ): Promise<EditOrderResponse> {
+    validate(request)
+      .requiredUUID((r) => r.portfolioId)
+      .requiredUUID((r) => r.orderId)
+      .check();
+
     const { portfolioId, orderId, ...bodyParams } = request;
     const response = await this.client.request({
       url: `portfolios/${portfolioId}/orders/${orderId}/edit`,
