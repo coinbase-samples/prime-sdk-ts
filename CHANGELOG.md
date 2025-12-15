@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.8.1] - 2025-DEC-15
+
+### Added
+
+#### ✅ Request Validation
+
+**Comprehensive Input Validation Across All Services**
+- Added client-side validation for required path parameters (UUIDs) across all services
+- Added validation for required query parameters (e.g., `productId`, `startTime`, `endTime`, `granularity` in `listProductCandles`)
+- Added validation for required body parameters in create/update endpoints
+- Validation errors throw `CoinbasePrimeClientException` with clear, actionable error messages
+
 ## [0.8.0] - 2025-DEC-11
 
 ### Added
