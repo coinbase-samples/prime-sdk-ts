@@ -86,6 +86,10 @@ export class ProductsService implements IProductsService {
   ): Promise<ListProductCandlesResponse> {
     validate(request)
       .requiredUUID((r) => r.portfolioId)
+      .requiredString((r) => r.productId)
+      .requiredString((r) => r.startTime)
+      .requiredString((r) => r.endTime)
+      .requiredString((r) => r.granularity)
       .check();
 
     const { portfolioId, productId, startTime, endTime, granularity } = request;
