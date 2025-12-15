@@ -241,6 +241,7 @@ export class StakingService implements IStakingService {
     validate(request)
       .requiredUUID((r) => r.portfolioId)
       .requiredUUID((r) => r.walletId)
+      .requiredString((r) => r.amount)
       .check();
 
     const bodyParams = {
