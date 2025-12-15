@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 import { CoinbaseCallOptions, Method, IPrimeApiClient } from '../clients';
+import { validate } from '../shared/validation';
 import {
   ListAddressBooksRequest,
   ListAddressBooksResponse,
@@ -50,6 +51,8 @@ export class AddressBooksService implements IAddressBooksService {
     request: ListAddressBooksRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListAddressBooksResponse> {
+    validate(request).requiredUUID((r) => r.portfolioId).check();
+
     const paginationParams = getQueryParams(this.client, request);
     const { limit, cursor, sortDirection, portfolioId, ...queryParams } =
       request;
@@ -79,6 +82,8 @@ export class AddressBooksService implements IAddressBooksService {
     request: CreateAddressBookRequest,
     options?: CoinbaseCallOptions
   ): Promise<CreateAddressBookResponse> {
+    validate(request).requiredUUID((r) => r.portfolioId).check();
+
     const bodyParams = { ...request, portfolioId: undefined };
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/address_book`,
