@@ -154,6 +154,7 @@ export class FuturesService implements IFuturesService {
   ): Promise<ScheduleEntityFuturesSweepResponse> {
     validate(request)
       .requiredUUID((r) => r.entityId)
+      .requiredString((r) => r.currency)
       .check();
 
     const response = await this.client.request({
@@ -172,6 +173,7 @@ export class FuturesService implements IFuturesService {
   ): Promise<UpdateEntityFuturesAutoSweepResponse> {
     validate(request)
       .requiredUUID((r) => r.entityId)
+      .requiredBoolean((r) => r.autoSweep)
       .check();
 
     const response = await this.client.request({
