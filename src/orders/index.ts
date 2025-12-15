@@ -264,7 +264,6 @@ export class OrdersService implements IOrdersService {
   ): Promise<ListOpenOrdersResponse> {
     validate(request)
       .requiredUUID((r) => r.portfolioId)
-      .requiredString((r) => r.endDate)
       .check();
 
     const paginationParams = getQueryParams(this.client, request);

@@ -109,7 +109,7 @@ export type ListOpenOrdersRequest = Pagination & {
   orderType?: OrderType;
   orderSide?: OrderSide;
   startDate?: string;
-  endDate: string;
+  endDate?: string;
 };
 
 export type BaseListOpenOrdersResponse = Brand<
