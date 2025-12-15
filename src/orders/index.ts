@@ -296,6 +296,9 @@ export class OrdersService implements IOrdersService {
   ): Promise<CreateOrderPreviewResponse> {
     validate(request)
       .requiredUUID((r) => r.portfolioId)
+      .requiredString((r) => r.productId)
+      .requiredString((r) => r.side)
+      .requiredString((r) => r.type)
       .check();
 
     const response = await this.client.request({
@@ -330,6 +333,10 @@ export class OrdersService implements IOrdersService {
   ): Promise<CreateOrderResponse> {
     validate(request)
       .requiredUUID((r) => r.portfolioId)
+      .requiredString((r) => r.productId)
+      .requiredString((r) => r.side)
+      .requiredUUID((r) => r.clientOrderId)
+      .requiredString((r) => r.type)
       .check();
 
     const response = await this.client.request({
@@ -347,6 +354,10 @@ export class OrdersService implements IOrdersService {
   ): Promise<CreateQuoteResponse> {
     validate(request)
       .requiredUUID((r) => r.portfolioId)
+      .requiredString((r) => r.productId)
+      .requiredString((r) => r.side)
+      .requiredUUID((r) => r.clientOrderId)
+      .requiredString((r) => r.type)
       .check();
 
     const response = await this.client.request({
@@ -364,6 +375,10 @@ export class OrdersService implements IOrdersService {
   ): Promise<AcceptQuoteResponse> {
     validate(request)
       .requiredUUID((r) => r.portfolioId)
+      .requiredString((r) => r.productId)
+      .requiredString((r) => r.side)
+      .requiredUUID((r) => r.clientOrderId)
+      .requiredString((r) => r.quoteId)
       .check();
 
     const response = await this.client.request({
@@ -382,6 +397,8 @@ export class OrdersService implements IOrdersService {
     validate(request)
       .requiredUUID((r) => r.portfolioId)
       .requiredUUID((r) => r.orderId)
+      .requiredUUID((r) => r.clientOrderId)
+      .requiredString((r) => r.origClientOrderId)
       .check();
 
     const { portfolioId, orderId, ...bodyParams } = request;
