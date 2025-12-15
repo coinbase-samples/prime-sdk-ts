@@ -421,6 +421,40 @@ export class PropertyValidator<T extends Record<string, any>> {
   }
 
   /**
+   * Validates that a required array field is present and not empty.
+   */
+  requiredArray(accessor: (source: T) => any[] | undefined | null): this {
+    const { propertyName, value } = this.extractProperty(accessor);
+    if (value === undefined || value === null) {
+      this.validator.addError(propertyName, `${propertyName} is required`);
+    } else if (!Array.isArray(value)) {
+      this.validator.addError(propertyName, `${propertyName} must be an array`);
+    } else if (value.length === 0) {
+      this.validator.addError(
+        propertyName,
+        `${propertyName} must not be an empty array`
+      );
+    }
+    return this;
+  }
+
+  /**
+   * Validates that a required boolean field is present.
+   */
+  requiredBoolean(accessor: (source: T) => boolean | undefined | null): this {
+    const { propertyName, value } = this.extractProperty(accessor);
+    if (value === undefined || value === null) {
+      this.validator.addError(propertyName, `${propertyName} is required`);
+    } else if (typeof value !== 'boolean') {
+      this.validator.addError(
+        propertyName,
+        `${propertyName} must be a boolean`
+      );
+    }
+    return this;
+  }
+
+  /**
    * Throws if there are validation errors.
    * Automatically detects the calling method name.
    */
