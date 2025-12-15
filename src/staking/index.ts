@@ -18,6 +18,7 @@ import {
   createPaginatedResponse,
   getDefaultPaginationOptions,
 } from '../shared/paginatedResponse';
+import { validate } from '../shared/validation';
 
 import {
   CreateStakeRequest,
@@ -86,6 +87,11 @@ export class StakingService implements IStakingService {
     request: CreateStakeRequest,
     options?: CoinbaseCallOptions
   ): Promise<CreateStakeResponse> {
+    validate(request)
+      .requiredUUID((r) => r.portfolioId)
+      .requiredUUID((r) => r.walletId)
+      .check();
+
     const bodyParams = {
       ...request,
       portfolioId: undefined,
@@ -105,6 +111,11 @@ export class StakingService implements IStakingService {
     request: CreateUnstakeRequest,
     options?: CoinbaseCallOptions
   ): Promise<CreateUnstakeResponse> {
+    validate(request)
+      .requiredUUID((r) => r.portfolioId)
+      .requiredUUID((r) => r.walletId)
+      .check();
+
     const bodyParams = {
       ...request,
       portfolioId: undefined,
@@ -124,6 +135,8 @@ export class StakingService implements IStakingService {
     request: CreatePortfolioStakeRequest,
     options?: CoinbaseCallOptions
   ): Promise<CreatePortfolioStakeResponse> {
+    validate(request).requiredUUID((r) => r.portfolioId).check();
+
     const bodyParams = {
       ...request,
       portfolioId: undefined,
@@ -142,6 +155,8 @@ export class StakingService implements IStakingService {
     request: CreatePortfolioUnstakeRequest,
     options?: CoinbaseCallOptions
   ): Promise<CreatePortfolioUnstakeResponse> {
+    validate(request).requiredUUID((r) => r.portfolioId).check();
+
     const bodyParams = {
       ...request,
       portfolioId: undefined,
@@ -160,6 +175,8 @@ export class StakingService implements IStakingService {
     request: QueryTransactionValidatorsRequest,
     options?: CoinbaseCallOptions
   ): Promise<QueryTransactionValidatorsResponse> {
+    validate(request).requiredUUID((r) => r.portfolioId).check();
+
     const paginationOptions = getDefaultPaginationOptions(this.client, options);
 
     const { transactionIds, cursor, limit, sortDirection } = request;
@@ -191,6 +208,11 @@ export class StakingService implements IStakingService {
     request: ClaimRewardsRequest,
     options?: CoinbaseCallOptions
   ): Promise<ClaimRewardsResponse> {
+    validate(request)
+      .requiredUUID((r) => r.portfolioId)
+      .requiredUUID((r) => r.walletId)
+      .check();
+
     const { idempotencyKey, inputs, portfolioId, walletId } = request;
     const bodyParams = {
       idempotencyKey,
@@ -210,6 +232,11 @@ export class StakingService implements IStakingService {
     request: PreviewUnstakeRequest,
     options?: CoinbaseCallOptions
   ): Promise<PreviewUnstakeResponse> {
+    validate(request)
+      .requiredUUID((r) => r.portfolioId)
+      .requiredUUID((r) => r.walletId)
+      .check();
+
     const bodyParams = {
       ...request,
       portfolioId: undefined,
@@ -229,6 +256,11 @@ export class StakingService implements IStakingService {
     request: GetUnstakingStatusRequest,
     options?: CoinbaseCallOptions
   ): Promise<GetUnstakingStatusResponse> {
+    validate(request)
+      .requiredUUID((r) => r.portfolioId)
+      .requiredUUID((r) => r.walletId)
+      .check();
+
     const { portfolioId, walletId } = request;
     const response = await this.client.request({
       url: `portfolios/${portfolioId}/wallets/${walletId}/staking/unstake/status`,
