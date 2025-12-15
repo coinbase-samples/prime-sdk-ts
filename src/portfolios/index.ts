@@ -60,7 +60,9 @@ export class PortfoliosService implements IPortfoliosService {
     request: GetPortfolioRequest,
     options?: CoinbaseCallOptions
   ): Promise<GetPortfolioResponse> {
-    validate(request).requiredUUID((r) => r.portfolioId).check();
+    validate(request)
+      .requiredUUID((r) => r.portfolioId)
+      .check();
 
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}`,
@@ -74,7 +76,9 @@ export class PortfoliosService implements IPortfoliosService {
     request: GetPortfolioCreditRequest,
     options?: CoinbaseCallOptions
   ): Promise<GetPortfolioCreditResponse> {
-    validate(request).requiredUUID((r) => r.portfolioId).check();
+    validate(request)
+      .requiredUUID((r) => r.portfolioId)
+      .check();
 
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/credit`,
@@ -88,7 +92,9 @@ export class PortfoliosService implements IPortfoliosService {
     request: GetCounterpartyIdRequest,
     options?: CoinbaseCallOptions
   ): Promise<GetCounterpartyIdResponse> {
-    validate(request).requiredUUID((r) => r.portfolioId).check();
+    validate(request)
+      .requiredUUID((r) => r.portfolioId)
+      .check();
 
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/counterparty`,

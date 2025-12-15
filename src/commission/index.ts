@@ -39,7 +39,9 @@ export class CommissionService implements ICommissionService {
     request: GetPortfolioCommissionRequest,
     options?: CoinbaseCallOptions
   ): Promise<GetPortfolioCommissionResponse> {
-    validate(request).requiredUUID((r) => r.portfolioId).check();
+    validate(request)
+      .requiredUUID((r) => r.portfolioId)
+      .check();
 
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/commission`,

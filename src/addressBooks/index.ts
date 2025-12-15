@@ -51,7 +51,9 @@ export class AddressBooksService implements IAddressBooksService {
     request: ListAddressBooksRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListAddressBooksResponse> {
-    validate(request).requiredUUID((r) => r.portfolioId).check();
+    validate(request)
+      .requiredUUID((r) => r.portfolioId)
+      .check();
 
     const paginationParams = getQueryParams(this.client, request);
     const { limit, cursor, sortDirection, portfolioId, ...queryParams } =
@@ -82,7 +84,12 @@ export class AddressBooksService implements IAddressBooksService {
     request: CreateAddressBookRequest,
     options?: CoinbaseCallOptions
   ): Promise<CreateAddressBookResponse> {
-    validate(request).requiredUUID((r) => r.portfolioId).check();
+    validate(request)
+      .requiredUUID((r) => r.portfolioId)
+      .requiredString((r) => r.address)
+      .requiredString((r) => r.currencySymbol)
+      .requiredString((r) => r.name)
+      .check();
 
     const bodyParams = { ...request, portfolioId: undefined };
     const response = await this.client.request({

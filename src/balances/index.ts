@@ -66,7 +66,9 @@ export class BalancesService implements IBalancesService {
     request: ListPortfolioBalancesRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListPortfolioBalancesResponse> {
-    validate(request).requiredUUID((r) => r.portfolioId).check();
+    validate(request)
+      .requiredUUID((r) => r.portfolioId)
+      .check();
 
     const { portfolioId, ...queryParams } = request;
     const response = await this.client.request({
@@ -131,7 +133,9 @@ export class BalancesService implements IBalancesService {
     request: ListEntityBalancesRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListEntityBalancesResponse> {
-    validate(request).requiredUUID((r) => r.entityId).check();
+    validate(request)
+      .requiredUUID((r) => r.entityId)
+      .check();
 
     const paginationParams = getQueryParams(this.client, request);
     const { limit, cursor, entityId, ...queryParams } = request;

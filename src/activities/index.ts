@@ -58,7 +58,9 @@ export class ActivitiesService implements IActivitiesService {
     request: GetActivityRequest,
     options?: CoinbaseCallOptions
   ): Promise<GetActivityResponse> {
-    validate(request).requiredUUID((r) => r.activityId).check();
+    validate(request)
+      .requiredUUID((r) => r.activityId)
+      .check();
 
     const response = await this.client.request({
       url: `activities/${request.activityId}`,
@@ -89,7 +91,9 @@ export class ActivitiesService implements IActivitiesService {
     request: ListEntityActivitiesRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListEntityActivitiesResponse> {
-    validate(request).requiredUUID((r) => r.entityId).check();
+    validate(request)
+      .requiredUUID((r) => r.entityId)
+      .check();
 
     const paginationParams = getQueryParams(this.client, request);
     const { limit, cursor, sortDirection, entityId, ...queryParams } = request;
@@ -119,7 +123,9 @@ export class ActivitiesService implements IActivitiesService {
     request: ListPortfolioActivitiesRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListPortfolioActivitiesResponse> {
-    validate(request).requiredUUID((r) => r.portfolioId).check();
+    validate(request)
+      .requiredUUID((r) => r.portfolioId)
+      .check();
 
     const paginationParams = getQueryParams(this.client, request);
     const { limit, cursor, sortDirection, portfolioId, ...queryParams } =

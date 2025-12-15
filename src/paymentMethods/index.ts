@@ -46,7 +46,9 @@ export class PaymentMethodsService implements IPaymentMethodsService {
     request: ListEntityPaymentMethodsRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListEntityPaymentMethodsResponse> {
-    validate(request).requiredUUID((r) => r.entityId).check();
+    validate(request)
+      .requiredUUID((r) => r.entityId)
+      .check();
 
     const response = await this.client.request({
       url: `entities/${request.entityId}/payment-methods`,

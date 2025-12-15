@@ -80,7 +80,9 @@ export class WalletsService implements IWalletsService {
     request: ListWalletsRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListWalletsResponse> {
-    validate(request).requiredUUID((r) => r.portfolioId).check();
+    validate(request)
+      .requiredUUID((r) => r.portfolioId)
+      .check();
 
     const paginationParams = getQueryParams(this.client, request);
     const { limit, cursor, portfolioId, ...queryParams } = request;
@@ -192,7 +194,9 @@ export class WalletsService implements IWalletsService {
     request: CreateWalletRequest,
     options?: CoinbaseCallOptions
   ): Promise<CreateWalletResponse> {
-    validate(request).requiredUUID((r) => r.portfolioId).check();
+    validate(request)
+      .requiredUUID((r) => r.portfolioId)
+      .check();
 
     const bodyParams = { ...request, portfolioId: undefined };
     const response = await this.client.request({

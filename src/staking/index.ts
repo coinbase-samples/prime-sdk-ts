@@ -135,7 +135,9 @@ export class StakingService implements IStakingService {
     request: CreatePortfolioStakeRequest,
     options?: CoinbaseCallOptions
   ): Promise<CreatePortfolioStakeResponse> {
-    validate(request).requiredUUID((r) => r.portfolioId).check();
+    validate(request)
+      .requiredUUID((r) => r.portfolioId)
+      .check();
 
     const bodyParams = {
       ...request,
@@ -155,7 +157,9 @@ export class StakingService implements IStakingService {
     request: CreatePortfolioUnstakeRequest,
     options?: CoinbaseCallOptions
   ): Promise<CreatePortfolioUnstakeResponse> {
-    validate(request).requiredUUID((r) => r.portfolioId).check();
+    validate(request)
+      .requiredUUID((r) => r.portfolioId)
+      .check();
 
     const bodyParams = {
       ...request,
@@ -175,7 +179,9 @@ export class StakingService implements IStakingService {
     request: QueryTransactionValidatorsRequest,
     options?: CoinbaseCallOptions
   ): Promise<QueryTransactionValidatorsResponse> {
-    validate(request).requiredUUID((r) => r.portfolioId).check();
+    validate(request)
+      .requiredUUID((r) => r.portfolioId)
+      .check();
 
     const paginationOptions = getDefaultPaginationOptions(this.client, options);
 

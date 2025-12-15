@@ -36,7 +36,9 @@ export class AssetsService implements IAssetsService {
     request: ListAssetsRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListAssetsResponse> {
-    validate(request).requiredUUID((r) => r.entityId).check();
+    validate(request)
+      .requiredUUID((r) => r.entityId)
+      .check();
 
     const response = await this.client.request({
       url: `entities/${request.entityId}/assets`,
