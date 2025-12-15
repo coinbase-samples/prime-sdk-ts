@@ -185,6 +185,11 @@ export class TransactionsService implements ITransactionsService {
     validate(request)
       .requiredUUID((r) => r.portfolioId)
       .requiredUUID((r) => r.walletId)
+      .requiredUUID((r) => r.idempotencyKey)
+      .requiredUUID((r) => r.destination)
+      .requiredString((r) => r.amount)
+      .requiredString((r) => r.sourceSymbol)
+      .requiredString((r) => r.destinationSymbol)
       .check();
 
     const bodyParams = {
@@ -209,6 +214,10 @@ export class TransactionsService implements ITransactionsService {
     validate(request)
       .requiredUUID((r) => r.portfolioId)
       .requiredUUID((r) => r.walletId)
+      .requiredUUID((r) => r.idempotencyKey)
+      .requiredUUID((r) => r.destination)
+      .requiredString((r) => r.amount)
+      .requiredString((r) => r.currencySymbol)
       .check();
 
     const bodyParams = {
@@ -233,6 +242,10 @@ export class TransactionsService implements ITransactionsService {
     validate(request)
       .requiredUUID((r) => r.portfolioId)
       .requiredUUID((r) => r.walletId)
+      .requiredUUID((r) => r.idempotencyKey)
+      .requiredString((r) => r.amount)
+      .requiredString((r) => r.destinationType)
+      .requiredString((r) => r.currencySymbol)
       .check();
 
     const bodyParams = {
@@ -257,6 +270,7 @@ export class TransactionsService implements ITransactionsService {
     validate(request)
       .requiredUUID((r) => r.portfolioId)
       .requiredUUID((r) => r.walletId)
+      .requiredString((r) => r.rawUnsignedTxn)
       .check();
 
     const bodyParams = {
