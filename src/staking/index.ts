@@ -90,6 +90,7 @@ export class StakingService implements IStakingService {
     validate(request)
       .requiredUUID((r) => r.portfolioId)
       .requiredUUID((r) => r.walletId)
+      .requiredUUID((r) => r.idempotencyKey)
       .check();
 
     const bodyParams = {
@@ -114,6 +115,7 @@ export class StakingService implements IStakingService {
     validate(request)
       .requiredUUID((r) => r.portfolioId)
       .requiredUUID((r) => r.walletId)
+      .requiredUUID((r) => r.idempotencyKey)
       .check();
 
     const bodyParams = {
@@ -137,6 +139,9 @@ export class StakingService implements IStakingService {
   ): Promise<CreatePortfolioStakeResponse> {
     validate(request)
       .requiredUUID((r) => r.portfolioId)
+      .requiredUUID((r) => r.idempotencyKey)
+      .requiredString((r) => r.currencySymbol)
+      .requiredString((r) => r.amount)
       .check();
 
     const bodyParams = {
@@ -159,6 +164,9 @@ export class StakingService implements IStakingService {
   ): Promise<CreatePortfolioUnstakeResponse> {
     validate(request)
       .requiredUUID((r) => r.portfolioId)
+      .requiredUUID((r) => r.idempotencyKey)
+      .requiredString((r) => r.currencySymbol)
+      .requiredString((r) => r.amount)
       .check();
 
     const bodyParams = {
@@ -181,6 +189,7 @@ export class StakingService implements IStakingService {
   ): Promise<QueryTransactionValidatorsResponse> {
     validate(request)
       .requiredUUID((r) => r.portfolioId)
+      .requiredArray((r) => r.transactionIds)
       .check();
 
     const paginationOptions = getDefaultPaginationOptions(this.client, options);
@@ -217,6 +226,7 @@ export class StakingService implements IStakingService {
     validate(request)
       .requiredUUID((r) => r.portfolioId)
       .requiredUUID((r) => r.walletId)
+      .requiredUUID((r) => r.idempotencyKey)
       .check();
 
     const { idempotencyKey, inputs, portfolioId, walletId } = request;
