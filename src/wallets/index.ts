@@ -198,6 +198,8 @@ export class WalletsService implements IWalletsService {
   ): Promise<CreateWalletResponse> {
     validate(request)
       .requiredUUID((r) => r.portfolioId)
+      .requiredString((r) => r.name)
+      .requiredString((r) => r.symbol)
       .check();
 
     const bodyParams = { ...request, portfolioId: undefined };
