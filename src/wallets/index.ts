@@ -82,6 +82,7 @@ export class WalletsService implements IWalletsService {
   ): Promise<ListWalletsResponse> {
     validate(request)
       .requiredUUID((r) => r.portfolioId)
+      .requiredString((r) => r.type)
       .check();
 
     const paginationParams = getQueryParams(this.client, request);
@@ -134,6 +135,7 @@ export class WalletsService implements IWalletsService {
     validate(request)
       .requiredUUID((r) => r.portfolioId)
       .requiredUUID((r) => r.walletId)
+      .requiredString((r) => r.depositType)
       .check();
 
     let queryParams: Record<string, string | number> = {
@@ -216,6 +218,7 @@ export class WalletsService implements IWalletsService {
     validate(request)
       .requiredUUID((r) => r.portfolioId)
       .requiredUUID((r) => r.walletId)
+      .requiredString((r) => r.networkId)
       .check();
 
     const bodyParams = {
