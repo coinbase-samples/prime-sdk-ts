@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 import { IPrimeApiClient, CoinbaseCallOptions } from '../clients';
+import { validate } from '../shared/validation';
 
 import {
   ListPortfolioUsersRequest,
@@ -50,6 +51,10 @@ export class UsersService implements IUsersService {
     request: ListUsersRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListUsersResponse> {
+    validate(request)
+      .requiredUUID((r) => r.entityId)
+      .check();
+
     const paginationParams = getQueryParams(this.client, request);
     const { limit, cursor, sortDirection, entityId, ...queryParams } = request;
     const finalQueryParams = {
@@ -79,6 +84,10 @@ export class UsersService implements IUsersService {
     request: ListPortfolioUsersRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListPortfolioUsersResponse> {
+    validate(request)
+      .requiredUUID((r) => r.portfolioId)
+      .check();
+
     const paginationParams = getQueryParams(this.client, request);
     const { limit, cursor, sortDirection, portfolioId, ...queryParams } =
       request;
