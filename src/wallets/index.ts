@@ -82,7 +82,6 @@ export class WalletsService implements IWalletsService {
   ): Promise<ListWalletsResponse> {
     validate(request)
       .requiredUUID((r) => r.portfolioId)
-      .requiredString((r) => r.type)
       .check();
 
     const paginationParams = getQueryParams(this.client, request);

@@ -49,7 +49,7 @@ if (!portfolioId) {
 async function listWalletsExample() {
   try {
     let requestMessage = `💼 Listing wallets - Portfolio ID: ${portfolioId}`;
-    requestMessage += ` - Type: ${type}`;
+    if (type) requestMessage += ` - Type: ${type}`;
     if (symbolsCsv) requestMessage += ` - Symbols: ${symbolsCsv}`;
     console.log(requestMessage);
 

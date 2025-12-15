@@ -13,15 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  createValidator,
-  isValidUUID,
-  validateRequiredUUID,
-  validateOptionalUUID,
-  validateRequiredString,
-  validateOptionalString,
-  ValidationResult,
-} from '../validation';
+import { isValidUUID, validate } from '../validation';
 import { CoinbasePrimeClientException } from '../../errors';
 
 describe('validation', () => {
@@ -37,23 +29,19 @@ describe('validation', () => {
       expect(isValidUUID('123e4567-e89b-12d3-a456')).toBe(false);
       expect(isValidUUID('123e4567e89b12d3a456426614174000')).toBe(false);
       expect(isValidUUID('')).toBe(false);
-      expect(isValidUUID('12345678-1234-1234-1234-12345678901g')).toBe(false); // 'g' is not hex
+      expect(isValidUUID('12345678-1234-1234-1234-12345678901g')).toBe(false);
     });
   });
 
-  describe('ValidationResult', () => {
-    let validator: ValidationResult;
-
-    beforeEach(() => {
-      validator = createValidator();
-    });
-
+  describe('PropertyValidator', () => {
     it('should start with no errors', () => {
+      const validator = validate({});
       expect(validator.hasErrors()).toBe(false);
       expect(validator.getErrors()).toEqual([]);
     });
 
     it('should accumulate errors', () => {
+      const validator = validate({});
       validator.addError('field1', 'is required');
       validator.addError('field2', 'must be a valid UUID', 'invalid-value');
 
@@ -71,199 +59,299 @@ describe('validation', () => {
     });
 
     it('should throw with formatted error message when there are errors', () => {
+      const validator = validate({});
       validator.addError('portfolioId', 'must be a valid UUID', 'bad-id');
       validator.addError('orderId', 'is required');
 
-      expect(() => validator.throwIfInvalid()).toThrow(
-        CoinbasePrimeClientException
-      );
-      expect(() => validator.throwIfInvalid()).toThrow(
+      expect(() => validator.check()).toThrow(CoinbasePrimeClientException);
+      expect(() => validator.check()).toThrow(
         /Request validation failed:\n  - portfolioId: must be a valid UUID \(received: 'bad-id'\)\n  - orderId: is required/
       );
     });
 
     it('should not throw when there are no errors', () => {
-      expect(() => validator.throwIfInvalid()).not.toThrow();
+      const validator = validate({});
+      expect(() => validator.check()).not.toThrow();
     });
 
     it('should include custom context message', () => {
+      const validator = validate({});
       validator.addError('field1', 'is invalid');
 
-      expect(() => validator.throwIfInvalid('Custom operation failed')).toThrow(
+      expect(() => validator.check('Custom operation failed')).toThrow(
         /Custom operation failed:/
       );
     });
   });
 
-  describe('validateRequiredUUID', () => {
-    let validator: ValidationResult;
-
-    beforeEach(() => {
-      validator = createValidator();
+  describe('requiredUUID', () => {
+    it('should not throw for valid UUID', () => {
+      const request = { testId: '123e4567-e89b-12d3-a456-426614174000' };
+      expect(() =>
+        validate(request)
+          .requiredUUID((r) => r.testId)
+          .check()
+      ).not.toThrow();
     });
 
-    it('should not add error for valid UUID', () => {
-      validateRequiredUUID(
-        validator,
-        '123e4567-e89b-12d3-a456-426614174000',
-        'testId'
-      );
-      expect(validator.hasErrors()).toBe(false);
+    it('should throw for undefined', () => {
+      const request = { testId: undefined };
+      expect(() =>
+        validate(request)
+          .requiredUUID((r) => r.testId)
+          .check()
+      ).toThrow(/required/);
     });
 
-    it('should add error for undefined', () => {
-      validateRequiredUUID(validator, undefined, 'testId');
-      expect(validator.hasErrors()).toBe(true);
-      expect(validator.getErrors()[0].message).toContain('required');
+    it('should throw for null', () => {
+      const request = { testId: null };
+      expect(() =>
+        validate(request)
+          .requiredUUID((r) => r.testId)
+          .check()
+      ).toThrow(/required/);
     });
 
-    it('should add error for null', () => {
-      validateRequiredUUID(validator, null, 'testId');
-      expect(validator.hasErrors()).toBe(true);
-      expect(validator.getErrors()[0].message).toContain('required');
+    it('should throw for empty string', () => {
+      const request = { testId: '' };
+      expect(() =>
+        validate(request)
+          .requiredUUID((r) => r.testId)
+          .check()
+      ).toThrow(/required/);
     });
 
-    it('should add error for empty string', () => {
-      validateRequiredUUID(validator, '', 'testId');
-      expect(validator.hasErrors()).toBe(true);
-      expect(validator.getErrors()[0].message).toContain('required');
+    it('should throw for whitespace-only string', () => {
+      const request = { testId: '   ' };
+      expect(() =>
+        validate(request)
+          .requiredUUID((r) => r.testId)
+          .check()
+      ).toThrow(/whitespace/);
     });
 
-    it('should add error for whitespace-only string', () => {
-      validateRequiredUUID(validator, '   ', 'testId');
-      expect(validator.hasErrors()).toBe(true);
-      expect(validator.getErrors()[0].message).toContain('whitespace');
-    });
-
-    it('should add error for invalid UUID format', () => {
-      validateRequiredUUID(validator, 'not-a-uuid', 'testId');
-      expect(validator.hasErrors()).toBe(true);
-      expect(validator.getErrors()[0].message).toContain('valid UUID');
-    });
-  });
-
-  describe('validateOptionalUUID', () => {
-    let validator: ValidationResult;
-
-    beforeEach(() => {
-      validator = createValidator();
-    });
-
-    it('should not add error for valid UUID', () => {
-      validateOptionalUUID(
-        validator,
-        '123e4567-e89b-12d3-a456-426614174000',
-        'testId'
-      );
-      expect(validator.hasErrors()).toBe(false);
-    });
-
-    it('should not add error for undefined', () => {
-      validateOptionalUUID(validator, undefined, 'testId');
-      expect(validator.hasErrors()).toBe(false);
-    });
-
-    it('should not add error for null', () => {
-      validateOptionalUUID(validator, null, 'testId');
-      expect(validator.hasErrors()).toBe(false);
-    });
-
-    it('should not add error for empty string', () => {
-      validateOptionalUUID(validator, '', 'testId');
-      expect(validator.hasErrors()).toBe(false);
-    });
-
-    it('should add error for invalid UUID format', () => {
-      validateOptionalUUID(validator, 'not-a-uuid', 'testId');
-      expect(validator.hasErrors()).toBe(true);
-      expect(validator.getErrors()[0].message).toContain('valid UUID');
+    it('should throw for invalid UUID format', () => {
+      const request = { testId: 'not-a-uuid' };
+      expect(() =>
+        validate(request)
+          .requiredUUID((r) => r.testId)
+          .check()
+      ).toThrow(/valid UUID/);
     });
   });
 
-  describe('validateRequiredString', () => {
-    let validator: ValidationResult;
-
-    beforeEach(() => {
-      validator = createValidator();
+  describe('optionalUUID', () => {
+    it('should not throw for valid UUID', () => {
+      const request = { testId: '123e4567-e89b-12d3-a456-426614174000' };
+      expect(() =>
+        validate(request)
+          .optionalUUID((r) => r.testId)
+          .check()
+      ).not.toThrow();
     });
 
-    it('should not add error for valid string', () => {
-      validateRequiredString(validator, 'valid-string', 'testField');
-      expect(validator.hasErrors()).toBe(false);
+    it('should not throw for undefined', () => {
+      const request = { testId: undefined };
+      expect(() =>
+        validate(request)
+          .optionalUUID((r) => r.testId)
+          .check()
+      ).not.toThrow();
     });
 
-    it('should add error for undefined', () => {
-      validateRequiredString(validator, undefined, 'testField');
-      expect(validator.hasErrors()).toBe(true);
-      expect(validator.getErrors()[0].message).toContain('required');
+    it('should not throw for null', () => {
+      const request = { testId: null };
+      expect(() =>
+        validate(request)
+          .optionalUUID((r) => r.testId)
+          .check()
+      ).not.toThrow();
     });
 
-    it('should add error for null', () => {
-      validateRequiredString(validator, null, 'testField');
-      expect(validator.hasErrors()).toBe(true);
-      expect(validator.getErrors()[0].message).toContain('required');
+    it('should not throw for empty string', () => {
+      const request = { testId: '' };
+      expect(() =>
+        validate(request)
+          .optionalUUID((r) => r.testId)
+          .check()
+      ).not.toThrow();
     });
 
-    it('should add error for empty string', () => {
-      validateRequiredString(validator, '', 'testField');
-      expect(validator.hasErrors()).toBe(true);
-      expect(validator.getErrors()[0].message).toContain('required');
-    });
-
-    it('should add error for whitespace-only string', () => {
-      validateRequiredString(validator, '   ', 'testField');
-      expect(validator.hasErrors()).toBe(true);
-      expect(validator.getErrors()[0].message).toContain('whitespace');
+    it('should throw for invalid UUID format', () => {
+      const request = { testId: 'not-a-uuid' };
+      expect(() =>
+        validate(request)
+          .optionalUUID((r) => r.testId)
+          .check()
+      ).toThrow(/valid UUID/);
     });
   });
 
-  describe('validateOptionalString', () => {
-    let validator: ValidationResult;
-
-    beforeEach(() => {
-      validator = createValidator();
+  describe('requiredString', () => {
+    it('should not throw for valid string', () => {
+      const request = { testField: 'valid-string' };
+      expect(() =>
+        validate(request)
+          .requiredString((r) => r.testField)
+          .check()
+      ).not.toThrow();
     });
 
-    it('should not add error for valid string', () => {
-      validateOptionalString(validator, 'valid-string', 'testField');
-      expect(validator.hasErrors()).toBe(false);
+    it('should throw for undefined', () => {
+      const request = { testField: undefined };
+      expect(() =>
+        validate(request)
+          .requiredString((r) => r.testField)
+          .check()
+      ).toThrow(/required/);
     });
 
-    it('should not add error for undefined', () => {
-      validateOptionalString(validator, undefined, 'testField');
-      expect(validator.hasErrors()).toBe(false);
+    it('should throw for null', () => {
+      const request = { testField: null };
+      expect(() =>
+        validate(request)
+          .requiredString((r) => r.testField)
+          .check()
+      ).toThrow(/required/);
     });
 
-    it('should not add error for null', () => {
-      validateOptionalString(validator, null, 'testField');
-      expect(validator.hasErrors()).toBe(false);
+    it('should throw for empty string', () => {
+      const request = { testField: '' };
+      expect(() =>
+        validate(request)
+          .requiredString((r) => r.testField)
+          .check()
+      ).toThrow(/required/);
     });
 
-    it('should add error for whitespace-only when not empty', () => {
-      validateOptionalString(validator, '   ', 'testField');
-      expect(validator.hasErrors()).toBe(true);
-      expect(validator.getErrors()[0].message).toContain('whitespace');
+    it('should throw for whitespace-only string', () => {
+      const request = { testField: '   ' };
+      expect(() =>
+        validate(request)
+          .requiredString((r) => r.testField)
+          .check()
+      ).toThrow(/whitespace/);
+    });
+  });
+
+  describe('optionalString', () => {
+    it('should not throw for valid string', () => {
+      const request = { testField: 'valid-string' };
+      expect(() =>
+        validate(request)
+          .optionalString((r) => r.testField)
+          .check()
+      ).not.toThrow();
+    });
+
+    it('should not throw for undefined', () => {
+      const request = { testField: undefined };
+      expect(() =>
+        validate(request)
+          .optionalString((r) => r.testField)
+          .check()
+      ).not.toThrow();
+    });
+
+    it('should not throw for null', () => {
+      const request = { testField: null };
+      expect(() =>
+        validate(request)
+          .optionalString((r) => r.testField)
+          .check()
+      ).not.toThrow();
+    });
+
+    it('should throw for whitespace-only when not empty', () => {
+      const request = { testField: '   ' };
+      expect(() =>
+        validate(request)
+          .optionalString((r) => r.testField)
+          .check()
+      ).toThrow(/whitespace/);
+    });
+  });
+
+  describe('requiredArray', () => {
+    it('should not throw for valid array', () => {
+      const request = { items: ['a', 'b', 'c'] };
+      expect(() =>
+        validate(request)
+          .requiredArray((r) => r.items)
+          .check()
+      ).not.toThrow();
+    });
+
+    it('should throw for undefined', () => {
+      const request = { items: undefined };
+      expect(() =>
+        validate(request)
+          .requiredArray((r) => r.items)
+          .check()
+      ).toThrow(/required/);
+    });
+
+    it('should throw for empty array', () => {
+      const request = { items: [] };
+      expect(() =>
+        validate(request)
+          .requiredArray((r) => r.items)
+          .check()
+      ).toThrow(/empty array/);
+    });
+  });
+
+  describe('requiredBoolean', () => {
+    it('should not throw for true', () => {
+      const request = { flag: true };
+      expect(() =>
+        validate(request)
+          .requiredBoolean((r) => r.flag)
+          .check()
+      ).not.toThrow();
+    });
+
+    it('should not throw for false', () => {
+      const request = { flag: false };
+      expect(() =>
+        validate(request)
+          .requiredBoolean((r) => r.flag)
+          .check()
+      ).not.toThrow();
+    });
+
+    it('should throw for undefined', () => {
+      const request = { flag: undefined };
+      expect(() =>
+        validate(request)
+          .requiredBoolean((r) => r.flag)
+          .check()
+      ).toThrow(/required/);
     });
   });
 
   describe('multiple field validation', () => {
     it('should collect all validation errors before throwing', () => {
-      const validator = createValidator();
-
-      // Simulate validating multiple fields at once
-      validateRequiredUUID(validator, undefined, 'portfolioId');
-      validateRequiredUUID(validator, 'invalid-uuid', 'orderId');
-      validateRequiredString(validator, '', 'productId');
-
-      expect(validator.hasErrors()).toBe(true);
-      expect(validator.getErrors()).toHaveLength(3);
+      const request = {
+        portfolioId: undefined,
+        orderId: 'invalid-uuid',
+        productId: '',
+      };
 
       expect(() =>
-        validator.throwIfInvalid('getOrder request validation failed')
+        validate(request)
+          .requiredUUID((r) => r.portfolioId)
+          .requiredUUID((r) => r.orderId)
+          .requiredString((r) => r.productId)
+          .check('getOrder request validation failed')
       ).toThrow(CoinbasePrimeClientException);
 
       try {
-        validator.throwIfInvalid('getOrder request validation failed');
+        validate(request)
+          .requiredUUID((r) => r.portfolioId)
+          .requiredUUID((r) => r.orderId)
+          .requiredString((r) => r.productId)
+          .check('getOrder request validation failed');
       } catch (error) {
         if (error instanceof CoinbasePrimeClientException) {
           expect(error.message).toContain('portfolioId');

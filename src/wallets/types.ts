@@ -32,7 +32,7 @@ import {
 
 export type ListWalletsRequest = Pagination & {
   portfolioId: string;
-  type: WalletType;
+  type?: WalletType;
   symbols?: string[];
   getNetworkUnifiedWallets?: boolean;
 };
