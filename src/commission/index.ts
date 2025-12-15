@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 import { CoinbaseCallOptions, IPrimeApiClient } from '../clients';
+import { validate } from '../shared/validation';
 
 import {
   GetPortfolioCommissionRequest,
@@ -38,6 +39,8 @@ export class CommissionService implements ICommissionService {
     request: GetPortfolioCommissionRequest,
     options?: CoinbaseCallOptions
   ): Promise<GetPortfolioCommissionResponse> {
+    validate(request).requiredUUID((r) => r.portfolioId).check();
+
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/commission`,
       callOptions: options,
