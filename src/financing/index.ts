@@ -278,6 +278,8 @@ export class FinancingService implements IFinancingService {
   ): Promise<GetPortfolioBuyingPowerResponse> {
     validate(request)
       .requiredUUID((r) => r.portfolioId)
+      .requiredString((r) => r.baseCurrency)
+      .requiredString((r) => r.quoteCurrency)
       .check();
 
     const queryParams = {
@@ -315,6 +317,7 @@ export class FinancingService implements IFinancingService {
   ): Promise<GetPortfolioWithdrawalPowerResponse> {
     validate(request)
       .requiredUUID((r) => r.portfolioId)
+      .requiredString((r) => r.symbol)
       .check();
 
     const queryParams = {
