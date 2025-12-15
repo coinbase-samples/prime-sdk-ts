@@ -139,6 +139,11 @@ export class OrdersService implements IOrdersService {
     request: GetOrderEditHistoryRequest,
     options?: CoinbaseCallOptions
   ): Promise<GetOrderEditHistoryResponse> {
+    validate(request)
+      .requiredUUID((r) => r.portfolioId)
+      .requiredUUID((r) => r.orderId)
+      .check();
+
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/orders/${request.orderId}/edit_history`,
       callOptions: options,
@@ -154,6 +159,8 @@ export class OrdersService implements IOrdersService {
     request: ListPortfolioFillsRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListPortfolioFillsResponse> {
+    validate(request).requiredUUID((r) => r.portfolioId).check();
+
     const paginationParams = getQueryParams(this.client, request);
     const { limit, cursor, sortDirection, portfolioId, ...queryParams } =
       request;
@@ -182,6 +189,8 @@ export class OrdersService implements IOrdersService {
     request: ListPortfolioOrdersRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListPortfolioOrdersResponse> {
+    validate(request).requiredUUID((r) => r.portfolioId).check();
+
     const paginationParams = getQueryParams(this.client, request);
     const { limit, cursor, sortDirection, portfolioId, ...queryParams } =
       request;
@@ -210,6 +219,11 @@ export class OrdersService implements IOrdersService {
     request: ListOrderFillsRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListOrderFillsResponse> {
+    validate(request)
+      .requiredUUID((r) => r.portfolioId)
+      .requiredUUID((r) => r.orderId)
+      .check();
+
     const paginationParams = getQueryParams(this.client, request);
     const {
       limit,
@@ -244,6 +258,8 @@ export class OrdersService implements IOrdersService {
     request: ListOpenOrdersRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListOpenOrdersResponse> {
+    validate(request).requiredUUID((r) => r.portfolioId).check();
+
     const paginationParams = getQueryParams(this.client, request);
     const { limit, cursor, sortDirection, portfolioId, ...queryParams } =
       request;
@@ -272,6 +288,8 @@ export class OrdersService implements IOrdersService {
     request: CreateOrderPreviewRequest,
     options?: CoinbaseCallOptions
   ): Promise<CreateOrderPreviewResponse> {
+    validate(request).requiredUUID((r) => r.portfolioId).check();
+
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/order_preview`,
       method: Method.POST,
@@ -285,6 +303,11 @@ export class OrdersService implements IOrdersService {
     request: CancelOrderRequest,
     options?: CoinbaseCallOptions
   ): Promise<CancelOrderResponse> {
+    validate(request)
+      .requiredUUID((r) => r.portfolioId)
+      .requiredUUID((r) => r.orderId)
+      .check();
+
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/orders/${request.orderId}/cancel`,
       method: Method.POST,
@@ -297,6 +320,8 @@ export class OrdersService implements IOrdersService {
     request: CreateOrderRequest,
     options?: CoinbaseCallOptions
   ): Promise<CreateOrderResponse> {
+    validate(request).requiredUUID((r) => r.portfolioId).check();
+
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/order`,
       method: Method.POST,
@@ -310,6 +335,8 @@ export class OrdersService implements IOrdersService {
     request: CreateQuoteRequest,
     options?: CoinbaseCallOptions
   ): Promise<CreateQuoteResponse> {
+    validate(request).requiredUUID((r) => r.portfolioId).check();
+
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/rfq`,
       method: Method.POST,
@@ -323,6 +350,8 @@ export class OrdersService implements IOrdersService {
     request: AcceptQuoteRequest,
     options?: CoinbaseCallOptions
   ): Promise<AcceptQuoteResponse> {
+    validate(request).requiredUUID((r) => r.portfolioId).check();
+
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/accept_quote`,
       method: Method.POST,
