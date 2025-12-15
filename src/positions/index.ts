@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 import { IPrimeApiClient, CoinbaseCallOptions } from '../clients';
+import { validate } from '../shared/validation';
 
 import {
   ListAggregateEntityPositionsRequest,
@@ -50,6 +51,10 @@ export class PositionsService implements IPositionsService {
     request: ListAggregateEntityPositionsRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListAggregateEntityPositionsResponse> {
+    validate(request)
+      .requiredUUID((r) => r.entityId)
+      .check();
+
     const paginationParams = getQueryParams(this.client, request);
     const { limit, cursor, sortDirection, entityId, ...queryParams } = request;
     const finalQueryParams = {
@@ -77,6 +82,10 @@ export class PositionsService implements IPositionsService {
     request: ListEntityPositionsRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListEntityPositionsResponse> {
+    validate(request)
+      .requiredUUID((r) => r.entityId)
+      .check();
+
     const paginationParams = getQueryParams(this.client, request);
     const { limit, cursor, sortDirection, entityId, ...queryParams } = request;
     const finalQueryParams = {
