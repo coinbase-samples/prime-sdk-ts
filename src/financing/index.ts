@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 import { IPrimeApiClient, CoinbaseCallOptions } from '../clients';
+import { validate } from '../shared/validation';
 
 import {
   ListExistingLocatesRequest,
@@ -139,6 +140,10 @@ export class FinancingService implements IFinancingService {
     request: ListExistingLocatesRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListExistingLocatesResponse> {
+    validate(request)
+      .requiredUUID((r) => r.portfolioId)
+      .check();
+
     const { portfolioId, ...queryParams } = request;
     const response = await this.client.request({
       url: `portfolios/${portfolioId}/locates`,
@@ -153,6 +158,10 @@ export class FinancingService implements IFinancingService {
     request: ListInterestAccrualsRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListInterestAccrualsResponse> {
+    validate(request)
+      .requiredUUID((r) => r.entityId)
+      .check();
+
     const { entityId, ...queryParams } = request;
     const response = await this.client.request({
       url: `entities/${entityId}/accruals`,
@@ -167,6 +176,10 @@ export class FinancingService implements IFinancingService {
     request: ListPortfolioInterestAccrualsRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListPortfolioInterestAccrualsResponse> {
+    validate(request)
+      .requiredUUID((r) => r.portfolioId)
+      .check();
+
     const queryParams = {
       ...request,
       portfolioId: undefined,
@@ -184,6 +197,10 @@ export class FinancingService implements IFinancingService {
     request: ListMarginCallSummariesRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListMarginCallSummariesResponse> {
+    validate(request)
+      .requiredUUID((r) => r.entityId)
+      .check();
+
     const queryParams = {
       ...request,
       entityId: undefined,
@@ -201,6 +218,10 @@ export class FinancingService implements IFinancingService {
     request: ListMarginConversionsRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListMarginConversionsResponse> {
+    validate(request)
+      .requiredUUID((r) => r.portfolioId)
+      .check();
+
     const queryParams = {
       ...request,
       portfolioId: undefined,
@@ -218,6 +239,10 @@ export class FinancingService implements IFinancingService {
     request: GetEntityLocateAvailabilitiesRequest,
     options?: CoinbaseCallOptions
   ): Promise<GetEntityLocateAvailabilitiesResponse> {
+    validate(request)
+      .requiredUUID((r) => r.entityId)
+      .check();
+
     const queryParams = {
       ...request,
       entityId: undefined,
@@ -235,6 +260,10 @@ export class FinancingService implements IFinancingService {
     request: GetMarginInformationRequest,
     options?: CoinbaseCallOptions
   ): Promise<GetMarginInformationResponse> {
+    validate(request)
+      .requiredUUID((r) => r.entityId)
+      .check();
+
     const response = await this.client.request({
       url: `entities/${request.entityId}/margin`,
       callOptions: options,
@@ -247,6 +276,12 @@ export class FinancingService implements IFinancingService {
     request: GetPortfolioBuyingPowerRequest,
     options?: CoinbaseCallOptions
   ): Promise<GetPortfolioBuyingPowerResponse> {
+    validate(request)
+      .requiredUUID((r) => r.portfolioId)
+      .requiredString((r) => r.baseCurrency)
+      .requiredString((r) => r.quoteCurrency)
+      .check();
+
     const queryParams = {
       ...request,
       portfolioId: undefined,
@@ -264,6 +299,10 @@ export class FinancingService implements IFinancingService {
     request: GetPortfolioCreditInformationRequest,
     options?: CoinbaseCallOptions
   ): Promise<GetPortfolioCreditInformationResponse> {
+    validate(request)
+      .requiredUUID((r) => r.portfolioId)
+      .check();
+
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/credit`,
       callOptions: options,
@@ -276,6 +315,11 @@ export class FinancingService implements IFinancingService {
     request: GetPortfolioWithdrawalPowerRequest,
     options?: CoinbaseCallOptions
   ): Promise<GetPortfolioWithdrawalPowerResponse> {
+    validate(request)
+      .requiredUUID((r) => r.portfolioId)
+      .requiredString((r) => r.symbol)
+      .check();
+
     const queryParams = {
       ...request,
       portfolioId: undefined,
@@ -293,6 +337,10 @@ export class FinancingService implements IFinancingService {
     request: GetTieredPricingFeesRequest,
     options?: CoinbaseCallOptions
   ): Promise<GetTieredPricingFeesResponse> {
+    validate(request)
+      .requiredUUID((r) => r.entityId)
+      .check();
+
     const queryParams = {
       ...request,
       entityId: undefined,
@@ -310,6 +358,10 @@ export class FinancingService implements IFinancingService {
     request: GetFcmMarginCallDetailsRequest,
     options?: CoinbaseCallOptions
   ): Promise<GetFcmMarginCallDetailsResponse> {
+    validate(request)
+      .requiredUUID((r) => r.entityId)
+      .check();
+
     const response = await this.client.request({
       url: `entities/${request.entityId}/futures/margin_call_details`,
       callOptions: options,
@@ -322,6 +374,10 @@ export class FinancingService implements IFinancingService {
     request: GetFcmRiskLimitsRequest,
     options?: CoinbaseCallOptions
   ): Promise<GetFcmRiskLimitsResponse> {
+    validate(request)
+      .requiredUUID((r) => r.entityId)
+      .check();
+
     const response = await this.client.request({
       url: `entities/${request.entityId}/futures/risk_limits`,
       callOptions: options,
@@ -334,6 +390,10 @@ export class FinancingService implements IFinancingService {
     request: CreateNewLocatesRequest,
     options?: CoinbaseCallOptions
   ): Promise<CreateNewLocatesResponse> {
+    validate(request)
+      .requiredUUID((r) => r.portfolioId)
+      .check();
+
     const bodyParams = {
       ...request,
       portfolioId: undefined,
@@ -351,6 +411,10 @@ export class FinancingService implements IFinancingService {
     request: GetCrossMarginOverviewRequest,
     options?: CoinbaseCallOptions
   ): Promise<GetCrossMarginOverviewResponse> {
+    validate(request)
+      .requiredUUID((r) => r.entityId)
+      .check();
+
     const response = await this.client.request({
       url: `entities/${request.entityId}/cross_margin`,
       callOptions: options,
@@ -363,6 +427,10 @@ export class FinancingService implements IFinancingService {
     request: ListTFObligationsRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListTFObligationsResponse> {
+    validate(request)
+      .requiredUUID((r) => r.entityId)
+      .check();
+
     const response = await this.client.request({
       url: `entities/${request.entityId}/tf_obligations`,
       callOptions: options,

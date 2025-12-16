@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 import { CoinbaseCallOptions, IPrimeApiClient } from '../clients';
+import { validate } from '../shared/validation';
 
 import {
   GetPortfolioRequest,
@@ -59,6 +60,10 @@ export class PortfoliosService implements IPortfoliosService {
     request: GetPortfolioRequest,
     options?: CoinbaseCallOptions
   ): Promise<GetPortfolioResponse> {
+    validate(request)
+      .requiredUUID((r) => r.portfolioId)
+      .check();
+
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}`,
       callOptions: options,
@@ -71,6 +76,10 @@ export class PortfoliosService implements IPortfoliosService {
     request: GetPortfolioCreditRequest,
     options?: CoinbaseCallOptions
   ): Promise<GetPortfolioCreditResponse> {
+    validate(request)
+      .requiredUUID((r) => r.portfolioId)
+      .check();
+
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/credit`,
       callOptions: options,
@@ -83,6 +92,10 @@ export class PortfoliosService implements IPortfoliosService {
     request: GetCounterpartyIdRequest,
     options?: CoinbaseCallOptions
   ): Promise<GetCounterpartyIdResponse> {
+    validate(request)
+      .requiredUUID((r) => r.portfolioId)
+      .check();
+
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/counterparty`,
       callOptions: options,

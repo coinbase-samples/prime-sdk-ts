@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 import { IPrimeApiClient, CoinbaseCallOptions, Method } from '../clients';
+import { validate } from '../shared/validation';
 
 import {
   ListWalletsRequest,
@@ -79,6 +80,10 @@ export class WalletsService implements IWalletsService {
     request: ListWalletsRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListWalletsResponse> {
+    validate(request)
+      .requiredUUID((r) => r.portfolioId)
+      .check();
+
     const paginationParams = getQueryParams(this.client, request);
     const { limit, cursor, portfolioId, ...queryParams } = request;
     const finalQueryParams = {
@@ -109,6 +114,11 @@ export class WalletsService implements IWalletsService {
     request: GetWalletRequest,
     options?: CoinbaseCallOptions
   ): Promise<GetWalletResponse> {
+    validate(request)
+      .requiredUUID((r) => r.portfolioId)
+      .requiredUUID((r) => r.walletId)
+      .check();
+
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/wallets/${request.walletId}`,
       callOptions: options,
@@ -121,6 +131,12 @@ export class WalletsService implements IWalletsService {
     request: GetWalletDepositInstructionsRequest,
     options?: CoinbaseCallOptions
   ): Promise<GetWalletDepositInstructionsResponse> {
+    validate(request)
+      .requiredUUID((r) => r.portfolioId)
+      .requiredUUID((r) => r.walletId)
+      .requiredString((r) => r.depositType)
+      .check();
+
     let queryParams: Record<string, string | number> = {
       depositType: request.depositType,
     };
@@ -143,6 +159,11 @@ export class WalletsService implements IWalletsService {
     request: ListWalletAddressesRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListWalletAddressesResponse> {
+    validate(request)
+      .requiredUUID((r) => r.portfolioId)
+      .requiredUUID((r) => r.walletId)
+      .check();
+
     const paginationParams = getQueryParams(this.client, request);
     const { limit, cursor, portfolioId, walletId, ...queryParams } = request;
     const finalQueryParams = {
@@ -174,6 +195,12 @@ export class WalletsService implements IWalletsService {
     request: CreateWalletRequest,
     options?: CoinbaseCallOptions
   ): Promise<CreateWalletResponse> {
+    validate(request)
+      .requiredUUID((r) => r.portfolioId)
+      .requiredString((r) => r.name)
+      .requiredString((r) => r.symbol)
+      .check();
+
     const bodyParams = { ...request, portfolioId: undefined };
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/wallets`,
@@ -189,6 +216,12 @@ export class WalletsService implements IWalletsService {
     request: CreateWalletDepositAddressRequest,
     options?: CoinbaseCallOptions
   ): Promise<CreateWalletDepositAddressResponse> {
+    validate(request)
+      .requiredUUID((r) => r.portfolioId)
+      .requiredUUID((r) => r.walletId)
+      .requiredString((r) => r.networkId)
+      .check();
+
     const bodyParams = {
       networkId: request.networkId,
     };

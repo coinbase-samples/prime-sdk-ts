@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 import { CoinbaseCallOptions, IPrimeApiClient } from '../clients';
+import { validate } from '../shared/validation';
 
 import {
   ListEntityPaymentMethodsRequest,
@@ -45,6 +46,10 @@ export class PaymentMethodsService implements IPaymentMethodsService {
     request: ListEntityPaymentMethodsRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListEntityPaymentMethodsResponse> {
+    validate(request)
+      .requiredUUID((r) => r.entityId)
+      .check();
+
     const response = await this.client.request({
       url: `entities/${request.entityId}/payment-methods`,
       callOptions: options,
@@ -57,6 +62,11 @@ export class PaymentMethodsService implements IPaymentMethodsService {
     request: GetPaymentMethodRequest,
     options?: CoinbaseCallOptions
   ): Promise<GetPaymentMethodResponse> {
+    validate(request)
+      .requiredUUID((r) => r.entityId)
+      .requiredUUID((r) => r.paymentMethodId)
+      .check();
+
     const response = await this.client.request({
       url: `entities/${request.entityId}/payment-methods/${request.paymentMethodId}`,
       callOptions: options,

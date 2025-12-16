@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 import { CoinbaseCallOptions, Method, IPrimeApiClient } from '../clients';
+import { validate } from '../shared/validation';
 import {
   CreateAllocationRequest,
   CreateAllocationResponse,
@@ -99,6 +100,10 @@ export class AllocationService implements IAllocationService {
     request: ListPortfolioAllocationsRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListPortfolioAllocationsResponse> {
+    validate(request)
+      .requiredUUID((r) => r.portfolioId)
+      .check();
+
     const paginationParams = getQueryParams(this.client, request);
     const { limit, cursor, sortDirection, portfolioId, ...queryParams } =
       request;
@@ -128,6 +133,11 @@ export class AllocationService implements IAllocationService {
     request: ListNetAllocationsRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListNetAllocationsResponse> {
+    validate(request)
+      .requiredUUID((r) => r.portfolioId)
+      .requiredUUID((r) => r.nettingId)
+      .check();
+
     const queryParams = {
       allocationId: request.allocationId,
     };
@@ -144,6 +154,11 @@ export class AllocationService implements IAllocationService {
     request: GetAllocationRequest,
     options?: CoinbaseCallOptions
   ): Promise<GetAllocationResponse> {
+    validate(request)
+      .requiredUUID((r) => r.portfolioId)
+      .requiredUUID((r) => r.allocationId)
+      .check();
+
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/allocations/${request.allocationId}`,
       callOptions: options,

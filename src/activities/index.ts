@@ -15,6 +15,7 @@
  */
 
 import { IPrimeApiClient, CoinbaseCallOptions } from '../clients';
+import { validate } from '../shared/validation';
 
 import {
   GetActivityRequest,
@@ -57,6 +58,10 @@ export class ActivitiesService implements IActivitiesService {
     request: GetActivityRequest,
     options?: CoinbaseCallOptions
   ): Promise<GetActivityResponse> {
+    validate(request)
+      .requiredUUID((r) => r.activityId)
+      .check();
+
     const response = await this.client.request({
       url: `activities/${request.activityId}`,
       callOptions: options,
@@ -69,6 +74,11 @@ export class ActivitiesService implements IActivitiesService {
     request: GetPortfolioActivitiesRequest,
     options?: CoinbaseCallOptions
   ): Promise<GetPortfolioActivityResponse> {
+    validate(request)
+      .requiredUUID((r) => r.portfolioId)
+      .requiredUUID((r) => r.activityId)
+      .check();
+
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/activities/${request.activityId}`,
       callOptions: options,
@@ -81,6 +91,10 @@ export class ActivitiesService implements IActivitiesService {
     request: ListEntityActivitiesRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListEntityActivitiesResponse> {
+    validate(request)
+      .requiredUUID((r) => r.entityId)
+      .check();
+
     const paginationParams = getQueryParams(this.client, request);
     const { limit, cursor, sortDirection, entityId, ...queryParams } = request;
     const finalQueryParams = {
@@ -109,6 +123,10 @@ export class ActivitiesService implements IActivitiesService {
     request: ListPortfolioActivitiesRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListPortfolioActivitiesResponse> {
+    validate(request)
+      .requiredUUID((r) => r.portfolioId)
+      .check();
+
     const paginationParams = getQueryParams(this.client, request);
     const { limit, cursor, sortDirection, portfolioId, ...queryParams } =
       request;

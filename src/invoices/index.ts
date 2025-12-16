@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 import { IPrimeApiClient, CoinbaseCallOptions } from '../clients';
+import { validate } from '../shared/validation';
 
 import { ListInvoicesRequest, ListInvoicesResponse } from './types';
 import {
@@ -41,6 +42,10 @@ export class InvoicesService implements IInvoicesService {
     request: ListInvoicesRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListInvoicesResponse> {
+    validate(request)
+      .requiredUUID((r) => r.entityId)
+      .check();
+
     const paginationParams = getQueryParams(this.client, request);
     const { limit, cursor, sortDirection, entityId, ...queryParams } = request;
     const finalQueryParams = {

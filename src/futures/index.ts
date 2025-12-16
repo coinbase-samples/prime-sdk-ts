@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 import { CoinbaseCallOptions, Method, IPrimeApiClient } from '../clients';
+import { validate } from '../shared/validation';
 
 import {
   ListEntityFuturesSweepsRequest,
@@ -101,6 +102,10 @@ export class FuturesService implements IFuturesService {
     request: ListEntityFuturesSweepsRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListEntityFuturesSweepsResponse> {
+    validate(request)
+      .requiredUUID((r) => r.entityId)
+      .check();
+
     const response = await this.client.request({
       url: `entities/${request.entityId}/futures/sweeps`,
       callOptions: options,
@@ -113,6 +118,10 @@ export class FuturesService implements IFuturesService {
     request: GetEntityFuturesBalanceRequest,
     options?: CoinbaseCallOptions
   ): Promise<GetEntityFuturesBalanceResponse> {
+    validate(request)
+      .requiredUUID((r) => r.entityId)
+      .check();
+
     const response = await this.client.request({
       url: `entities/${request.entityId}/futures/balance_summary`,
       callOptions: options,
@@ -125,6 +134,10 @@ export class FuturesService implements IFuturesService {
     request: GetEntityFuturesPositionsRequest,
     options?: CoinbaseCallOptions
   ): Promise<GetEntityFuturesPositionsResponse> {
+    validate(request)
+      .requiredUUID((r) => r.entityId)
+      .check();
+
     const queryParams = { ...request, entityId: undefined };
     const response = await this.client.request({
       url: `entities/${request.entityId}/futures/positions`,
@@ -139,6 +152,11 @@ export class FuturesService implements IFuturesService {
     request: ScheduleEntityFuturesSweepRequest,
     options?: CoinbaseCallOptions
   ): Promise<ScheduleEntityFuturesSweepResponse> {
+    validate(request)
+      .requiredUUID((r) => r.entityId)
+      .requiredString((r) => r.currency)
+      .check();
+
     const response = await this.client.request({
       url: `entities/${request.entityId}/futures/sweeps`,
       method: Method.POST,
@@ -153,6 +171,11 @@ export class FuturesService implements IFuturesService {
     request: UpdateEntityFuturesAutoSweepRequest,
     options?: CoinbaseCallOptions
   ): Promise<UpdateEntityFuturesAutoSweepResponse> {
+    validate(request)
+      .requiredUUID((r) => r.entityId)
+      .requiredBoolean((r) => r.autoSweep)
+      .check();
+
     const response = await this.client.request({
       url: `entities/${request.entityId}/futures/auto_sweep`,
       method: Method.POST,
@@ -167,6 +190,10 @@ export class FuturesService implements IFuturesService {
     request: CancelEntitySweepRequest,
     options?: CoinbaseCallOptions
   ): Promise<CancelEntitySweepResponse> {
+    validate(request)
+      .requiredUUID((r) => r.entityId)
+      .check();
+
     const response = await this.client.request({
       url: `entities/${request.entityId}/futures/sweeps`,
       method: Method.DELETE,
@@ -180,6 +207,10 @@ export class FuturesService implements IFuturesService {
     request: GetEntityFuturesRiskLimitsRequest,
     options?: CoinbaseCallOptions
   ): Promise<GetEntityFuturesRiskLimitsResponse> {
+    validate(request)
+      .requiredUUID((r) => r.entityId)
+      .check();
+
     const response = await this.client.request({
       url: `entities/${request.entityId}/futures/risk_limits`,
       callOptions: options,
@@ -192,6 +223,10 @@ export class FuturesService implements IFuturesService {
     request: GetEntityFuturesMarginCallDetailsRequest,
     options?: CoinbaseCallOptions
   ): Promise<GetEntityFuturesMarginCallDetailsResponse> {
+    validate(request)
+      .requiredUUID((r) => r.entityId)
+      .check();
+
     const response = await this.client.request({
       url: `entities/${request.entityId}/futures/margin_call_details`,
       callOptions: options,
@@ -204,6 +239,10 @@ export class FuturesService implements IFuturesService {
     request: GetFcmSettingsRequest,
     options?: CoinbaseCallOptions
   ): Promise<GetFcmSettingsResponse> {
+    validate(request)
+      .requiredUUID((r) => r.entityId)
+      .check();
+
     const response = await this.client.request({
       url: `entities/${request.entityId}/futures/settings`,
       callOptions: options,
@@ -216,6 +255,10 @@ export class FuturesService implements IFuturesService {
     request: SetFcmSettingsRequest,
     options?: CoinbaseCallOptions
   ): Promise<SetFcmSettingsResponse> {
+    validate(request)
+      .requiredUUID((r) => r.entityId)
+      .check();
+
     const response = await this.client.request({
       url: `entities/${request.entityId}/futures/settings`,
       method: Method.POST,

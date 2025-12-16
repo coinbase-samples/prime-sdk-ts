@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 import { CoinbaseCallOptions, IPrimeApiClient } from '../clients';
+import { validate } from '../shared/validation';
 
 import {
   GetWalletBalanceRequest,
@@ -65,6 +66,10 @@ export class BalancesService implements IBalancesService {
     request: ListPortfolioBalancesRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListPortfolioBalancesResponse> {
+    validate(request)
+      .requiredUUID((r) => r.portfolioId)
+      .check();
+
     const { portfolioId, ...queryParams } = request;
     const response = await this.client.request({
       url: `portfolios/${portfolioId}/balances`,
@@ -79,6 +84,11 @@ export class BalancesService implements IBalancesService {
     request: GetWalletBalanceRequest,
     options?: CoinbaseCallOptions
   ): Promise<GetWalletBalanceResponse> {
+    validate(request)
+      .requiredUUID((r) => r.portfolioId)
+      .requiredUUID((r) => r.walletId)
+      .check();
+
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/wallets/${request.walletId}/balance`,
       callOptions: options,
@@ -91,6 +101,11 @@ export class BalancesService implements IBalancesService {
     request: ListOnchainWalletBalancesRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListOnchainWalletBalancesResponse> {
+    validate(request)
+      .requiredUUID((r) => r.portfolioId)
+      .requiredUUID((r) => r.walletId)
+      .check();
+
     const paginationParams = getQueryParams(this.client, request);
     const { limit, cursor, portfolioId, walletId, ...queryParams } = request;
     const finalQueryParams = {
@@ -118,6 +133,10 @@ export class BalancesService implements IBalancesService {
     request: ListEntityBalancesRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListEntityBalancesResponse> {
+    validate(request)
+      .requiredUUID((r) => r.entityId)
+      .check();
+
     const paginationParams = getQueryParams(this.client, request);
     const { limit, cursor, entityId, ...queryParams } = request;
     const finalQueryParams = {

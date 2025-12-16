@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 import { IPrimeApiClient, CoinbaseCallOptions } from '../clients';
+import { validate } from '../shared/validation';
 
 import { ListAssetsRequest, ListAssetsResponse } from './types';
 
@@ -35,6 +36,10 @@ export class AssetsService implements IAssetsService {
     request: ListAssetsRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListAssetsResponse> {
+    validate(request)
+      .requiredUUID((r) => r.entityId)
+      .check();
+
     const response = await this.client.request({
       url: `entities/${request.entityId}/assets`,
       callOptions: options,

@@ -20,6 +20,7 @@ import {
   getDefaultPaginationOptions,
   getQueryParams,
 } from '../shared/paginatedResponse';
+import { validate } from '../shared/validation';
 import {
   CreateConversionRequest,
   CreateConversionResponse,
@@ -85,6 +86,11 @@ export class TransactionsService implements ITransactionsService {
     request: GetTransactionRequest,
     options?: CoinbaseCallOptions
   ): Promise<GetTransactionResponse> {
+    validate(request)
+      .requiredUUID((r) => r.portfolioId)
+      .requiredUUID((r) => r.transactionId)
+      .check();
+
     const response = await this.client.request({
       url: `portfolios/${request.portfolioId}/transactions/${request.transactionId}`,
       callOptions: options,
@@ -97,6 +103,10 @@ export class TransactionsService implements ITransactionsService {
     request: ListPortfolioTransactionsRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListPortfolioTransactionsResponse> {
+    validate(request)
+      .requiredUUID((r) => r.portfolioId)
+      .check();
+
     const paginationParams = getQueryParams(this.client, request);
     const { limit, cursor, sortDirection, portfolioId, ...queryParams } =
       request;
@@ -129,6 +139,11 @@ export class TransactionsService implements ITransactionsService {
     request: ListWalletTransactionsRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListWalletTransactionsResponse> {
+    validate(request)
+      .requiredUUID((r) => r.portfolioId)
+      .requiredUUID((r) => r.walletId)
+      .check();
+
     const paginationParams = getQueryParams(this.client, request);
     const {
       limit,
@@ -167,6 +182,16 @@ export class TransactionsService implements ITransactionsService {
     request: CreateConversionRequest,
     options?: CoinbaseCallOptions
   ): Promise<CreateConversionResponse> {
+    validate(request)
+      .requiredUUID((r) => r.portfolioId)
+      .requiredUUID((r) => r.walletId)
+      .requiredUUID((r) => r.idempotencyKey)
+      .requiredUUID((r) => r.destination)
+      .requiredString((r) => r.amount)
+      .requiredString((r) => r.sourceSymbol)
+      .requiredString((r) => r.destinationSymbol)
+      .check();
+
     const bodyParams = {
       ...request,
       portfolioId: undefined,
@@ -186,6 +211,15 @@ export class TransactionsService implements ITransactionsService {
     request: CreateTransferRequest,
     options?: CoinbaseCallOptions
   ): Promise<CreateTransferResponse> {
+    validate(request)
+      .requiredUUID((r) => r.portfolioId)
+      .requiredUUID((r) => r.walletId)
+      .requiredUUID((r) => r.idempotencyKey)
+      .requiredUUID((r) => r.destination)
+      .requiredString((r) => r.amount)
+      .requiredString((r) => r.currencySymbol)
+      .check();
+
     const bodyParams = {
       ...request,
       portfolioId: undefined,
@@ -205,6 +239,15 @@ export class TransactionsService implements ITransactionsService {
     request: CreateWithdrawalRequest,
     options?: CoinbaseCallOptions
   ): Promise<CreateWithdrawalResponse> {
+    validate(request)
+      .requiredUUID((r) => r.portfolioId)
+      .requiredUUID((r) => r.walletId)
+      .requiredUUID((r) => r.idempotencyKey)
+      .requiredString((r) => r.amount)
+      .requiredString((r) => r.destinationType)
+      .requiredString((r) => r.currencySymbol)
+      .check();
+
     const bodyParams = {
       ...request,
       portfolioId: undefined,
@@ -224,6 +267,12 @@ export class TransactionsService implements ITransactionsService {
     request: CreateOnchainTransactionRequest,
     options?: CoinbaseCallOptions
   ): Promise<CreateOnchainTransactionResponse> {
+    validate(request)
+      .requiredUUID((r) => r.portfolioId)
+      .requiredUUID((r) => r.walletId)
+      .requiredString((r) => r.rawUnsignedTxn)
+      .check();
+
     const bodyParams = {
       ...request,
       portfolioId: undefined,
