@@ -36,6 +36,8 @@ import {
   ListPortfolioTransactionsResponse,
   ListWalletTransactionsRequest,
   ListWalletTransactionsResponse,
+  SubmitDepositTravelRuleRequest,
+  SubmitDepositTravelRuleResponse,
 } from './types';
 
 export interface ITransactionsService {
@@ -73,6 +75,11 @@ export interface ITransactionsService {
     request: CreateOnchainTransactionRequest,
     options?: CoinbaseCallOptions
   ): Promise<CreateOnchainTransactionResponse>;
+
+  submitDepositTravelRule(
+    request: SubmitDepositTravelRuleRequest,
+    options?: CoinbaseCallOptions
+  ): Promise<SubmitDepositTravelRuleResponse>;
 }
 
 export class TransactionsService implements ITransactionsService {
@@ -286,5 +293,29 @@ export class TransactionsService implements ITransactionsService {
     });
 
     return response.data as CreateOnchainTransactionResponse;
+  }
+
+  async submitDepositTravelRule(
+    request: SubmitDepositTravelRuleRequest,
+    options?: CoinbaseCallOptions
+  ): Promise<SubmitDepositTravelRuleResponse> {
+    validate(request)
+      .requiredUUID((r) => r.portfolioId)
+      .requiredUUID((r) => r.transactionId)
+      .check();
+
+    const bodyParams = {
+      ...request,
+      portfolioId: undefined,
+      transactionId: undefined,
+    };
+    const response = await this.client.request({
+      url: `portfolios/${request.portfolioId}/transactions/${request.transactionId}/travel_rule/deposit`,
+      bodyParams,
+      method: Method.POST,
+      callOptions: options,
+    });
+
+    return response.data as SubmitDepositTravelRuleResponse;
   }
 }

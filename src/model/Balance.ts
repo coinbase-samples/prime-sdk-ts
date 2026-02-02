@@ -71,4 +71,8 @@ export type Balance = {
    * Amount available for unbonding/unstaking, in whole units
    */
   unbondableAmount?: string;
+  /**
+   * ETH staking rewards currently available to claim, in whole units. This field is returned only in GetWalletBalance responses for ETH wallets. It is omitted or empty for portfolio-level responses and for non-ETH assets; use pending_rewards_amount where applicable.
+   */
+  claimableRewardsAmount?: string;
 };

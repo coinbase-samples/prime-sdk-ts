@@ -1,5 +1,5 @@
 /**
- * Copyright 2025-present Coinbase Global, Inc.
+ * Copyright 2026-present Coinbase Global, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -65,6 +65,7 @@ async function listPortfolioTransactionsExample() {
       types: typesCsv ? typesCsv.split(',') : undefined,
       startTime,
       endTime,
+      //travelRuleStatus: ['TRAVEL_RULE_STATUS_PENDING'],
     };
 
     const transactionsResponse =

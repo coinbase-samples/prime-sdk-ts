@@ -18,25 +18,8 @@
  *  Do not edit the class manually.
  */
 
-export type CreatePortfolioAddressBookEntryRequest = {
-  /**
-   * Crypto address to add
-   */
-  address: string;
-  /**
-   * Currency symbol of address to add
-   */
-  currencySymbol: string;
-  /**
-   * Name of address book entry
-   */
-  name: string;
-  /**
-   * Account Identifier (memo/destination tag)
-   */
-  accountIdentifier?: string;
-  /**
-   * List of compatible chain IDs for the address, empty for Solana
-   */
-  chainIds?: Array<string>;
-};
+export enum StakeType {
+  StakeTypeUnspecified = 'STAKE_TYPE_UNSPECIFIED',
+  StakeTypeInitialDeposit = 'STAKE_TYPE_INITIAL_DEPOSIT',
+  StakeTypeTopUp = 'STAKE_TYPE_TOP_UP',
+}
