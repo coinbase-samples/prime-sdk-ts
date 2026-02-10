@@ -37,6 +37,8 @@ import {
   PreviewUnstakeResponse,
   GetUnstakingStatusRequest,
   GetUnstakingStatusResponse,
+  GetStakingStatusRequest,
+  GetStakingStatusResponse,
 } from './types';
 
 export interface IStakingService {
@@ -74,6 +76,11 @@ export interface IStakingService {
     request: GetUnstakingStatusRequest,
     options?: CoinbaseCallOptions
   ): Promise<GetUnstakingStatusResponse>;
+
+  getStakingStatus(
+    request: GetStakingStatusRequest,
+    options?: CoinbaseCallOptions
+  ): Promise<GetStakingStatusResponse>;
 }
 
 export class StakingService implements IStakingService {
@@ -285,5 +292,23 @@ export class StakingService implements IStakingService {
     });
 
     return response.data as GetUnstakingStatusResponse;
+  }
+
+  async getStakingStatus(
+    request: GetStakingStatusRequest,
+    options?: CoinbaseCallOptions
+  ): Promise<GetStakingStatusResponse> {
+    validate(request)
+      .requiredUUID((r) => r.portfolioId)
+      .requiredUUID((r) => r.walletId)
+      .check();
+
+    const { portfolioId, walletId } = request;
+    const response = await this.client.request({
+      url: `portfolios/${portfolioId}/wallets/${walletId}/staking/status`,
+      callOptions: options,
+    });
+
+    return response.data as GetStakingStatusResponse;
   }
 }

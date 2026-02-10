@@ -31,7 +31,7 @@ import {
   StakingClaimRewardsResponse as internalStakingClaimRewardsResponse,
   PreviewUnstakeResponse as internalPreviewUnstakeResponse,
   GetUnstakingStatusResponse as internalGetUnstakingStatusResponse,
-  WalletClaimRewardsInputs,
+  GetStakingStatusResponse as internalGetStakingStatusResponse,
 } from 'src/model/';
 
 export type CreateStakeRequest = StakingInitiateRequest & {
@@ -120,4 +120,14 @@ export type GetUnstakingStatusRequest = {
 export type GetUnstakingStatusResponse = Brand<
   internalGetUnstakingStatusResponse,
   'GetUnstakingStatusResponse'
+>;
+
+export type GetStakingStatusRequest = {
+  portfolioId: string;
+  walletId: string;
+};
+
+export type GetStakingStatusResponse = Brand<
+  internalGetStakingStatusResponse,
+  'GetStakingStatusResponse'
 >;

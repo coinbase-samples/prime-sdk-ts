@@ -18,25 +18,15 @@
  *  Do not edit the class manually.
  */
 
-export type CreatePortfolioAddressBookEntryRequest = {
+import { StakingStatus } from './StakingStatus';
+
+export type ValidatorStakingInfo = {
   /**
-   * Crypto address to add
+   * The validator address (public key)
    */
-  address: string;
+  validatorAddress: string;
   /**
-   * Currency symbol of address to add
+   * List of active staking requests for this validator
    */
-  currencySymbol: string;
-  /**
-   * Name of address book entry
-   */
-  name: string;
-  /**
-   * Account Identifier (memo/destination tag)
-   */
-  accountIdentifier?: string;
-  /**
-   * List of compatible chain IDs for the address, empty for Solana
-   */
-  chainIds?: Array<string>;
+  statuses: Array<StakingStatus>;
 };

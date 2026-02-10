@@ -27,6 +27,8 @@ import {
   CreateWalletTransferResponse,
   CreateOnchainTransactionRequest as internalCreate,
   CreateOnchainTransactionResponse as internalCreateResp,
+  RequestToSubmitTravelRuleDataForAnExistingDepositTransaction,
+  SubmitDepositTravelRuleDataResponse as internalSubmitTravelRuleResp,
 } from '../model/';
 import { Pagination } from '../shared/pagination';
 import {
@@ -128,4 +130,15 @@ export type CreateOnchainTransactionRequest = internalCreate & {
 export type CreateOnchainTransactionResponse = Brand<
   internalCreateResp,
   'CreateOnchainTransactionResponse'
+>;
+
+export type SubmitDepositTravelRuleRequest =
+  RequestToSubmitTravelRuleDataForAnExistingDepositTransaction & {
+    portfolioId: string;
+    transactionId: string;
+  };
+
+export type SubmitDepositTravelRuleResponse = Brand<
+  internalSubmitTravelRuleResp,
+  'SubmitDepositTravelRuleResponse'
 >;

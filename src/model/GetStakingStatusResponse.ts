@@ -18,25 +18,27 @@
  *  Do not edit the class manually.
  */
 
-export type CreatePortfolioAddressBookEntryRequest = {
+import { ValidatorStakingInfo } from './ValidatorStakingInfo';
+
+export type GetStakingStatusResponse = {
   /**
-   * Crypto address to add
+   * The portfolio ID
    */
-  address: string;
+  portfolioId: string;
   /**
-   * Currency symbol of address to add
+   * The wallet ID
    */
-  currencySymbol: string;
+  walletId: string;
   /**
-   * Name of address book entry
+   * The wallet address
    */
-  name: string;
+  walletAddress: string;
   /**
-   * Account Identifier (memo/destination tag)
+   * Current timestamp at time of API call
    */
-  accountIdentifier?: string;
+  currentTimestamp: Date;
   /**
-   * List of compatible chain IDs for the address, empty for Solana
+   * List of validators with staking information for this wallet
    */
-  chainIds?: Array<string>;
+  validators: Array<ValidatorStakingInfo>;
 };

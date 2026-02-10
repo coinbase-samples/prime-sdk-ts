@@ -18,17 +18,32 @@
  *  Do not edit the class manually.
  */
 
-import { DateOfBirth } from './DateOfBirth';
 import { DetailedAddress } from './DetailedAddress';
 import { NaturalPersonName } from './NaturalPersonName';
+import { TravelRuleWalletType } from './enums/TravelRuleWalletType';
+import { GoogleTypeDate } from './googleTypeDate';
 
 /**
- * Represents one of the Transmittal Parties involved in a Travel Rule transfer, either originator or beneficiary.
+ * Represents a party in a travel rule transfer (originator or beneficiary).
  */
 export type TravelRuleParty = {
   name?: string;
-  detailedAddress?: DetailedAddress;
   naturalPersonName?: NaturalPersonName;
-  dateOfBirth?: DateOfBirth;
+  address?: DetailedAddress;
+  walletType?: TravelRuleWalletType;
+  vaspId?: string;
+  vaspName?: string;
+  /**
+   * Personal identifier for travel rule compliance. For individuals: passport number, national ID, driver\'s license. For institutions: LEI (Legal Entity Identifier).
+   */
+  personalId?: string;
+  dateOfBirth?: GoogleTypeDate;
+  /**
+   * Telephone number for contact purposes.
+   */
   telephoneNumber?: string;
+  /**
+   * Account identifier for travel rule compliance. If not provided, defaults to portfolio ID.
+   */
+  accountId?: string;
 };

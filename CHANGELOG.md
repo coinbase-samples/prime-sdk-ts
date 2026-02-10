@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.8.2] - 2026-FEB-3
+
+### Added
+
+#### 🆕 New API Endpoints
+
+**Transactions Service**
+- **`submitDepositTravelRule()`**: Submit travel rule data for an existing deposit transaction
+  - Provide originator and beneficiary information for travel rule compliance
+  - Supports self-transfer flag and ownership verification opt-out
+
+**Staking Service**
+- **`getStakingStatus()`**: Get staking status for a wallet
+  - Retrieve estimated completion times for active staking requests
+  - Returns validator staking information with status details
+
 ## [0.8.1] - 2025-DEC-15
 
 ### Added

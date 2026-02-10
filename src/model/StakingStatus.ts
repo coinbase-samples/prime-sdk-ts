@@ -18,25 +18,24 @@
  *  Do not edit the class manually.
  */
 
-export type CreatePortfolioAddressBookEntryRequest = {
+import { StakeType } from './enums/StakeType';
+
+export type StakingStatus = {
   /**
-   * Crypto address to add
+   * Amount being staked (whole amount, e.g., 16 ETH)
    */
-  address: string;
+  amount: string;
+  stakeType: StakeType;
   /**
-   * Currency symbol of address to add
+   * Estimated date when staking will complete (ISO 8601 format)
    */
-  currencySymbol: string;
+  estimatedStakeDate: Date;
   /**
-   * Name of address book entry
+   * Estimated hours until this staking request completes
    */
-  name: string;
+  estimatedHoursToStake: number;
   /**
-   * Account Identifier (memo/destination tag)
+   * Timestamp when the stake request was originally created
    */
-  accountIdentifier?: string;
-  /**
-   * List of compatible chain IDs for the address, empty for Solana
-   */
-  chainIds?: Array<string>;
+  requestedAt?: Date;
 };

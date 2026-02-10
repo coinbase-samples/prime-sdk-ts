@@ -1282,8 +1282,6 @@ paths:
                     \ for Solana"
                   items:
                     type: string
-                travel_rule_data:
-                  $ref: '#/components/schemas/coinbase.public_rest_api.TravelRuleEntry'
         required: true
       responses:
         "200":
@@ -3035,6 +3033,54 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/coinbase.public_rest_api.GetTransactionResponse'
+  /v1/portfolios/{portfolio_id}/transactions/{transaction_id}/travel_rule/deposit:
+    post:
+      tags:
+      - Travel Rule
+      summary: Submit Deposit Travel Rule Data
+      description: Submit travel rule data for an existing deposit transaction.
+      operationId: PrimeRESTAPI_SubmitDepositTravelRuleData
+      parameters:
+      - name: portfolio_id
+        in: path
+        description: The portfolio ID that owns the transaction
+        required: true
+        schema:
+          type: string
+      - name: transaction_id
+        in: path
+        description: The transaction ID associated with the entry
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              title: Request to submit travel rule data for an existing deposit transaction
+              type: object
+              properties:
+                originator:
+                  $ref: '#/components/schemas/coinbase.public_rest_api.TravelRuleParty'
+                beneficiary:
+                  $ref: '#/components/schemas/coinbase.public_rest_api.TravelRuleParty'
+                is_self:
+                  title: |-
+                    True if user owns the counterparty address (self-transfer)
+                    If false, beneficiary is required
+                  type: boolean
+                opt_out_of_ownership_verification:
+                  title: True to skip wallet ownership verification
+                  type: boolean
+        required: true
+      responses:
+        "200":
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.SubmitDepositTravelRuleDataResponse'
+      x-codegen-request-body-name: body
   /v1/portfolios/{portfolio_id}/users:
     get:
       tags:
@@ -3602,6 +3648,34 @@ paths:
               schema:
                 $ref: '#/components/schemas/coinbase.public_rest_api.StakingInitiateResponse'
       x-codegen-request-body-name: body
+  /v1/portfolios/{portfolio_id}/wallets/{wallet_id}/staking/status:
+    get:
+      tags:
+      - Staking
+      summary: Get Staking Status
+      description: Get staking status for a wallet. Returns estimated completion times
+        for active staking requests.
+      operationId: PrimeRESTAPI_GetStakingStatus
+      parameters:
+      - name: portfolio_id
+        in: path
+        description: The portfolio ID
+        required: true
+        schema:
+          type: string
+      - name: wallet_id
+        in: path
+        description: The wallet ID
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.GetStakingStatusResponse'
   /v1/portfolios/{portfolio_id}/wallets/{wallet_id}/staking/unstake:
     post:
       tags:
@@ -4024,6 +4098,8 @@ paths:
                   $ref: '#/components/schemas/coinbase.public_rest_api.BlockchainAddress'
                 counterparty:
                   $ref: '#/components/schemas/coinbase.public_rest_api.CounterpartyDestination'
+                travel_rule_data:
+                  $ref: '#/components/schemas/coinbase.public_rest_api.TravelRuleData'
         required: true
       responses:
         "200":
@@ -4733,6 +4809,13 @@ components:
           type: string
           description: "Amount available for unbonding/unstaking, in whole units"
           example: "109.42"
+        claimable_rewards_amount:
+          type: string
+          description: "ETH staking rewards currently available to claim, in whole\
+            \ units. This field is returned only in GetWalletBalance responses for\
+            \ ETH wallets. It is omitted or empty for portfolio-level responses and\
+            \ for non-ETH assets; use pending_rewards_amount where applicable."
+          example: "0.241437903"
     coinbase.public_rest_api.Benchmark:
       type: string
       default: BENCHMARK_UNSET
@@ -5206,22 +5289,6 @@ components:
           description: List of active XM loans
           items:
             $ref: '#/components/schemas/coinbase.public_rest_api.XMLoan'
-    coinbase.public_rest_api.DateOfBirth:
-      title: Date of birth representation
-      type: object
-      properties:
-        year:
-          title: Year (YYYY format)
-          type: integer
-          format: int64
-        month:
-          title: Month (1-12)
-          type: integer
-          format: int64
-        day:
-          title: Day (1-31)
-          type: integer
-          format: int64
     coinbase.public_rest_api.DefiBalance:
       type: object
       properties:
@@ -6022,6 +6089,34 @@ components:
       properties:
         post_trade_credit:
           $ref: '#/components/schemas/coinbase.public_rest_api.PostTradeCreditInformation'
+    coinbase.public_rest_api.GetStakingStatusResponse:
+      required:
+      - current_timestamp
+      - portfolio_id
+      - validators
+      - wallet_address
+      - wallet_id
+      type: object
+      properties:
+        portfolio_id:
+          type: string
+          description: The portfolio ID
+        wallet_id:
+          type: string
+          description: The wallet ID
+        wallet_address:
+          type: string
+          description: The wallet address
+        current_timestamp:
+          type: string
+          description: Current timestamp at time of API call
+          format: date-time
+          example: 2025-10-17T15:30:00Z
+        validators:
+          type: array
+          description: List of validators with staking information for this wallet
+          items:
+            $ref: '#/components/schemas/coinbase.public_rest_api.ValidatorStakingInfo'
     coinbase.public_rest_api.GetTFTieredPricingFeesResponse:
       type: object
       properties:
@@ -7591,6 +7686,13 @@ components:
       enum:
       - DESC
       - ASC
+    coinbase.public_rest_api.StakeType:
+      type: string
+      default: STAKE_TYPE_UNSPECIFIED
+      enum:
+      - STAKE_TYPE_UNSPECIFIED
+      - STAKE_TYPE_INITIAL_DEPOSIT
+      - STAKE_TYPE_TOP_UP
     coinbase.public_rest_api.StakingClaimRewardsResponse:
       required:
       - activity_id
@@ -7627,6 +7729,35 @@ components:
           description: The ID for the activity generated for this request
       description: StakingInitiateResponse contains the response data from initiating
         a staking operation.
+    coinbase.public_rest_api.StakingStatus:
+      required:
+      - amount
+      - estimated_hours_to_stake
+      - estimated_stake_date
+      - stake_type
+      type: object
+      properties:
+        amount:
+          type: string
+          description: "Amount being staked (whole amount, e.g., 16 ETH)"
+          example: "16"
+        stake_type:
+          $ref: '#/components/schemas/coinbase.public_rest_api.StakeType'
+        estimated_stake_date:
+          type: string
+          description: Estimated date when staking will complete (ISO 8601 format)
+          format: date-time
+          example: 2025-10-27T00:00:00Z
+        estimated_hours_to_stake:
+          type: integer
+          description: Estimated hours until this staking request completes
+          format: int64
+          example: 672
+        requested_at:
+          type: string
+          description: Timestamp when the stake request was originally created
+          format: date-time
+          example: 2025-09-29T12:00:00Z
     coinbase.public_rest_api.StakingUnstakeResponse:
       required:
       - activity_id
@@ -7646,6 +7777,15 @@ components:
           description: The ID for the activity generated for this request
       description: StakingUnstakeResponse contains the response data from initiating
         an unstaking operation.
+    coinbase.public_rest_api.SubmitDepositTravelRuleDataResponse:
+      title: Response after submitting travel rule data for a deposit
+      required:
+      - ownership_verification_required
+      type: object
+      properties:
+        ownership_verification_required:
+          title: Whether additional ownership verification is required
+          type: boolean
     coinbase.public_rest_api.TFAsset:
       title: TFAsset represents an asset eligible for Trade Finance with adjustment
         factors
@@ -8012,53 +8152,64 @@ components:
       - OTHER
       - MULTIPLE_ADDRESSES
       - COUNTERPARTY_ID
-    coinbase.public_rest_api.TravelRuleEntry:
+    coinbase.public_rest_api.TravelRuleData:
       type: object
       properties:
-        id:
-          title: Unique identifier for the Travel Rule entry
-          type: string
-        blockchain_address:
-          $ref: '#/components/schemas/coinbase.public_rest_api.BlockchainAddress'
-        originator:
-          $ref: '#/components/schemas/coinbase.public_rest_api.TravelRuleParty'
         beneficiary:
           $ref: '#/components/schemas/coinbase.public_rest_api.TravelRuleParty'
-        vasp:
-          $ref: '#/components/schemas/coinbase.public_rest_api.VASP'
-        wallet_details:
-          $ref: '#/components/schemas/coinbase.public_rest_api.TravelRuleWalletDetails'
-        transfer_purpose:
-          title: Purpose of the transfer (free-form text)
-          type: string
-        is_self_certified:
-          title: True if the user owns the wallet (self-certification)
+        originator:
+          $ref: '#/components/schemas/coinbase.public_rest_api.TravelRuleParty'
+        is_self:
+          title: True if user owns the counterparty address (self-transfer)
           type: boolean
         is_intermediary:
-          title: True if using Coinbase as an intermediary VASP
           type: boolean
-        is_self:
-          title: True if this is a self-transfer
+          description: True if Coinbase is being used as an intermediary for a customer
+            transfer.
+        opt_out_of_ownership_verification:
+          title: True to skip wallet ownership verification
           type: boolean
-      description: Travel Rule Entry for sending addresses.
+        attest_verified_wallet_ownership:
+          type: boolean
+          description: |-
+            Whether the originating VASP attests to verified wallet ownership.
+            When true with is_intermediary, enables automatic VASP data enrichment from the legal entity.
+      description: Data object used for withdrawals.
     coinbase.public_rest_api.TravelRuleParty:
       type: object
       properties:
         name:
-          title: Name of the person or entity initiating the transfer
+          title: Legal name (for entities or simple name format)
           type: string
-        detailed_address:
-          $ref: '#/components/schemas/coinbase.public_rest_api.DetailedAddress'
         natural_person_name:
           $ref: '#/components/schemas/coinbase.public_rest_api.NaturalPersonName'
-        date_of_birth:
-          $ref: '#/components/schemas/coinbase.public_rest_api.DateOfBirth'
-        telephone_number:
-          title: Contact telephone number
+        address:
+          $ref: '#/components/schemas/coinbase.public_rest_api.DetailedAddress'
+        wallet_type:
+          $ref: '#/components/schemas/coinbase.public_rest_api.TravelRuleWalletType'
+        vasp_id:
+          title: VASP identifier when wallet_type is VASP
           type: string
-      description: |-
-        Represents one of the Transmittal Parties involved in a Travel Rule transfer,
-        either originator or beneficiary.
+        vasp_name:
+          title: VASP name fallback when vasp_id is unknown
+          type: string
+        personal_id:
+          type: string
+          description: |-
+            Personal identifier for travel rule compliance.
+            For individuals: passport number, national ID, driver's license.
+            For institutions: LEI (Legal Entity Identifier).
+        date_of_birth:
+          $ref: '#/components/schemas/google.type.Date'
+        telephone_number:
+          type: string
+          description: Telephone number for contact purposes.
+        account_id:
+          type: string
+          description: |-
+            Account identifier for travel rule compliance.
+            If not provided, defaults to portfolio ID.
+      description: Represents a party in a travel rule transfer (originator or beneficiary).
     coinbase.public_rest_api.TravelRuleStatus:
       title: Travel rule compliance status for a transaction
       type: string
@@ -8067,14 +8218,6 @@ components:
       - TRAVEL_RULE_STATUS_UNSPECIFIED
       - TRAVEL_RULE_STATUS_PENDING
       - TRAVEL_RULE_STATUS_SUBMITTED
-    coinbase.public_rest_api.TravelRuleWalletDetails:
-      type: object
-      properties:
-        wallet_type:
-          $ref: '#/components/schemas/coinbase.public_rest_api.TravelRuleWalletType'
-        wallet_address:
-          $ref: '#/components/schemas/coinbase.public_rest_api.BlockchainAddress'
-      description: Details about the custody wallet used in the transfer.
     coinbase.public_rest_api.TravelRuleWalletType:
       title: Type of wallet being used for transfers
       type: string
@@ -8166,19 +8309,20 @@ components:
       - TEAM_MANAGER
       - APPROVER
       - TAX_MANAGER
-    coinbase.public_rest_api.VASP:
+    coinbase.public_rest_api.ValidatorStakingInfo:
+      required:
+      - statuses
+      - validator_address
       type: object
       properties:
-        id:
-          title: Unique Identifier
+        validator_address:
           type: string
-        country_code:
-          title: ISO 3166-1 alpha-2 country code of the VASP
-          type: string
-        lei_number:
-          title: Legal Entity Identifier (LEI) of the VASP
-          type: string
-      description: Virtual Asset Service Provider (VASP).
+          description: The validator address (public key)
+        statuses:
+          type: array
+          description: List of active staking requests for this validator
+          items:
+            $ref: '#/components/schemas/coinbase.public_rest_api.StakingStatus'
     coinbase.public_rest_api.ValidatorStatus:
       type: string
       default: VALIDATOR_STATUS_UNSPECIFIED
@@ -8908,6 +9052,42 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/google.protobuf.Any'
+    google.type.Date:
+      title: |-
+        Represents a whole or partial calendar date, such as a birthday. The time of
+        day and time zone are either specified elsewhere or are insignificant. The
+        date is relative to the Gregorian Calendar. This can represent one of the
+        following:
+      type: object
+      properties:
+        year:
+          type: integer
+          description: |-
+            Year of the date. Must be from 1 to 9999, or 0 to specify a date without
+            a year.
+          format: int32
+        month:
+          type: integer
+          description: |-
+            Month of a year. Must be from 1 to 12, or 0 to specify a year without a
+            month and day.
+          format: int32
+        day:
+          type: integer
+          description: |-
+            Day of a month. Must be from 1 to 31 and valid for the year and month, or 0
+            to specify a year by itself or a year and month where the day isn't
+            significant.
+          format: int32
+      description: |-
+        * A full date, with non-zero year, month, and day values
+        * A month and day value, with a zero year, such as an anniversary
+        * A year on its own, with zero month and day values
+        * A year and month value, with a zero day, such as a credit card expiration
+        date
+
+        Related types are [google.type.TimeOfDay][google.type.TimeOfDay] and
+        `google.protobuf.Timestamp`.
     public_rest_apiCreateAllocationRequest:
       type: object
       properties:

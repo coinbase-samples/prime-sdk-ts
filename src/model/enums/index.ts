@@ -36,6 +36,7 @@ export { RateType } from './RateType';
 export { RewardSubtype } from './RewardSubtype';
 export { SigningStatus } from './SigningStatus';
 export { SortDirection } from './SortDirection';
+export { StakeType } from './StakeType';
 export { TimeInForceType } from './TimeInForceType';
 export { TransactionStatus } from './TransactionStatus';
 export { TransactionType } from './TransactionType';
