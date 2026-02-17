@@ -38,6 +38,9 @@ jobs:
           npm install @openapitools/openapi-generator-cli -g
           ln -s "$(which openapi-generator-cli)" /usr/local/bin/openapi-generator
 
+      - name: Restore package-lock.json
+        run: git checkout -- package-lock.json
+
       - name: Run update-spec
         run: npm run update-spec
 
