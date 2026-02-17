@@ -24,7 +24,7 @@ const destDir = './types/processed';
 const destDirEnums = './types/processed/enums';
 const indexPath = path.join(destDir, 'index.ts');
 const enumIndexPath = path.join(destDirEnums, 'index.ts');
-const finalModelDir = './src/model';
+const finalModelDir = '../src/model';
 
 const filePathReplacements = {
   coinbaseCustodyApiActivityType: 'CustodyActivityType',

@@ -406,6 +406,27 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/coinbase.public_rest_api.GetFcmBalanceResponse'
+  /v1/entities/{entity_id}/futures/equity:
+    get:
+      tags:
+      - Futures
+      summary: Get FCM Equity
+      description: Retrieve the equity data for a given entity.
+      operationId: PrimeRESTAPI_GetFcmEquity
+      parameters:
+      - name: entity_id
+        in: path
+        description: Entity ID
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.GetFcmEquityResponse'
   /v1/entities/{entity_id}/futures/margin_call_details:
     get:
       tags:
@@ -5784,6 +5805,27 @@ components:
           type: string
           description: Unsettled accrued funding PNL from the last settlement
           example: "10.12"
+    coinbase.public_rest_api.GetFcmEquityResponse:
+      type: object
+      properties:
+        eod_account_equity:
+          type: string
+          description: Prior EOD account equity (ending balance + realized P&L + commissions/fees)
+          example: "10000.00"
+        eod_unrealized_pnl:
+          type: string
+          description: Prior EOD unrealized P&L on open futures positions
+          example: "100.00"
+        current_excess_deficit:
+          type: string
+          description: Current Derivatives Account Balance minus prior EOD margin
+            requirement. (Positive = excess; negative = deficit)
+          example: "1000.00"
+        available_to_sweep:
+          type: string
+          description: Excess funds in the Derivatives account available to transfer
+            ("sweep") to the designated funding portfolio
+          example: "500.00"
     coinbase.public_rest_api.GetFcmMarginCallDetailsResponse:
       type: object
       properties:
@@ -7595,6 +7637,8 @@ components:
         i.e. ethereum transaction (execution layer) rewards
          - STAKING_FEE_REBATE_REWARD: A staking fee rebate reward
         i.e. coinbase pays rebates for staking fees to eligible delegators
+         - BUIDL_DIVIDEND: A BUIDL dividend reward
+        i.e. dividends from BUIDL fund holdings
       enum:
       - MEV_REWARD
       - INFLATION_REWARD
@@ -7602,6 +7646,7 @@ components:
       - VALIDATOR_REWARD
       - TRANSACTION_REWARD
       - STAKING_FEE_REBATE_REWARD
+      - BUIDL_DIVIDEND
     coinbase.public_rest_api.RiskAssessment:
       title: New message for risk assessment details
       type: object
@@ -8309,6 +8354,21 @@ components:
       - TEAM_MANAGER
       - APPROVER
       - TAX_MANAGER
+    coinbase.public_rest_api.ValidatorAllocation:
+      required:
+      - amount
+      - validator_address
+      type: object
+      properties:
+        validator_address:
+          type: string
+          description: The validator address for performing staking operations
+        amount:
+          type: string
+          description: Amount for performing staking operations with this validator
+      description: |-
+        ValidatorAllocation specifies the validator and amount for staking or unstaking.
+        Used for granular ETH V2 validator-level staking or unstaking operations.
     coinbase.public_rest_api.ValidatorStakingInfo:
       required:
       - statuses
@@ -8495,6 +8555,14 @@ components:
           type: string
           description: "Optional amount to unstake (ETH only). If omitted, the wallet\
             \ will unstake the maximum amount available"
+        validator_allocations:
+          type: array
+          description: (Alpha) Optional validator-level allocations for ETH V2 unstaking.
+            Allows specifying which validators to unstake from and how much. This
+            feature is in alpha. Please reach out to your Coinbase Prime account manager
+            for more information
+          items:
+            $ref: '#/components/schemas/coinbase.public_rest_api.ValidatorAllocation'
       description: |-
         WalletUnstakeInputs contains the custom inputs for unstaking operations on a wallet.
         Requirements and supported fields vary by asset type.

@@ -70,6 +70,7 @@ export type { GetEntityPaymentMethodsResponse } from './GetEntityPaymentMethodsR
 export type { GetEntityUsersResponse } from './GetEntityUsersResponse';
 export type { GetExistingLocatesResponse } from './GetExistingLocatesResponse';
 export type { GetFcmBalanceResponse } from './GetFcmBalanceResponse';
+export type { GetFcmEquityResponse } from './GetFcmEquityResponse';
 export type { GetFcmMarginCallDetailsResponse } from './GetFcmMarginCallDetailsResponse';
 export type { GetFcmRiskLimitsResponse } from './GetFcmRiskLimitsResponse';
 export type { GetFcmSettingsResponse } from './GetFcmSettingsResponse';
@@ -184,6 +185,7 @@ export type { TravelRuleWalletDetails } from './TravelRuleWalletDetails';
 export type { UnstakingStatus } from './UnstakingStatus';
 export type { UserAction } from './UserAction';
 export type { VASP } from './VASP';
+export type { ValidatorAllocation } from './ValidatorAllocation';
 export type { ValidatorStakingInfo } from './ValidatorStakingInfo';
 export type { ValidatorUnstakingInfo } from './ValidatorUnstakingInfo';
 export type { Wallet } from './Wallet';
