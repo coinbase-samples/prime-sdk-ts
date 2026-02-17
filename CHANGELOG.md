@@ -1,5 +1,30 @@
 # Changelog
 
+## [0.9.0] - 2026-FEB-19
+
+### Added
+
+#### 🆕 New API Endpoints
+
+**Futures Service**
+- **`getEntityEquity()`**: Get FCM equity data for an entity
+
+#### 📝 New & Updated Models
+
+- **`ValidatorAllocation`**: Specifies validator address and amount for granular ETH V2 staking/unstaking operations
+- **`WalletUnstakeInputs`**: Added `validatorAllocations` field for validator-level ETH V2 unstaking (Alpha)
+
+#### 🔧 Tooling & CI
+
+- **GitHub Action: Update API Spec** — Daily scheduled workflow that fetches the latest OpenAPI spec, regenerates types, and opens a PR if changes are detected
+- **GitHub Action: Release** - now publishing to npm via action
+- **`generateTypes.js`**: New files now use the current year in the copyright header; existing files preserve their original year
+- Updated `openapitools.json` to pin openapi-generator CLI at v7.19.0
+
+### Removed
+
+- Removed unused models no longer in the API spec: `DateOfBirth`, `TravelRuleEntry`, `TravelRuleWalletDetails`, `VASP`
+
 ## [0.8.2] - 2026-FEB-3
 
 ### Added
