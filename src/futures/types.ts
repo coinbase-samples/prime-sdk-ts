@@ -26,6 +26,7 @@ import {
   GetFcmMarginCallDetailsResponse,
   GetFcmSettingsResponse as internalGetFcmSettingsResponse,
   SetFcmSettingsResponse as internalSetFcmSettingsResponse,
+  GetFcmEquityResponse as internalGetFcmEquityResponse,
 } from '../model/';
 
 export type ListEntityFuturesSweepsRequest = {
@@ -119,4 +120,13 @@ export type SetFcmSettingsRequest = {
 export type SetFcmSettingsResponse = Brand<
   internalSetFcmSettingsResponse,
   'SetFcmSettingsResponse'
+>;
+
+export type GetEntityFcmEquityRequest = {
+  entityId: string;
+};
+
+export type GetEntityFcmEquityResponse = Brand<
+  internalGetFcmEquityResponse,
+  'GetEntityFcmEquityResponse'
 >;

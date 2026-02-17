@@ -152,6 +152,8 @@ export type {
   ScheduleEntityFuturesSweepResponse,
   UpdateEntityFuturesAutoSweepRequest,
   UpdateEntityFuturesAutoSweepResponse,
+  GetEntityFcmEquityRequest,
+  GetEntityFcmEquityResponse,
 } from './futures/types';
 export type {
   ListInvoicesRequest,
