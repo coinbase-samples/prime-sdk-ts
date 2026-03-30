@@ -37,6 +37,10 @@ export { CoinbasePrimeClientException, CoinbasePrimeException } from './errors';
 export { validate, isValidUUID } from './shared/validation';
 export type { ValidationError, PropertyValidator } from './shared/validation';
 
+export {
+  AdvancedTransfersService,
+  IAdvancedTransfersService,
+} from './advancedTransfers';
 export { ActivitiesService, IActivitiesService } from './activities';
 export { AddressBooksService, IAddressBooksService } from './addressBooks';
 export { AllocationService, IAllocationService } from './allocations';
@@ -64,6 +68,16 @@ export type * from './model/';
 export * from './model/enums/';
 
 // preferring named exports of types
+export type {
+  CancelAdvancedTransferRequest,
+  CancelAdvancedTransferResponse,
+  CreateAdvancedTransferRequest,
+  CreateAdvancedTransferResponse,
+  ListAdvancedTransferTransactionsRequest,
+  ListAdvancedTransferTransactionsResponse,
+  ListAdvancedTransfersRequest,
+  ListAdvancedTransfersResponse,
+} from './advancedTransfers/types';
 export type {
   GetActivityRequest,
   GetActivityResponse,

@@ -29,6 +29,7 @@ import type { CoinbasePrimeClientConfig, IPrimeApiClient } from './types';
 import { LazyServiceGetters } from './clientWithServicesTypes';
 
 // Import service interfaces for proper typing
+import type { IAdvancedTransfersService } from '../advancedTransfers';
 import type { IActivitiesService } from '../activities';
 import type { IAddressBooksService } from '../addressBooks';
 import type { IAllocationService } from '../allocations';
@@ -59,6 +60,7 @@ export class CoinbasePrimeClientWithServices
   implements LazyServiceGetters, IPrimeApiClient
 {
   // Private cached service instances
+  private _advancedTransfersService?: IAdvancedTransfersService;
   private _activitiesService?: IActivitiesService;
   private _addressBooksService?: IAddressBooksService;
   private _allocationService?: IAllocationService;
@@ -118,6 +120,21 @@ export class CoinbasePrimeClientWithServices
   ): CoinbasePrimeClientWithServices {
     const credentials = createCredentialsFromEnv();
     return new CoinbasePrimeClientWithServices(credentials, baseUrl, options);
+  }
+
+  /**
+   * Lazy getter for AdvancedTransfersService
+   * @example
+   * ```typescript
+   * const transfers = await client.advancedTransfers.listAdvancedTransfers({ portfolioId });
+   * ```
+   */
+  get advancedTransfers(): IAdvancedTransfersService {
+    if (!this._advancedTransfersService) {
+      const { AdvancedTransfersService } = require('../advancedTransfers');
+      this._advancedTransfersService = new AdvancedTransfersService(this);
+    }
+    return this._advancedTransfersService!;
   }
 
   /**
