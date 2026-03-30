@@ -18,7 +18,9 @@
  *  Do not edit the class manually.
  */
 
+import { CommissionDetailTotal } from './CommissionDetailTotal';
 import { OrderSide } from './enums/OrderSide';
+import { ProductType } from './enums/ProductType';
 
 export type Fill = {
   /**
@@ -70,4 +72,6 @@ export type Fill = {
    * The CES commission incurred for the fill
    */
   cesCommission?: string;
+  productType?: ProductType;
+  commissionDetailTotal?: CommissionDetailTotal;
 };

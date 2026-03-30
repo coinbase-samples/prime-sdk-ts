@@ -18,6 +18,8 @@
  *  Do not edit the class manually.
  */
 
+import { FcmMarginHealthState } from './enums/FcmMarginHealthState';
+
 export type GetFcmRiskLimitsResponse = {
   /**
    * Risk Limit set for a client
@@ -43,4 +45,9 @@ export type GetFcmRiskLimitsResponse = {
    * Unsettled accrued funding PNL from the last settlement
    */
   cfmUnsettledAccruedFundingPnl?: string;
+  /**
+   * Margin utilization as a decimal percentage between 0 and 1 (e.g. 0.5 means 50%)
+   */
+  marginUtilizationPercent?: string;
+  marginHealthState?: FcmMarginHealthState;
 };

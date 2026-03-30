@@ -19,10 +19,12 @@
  */
 
 import { LimitOrderEdit } from './LimitOrderEdit';
+import { CommissionDetailTotal } from './CommissionDetailTotal';
 import { OrderEdit } from './OrderEdit';
 import { OrderSide } from './enums/OrderSide';
 import { OrderStatus } from './enums/OrderStatus';
 import { OrderType } from './enums/OrderType';
+import { ProductType } from './enums/ProductType';
 import { TimeInForceType } from './enums/TimeInForceType';
 
 export type Order = {
@@ -154,4 +156,6 @@ export type Order = {
    * The wig (would if good) level for PEG orders - best price opposite to limit_price
    */
   wigLevel?: string;
+  productType?: ProductType;
+  commissionDetailTotal?: CommissionDetailTotal;
 };

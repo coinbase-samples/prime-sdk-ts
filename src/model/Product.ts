@@ -18,7 +18,10 @@
  *  Do not edit the class manually.
  */
 
+import { FcmTradingSessionDetails } from './FcmTradingSessionDetails';
+import { FutureProductDetails } from './FutureProductDetails';
 import { ProductPermissions } from './enums/ProductPermissions';
+import { ProductType } from './enums/ProductType';
 import { RFQProductDetails } from './RFQProductDetails';
 
 export type Product = {
@@ -59,4 +62,7 @@ export type Product = {
    */
   priceIncrement?: string;
   rfqProductDetails?: RFQProductDetails;
+  productType?: ProductType;
+  fcmTradingSessionDetails?: FcmTradingSessionDetails;
+  futureProductDetails?: FutureProductDetails;
 };
