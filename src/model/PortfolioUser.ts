@@ -18,6 +18,7 @@
  *  Do not edit the class manually.
  */
 
+import { SecondaryPermission } from './enums/SecondaryPermission';
 import { UserRole } from './enums/UserRole';
 
 export type PortfolioUser = {
@@ -42,4 +43,12 @@ export type PortfolioUser = {
    */
   entityId?: string;
   role?: UserRole;
+  /**
+   * All primary roles assigned to the user.
+   */
+  roles?: Array<UserRole>;
+  /**
+   * All secondary permissions assigned to the user.
+   */
+  secondaryPermissions?: Array<SecondaryPermission>;
 };

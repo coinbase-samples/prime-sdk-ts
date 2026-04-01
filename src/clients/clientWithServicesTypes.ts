@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import type { IAdvancedTransfersService } from '../advancedTransfers';
 import type { IActivitiesService } from '../activities';
 import type { IAddressBooksService } from '../addressBooks';
 import type { IAllocationService } from '../allocations';
@@ -38,6 +39,11 @@ import type { IWalletsService } from '../wallets';
  * Interface defining all lazy service getters for the modular client
  */
 export interface LazyServiceGetters {
+  /**
+   * Advanced transfers service for managing complex transfer operations such as blind match settlements
+   */
+  readonly advancedTransfers: IAdvancedTransfersService;
+
   /**
    * Activities service for managing portfolio and entity activities
    */

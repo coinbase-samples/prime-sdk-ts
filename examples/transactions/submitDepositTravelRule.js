@@ -67,6 +67,13 @@ async function submitDepositTravelRuleExample() {
         name: 'John Doe',
         walletType: 'TRAVEL_RULE_WALLET_TYPE_VASP',
         vaspName: 'Example Exchange',
+        address: {
+          address1: '123 Main St',
+          city: 'Anytown',
+          state: 'CA',
+          postalCode: '12345',
+          countryCode: 'US',
+        },
         // Optional fields:
         // personalId: 'PASSPORT123456',
         // accountId: 'account-123',
@@ -76,6 +83,13 @@ async function submitDepositTravelRuleExample() {
         name: 'Your Company Name',
         walletType: 'TRAVEL_RULE_WALLET_TYPE_VASP',
         vaspName: 'Coinbase Prime',
+        address: {
+          address1: '123 Unknown St',
+          city: 'Othertown',
+          state: 'CA',
+          postalCode: '98765',
+          countryCode: 'US',
+        },
       },
       // Set to true if the originator and beneficiary are the same party
       isSelf: false,

@@ -29,6 +29,7 @@ import {
   CreateOnchainTransactionResponse as internalCreateResp,
   RequestToSubmitTravelRuleDataForAnExistingDepositTransaction,
   SubmitDepositTravelRuleDataResponse as internalSubmitTravelRuleResp,
+  GetTransactionTravelRuleDataResponse as internalGetTransactionTravelRuleResp,
 } from '../model/';
 import { Pagination } from '../shared/pagination';
 import {
@@ -141,4 +142,14 @@ export type SubmitDepositTravelRuleRequest =
 export type SubmitDepositTravelRuleResponse = Brand<
   internalSubmitTravelRuleResp,
   'SubmitDepositTravelRuleResponse'
+>;
+
+export type GetTransactionTravelRuleDataRequest = {
+  portfolioId: string;
+  transactionId: string;
+};
+
+export type GetTransactionTravelRuleDataResponse = Brand<
+  internalGetTransactionTravelRuleResp,
+  'GetTransactionTravelRuleDataResponse'
 >;

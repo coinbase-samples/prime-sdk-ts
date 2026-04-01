@@ -19,6 +19,10 @@
 // or when using dependency injection frameworks.
 
 // Export all service classes and interfaces
+export {
+  AdvancedTransfersService,
+  IAdvancedTransfersService,
+} from './advancedTransfers';
 export { ActivitiesService, IActivitiesService } from './activities';
 export { AddressBooksService, IAddressBooksService } from './addressBooks';
 export { AllocationService, IAllocationService } from './allocations';

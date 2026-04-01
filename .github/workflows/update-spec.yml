@@ -1,0 +1,80 @@
+name: Update API Spec
+
+on:
+  schedule:
+    - cron: '0 8 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update-spec:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '11'
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Install openapi-generator-cli
+        run: |
+          npm install @openapitools/openapi-generator-cli -g
+          ln -s "$(which openapi-generator-cli)" /usr/local/bin/openapi-generator
+
+      - name: Restore package-lock.json
+        run: git checkout -- package-lock.json
+
+      - name: Run update-spec
+        run: npm run update-spec
+
+      - name: Check for changes
+        id: diff
+        run: |
+          if git diff --exit-code; then
+            echo "has_changes=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_changes=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Create branch, commit, and open PR
+        if: steps.diff.outputs.has_changes == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          BRANCH="auto/update-spec-$(date +%Y-%m-%d)"
+
+          # Skip if branch already exists on remote
+          if git ls-remote --exit-code --heads origin "$BRANCH" >/dev/null 2>&1; then
+            echo "Branch $BRANCH already exists, skipping."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$BRANCH"
+          git add -A
+          git commit -m "chore: update API spec and regenerate types"
+          git push -u origin "$BRANCH"
+
+          gh pr create \
+            --title "chore: update API spec and regenerate types" \
+            --body "Automated update from the live OpenAPI spec at https://api.prime.coinbase.com/v1/openapi.yaml" \
+            --base main \
+            --head "$BRANCH"

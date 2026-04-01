@@ -18,6 +18,8 @@
  *  Do not edit the class manually.
  */
 
+import { ValidatorAllocation } from './ValidatorAllocation';
+
 /**
  * WalletUnstakeInputs contains the custom inputs for unstaking operations on a wallet. Requirements and supported fields vary by asset type.
  */
@@ -26,4 +28,8 @@ export type WalletUnstakeInputs = {
    * Optional amount to unstake (ETH only). If omitted, the wallet will unstake the maximum amount available
    */
   amount?: string;
+  /**
+   * (Alpha) Optional validator-level allocations for ETH V2 unstaking. Allows specifying which validators to unstake from and how much. This feature is in alpha. Please reach out to your Coinbase Prime account manager for more information
+   */
+  validatorAllocations?: Array<ValidatorAllocation>;
 };

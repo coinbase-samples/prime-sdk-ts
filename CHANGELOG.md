@@ -1,5 +1,94 @@
 # Changelog
 
+## [0.9.1] - 2026-MAR-30
+
+### Added
+
+#### 🆕 New API Endpoints
+
+**Advanced Transfers Service** *(new service)*
+- **`listAdvancedTransfers()`**: List advanced transfers for a portfolio with optional state/type/time/referenceId filtering and cursor pagination (`GET /portfolios/{portfolioId}/advanced_transfers`)
+- **`createAdvancedTransfer()`**: Create a new advanced transfer (e.g. blind match settlement) (`POST /portfolios/{portfolioId}/advanced_transfers`)
+- **`cancelAdvancedTransfer()`**: Cancel an advanced transfer by ID (`POST /portfolios/{portfolioId}/advanced_transfers/{advancedTransferId}/cancel`)
+- **`listAdvancedTransferTransactions()`**: List transactions associated with an advanced transfer (`GET /portfolios/{portfolioId}/advanced_transfers/{advancedTransferId}/transactions`)
+
+**Futures Service**
+- **`getEntityEquity()`**: Get FCM equity data for an entity (`GET /entities/{entityId}/futures/equity`)
+
+**Transactions Service**
+- **`getTransactionTravelRuleData()`**: Retrieve travel rule data for a specific transaction (`GET /portfolios/{portfolioId}/transactions/{transactionId}/travel_rule`)
+
+#### 📝 New & Updated Models
+
+**New Models**
+- **`AdvancedTransfer`**: Represents an advanced transfer between portfolios
+- **`BlindMatchMetadata`**: Metadata for blind match operations
+- **`CancelAdvancedTransferResponse`**: Response for cancelling an advanced transfer
+- **`CommissionDetailTotal`**: Commission detail totals for orders/fills
+- **`CreateAdvancedTransferRequest`** / **`CreateAdvancedTransferResponse`**: Request/response for creating advanced transfers
+- **`FcmScheduledMaintenance`**: Scheduled maintenance window details for FCM
+- **`FcmTradingSessionDetails`**: FCM trading session state and timing details
+- **`FundMovement`**: Fund movement details for transfers
+- **`FutureProductDetails`**: Detailed futures product information (expiry, status, margin, etc.)
+- **`GetFcmEquityResponse`**: Response for FCM entity equity endpoint
+- **`GetTransactionTravelRuleDataResponse`**: Response for transaction travel rule data
+- **`ListAdvancedTransfersResponse`** / **`ListAdvancedTransferTransactionsResponse`**: Responses for listing advanced transfers and their transactions
+- **`PerpetualProductDetails`**: Perpetual futures product details
+- **`ValidatorAllocation`**: Validator address and amount for ETH V2 staking operations
+
+**Updated Models**
+- **`Fill`**: Additional fields for FCM and commission details
+- **`Order`**: Additional fields for FCM order data
+- **`Product`**: Added `productType`, `futureProductDetails`, and `perpetualDetails` fields
+- **`WalletUnstakeInputs`**: Added `validatorAllocations` for validator-level unstaking
+- **`EntityUser`** / **`PortfolioUser`**: Additional user fields
+
+#### 🔢 New Enums
+- **`AdvancedTransferState`**, **`AdvancedTransferType`**
+- **`ContractExpiryType`**, **`ExpiringContractStatus`**
+- **`FcmMarginHealthState`**, **`FcmTradingSessionState`**, **`FcmTradingSessionClosedReason`**
+- **`ProductType`**, **`RiskManagementType`**, **`SecondaryPermission`**
+
+#### 🔧 Tooling & CI
+
+- **GitHub Action: Update API Spec** — Daily scheduled workflow that fetches the latest OpenAPI spec, regenerates types, and opens a PR if changes are detected
+- **GitHub Action: Release** — Publishes to npm via trusted publishing
+- **GitHub Action: Format & Lint** — CI checks for code formatting and linting
+- **GitHub Action: Salus Scan** — Security scanning workflow
+- Added `CONTRIBUTING.md` and `SECURITY.md`
+- Added pull request template (`.github/PULL_REQUEST_TEMPLATE.md`)
+- **`generateTypes.js`**: New files now use the current year in the copyright header; existing files preserve their original year
+- Updated `openapitools.json` to pin openapi-generator CLI at v7.19.0
+
+### Removed
+
+- Removed unused models no longer in the API spec: `DateOfBirth`, `TravelRuleEntry`, `TravelRuleWalletDetails`, `VASP`
+
+## [0.9.0] - 2026-FEB-19
+
+### Added
+
+#### 🆕 New API Endpoints
+
+**Futures Service**
+- **`getEntityEquity()`**: Get FCM equity data for an entity
+
+#### 📝 New & Updated Models
+
+- **`ValidatorAllocation`**: Specifies validator address and amount for granular ETH V2 staking/unstaking operations
+- **`WalletUnstakeInputs`**: Added `validatorAllocations` field for validator-level ETH V2 unstaking (Alpha)
+
+#### 🔧 Tooling & CI
+
+- **GitHub Action: Update API Spec** — Daily scheduled workflow that fetches the latest OpenAPI spec, regenerates types, and opens a PR if changes are detected
+- **GitHub Action: Release** - now publishing to npm via action
+- **`generateTypes.js`**: New files now use the current year in the copyright header; existing files preserve their original year
+- Updated `openapitools.json` to pin openapi-generator CLI at v7.19.0
+
+### Removed
+
+- Removed unused models no longer in the API spec: `DateOfBirth`, `TravelRuleEntry`, `TravelRuleWalletDetails`, `VASP`
+
 ## [0.8.2] - 2026-FEB-3
 
 ### Added

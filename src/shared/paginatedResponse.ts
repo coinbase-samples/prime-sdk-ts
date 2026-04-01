@@ -274,6 +274,8 @@ export function createPaginatedResponse<
  * Common data extractors for typical API responses
  */
 export const ResponseExtractors = {
+  advancedTransfers: <T>(response: { advancedTransfers?: T[] }): T[] =>
+    response.advancedTransfers || [],
   activities: <T>(response: { activities?: T[] }): T[] =>
     response.activities || [],
   addresses: <T>(response: { addresses?: T[] }): T[] =>

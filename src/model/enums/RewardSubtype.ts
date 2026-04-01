@@ -19,7 +19,7 @@
  */
 
 /**
- * - REWARD_SUBTYPE_UNKNOWN: An unknown reward subtype, reward subtype may not be supported in the API response yet  - MEV_REWARD: A maximal extractable value reward i.e. sol mev rewards  - INFLATION_REWARD: An inflationary reward i.e. solana inflationary rewards  - BLOCK_REWARD: A block reward i.e. solana block rewards  - VALIDATOR_REWARD: A validator reward i.e. ethereum validator (consensus layer) rewards  - TRANSACTION_REWARD: A transaction reward i.e. ethereum transaction (execution layer) rewards  - STAKING_FEE_REBATE_REWARD: A staking fee rebate reward i.e. coinbase pays rebates for staking fees to eligible delegators
+ * - REWARD_SUBTYPE_UNKNOWN: An unknown reward subtype, reward subtype may not be supported in the API response yet  - MEV_REWARD: A maximal extractable value reward i.e. sol mev rewards  - INFLATION_REWARD: An inflationary reward i.e. solana inflationary rewards  - BLOCK_REWARD: A block reward i.e. solana block rewards  - VALIDATOR_REWARD: A validator reward i.e. ethereum validator (consensus layer) rewards  - TRANSACTION_REWARD: A transaction reward i.e. ethereum transaction (execution layer) rewards  - STAKING_FEE_REBATE_REWARD: A staking fee rebate reward i.e. coinbase pays rebates for staking fees to eligible delegators  - BUIDL_DIVIDEND: A BUIDL dividend reward i.e. dividends from BUIDL fund holdings
  */
 export enum RewardSubtype {
   MevReward = 'MEV_REWARD',
@@ -28,4 +28,5 @@ export enum RewardSubtype {
   ValidatorReward = 'VALIDATOR_REWARD',
   TransactionReward = 'TRANSACTION_REWARD',
   StakingFeeRebateReward = 'STAKING_FEE_REBATE_REWARD',
+  BuidlDividend = 'BUIDL_DIVIDEND',
 }

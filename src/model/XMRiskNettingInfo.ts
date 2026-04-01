@@ -23,7 +23,7 @@ import { XMPosition } from './XMPosition';
 
 export type XMRiskNettingInfo = {
   /**
-   * Nodal Margin Requirement (NMR) is the margin requirement for all futures positions, derived from the Nodal model
+   * Derivatives Clearing Organization Margin Requirement (DMR) is the margin requirement for all futures positions, derived from the Derivatives Clearing Organization model
    */
   nodalMarginRequirement?: string;
   /**

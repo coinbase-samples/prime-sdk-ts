@@ -37,6 +37,8 @@ import {
   GetFcmSettingsResponse,
   SetFcmSettingsRequest,
   SetFcmSettingsResponse,
+  GetEntityFcmEquityRequest,
+  GetEntityFcmEquityResponse,
 } from './types';
 
 export interface IFuturesService {
@@ -89,6 +91,11 @@ export interface IFuturesService {
     request: SetFcmSettingsRequest,
     options?: CoinbaseCallOptions
   ): Promise<SetFcmSettingsResponse>;
+
+  getEntityEquity(
+    request: GetEntityFcmEquityRequest,
+    options?: CoinbaseCallOptions
+  ): Promise<GetEntityFcmEquityResponse>;
 }
 
 export class FuturesService implements IFuturesService {
@@ -268,6 +275,22 @@ export class FuturesService implements IFuturesService {
 
     return response.data as SetFcmSettingsResponse;
   }
+
+  async getEntityEquity(
+    request: GetEntityFcmEquityRequest,
+    options?: CoinbaseCallOptions
+  ): Promise<GetEntityFcmEquityResponse> {
+    validate(request)
+      .requiredUUID((r) => r.entityId)
+      .check();
+
+    const response = await this.client.request({
+      url: `entities/${request.entityId}/futures/equity`,
+      callOptions: options,
+    });
+
+    return response.data as GetEntityFcmEquityResponse;
+  }
 }
 
 export type {
@@ -291,4 +314,6 @@ export type {
   GetFcmSettingsResponse,
   SetFcmSettingsRequest,
   SetFcmSettingsResponse,
+  GetEntityFcmEquityRequest,
+  GetEntityFcmEquityResponse,
 } from './types';
