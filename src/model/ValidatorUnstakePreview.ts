@@ -18,8 +18,24 @@
  *  Do not edit the class manually.
  */
 
-export type DateOfBirth = {
-  year?: number;
-  month?: number;
-  day?: number;
+/**
+ * ValidatorUnstakePreview contains the per-validator breakdown for an unstake preview.
+ */
+export type ValidatorUnstakePreview = {
+  /**
+   * Public address of the validator being unstaked from
+   */
+  validatorAddress?: string;
+  /**
+   * Estimated amount that would be unstaked from this validator (in ETH)
+   */
+  estimatedUnstakingAmount?: string;
+  /**
+   * Estimated time until this validator\'s unstake completes, in hours
+   */
+  unstakeTimeEstimateInHours?: number;
+  /**
+   * Estimated date when this validator\'s unstake will complete (ISO 8601)
+   */
+  estimatedUnstakeDate?: string;
 };

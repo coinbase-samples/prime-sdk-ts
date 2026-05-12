@@ -285,6 +285,8 @@ export const ResponseExtractors = {
   balances: <T>(response: { balances?: T[] }): T[] => response.balances || [],
   fills: <T>(response: { fills?: T[] }): T[] => response.fills || [],
   invoices: <T>(response: { invoices?: T[] }): T[] => response.invoices || [],
+  marketData: <T>(response: { marketData?: T[] }): T[] =>
+    response.marketData || [],
   orders: <T>(response: { orders?: T[] }): T[] => response.orders || [],
   positions: <T>(response: { positions?: T[] }): T[] =>
     response.positions || [],

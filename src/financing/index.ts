@@ -13,8 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { IPrimeApiClient, CoinbaseCallOptions } from '../clients';
+import { IPrimeApiClient, CoinbaseCallOptions, Method } from '../clients';
 import { validate } from '../shared/validation';
+import {
+  createPaginatedResponse,
+  getDefaultPaginationOptions,
+  getQueryParams,
+  ResponseExtractors,
+} from '../shared/paginatedResponse';
 
 import {
   ListExistingLocatesRequest,
@@ -51,6 +57,14 @@ import {
   ListTFObligationsResponse,
   ListFinancingEligibleAssetsRequest,
   ListFinancingEligibleAssetsResponse,
+  GetCrossMarginRiskParametersRequest,
+  GetCrossMarginRiskParametersResponse,
+  GetCrossMarginPrimeOverviewRequest,
+  GetCrossMarginPrimeOverviewResponse,
+  SetFundingSettingsRequest,
+  SetFundingSettingsResponse,
+  ListMarketDataRequest,
+  ListMarketDataResponse,
 } from './types';
 
 export interface IFinancingService {
@@ -127,6 +141,26 @@ export interface IFinancingService {
     request?: ListFinancingEligibleAssetsRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListFinancingEligibleAssetsResponse>;
+
+  getCrossMarginRiskParameters(
+    request: GetCrossMarginRiskParametersRequest,
+    options?: CoinbaseCallOptions
+  ): Promise<GetCrossMarginRiskParametersResponse>;
+
+  getCrossMarginPrimeOverview(
+    request: GetCrossMarginPrimeOverviewRequest,
+    options?: CoinbaseCallOptions
+  ): Promise<GetCrossMarginPrimeOverviewResponse>;
+
+  setFundingSettings(
+    request: SetFundingSettingsRequest,
+    options?: CoinbaseCallOptions
+  ): Promise<SetFundingSettingsResponse>;
+
+  listMarketData(
+    request: ListMarketDataRequest,
+    options?: CoinbaseCallOptions
+  ): Promise<ListMarketDataResponse>;
 }
 
 export class FinancingService implements IFinancingService {
@@ -449,5 +483,93 @@ export class FinancingService implements IFinancingService {
     });
 
     return response.data as ListFinancingEligibleAssetsResponse;
+  }
+
+  async getCrossMarginRiskParameters(
+    request: GetCrossMarginRiskParametersRequest,
+    options?: CoinbaseCallOptions
+  ): Promise<GetCrossMarginRiskParametersResponse> {
+    validate(request).requiredUUID((r) => r.entityId).check();
+
+    const response = await this.client.request({
+      url: `entities/${request.entityId}/cross_margin/risk_parameters`,
+      callOptions: options,
+    });
+
+    return response.data as GetCrossMarginRiskParametersResponse;
+  }
+
+  async getCrossMarginPrimeOverview(
+    request: GetCrossMarginPrimeOverviewRequest,
+    options?: CoinbaseCallOptions
+  ): Promise<GetCrossMarginPrimeOverviewResponse> {
+    validate(request).requiredUUID((r) => r.entityId).check();
+
+    // This endpoint is on the v2 API path; use a relative URL that resolves
+    // correctly against the v1 base URL for both auth signing and HTTP dispatch.
+    const response = await this.client.request({
+      url: `../v2/entities/${request.entityId}/cross_margin/prime`,
+      callOptions: options,
+    });
+
+    return response.data as GetCrossMarginPrimeOverviewResponse;
+  }
+
+  async setFundingSettings(
+    request: SetFundingSettingsRequest,
+    options?: CoinbaseCallOptions
+  ): Promise<SetFundingSettingsResponse> {
+    validate(request).requiredUUID((r) => r.entityId).check();
+
+    const {
+      entityId,
+      designatedFundingPortfolioId,
+      automaticConversionEnabled,
+      automaticLoanEnabled,
+      automaticExcessReturnEnabled,
+      excessFundsTargetAmount,
+    } = request;
+
+    const response = await this.client.request({
+      url: `entities/${entityId}/funding_settings`,
+      bodyParams: {
+        designatedFundingPortfolioId,
+        automaticConversionEnabled,
+        automaticLoanEnabled,
+        automaticExcessReturnEnabled,
+        excessFundsTargetAmount,
+      },
+      method: Method.POST,
+      callOptions: options,
+    });
+
+    return response.data as SetFundingSettingsResponse;
+  }
+
+  async listMarketData(
+    request: ListMarketDataRequest,
+    options?: CoinbaseCallOptions
+  ): Promise<ListMarketDataResponse> {
+    validate(request).requiredUUID((r) => r.entityId).check();
+
+    const paginationParams = getQueryParams(this.client, request);
+    const { limit, cursor, sortDirection, entityId, ...queryParams } = request;
+    const finalQueryParams = { ...paginationParams, ...queryParams };
+
+    const response = await this.client.request({
+      url: `entities/${entityId}/market_data`,
+      queryParams: finalQueryParams,
+      callOptions: options,
+    });
+
+    const paginationOptions = getDefaultPaginationOptions(this.client, options);
+
+    return createPaginatedResponse(
+      response.data,
+      this.listMarketData.bind(this),
+      request,
+      ResponseExtractors.marketData,
+      paginationOptions
+    ) as ListMarketDataResponse;
   }
 }

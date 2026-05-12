@@ -58,4 +58,16 @@ export type NetworkDetails = {
    * Indicates the symbol that can be used to query other endpoints, related to transactions, wallets, and activities, to get information particularly for this asset on the network
    */
   networkScopedSymbol?: string;
+  /**
+   * The minimum withdrawal amount for this network. Applies to trading, prime custody, and vault wallets.
+   */
+  minWithdrawalAmount?: string;
+  /**
+   * The platform maximum withdrawal amount for this network. Applies to trading, prime custody, and vault wallets. Note that Prime Transfer policies may override this value.
+   */
+  maxWithdrawalAmount?: string;
+  /**
+   * The minimum deposit amount for this network. Applies to trading, prime custody, and vault wallets.
+   */
+  minDepositAmount?: string;
 };

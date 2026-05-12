@@ -34,4 +34,8 @@ export type RFQ = {
   quoteValue?: string;
   limitPrice: string;
   settlCurrency?: string;
+  /**
+   * Optional quote timeout in milliseconds. Defaults to 3000 ms (3 seconds) if not specified. Maximum allowed value is 30000 ms (30 seconds); requests with a larger value are rejected. Mirrors FIX tag 8090 (QuoteRequestGoodForMs).
+   */
+  quoteDurationMs?: string;
 };

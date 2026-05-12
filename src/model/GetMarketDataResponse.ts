@@ -18,11 +18,13 @@
  *  Do not edit the class manually.
  */
 
-/**
- * Virtual Asset Service Provider (VASP).
- */
-export type VASP = {
-  id?: string;
-  countryCode?: string;
-  leiNumber?: string;
+import { MarketData } from './MarketData';
+import { PaginatedResponse } from './PaginatedResponse';
+
+export type GetMarketDataResponse = {
+  /**
+   * List of market data entries
+   */
+  marketData?: Array<MarketData>;
+  pagination?: PaginatedResponse;
 };

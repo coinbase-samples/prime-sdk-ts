@@ -33,6 +33,9 @@ const filePathReplacements = {
   coinbasePublicRestApi: '',
   PrimeRESTAPI: '',
   primeRESTAPI: '',
+  // primeBeta must come before Beta to avoid partial matches
+  primeBeta: '',
+  Beta: '',
   CoinbaseCustodyApi: '',
   coinbaseCustodyApi: '',
   rFQ: 'RFQ',
@@ -60,6 +63,10 @@ const replacements = {
   coinbasePublicRestApi: '',
   PrimeRESTAPI: '',
   primeRESTAPI: '',
+  // PrimeBeta/primeBeta must come before Beta to avoid partial matches
+  PrimeBeta: '',
+  primeBeta: '',
+  Beta: '',
   CoinbaseCustodyApi: '',
   coinbaseCustodyApi: '',
   CoinbaseBrokerageProxyEventsMaterializedApi: '',

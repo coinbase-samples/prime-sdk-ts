@@ -31,7 +31,17 @@ import {
   GetCrossMarginOverviewResponse as internalGetCrossMarginOverviewResponse,
   ListTFObligationsResponse as internalListTFObligationsResponse,
   ListFinancingEligibleAssetsResponse as internalListFinancingEligibleAssetsResponse,
+  GetCrossMarginRiskParametersResponse as internalGetCrossMarginRiskParametersResponse,
+  GetCrossMarginPrimeOverviewResponse as internalGetCrossMarginPrimeOverviewResponse,
+  SetFundingSettingsResponse as internalSetFundingSettingsResponse,
+  GetMarketDataResponse as internalGetMarketDataResponse,
+  MarketData,
 } from '../model/';
+import { Pagination } from '../shared/pagination';
+import {
+  PaginatedResponseMethods,
+  BasePaginatedRequest,
+} from '../shared/paginatedResponse';
 
 export type ListExistingLocatesRequest = {
   portfolioId: string;
@@ -203,3 +213,51 @@ export type ListFinancingEligibleAssetsResponse = Brand<
   internalListFinancingEligibleAssetsResponse,
   'ListFinancingEligibleAssetsResponse'
 >;
+
+export type GetCrossMarginRiskParametersRequest = {
+  entityId: string;
+};
+
+export type GetCrossMarginRiskParametersResponse = Brand<
+  internalGetCrossMarginRiskParametersResponse,
+  'GetCrossMarginRiskParametersResponse'
+>;
+
+export type GetCrossMarginPrimeOverviewRequest = {
+  entityId: string;
+};
+
+export type GetCrossMarginPrimeOverviewResponse = Brand<
+  internalGetCrossMarginPrimeOverviewResponse,
+  'GetCrossMarginPrimeOverviewResponse'
+>;
+
+export type SetFundingSettingsRequest = {
+  entityId: string;
+  designatedFundingPortfolioId: string;
+  automaticConversionEnabled: boolean;
+  automaticLoanEnabled: boolean;
+  automaticExcessReturnEnabled: boolean;
+  excessFundsTargetAmount: string;
+};
+
+export type SetFundingSettingsResponse = Brand<
+  internalSetFundingSettingsResponse,
+  'SetFundingSettingsResponse'
+>;
+
+export type ListMarketDataRequest = Pagination & {
+  entityId: string;
+};
+
+type BaseListMarketDataResponse = Brand<
+  internalGetMarketDataResponse,
+  'ListMarketDataResponse'
+>;
+
+export type ListMarketDataResponse = BaseListMarketDataResponse &
+  PaginatedResponseMethods<
+    ListMarketDataRequest & BasePaginatedRequest,
+    BaseListMarketDataResponse,
+    MarketData
+  >;
