@@ -16,22 +16,22 @@
 
 **New Models**
 - **`ActiveLiquidationSummary`**: Summary of the active or most recent XM liquidation (ID, status, shortfall amount)
-- **`BetaGetCrossMarginRiskParametersResponse`**: Response for get cross margin risk parameters
-- **`BetaGetCrossMarginPrimeOverviewResponse`**: Response for get prime cross margin overview
-- **`BetaSetFundingSettingsResponse`**: Response for set funding settings (activity ID, type, approvals remaining)
-- **`BetaGetMarketDataResponse`**: Paginated response for list market data
-- **`BetaCrossMarginRiskParameters`**: XM 2.0 risk parameters for an asset tier
-- **`BetaTierPairRateEntry`**: Entry in an offset credit matrix for a tier pair
-- **`BetaCrossMarginPrimeMarginSummary`**: Cross-margin account summary with equity, margin requirements, and nested breakdowns
-- **`BetaCrossMarginPrimeSpotEquityBreakdown`**: Breakdown of spot equity components
-- **`BetaCrossMarginPrimeDerivativesEquityBreakdown`**: Breakdown of derivatives equity components
-- **`BetaCrossMarginPrimeRiskNettingInfo`**: XM margin requirement components, offset credits, and per-asset rows
-- **`BetaCrossMarginPrimeXMPosition`**: Per-asset XM position row with market price, balances, and margin details
-- **`BetaPrimeXMMarginCallThresholds`**: Structured margin thresholds by margin level
-- **`BetaPrimeXMMarginRequirementBreakdown`**: Breakdown of base margin, volatility/liquidity add-ons, and offset credits
-- **`BetaPrimeXMOffsetCreditBreakdown`**: Breakdown of offset credit components (basis, long/short, same-tier)
-- **`BetaPrimeXMMarginThreshold`**: Single margin threshold entry (level, type, value)
-- **`BetaMarketData`**: Market data entry with volatility and ADV for a single asset
+- **`GetCrossMarginRiskParametersResponse`**: Response for get cross margin risk parameters
+- **`GetCrossMarginPrimeOverviewResponse`**: Response for get prime cross margin overview
+- **`SetFundingSettingsResponse`**: Response for set funding settings (activity ID, type, approvals remaining)
+- **`GetMarketDataResponse`**: Paginated response for list market data
+- **`CrossMarginRiskParameters`**: XM 2.0 risk parameters for an asset tier
+- **`TierPairRateEntry`**: Entry in an offset credit matrix for a tier pair
+- **`CrossMarginPrimeMarginSummary`**: Cross-margin account summary with equity, margin requirements, and nested breakdowns
+- **`CrossMarginPrimeSpotEquityBreakdown`**: Breakdown of spot equity components
+- **`CrossMarginPrimeDerivativesEquityBreakdown`**: Breakdown of derivatives equity components
+- **`CrossMarginPrimeRiskNettingInfo`**: XM margin requirement components, offset credits, and per-asset rows
+- **`CrossMarginPrimeXMPosition`**: Per-asset XM position row with market price, balances, and margin details
+- **`PrimeXMMarginCallThresholds`**: Structured margin thresholds by margin level
+- **`PrimeXMMarginRequirementBreakdown`**: Breakdown of base margin, volatility/liquidity add-ons, and offset credits
+- **`PrimeXMOffsetCreditBreakdown`**: Breakdown of offset credit components (basis, long/short, same-tier)
+- **`PrimeXMMarginThreshold`**: Single margin threshold entry (level, type, value)
+- **`MarketData`**: Market data entry with volatility and ADV for a single asset
 - **`ValidatorUnstakePreview`**: Per-validator breakdown for an unstake preview (address, estimated amount, time)
 
 **Updated Models**
@@ -42,13 +42,16 @@
 - **`RFQ`** (request body): Added `quoteDurationMs` optional field (quote timeout in milliseconds, 1–30000)
 
 #### 🔢 New Enums
-- **`BetaPrimeXMControlStatus`**: `TRADES_AND_WITHDRAWALS`, `TRADES_ONLY`, `SESSION_LOCKED`
-- **`BetaPrimeXMMarginLevel`**: `HEALTHY_THRESHOLD`, `WARNING_THRESHOLD`, `URGENT_MARGIN_CALL_THRESHOLD`, `LIQUIDATION_THRESHOLD`, `DEFICIT_THRESHOLD`
-- **`BetaPrimeXMMarginRequirementType`**: `MARGIN_REQUIREMENT_TYPE_DMR_PLUS_PMR`, `MARGIN_REQUIREMENT_TYPE_IPMR_PLUS_IFMR`
-- **`BetaPrimeXMHealthStatus`**: Health status values from `HEALTH_STATUS_HEALTHY` through `HEALTH_STATUS_IN_DEFICIT`
-- **`BetaPrimeXMMarginThresholdType`**: `MARGIN_THRESHOLD_EQUITY_RATIO`, `MARGIN_THRESHOLD_DEFICIT_RATIO`
+- **`PrimeXMControlStatus`**: `TRADES_AND_WITHDRAWALS`, `TRADES_ONLY`, `SESSION_LOCKED`
+- **`PrimeXMMarginLevel`**: `HEALTHY_THRESHOLD`, `WARNING_THRESHOLD`, `URGENT_MARGIN_CALL_THRESHOLD`, `LIQUIDATION_THRESHOLD`, `DEFICIT_THRESHOLD`
+- **`PrimeXMMarginRequirementType`**: `MARGIN_REQUIREMENT_TYPE_DMR_PLUS_PMR`, `MARGIN_REQUIREMENT_TYPE_IPMR_PLUS_IFMR`
+- **`PrimeXMHealthStatus`**: Health status values from `HEALTH_STATUS_HEALTHY` through `HEALTH_STATUS_IN_DEFICIT`
+- **`PrimeXMMarginThresholdType`**: `MARGIN_THRESHOLD_EQUITY_RATIO`, `MARGIN_THRESHOLD_DEFICIT_RATIO`
 - **`XMLiquidationStatus`**: `XM_LIQUIDATION_STATUS_PRE_LIQUIDATION`, `XM_LIQUIDATION_STATUS_LIQUIDATING`, `XM_LIQUIDATION_STATUS_LIQUIDATED`, `XM_LIQUIDATION_STATUS_CANCELED`, `XM_LIQUIDATION_STATUS_FAILED`
 - **`UserRole`**: Added `BUSINESS_MANAGER` value
+
+#### 🔧 Tooling
+- **`generateTypes.js`**: Now strips `Beta` / `PrimeBeta` prefixes from all generated model and enum names so beta API types are named consistently with stable types (e.g. `BetaPrimeXMControlStatus` → `PrimeXMControlStatus`)
 
 ### ⚠️ Breaking Changes
 
