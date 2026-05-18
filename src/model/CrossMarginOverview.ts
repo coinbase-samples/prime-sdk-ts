@@ -18,6 +18,7 @@
  *  Do not edit the class manually.
  */
 
+import { ActiveLiquidationSummary } from './ActiveLiquidationSummary';
 import { XMControlStatus } from './enums/XMControlStatus';
 import { XMEntityCallStatus } from './enums/XMEntityCallStatus';
 import { XMLoan } from './XMLoan';
@@ -38,4 +39,5 @@ export type CrossMarginOverview = {
    * List of active XM loans
    */
   activeLoans?: Array<XMLoan>;
+  activeLiquidation?: ActiveLiquidationSummary;
 };

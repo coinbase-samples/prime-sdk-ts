@@ -18,23 +18,20 @@
  *  Do not edit the class manually.
  */
 
-import { BlockchainAddress } from './BlockchainAddress';
-import { TravelRuleParty } from './TravelRuleParty';
-import { TravelRuleWalletDetails } from './TravelRuleWalletDetails';
-import { VASP } from './VASP';
-
 /**
- * Travel Rule Entry for sending addresses.
+ * SetFundingSettingsResponse returns PCS activity metadata after the proposal is created.
  */
-export type TravelRuleEntry = {
-  id?: string;
-  blockchainAddress?: BlockchainAddress;
-  originator?: TravelRuleParty;
-  beneficiary?: TravelRuleParty;
-  vasp?: VASP;
-  walletDetails?: TravelRuleWalletDetails;
-  transferPurpose?: string;
-  isSelfCertified?: boolean;
-  isIntermediary?: boolean;
-  isSelf?: boolean;
+export type SetFundingSettingsResponse = {
+  /**
+   * Identifier for the created activity / proposal
+   */
+  activityId?: string;
+  /**
+   * Type of the activity (e.g. PCS proposal type)
+   */
+  activityType?: string;
+  /**
+   * Number of approvals still required before the change applies
+   */
+  numApprovalsRemaining?: number;
 };

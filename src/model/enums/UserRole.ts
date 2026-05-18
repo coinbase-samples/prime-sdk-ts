@@ -19,7 +19,7 @@
  */
 
 /**
- * - USER_ROLE_UNKNOWN: nil value  - AUDITOR: An auditor  - SIGNATORY: A signatory  - ADMIN: An admin  - INITIATOR: An initiator  - REVIEWER: A reviewer  - TRADER: A trader  - FULL_TRADER: A trader with full permissions  - TEAM_MANAGER: A team manager  - APPROVER: An approver  - TAX_MANAGER: A tax manager
+ * - USER_ROLE_UNKNOWN: nil value  - AUDITOR: An auditor  - SIGNATORY: A signatory  - ADMIN: An admin  - INITIATOR: An initiator  - REVIEWER: A reviewer  - TRADER: A trader  - FULL_TRADER: A trader with full permissions  - TEAM_MANAGER: A team manager  - APPROVER: An approver  - TAX_MANAGER: A tax manager  - BUSINESS_MANAGER: A business manager
  */
 export enum UserRole {
   Auditor = 'AUDITOR',
@@ -32,4 +32,5 @@ export enum UserRole {
   TeamManager = 'TEAM_MANAGER',
   Approver = 'APPROVER',
   TaxManager = 'TAX_MANAGER',
+  BusinessManager = 'BUSINESS_MANAGER',
 }

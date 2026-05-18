@@ -1,5 +1,62 @@
 # Changelog
 
+## [0.10.0] - 2026-MAY-12
+
+### Added
+
+#### 🆕 New API Endpoints
+
+**Financing Service**
+- **`getCrossMarginRiskParameters()`**: Get current Cross Margin (XM) risk parameters for an entity, including per-tier ratios, volatility thresholds, liquidity add-ons, and offset credit matrices (`GET /entities/{entityId}/cross_margin/risk_parameters`)
+- **`getCrossMarginPrimeOverview()`**: Get full live cross-margin margin information for an entity, including margin summary, control status, margin level, and equity breakdowns (`GET /v2/entities/{entityId}/cross_margin/prime`)
+- **`setFundingSettings()`**: Set FCM funding configuration for an entity — designates a funding portfolio and configures auto-conversion, auto-loans, and auto-return of excess margin (`POST /entities/{entityId}/funding_settings`)
+- **`listMarketData()`**: Retrieve market data including historical volatility (5d/30d/90d/weighted) and average daily volume for assets associated with an entity, with cursor pagination (`GET /entities/{entityId}/market_data`)
+
+#### 📝 New & Updated Models
+
+**New Models**
+- **`ActiveLiquidationSummary`**: Summary of the active or most recent XM liquidation (ID, status, shortfall amount)
+- **`GetCrossMarginRiskParametersResponse`**: Response for get cross margin risk parameters
+- **`GetCrossMarginPrimeOverviewResponse`**: Response for get prime cross margin overview
+- **`SetFundingSettingsResponse`**: Response for set funding settings (activity ID, type, approvals remaining)
+- **`GetMarketDataResponse`**: Paginated response for list market data
+- **`CrossMarginRiskParameters`**: XM 2.0 risk parameters for an asset tier
+- **`TierPairRateEntry`**: Entry in an offset credit matrix for a tier pair
+- **`CrossMarginPrimeMarginSummary`**: Cross-margin account summary with equity, margin requirements, and nested breakdowns
+- **`CrossMarginPrimeSpotEquityBreakdown`**: Breakdown of spot equity components
+- **`CrossMarginPrimeDerivativesEquityBreakdown`**: Breakdown of derivatives equity components
+- **`CrossMarginPrimeRiskNettingInfo`**: XM margin requirement components, offset credits, and per-asset rows
+- **`CrossMarginPrimeXMPosition`**: Per-asset XM position row with market price, balances, and margin details
+- **`PrimeXMMarginCallThresholds`**: Structured margin thresholds by margin level
+- **`PrimeXMMarginRequirementBreakdown`**: Breakdown of base margin, volatility/liquidity add-ons, and offset credits
+- **`PrimeXMOffsetCreditBreakdown`**: Breakdown of offset credit components (basis, long/short, same-tier)
+- **`PrimeXMMarginThreshold`**: Single margin threshold entry (level, type, value)
+- **`MarketData`**: Market data entry with volatility and ADV for a single asset
+- **`ValidatorUnstakePreview`**: Per-validator breakdown for an unstake preview (address, estimated amount, time)
+
+**Updated Models**
+- **`CrossMarginOverview`**: Added `activeLiquidation` field (`ActiveLiquidationSummary`)
+- **`NetworkDetails`**: Added `minWithdrawalAmount`, `maxWithdrawalAmount`, `minDepositAmount` fields
+- **`PreviewUnstakeResponse`**: Added `walletId`, `walletAddress`, `currentTimestamp`, and `validators` (per-validator breakdown)
+- **`RFQOrderPreviewResponse`**: Added `quoteDurationMs` (echo of the requested quote timeout)
+- **`RFQ`** (request body): Added `quoteDurationMs` optional field (quote timeout in milliseconds, 1–30000)
+
+#### 🔢 New Enums
+- **`PrimeXMControlStatus`**: `TRADES_AND_WITHDRAWALS`, `TRADES_ONLY`, `SESSION_LOCKED`
+- **`PrimeXMMarginLevel`**: `HEALTHY_THRESHOLD`, `WARNING_THRESHOLD`, `URGENT_MARGIN_CALL_THRESHOLD`, `LIQUIDATION_THRESHOLD`, `DEFICIT_THRESHOLD`
+- **`PrimeXMMarginRequirementType`**: `MARGIN_REQUIREMENT_TYPE_DMR_PLUS_PMR`, `MARGIN_REQUIREMENT_TYPE_IPMR_PLUS_IFMR`
+- **`PrimeXMHealthStatus`**: Health status values from `HEALTH_STATUS_HEALTHY` through `HEALTH_STATUS_IN_DEFICIT`
+- **`PrimeXMMarginThresholdType`**: `MARGIN_THRESHOLD_EQUITY_RATIO`, `MARGIN_THRESHOLD_DEFICIT_RATIO`
+- **`XMLiquidationStatus`**: `XM_LIQUIDATION_STATUS_PRE_LIQUIDATION`, `XM_LIQUIDATION_STATUS_LIQUIDATING`, `XM_LIQUIDATION_STATUS_LIQUIDATED`, `XM_LIQUIDATION_STATUS_CANCELED`, `XM_LIQUIDATION_STATUS_FAILED`
+- **`UserRole`**: Added `BUSINESS_MANAGER` value
+
+#### 🔧 Tooling
+- **`generateTypes.js`**: Now strips `Beta` / `PrimeBeta` prefixes from all generated model and enum names so beta API types are named consistently with stable types (e.g. `BetaPrimeXMControlStatus` → `PrimeXMControlStatus`)
+
+### ⚠️ Breaking Changes
+
+- **`XMRiskNettingInfo`**: Field `nodalMarginRequirement` renamed to `dcoMarginRequirement` (Derivatives Clearing Organization Margin Requirement). Update any code reading this field.
+
 ## [0.9.1] - 2026-MAR-30
 
 ### Added

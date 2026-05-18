@@ -25,7 +25,7 @@ export type XMRiskNettingInfo = {
   /**
    * Derivatives Clearing Organization Margin Requirement (DMR) is the margin requirement for all futures positions, derived from the Derivatives Clearing Organization model
    */
-  nodalMarginRequirement?: string;
+  dcoMarginRequirement?: string;
   /**
    * Portfolio Margin Requirement (PMR) is the margin requirement for all spot positions, derived from the XM model
    */

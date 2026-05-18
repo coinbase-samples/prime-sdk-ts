@@ -18,13 +18,12 @@
  *  Do not edit the class manually.
  */
 
-import { BlockchainAddress } from './BlockchainAddress';
-import { TravelRuleWalletType } from './enums/TravelRuleWalletType';
-
 /**
- * Details about the custody wallet used in the transfer.
+ *  - MARGIN_THRESHOLD_EQUITY_RATIO: Threshold based on equity ratio EQ / MR; triggers when EQ / MR >= threshold_value.  - MARGIN_THRESHOLD_DEFICIT_RATIO: Threshold based on deficit ratio (MR - EQ) / XMML; triggers when (MR - EQ) / XMML > threshold_value.
  */
-export type TravelRuleWalletDetails = {
-  walletType?: TravelRuleWalletType;
-  walletAddress?: BlockchainAddress;
-};
+export enum PrimeXMMarginThresholdType {
+  MarginThresholdTypeUnspecified = 'MARGIN_THRESHOLD_TYPE_UNSPECIFIED',
+  MarginThresholdEquityRatio = 'MARGIN_THRESHOLD_EQUITY_RATIO',
+  MarginThresholdDeficitRatio = 'MARGIN_THRESHOLD_DEFICIT_RATIO',
+  MarginThresholdNone = 'MARGIN_THRESHOLD_NONE',
+}
