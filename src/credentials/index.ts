@@ -27,9 +27,6 @@ export class CoinbasePrimeCredentials {
   private passphrase: string | undefined;
 
   constructor(key?: string, secret?: string, passphrase?: string) {
-    if (!key || !secret || !passphrase) {
-      console.log('Could not authenticate. Only public endpoints accessible.');
-    }
     this.accessKey = key;
     this.secretKey = secret;
     this.passphrase = passphrase;
