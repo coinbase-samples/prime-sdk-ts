@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.10.1] - 2026-JUN-02
+
+### Changed
+
+- **Repository migration:** Active development has moved from [coinbase-samples/prime-sdk-ts](https://github.com/coinbase-samples/prime-sdk-ts) to [coinbase/prime-sdk-ts](https://github.com/coinbase/prime-sdk-ts). A deprecation notice was added to the README; no API or SDK behavior changes in this release.
+
 ## [0.10.0] - 2026-MAY-12
 
 ### Added

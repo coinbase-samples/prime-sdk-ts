@@ -1,5 +1,7 @@
 # Coinbase Prime API TypeScript SDK
 
+> **Deprecation notice:** Development of this SDK has moved to the [Coinbase GitHub organization](https://github.com/coinbase/prime-sdk-ts). Use [coinbase/prime-sdk-ts](https://github.com/coinbase/prime-sdk-ts) for the current source, issues, and releases. This `coinbase-samples` repository remains for historical reference; new work should target the Coinbase org repository.
+
 [![npm version](https://badge.fury.io/js/%40coinbase-sample%2Fprime-sdk-ts.svg)](https://badge.fury.io/js/%40coinbase-sample%2Fprime-sdk-ts)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
